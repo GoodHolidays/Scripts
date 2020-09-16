@@ -91,7 +91,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
    GetCookie()
 } else {
  !(async () => {
-  if (!signheaderVal) {
+ if (!signheaderVal) {
       return $.msg($.name, `请先获取Cookie`, ``)
     }
   await sign();
@@ -103,13 +103,17 @@ if($.time('HH')>12){
 };
 if($.time('HH')<9&&$.time('HH')>4){
   await endCard();
+ if(punchcardend.code==1){
   await Cardshare()
+ }
 };
   await openbox();
+if (boxres.code == 1){
   await boxshare();
+ }
   await getAdVideo();
   await gameVideo();
-if(runtimes<4){
+if(runtimes<8){
   await readArticle();
   await Articlered();
 }
@@ -203,7 +207,6 @@ function signInfo() {
                 subTitle = `${signinfo.msg}`;
                 detail = ``;
             }
-      // return
             resolve()
         })
     })
@@ -287,8 +290,6 @@ function Cardshare() {
                         resolve()
                     })
                   },s*2);
-            }else{
-                resolve()
             }
         })
     })
@@ -408,7 +409,7 @@ function gameVideo() {
                 $.log("获得"+gameres.items.score)
             }else{
                 if(gameres.error_code == "10003"){
-                    //detail += `【激励视频】${gameres.message},疑似cookie没有\n`
+                    //detail += `【激励视频】${gameres.message}\n`
                 }
             }
             resolve()
@@ -473,7 +474,7 @@ function rotary() {
                 headers: JSON.parse(signheaderVal),
                 body: rotarbody
             }
-            $.post(url, (error, response, data) => {
+            $.post(url,async (error, response, data) => {
           
                 rotaryres = JSON.parse(data)
                 
@@ -481,14 +482,13 @@ function rotary() {
                     rotarytimes = rotaryres.data.remainTurn
                     detail += `【转盘抽奖】+${rotaryres.data.score}个青豆 剩余${rotaryres.data.remainTurn}次\n`
                     $.log("转盘抽奖获得"+rotaryres.data.score+"个青豆，转盘次数还有"+rotarytimes+"次")
+                    if (rotaryres.data.doubleNum != 0) {
+                      await TurnDouble();
+                    }
                 }
                 if (rotaryres.code == 10010) {
                     rotarynum = ` 转盘${rotaryres.msg}🎉`
                  $.log("转盘任务已全部完成")
-                }else{
-                    if (rotaryres.data.doubleNum != 0) {
-                        TurnDouble()
-                    }
                 }
                 resolve();
             })
@@ -562,7 +562,7 @@ function TurnDouble() {
                   $.log(`转盘双倍奖励失败，原因:${Doubleres.msg}`)
                 }
             })
-          resolve()
+         resolve()
         },s)
     })
 }
