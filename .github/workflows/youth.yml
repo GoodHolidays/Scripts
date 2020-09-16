@@ -28,7 +28,7 @@ jobs:
           npm install
       - name: '运行 【中青看点】'
         run: |
-          node .Task/youth.js
+          node Task/youth.js
         env:
           YOUTH_HEADER: ${{ secrets.YOUTH_HEADER }}
           YOUTH_ARTBODY: ${{ secrets.YOUTH_ARTBODY }}
