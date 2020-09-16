@@ -4,6 +4,7 @@
 name: youth
 
 on:
+
  push:
   branches: 
      - master 
