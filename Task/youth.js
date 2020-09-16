@@ -91,7 +91,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
    GetCookie()
 } else {
  !(async () => {
- if (!signheaderVal) {
+if (!signheaderVal) {
       return $.msg($.name, `请先获取Cookie`, ``)
     }
   await sign();
@@ -115,8 +115,8 @@ if (boxres.code == 1){
   await gameVideo();
 if(runtimes<8){
   await readArticle();
-  await Articlered();
 }
+  await Articlered();
   await readTime();
   await rotary();
   await rotaryCheck();
