@@ -1,5 +1,5 @@
 /*
-更新时间:09-15 22:05
+更新时间:09-16 09:05
 本脚本为京东旗下京喜app签到脚本
 本脚本使用京东公共Cooike，支持双账号，获取方法请查看NobyDa大佬脚本说明
 
@@ -13,7 +13,7 @@ hostname = wq.jd.com
 */
 
 const $ = new Env('京喜');
-let cookiesArr = [], cookie = '', signresult, todaypoint = 0; daytotal= 0;
+let cookiesArr = [], cookie = '', signresult,todaypoint = 0,daytotal = Number();
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
@@ -38,9 +38,9 @@ if ($.isNode()) {
       $.index = i + 1;
       console.log(`\n开始【京东账号${$.index}】${UserName}\n`);
       await getsign();
-      await Tasklist();
-      await coininfo();
+      //await Tasklist();
       await doublesign();
+      await coininfo();
       await showmsg()
     }
   }
@@ -62,7 +62,7 @@ function getsign() {
       if (data.match(/"retCode":\d+/) == '"retCode":0') {
         nickname = data.split(':')[6].split(',')[0].replace(/[\"]+/g, "")
         totalpoints = data.match(/[0-9]+/g)[3]
-        signdays = "  已签" + data.match(/[0-9]+/g)[6] + "天"
+        signdays = "已签" + data.match(/[0-9]+/g)[6] + "天"
         if (data.match(/[0-9]+/g)[9] == 0) {
           signresult = "签到成功"
           signdays += " 今日获得" + data.match(/[0-9]+/g)[4] + "积分"
@@ -90,20 +90,17 @@ function coininfo() {
     }
     $.get(coinurl, (err, resp, data) => {
       let coindata = JSON.parse(data),
-          localetime = new Date(new Date().toLocaleDateString()).getTime()/1000;
-       item = coindata.data.list
-      if (coindata.retCode == 0) {
+          localetime = new Date(new Date().toLocaleDateString()).getTime()/1000,
+          item = coindata.data.list;
         var i = 0;
-        let daytotal = Number();
-      for(i=0;i<item.length && item[i].time> localetime;i++){
-            //daytotal += item[i].accountValue
-          if (item[i].activeId === "10000")  {
+            //daytotal = Number();
+        for(i=0;i<item.length && item[i].time>=localetime;i++){
+             daytotal += item[i].accountValue;
+        if (item[i].activeId === '10000')  {
             todaypoint = item[i].accountValue;
-              break;
             };
           }
-         resolve()
-        }
+       resolve()
      })
   })
 }
@@ -179,7 +176,7 @@ function doublesign() {
     $.get(doubleurl, (err, resp, data) => {
       doub = JSON.parse(data)
       if (doub.retCode == 0) {
-        doubleres = "双签成功 🧧+ " + doub.data.jd_amount / 100 + "元";
+        doubleres = " 双签成功 🧧+ " + doub.data.jd_amount / 100 + "元";
         $.log($.name + "" + doubleres)
       }
       resolve()
@@ -190,9 +187,9 @@ function doublesign() {
 function showmsg() {
   return new Promise((resolve) => {
  if(signresult){
-    $.sub = "昵称:" + nickname + " " + signresult
-    $.desc = "积分总计:" + totalpoints + signdays + '\n' + "今日签到得" + todaypoint + "个金币 " + doubleres
-    $.msg($.name + ` 账号${$.index}`, $.sub, $.desc)
+    $.sub = "积分总计:" + totalpoints+" " + signresult
+    $.desc = signdays +doubleres+ '\n' + "今日签到得" + todaypoint + "个金币 共计" +  daytotal+'个金币'
+    $.msg($.name + " 账号昵称:" + nickname, $.sub, $.desc)
      }
    resolve()
   })
