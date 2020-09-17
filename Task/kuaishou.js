@@ -21,7 +21,7 @@ Surge 4.0 :
 [Script]
 快手极速版 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js,script-update-interval=0
 
-快手极速版 = type=http-request,pattern=https:\/\/nebula\.kuaishou\.com\/rest\/n\/nebula\/activity\/earn\/overview,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+快手极速版 = type=http-request,pattern=https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 ~~~~~~~~~~~~~~~~
 Loon 2.1.0+
@@ -29,7 +29,7 @@ Loon 2.1.0+
 # 本地脚本
 cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手
 
-http-request https:\/\/nebula\.kuaishou\.com\/rest\/n\/nebula\/activity\/earn\/overview script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+http-request https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 -----------------
 
@@ -39,7 +39,7 @@ QX 1.0.7+ :
 
 [rewrite_local]
 
-https:\/\/nebula\.kuaishou\.com\/rest\/n\/nebula\/activity\/earn\/overview url script-request-header kuaishou.js
+https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\? url script-request-header kuaishou.js
 
 ~~~~~~~~~~~~~~~~
 
@@ -69,7 +69,7 @@ function GetCookie() {
     var CookieValue = $request.headers['Cookie'];
     
     if ($.getdata('cookie_ks') != (undefined || null)) {
-      if ($.getdata(cookieKey) != CookieValue) {
+      if ($.getdata('cookie_ks') != CookieValue) {
         var cookie = $.setdata(CookieValue, 'cookie_ks');
         if (!cookie) {
           $.msg("更新" + $.name + "Cookie失败‼️", "", "");
