@@ -11,7 +11,7 @@ on:
   #branches: 
      #- master 
   schedule:
-     - cron: '*/5 * * * *'
+     - cron: '*/7 */2 * * *'
   watch:
      types: started
     
