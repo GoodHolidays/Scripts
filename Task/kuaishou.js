@@ -5,9 +5,8 @@
 获取Cookie方法:
 1.将下方[rewrite_local]和[MITM]地址复制的相应的区域
 下
-2.APP登陆账号后，以下方法二选一获取Cookie
-# 获取方法一，直接首页点击主页红包倒计时
-# 获取方法二，在直播live页面中打开"送礼开宝箱"
+2.APP登陆账号后，以下方法获取Cookie
+打开设置页面:"积分兑好礼"
 
 3.非专业人士制作，欢迎各位大佬提出宝贵意见和指导
 仅测试Quantumult x，Surge、Loon自行测试
@@ -21,7 +20,7 @@ Surge 4.0 :
 [Script]
 快手极速版 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js,script-update-interval=0
 
-快手极速版 = type=http-request,pattern=https:\/\/nebula\.kuaishou\.com\/rest\/n\/nebula\/activity\/earn\/overview,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+快手极速版 = type=http-request,pattern=https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 ~~~~~~~~~~~~~~~~
 Loon 2.1.0+
@@ -29,7 +28,7 @@ Loon 2.1.0+
 # 本地脚本
 cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手
 
-http-request https:\/\/nebula\.kuaishou\.com\/rest\/n\/nebula\/activity\/earn\/overview script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+http-request https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 -----------------
 
@@ -39,7 +38,7 @@ QX 1.0.7+ :
 
 [rewrite_local]
 
-https:\/\/nebula\.kuaishou\.com\/rest\/n\/nebula\/activity\/earn\/overview url script-request-header kuaishou.js
+https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\? url script-request-header kuaishou.js
 
 ~~~~~~~~~~~~~~~~
 
@@ -69,7 +68,7 @@ function GetCookie() {
     var CookieValue = $request.headers['Cookie'];
     
     if ($.getdata('cookie_ks') != (undefined || null)) {
-      if ($.getdata(cookieKey) != CookieValue) {
+      if ($.getdata('cookie_ks') != CookieValue) {
         var cookie = $.setdata(CookieValue, 'cookie_ks');
         if (!cookie) {
           $.msg("更新" + $.name + "Cookie失败‼️", "", "");
