@@ -38,7 +38,7 @@ if ($.isNode()) {
       $.index = i + 1;
       console.log(`\n开始【京东账号${$.index}】${UserName}\n`);
       await getsign();
-      //await Tasklist();
+      await Tasklist();
       await doublesign();
       await coininfo();
       await showmsg()
