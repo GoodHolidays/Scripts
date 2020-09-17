@@ -428,7 +428,6 @@ function readArticle() {
         $.post(url, (error, response, data) => {
             $.log(`开始阅读文章`)
             readres = JSON.parse(data);
-console.log(readres)
             if (readres.items.read_score !== undefined) {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
               $.log("本次阅读获得"+readres.items.read_score+"个青豆")
