@@ -91,10 +91,10 @@ if (isGetCookie) {
       await showmsg();
   if ($.isNode()){
    if (readnum%notifyInterval==0){
-        await notify.sendNotify($.name,subTile+'\n\n'+detail);
+        await notify.sendNotify($.name,subTile+'\n'+detail);
     }
     else if (openreadred==readredtotal&&openvideored==videoredtotal){
-        await notify.sendNotify($.name+` 今日任务已完成✅`,subTile+'\n\n'+ detail)
+        await notify.sendNotify($.name+` 今日任务已完成✅`,subTile+'\n'+ detail)
          }
       console.log('-----------'+'\n'+$.name+'\n'+subTile+'\n'+ detail)
    }
