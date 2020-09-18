@@ -72,13 +72,14 @@ let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖�
 const YOUTH_HOST = "https://kd.youth.cn/WebApi/";
 const notify = $.isNode() ? require('./sendNotify') : '';
 let logs = $.getdata('zqlogs')||false //调试日志开关为false或true
-let signheaderVal = $.getdata('youthheader_zq')
-let timebodyVal = $.getdata('readtime_zq')
-let articlebodyVal = $.getdata('read_zq')
-let redpbodyVal = $.getdata('red_zq')
+let signheaderVal = $.getdata('youthheader_zq');
+let timebodyVal = $.getdata('readtime_zq');
+let articlebodyVal = $.getdata('read_zq');
+let redpbodyVal = $.getdata('red_zq');
 
-const firstcheck = $.getdata('signt')
-const runtimes = $.getdata('times')
+const firstcheck = $.getdata('signt');
+const runtimes = $.getdata('times');
+const opboxtime = $.getdata('opbox');
 
 if ($.isNode()) {
   signheaderVal = process.env.YOUTH_HEADER;
@@ -308,9 +309,9 @@ function openbox() {
                 boxres = JSON.parse(data)
                 if (boxres.code == 1) {
                   boxretime = boxres.data.time
-                  setdata(boxretime, 'opbox')
+                  $.setdata(boxretime, 'opbox')
                     detail += `【开启宝箱】+${boxres.data.score}青豆 下次奖励${boxres.data.time / 60}分钟\n`
-                     $.log(`开启时段宝箱成功，获得`+boxres.data.score+`个青豆，${boxres.data.time / 60}`+"后开启下一个宝箱")
+                     $.log(`开启时段宝箱成功，获得`+boxres.data.score+`个青豆，${boxretime / 60}`+"后开启下一个宝箱")
                 }else{
                     //detail += `【开启宝箱】${boxres.msg}\n`
                      $.log(`${boxres.msg}`)
