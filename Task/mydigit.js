@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-07-27 22:35 
+更新时间: 2020-09-18 22:35 
 
 本脚本仅适用于数码之家每日签到
 获取Cookie方法:
@@ -17,13 +17,13 @@ Surge 4.0 :
 数码之家 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js,script-update-interval=0
 
 # 数码之家 Cookie.
-数码之家 = type=http-request,pattern=id=k_misign:sign&operation=qiandao&format=text,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
+数码之家 = type=http-request,pattern=https:\/\/www\.mydigit\.cn\/plugin\.php\?id=k_misign:sign&operation=qiandao,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
 ~~~~~~~~~~~~~~~~
 Loon 2.1.0+
 [Script]
 cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js, enabled=true, tag=数码之家
 
-http-request id=k_misign:sign&operation=qiandao&format=text script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
+http-request https:\/\/www\.mydigit\.cn\/plugin\.php\?id=k_misign:sign&operation=qiandao script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
 -----------------
 
 QX 1.0. 7+ :
@@ -31,7 +31,7 @@ QX 1.0. 7+ :
 0 9 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
 
 [rewrite_local]
-id=k_misign:sign&operation=qiandao&format=text url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
+https:\/\/www\.mydigit\.cn\/plugin\.php\?id=k_misign:sign&operation=qiandao url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
 ~~~~~~~~~~~~~~~~
 [MITM]
 hostname = www.mydigit.cn
@@ -73,10 +73,11 @@ if (isGetCookie) {
 function signin() {
   return new Promise((resolve) => {
     const opts = JSON.parse($.getdata($.KEY_sign))
-    $.get(opts, (err, resp, data) => {
+    $.get(opts,(err, resp, data)=> {
        //console.log(data);
       try {
         $.digit = data
+       signatatus = resp.statusCode
       } catch (e) {
         $.logErr(e, resp)
       } finally {
@@ -87,12 +88,11 @@ function signin() {
 }
 function showmsg() {
   return new Promise((resolve) => {
-    $.subt = '签到: '
-   if ($.digit.match(/[\u4e00-\u9fa5]+/g)=='已签到') $.subt += '成功'
-    else if ($.digit.match(/[\u4e00-\u9fa5]+/g)[0]=='今日已签') $.subt += '重复'
-    else $.subt += '失败'
-    $.desc = coin+"  "+Mcoin+"  会员等级: "+level+"  "+signday
-    $.msg($.name, $.subt, $.desc)
+    if ($.digit.match(/[\u4e00-\u9fa5]+/g)[0]=='今日已签') {$.subt = '签到重复'}
+    else if (signatatus=='200'){$.subt += '签到成功'}
+    else { $.subt = '签到失败'}
+    $.desc = coin+"  "+Mcoin+"  会员等级: "+level+" \n"+signday+' '+totalday
+    $.msg($.name, $.subt+ '  签到等级:'+signlevel, $.desc)
     resolve()
   })
 }
@@ -102,14 +102,18 @@ function Idinfo() {
    signheaders = JSON.parse($.getdata($.KEY_sign)).headers
    userInfo = JSON.parse($.getdata($.KEY_sign)).headers.Referer
    const url = { 
-       url: userInfo,
+       url:'https://www.mydigit.cn/plugin.php?id=k_misign:sign&mobile=2'
+,
        headers: signheaders,
 }
+      url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1'
     $.post(url, (err, resp, data) => {
      //console.log(data);
      coin = data.match(/积分: [0-9]+/g)[0];
      level = data.match(/Lv.[0-9]+/g)[0];
+     signlevel = data.match(/Lv.[0-9]+/g)[1];
      signday = data.match(/连续签到<\/span>[0-9]+/g)[0].replace('</span>',"")+"天";
+     totalday = data.match(/累计签到<\/span>[0-9]+/g)[0].replace('</span>',"")+"天";
     resolve()
   })
  })
@@ -122,9 +126,8 @@ function Minfo() {
        url: `https://www.mydigit.cn/home.php?mod=spacecp&ac=credit&showcredit=1`,
        headers: {Cookie: cookieval},
 }
-//url.headers["Accept"]= `*/*`
     $.post(url, (err, resp, data) => {
-      //console.log(data);
+       //console.log(data);
        Mcoin = data.match(/M币: (<\/span>||<\/em>)[-0-9]+/g)[0].replace(/[</spanem>]/g,"");
     resolve()
   })
