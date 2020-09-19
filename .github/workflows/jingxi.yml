@@ -6,7 +6,7 @@ on:
   #branches: 
      #- master 
   schedule:
-     - cron: '5 18 * * *'
+     - cron: '5 23 * * *'
   watch:
     types: started
 jobs:

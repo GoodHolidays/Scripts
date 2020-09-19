@@ -13,7 +13,7 @@ hostname = wq.jd.com
 */
 
 const $ = new Env('京喜');
-let cookiesArr = [], cookie = '', signresult,todaypoint = 0,daytotal = Number();
+let cookiesArr = [], cookie = '', signresult,todaypoint = 0;
 const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
@@ -81,7 +81,7 @@ function getsign() {
 function coininfo() {
   return new Promise((resolve, reject) => {
     const coinurl = {
-      url: "https://wq.jd.com/pgcenter/sign/QueryPGDetail?sceneval=",
+      url: "https://wq.jd.com/pgcenter/sign/QueryPGDetail?sceneval=2",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Cookie: cookie,
@@ -92,13 +92,15 @@ function coininfo() {
       let coindata = JSON.parse(data),
           localetime = new Date(new Date().toLocaleDateString()).getTime()/1000,
           item = coindata.data.list;
+           daytotal = Number();
         var i = 0;
-            //daytotal = Number();
         for(i=0;i<item.length && item[i].time>=localetime;i++){
-             daytotal += item[i].accountValue;
-        if (item[i].activeId === '10000')  {
-            todaypoint = item[i].accountValue;
+            if (item[i].activeId === '10000'){
+             todaypoint = item[i].accountValue
             };
+            if (item[i].activeId ==='30000'){
+             daytotal += item[i].accountValue
+           };
           }
        resolve()
      })
@@ -188,7 +190,7 @@ function showmsg() {
   return new Promise((resolve) => {
  if(signresult){
     $.sub = "积分总计:" + totalpoints+" " + signresult
-    $.desc = signdays +doubleres+ '\n' + "今日签到得" + todaypoint + "个金币 共计" +  daytotal+'个金币'
+    $.desc = signdays +doubleres+ '\n' + "今日签到得" + todaypoint + "个金币 共计" +  (daytotal+todaypoint)+'个金币'
     $.msg($.name + " 账号昵称:" + nickname, $.sub, $.desc)
      }
    resolve()

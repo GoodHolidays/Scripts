@@ -71,7 +71,7 @@ const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
 const YOUTH_HOST = "https://kd.youth.cn/WebApi/";
 const notify = $.isNode() ? require('./sendNotify') : '';
-let logs = $.getdata('zqlogs')||false //调试日志开关为false或true
+let logs = $.getdata('zqlogs')||false, signresult; 
 let signheaderVal = $.getdata('youthheader_zq');
 let timebodyVal = $.getdata('readtime_zq');
 let articlebodyVal = $.getdata('read_zq');
@@ -169,7 +169,7 @@ function sign() {
                 $.msg($.name, signresult, "");
                 return;
             } else if (signres.status == 1) {
-                detail = `【签到结果】金币: +${signres.score}，明日金币: +${signres.nextScore}\n`
+                detail = `【签到结果】成功 🎉 金币: +${signres.score}，明日金币: +${signres.nextScore}\n`
                 $.setdata(1,'times')
               if(firstcheck==undefined||firstcheck!=date){
                 $.setdata(date,'signt');
