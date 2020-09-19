@@ -364,9 +364,9 @@ function Invitant() {
 
 function aticleshare() {
     return new Promise((resolve, reject) => {
-        const rand = Math.random().toFixed(3).toString().substr(2).replace("0", "7");
+        //const rand = Math.random().toFixed(3).toString().substr(2).replace("0", "7");
         shareurl = {
-            url: `https://kd.youth.cn/n/27043${rand}?46746961.html`,
+            url: `https://kandian.youth.cn/u/CMB8o`,
             headers: { Cookie: JSON.parse(signheaderVal)['Cookie'] },
         }
         $.get(shareurl, (error, response, data) => {
