@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-13 21:15
+更新时间: 2020-09-19 22:15
 
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 
@@ -610,7 +610,7 @@ function earningsInfo() {
  async function showmsg() {
     if ($.isNode()){
        if (cash >= 10&&rotaryres.code==10010)    {
-       await notify.sendNotify($.name + " " + nick, "您的余额约为"+cash+"元，已可以提现"+'\n\n'+`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n\n${detail}`)
+       await notify.sendNotify($.name + " " + nick, "您的余额约为"+cash+"元，已可以提现"+'\n'+`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n${detail}`)
       }
      }
         console.log('-----------'+'\n'+$.name+`\n【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n`+ detail)
