@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-12 22:30
+更新时间: 2020-09-19 21:30
 
 腾讯新闻签到修改版，可以自动阅读文章获取红包，该活动为瓜分百万现金挑战赛，针对幸运用户参与
 
@@ -46,7 +46,7 @@ Cookie获取后，请注释掉Cookie地址。
 */
 const $ = new Env('腾讯新闻');
 const notify = $.isNode() ? require('./sendNotify') : '';
-let s = $.getdata('delay')||500 // 间隔延迟时间
+let s = Number($.getdata('delay'))||200 // 间隔延迟时间
 let notifyInterval =$.getdata('notifynum')||50; //阅读篇数间隔通知开为1，常关为0;
 const TX_HOST = 'https://api.inews.qq.com/activity/v1/'
 

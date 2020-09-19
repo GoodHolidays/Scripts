@@ -136,7 +136,7 @@
           "name": "延迟时间(毫秒)",
           "val": "",
           "type": "number",
-          "placeholder": "默认500 (点击以展开说明)",
+          "placeholder": "默认200 (点击以展开说明)",
           "desc": "接口延迟时间"
         }          
       ],
