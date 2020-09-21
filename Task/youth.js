@@ -147,7 +147,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
       timebodyVal = timeArr[i];
       redpbodyVal = redpArr[i];
       $.index = i + 1;
-      console.log(`---------------------\n开始【中青看点${$.index}】\n`)
+      console.log(`-------------------------\n\n开始【中青看点${$.index}】`)
     }
   await sign();
   await signInfo();
@@ -650,7 +650,7 @@ function earningsInfo() {
     })
 }
  async function showmsg() {
-        console.log('\n'+$.name+`\n【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n`+ detail)
+        console.log(`\n【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n`+ detail)
        if (rotaryres.status == 1 && rotarytimes >= 97) {
             $.msg($.name + " " + nick, subTitle, detail)  //默认前三次为通知
         }else if (rotaryres.status == 1 && rotarytimes % notifyInterval == 0) {
