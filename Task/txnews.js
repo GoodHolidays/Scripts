@@ -50,7 +50,6 @@ let s = Number($.getdata('delay'))||200 // 间隔延迟时间
 let notifyInterval =$.getdata('notifynum')||50; //阅读篇数间隔通知开为1，常关为0;
 const TX_HOST = 'https://api.inews.qq.com/activity/v1/'
 
-
 let signurlVal = $.getdata('sy_signurl_txnews')
 let cookieVal = $.getdata( 'sy_cookie_txnews')
 let videoVal = $.getdata( 'video_txnews')
@@ -66,11 +65,15 @@ if (isGetCookie) {
   GetCookie()
 } else {
  !(async () => {
-    
   if(!signurlVal && !cookieVal){
     $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"})
     await notify.sendNotify($.name, '【提示】请先获取腾讯新闻一Cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
      return;
+    }
+  if ($.isNode()){
+      console.log(`\n============ 脚本执行来自 Github Action  ==============\n`)
+      console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
+      console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
     }
      token = signurlVal.match(/devid=[a-zA-Z0-9_-]+/g)[0]
      console.log("\n开始获取您的活动ID");
