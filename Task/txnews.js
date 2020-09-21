@@ -76,7 +76,7 @@ if (isGetCookie) {
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
     }
      token = signurlVal.match(/devid=[a-zA-Z0-9_-]+/g)[0]
-     console.log("\n开始获取您的活动ID");
+     console.log("----------------\n开始获取您的活动ID");
       await getsign();
       await activity();
       await toRead();
@@ -285,7 +285,7 @@ function showmsg() {
     if(readnum||videonum){
       detail = signinfo + `【文章阅读】已读/再读: `+ readnum +`/`+readtitle+` 篇\n`+`【阅读红包】已开/总计: `+openreadred+`/`+readredtotal+` 个🧧\n`+ `【观看视频】已看/再看: `+ videonum +`/`+videotitle+` 分钟\n`+`【视频红包】已开/总计: `+openvideored+`/`+videoredtotal+` 个🧧\n【每日一句】`+Dictum
     }
-        console.log('-----------'+'\n'+$.name+'\n'+subTile+'\n'+ detail)
+        console.log('\n'+$.name+'\n'+subTile+'\n'+ detail)
     if (readnum%notifyInterval==0){
       $.msg($.name,subTile,detail,{ 'open-url': "https://news.qq.com/FERD/cjRedDown.htm", 'media-url': imgurl } )
     }
