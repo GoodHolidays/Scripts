@@ -2,15 +2,12 @@
 name: jingxi
 
 on:
- #push:
-  #branches: 
-     #- master 
+  workflow_dispatch:
   schedule:
      - cron: '5 23 * * *'
   watch:
     types: started
 jobs:
-
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id

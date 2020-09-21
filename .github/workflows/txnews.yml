@@ -7,9 +7,7 @@
 name: txnews
 
 on:
- #push:
-  #branches: 
-     #- master 
+  workflow_dispatch:
   schedule:
      - cron: '*/7 1-14 * * *'
   watch:
@@ -37,6 +35,7 @@ jobs:
           videoVal: ${{ secrets.TXNEWS_VIDEO }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
+          TXNEWS_NOTIFY_CONTROL: ${{ secrets.TXNEWS_NOTIFY_CONTROL }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           BARK_SOUND: ${{ secrets.BARK_SOUND }}

@@ -4,9 +4,7 @@
 name: youth
 
 on:
- #push:
-  #branches: 
-     #- master 
+  workflow_dispatch:
   schedule:
      - cron: '*/5 3-9 * * *'
   watch:
@@ -33,6 +31,7 @@ jobs:
           YOUTH_ARTBODY: ${{ secrets.YOUTH_ARTBODY }}
           YOUTH_REDBODY: ${{ secrets.YOUTH_REDBODY }}
           YOUTH_TIME: ${{ secrets.YOUTH_TIME }}
+          YOUTH_NOTIFY_CONTROL: ${{ secrets.YOUTH_NOTIFY_CONTROL }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
