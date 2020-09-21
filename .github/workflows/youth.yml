@@ -4,11 +4,11 @@
 name: youth
 
 on:
- push:
-  branches: 
-     - master 
+ #push:
+  #branches: 
+     #- master 
   schedule:
-     - cron: '*/5 16-22 * * *'
+     - cron: '*/5 3-9 * * *'
   watch:
     types: started
 
