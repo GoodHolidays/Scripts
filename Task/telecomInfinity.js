@@ -155,7 +155,7 @@ resolve(JSON.parse(body));
 }
 
 function parseData(detail, balance, info, bill) {
-    return new Promise(resolve => {
+    return new Promise(async(resolve) => {
         if (!info || !detail  || !balance|| !bill) {
             resolve("done")
             return
@@ -175,14 +175,12 @@ function parseData(detail, balance, info, bill) {
             resolve("done")
             //return
         }
-        var balanceAvailable = Number(balance.totalBalanceAvailable)
-        notify(detail, balanceAvailable, info, bill)
+        await notify(detail, balance, info, bill)
         resolve("done")
     })
 }
 
 function notify(data, balance, exdata, bldata) {
-//console.log(bldata)
     var subtitle = ""
     if (config.info) {
         subtitle = "【手机】" + exdata.mobileShort + "  (" + exdata.province + "-" + exdata.city + ")"
@@ -211,22 +209,27 @@ function notify(data, balance, exdata, bldata) {
      totalCommon = formatFlow(data.totalCommon/1024)
 }
 for (i=0;i<data.items.length;i++){
-for (k=0;k<data.items[i].items.length;k++){
+ for (k=0;k<data.items[i].items.length;k++){
 if(data.items[i].items[k].nameType == 131100){
    voiceAmount = data.items[i].items[k].ratableAmount
    voiceBalance = data.items[i].items[k].balanceAmount
    voiceUsage = data.items[i].items[k].usageAmount
-  }
-//$.log.info(data.items[i].items[k].nameType)
+  };
 if(data.items[i].items[k].nameType == 401100||data.items[i].items[k].nameType == 431100){
    msgUsage = data.items[i].items[k].usageAmount
    msgAmount = data.items[i].items[k].ratableAmount
    msgBalance = data.items[i].items[k].balanceAmount
-  }
-if(data.items[i].offerType == 19){
+  };
+if(data.items[i].productOFFName == "畅享套餐"){
    usagedCommon = formatFlow(data.items[i].items[k].usageAmount/1024)
    balanceCommon = data.items[i].items[k].ratableResourcename
    totalCommon = data.items[i].productOFFName
+  }
+else if(data.items[i].items[k].nameType == 331101){
+   productname = data.items[i].productOFFName
+   usagedCommon = formatFlow(data.items[i].items[k].usageAmount/1024)
+   balanceCommon = formatFlow(data.items[i].items[k].balanceAmount/1024)
+   totalCommon = formatFlow(data.items[i].items[k].ratableAmount/1024)
   }
  }
 }
@@ -238,20 +241,20 @@ if(data.items[i].offerType == 19){
         msginfo = "【短信】已用: " + msgUsage + "条 剩余: " + msgBalance + "条 合计: " + msgAmount + "条"
         message = message + "\n" + msginfo
     }
-   var flow = "【流量】已用: " + usagedCommon + "  剩余:" + balanceCommon + "  合计:" + totalCommon
-    message = message + "\n" + flow
-
-    var cost = "【话费】剩余: " + (balance / 100).toFixed(2) + "元"
-message = message + "\n" + cost
-    if (bldata != '无'){message +=  `  ${M}月消费合计: `+ bldata.items[0].sumCharge/100+'元'}
+    const flow = "【流量】已用: " + usagedCommon + "  剩余:" + balanceCommon + "  合计:" + totalCommon
+     message = message + "\n" + flow
+    const cost = "【话费】剩余: " + (Number(balance.totalBalanceAvailable)/100).toFixed(2) + "元"
+     message = message + "\n" + cost
+    if (bldata != '无'){message +=  `  ${M}月消费合计: `+ bldata.items[0].sumCharge/100+'元'};
     if (bldata == '无'){
 message = message + "\n" + `【${M}月账单】   `+ bldata
 } else if (typeof bldata.items[0].acctName != "undefined" && bldata.serviceResultCode == 0) {
-    bills = `【${M}月话费账单】` + "\n   " + bldata.items[0].items[1].chargetypeName + ':    '+
-bldata.items[0].items[1].charge/100+'元'+ "\n   "+ bldata.items[0].items[2].chargetypeName + ':  '+
-bldata.items[0].items[2].charge/100+'元'+ "\n   "+ bldata.items[0].items[0].chargetypeName + '合计:  '+ bldata.items[0].items[0].charge/100+'元'
+    billcharge = bldata.items[0].items
+     bills = `【${M}月话费账单】` + "\n   " + billcharge[1].chargetypeName + ':    '+
+billcharge[1].charge/100+'元'+ "\n   "+ billcharge[2].chargetypeName + ':  '+
+billcharge[2].charge/100+'元'+ "\n   "+ billcharge[0].chargetypeName + ':  '+ billcharge[0].charge/100+'元'
     message = message + "\n" + bills
-    }
+   }
     $.msg(config.name, subtitle, message)
 }
 
