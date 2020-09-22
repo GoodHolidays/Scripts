@@ -1,5 +1,5 @@
 /* 
-本脚本为电视节目预告  兼容chavyleung大佬的boxjs订阅优先生效
+本脚本为电视节目预告  兼容chavyleung大佬的boxjs订阅优先生效，图片非实时直播图片
 本仓库boxjs订阅地址: https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sunert.boxjs.json
 
 1.数据从电视家数据库获取
@@ -85,7 +85,7 @@ const wurl = {
          $.subTitle = `即将播出: ${result[`${tvnum}`].program[i+1].t}` +duration
          } 
        }
-     $.msg($.title, $.subTitle, $.detail)
+     $.msg($.title, $.subTitle, $.detail,{'media-url':`http://cdn.dianshihome.com/static/channel/poster/${tvnum}.jpg`})
       resolve()
       }
     catch(err) { 
