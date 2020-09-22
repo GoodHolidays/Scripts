@@ -433,6 +433,9 @@ function readArticle() {
     return new Promise((resolve, reject) => {
         const url = {
             url: `https://ios.baertt.com/v5/article/complete.json`,
+            headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+            },
             body: articlebodyVal,
         }
         $.post(url, (error, response, data) => {
@@ -454,6 +457,9 @@ function Articlered() {
     return new Promise((resolve, reject) => {
         const url = {
             url: `https://ios.baertt.com/v5/article/red_packet.json`,
+            headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+            },
             body: redpbodyVal,
         }
         $.post(url, (error, response, data) => {
