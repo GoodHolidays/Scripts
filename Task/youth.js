@@ -437,6 +437,7 @@ function readArticle() {
         }
         $.post(url, (error, response, data) => {
            readres = JSON.parse(data);
+           console.log(readres)
             if (readres.items.read_score && readres.items.read_score !== 0) {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
             } 
