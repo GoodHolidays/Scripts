@@ -151,9 +151,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
 if($.time('HH')>12){
   await punchCard()
 };
-if($.time('HH')<9&&$.time('HH')>4){
+console.log($.time('HH:mm')
   await endCard();
-};
   await openbox();
   await getAdVideo();
   await gameVideo();
