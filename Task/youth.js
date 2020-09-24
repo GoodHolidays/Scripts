@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-22 22:15
+更新时间: 2020-09-24 11:15
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 
@@ -151,8 +151,12 @@ if (isGetCookie = typeof $request !== 'undefined') {
 if($.time('HH')>12){
   await punchCard()
 };
-console.log($.time('HH:mm'))
+if ($.isNode()&& $.time('HH')>20&&$.time('HH')<22){
   await endCard();
+  }
+else if ($.time('HH')>4&&$.time('HH')<8){
+  await endCard();
+  }
   await openbox();
   await getAdVideo();
   await gameVideo();
