@@ -443,7 +443,7 @@ function readArticle() {
         }
         $.post(url, (error, response, data) => {
            readres = JSON.parse(data);
-     if (typeof(readres.items.read_score)=='number')  {
+     if (typeof readres.items.read_score === 'number')  {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
             } 
     //else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
