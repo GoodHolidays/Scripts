@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-24 11:15
+更新时间: 2020-09-25 18:15
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 
@@ -443,7 +443,7 @@ function readArticle() {
         }
         $.post(url, (error, response, data) => {
            readres = JSON.parse(data);
-            if (readres.items.read_score && readres.items.read_score !== 0) {
+     if (typeof(readres.items.read_score)=='number')  {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
             } 
     //else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {

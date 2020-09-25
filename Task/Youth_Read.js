@@ -1,6 +1,5 @@
 /*
-更新时间: 2020-09-24 22:15
-赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
+更新时间: 2020-09-25 18:15
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个常量，拷贝抓包的请求体到下面Value的文本框中，值越多，获得青豆次数阅读，本脚本不包含任何推送通知
 
@@ -56,7 +55,7 @@ function AutoRead() {
         $.post(url, (error, response, data) => {
            let readres = JSON.parse(data);
              console.log(data)
-            if (readres.items.read_score) {
+           if (typeof(readres.items.read_score)=='number') {
               console.log(`\n本次阅读获得${readres.items.read_score}个青豆，即将开始下次阅读\n`)
             } 
             else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {     
