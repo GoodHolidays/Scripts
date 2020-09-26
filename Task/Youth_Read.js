@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-25 18:15
+更新时间: 2020-09-26 8:45
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个常量，拷贝抓包的请求体到下面Value的文本框中，值越多，获得青豆次数阅读，本脚本不包含任何推送通知
 
@@ -58,11 +58,11 @@ function AutoRead() {
            if (readres.error_code == '0' && typeof readres.items.read_score === 'number') {
               console.log(`\n本次阅读获得${readres.items.read_score}个青豆，即将开始下次阅读\n`)
             } 
+            else if {readres.error_code == '200001'){
+              console.log(`第${$.index}次阅读请求有误，请删除此请求`)
+            }
             else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {     
               console.log(readres.items.max_notice)
-            }
-            else if {readres.error_code == '200001'){
-            console.log(`第${$.index}次阅读请求有误，请删除此请求`)
             }
           resolve()
         })
