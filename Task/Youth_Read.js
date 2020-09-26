@@ -48,7 +48,7 @@ function AutoRead() {
        let url = {
             url: `https://ios.baertt.com/v5/article/complete.json`,
             headers: {
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+            'User-Agent': 'KDApp/1.7.8 (iPhone; iOS 14.0; Scale/3.00)'
             },
             body: articlebody
         };
