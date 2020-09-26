@@ -1,9 +1,9 @@
 /*
 更新时间: 2020-09-26 8:46
 
-请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个常量，拷贝抓包的请求体到下面Value的文本框中，值越多，获得青豆次数阅读，本脚本不包含任何推送通知
+请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
 
-多次请求时用'&'号隔开" ‼️
+多个请求体时用'&'号隔开" ‼️
 
 */
 
