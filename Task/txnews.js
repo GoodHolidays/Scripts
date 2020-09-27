@@ -1,6 +1,6 @@
 
 /*
-更新时间: 2020-09-27 09:30
+更新时间: 2020-09-27 10:10
 
 腾讯新闻签到修改版，可以自动阅读文章获取红包，该活动为瓜分百万现金挑战赛，针对幸运用户参与
 
@@ -59,7 +59,7 @@ if ($.isNode()) {
   CookieTxnews = process.env.TXNEWS_COOKIE.split('&');
   }
  if (process.env.TXNEWS_SIGN && process.env.TXNEWS_SIGN.split('#') && process.env.TXNEWS_SIGN.split('#').length > 0) {
-  SignUrl = process.env.signurlVal.split('#');
+  SignUrl = process.env.TXNEWS_SIGN.split('#');
   }
   if (process.env.TXNEWS_VIDEO && process.env.TXNEWS_VIDEO.split('#') && process.env.TXNEWS_VIDEO.split('#').length > 0) {
   VideoUrl = process.env.TXNEWS_VIDEO.split('#');
@@ -74,9 +74,9 @@ if ($.isNode()) {
           SignArr.push(SignUrl[item])
         }
       })
-    Object.keys(REDBODYs).forEach((item) => {
+    Object.keys(VideoUrl).forEach((item) => {
         if (VideoUrl[item]) {
-          VideoArr.push(REDBODYs[item])
+          VideoArr.push(VideoUrl[item])
         }
     })
   } else {
