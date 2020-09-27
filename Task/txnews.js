@@ -91,7 +91,7 @@ if (isGetCookie) {
 } else {
 !(async () => {
  if(!cookiesArr){
-    $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
+      $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
     if ($.isNode()){
       await notify.sendNotify($.name, '【提示】请先获取腾讯新闻一Cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
      }
@@ -270,17 +270,17 @@ function Redpack() {
         let rcash = JSON.parse(data)
         try{
           redpacks = rcash.data.award.num/100
-          if (rcash.ret == 0&&readredpack!=0&&getreadred>0){
-            redpackres = `【阅读红包】到账`+readredpack+`元 🌷\n`
-            $.log("阅读红包到账"+readredpack+"元\n")
+          if (rcash.ret == 0&&redpacks>0&&getreadred > 0){
+            redpackres = `【阅读红包】到账`+redpacks+`元 🌷\n`
+            $.log("阅读红包到账"+redpacks+"元\n")
           }
-          else if (rcash.ret == 0&&videoredpack!=0&&getvideored>0){
-            redpackres = `【视频红包】到账`+videoredpack+`元 🌷\n`
-            $.log("视频红包到账"+videoredpack+"元\n")
+          else if (rcash.ret == 0&&redpacks>0){
+            redpackres = `【视频红包】到账`+redpacks+`元 🌷\n`
+            $.log("视频红包到账"+redpacks+"元\n")
           }
         }
-        catch(err){
-          $.log("打开红包失败,响应数据: "+ data+"\n错误代码:"+err) };
+        catch(error){
+          $.log("打开红包失败,响应数据: "+ data+"\n错误代码:"+error) };
         $.msg($.name, "开红包失败，详情请看日志 ❌", err)
         resolve()
       })
