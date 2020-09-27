@@ -181,6 +181,7 @@ function parseData(detail, balance, info, bill) {
 }
 
 function notify(data, balance, exdata, bldata) {
+ try{
     var subtitle = ""
     if (config.info) {
         subtitle = "【手机】" + exdata.mobileShort + "  (" + exdata.province + "-" + exdata.city + ")"
@@ -256,6 +257,10 @@ billcharge[2].charge/100+'元'+ "\n   "+ billcharge[0].chargetypeName + ':  '+ b
     message = message + "\n" + bills
    }
     $.msg(config.name, subtitle, message)
+  }
+  catch(err){
+     console.log("查询错误，错误原因:"+ err+'\n账单响应数据:'+bldata+'\n请将以上数据反馈给作者')
+  }
 }
 
 // MB 和 GB 自动转换
