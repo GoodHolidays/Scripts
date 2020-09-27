@@ -41,10 +41,10 @@ let config = {
     delay: 0, //自定义延迟签到,单位毫秒,(如填200则每个接口延迟0.2秒执行),默认无延迟
     info: 1, //是否显示手机归属地，1为显示，0为不显示
 }
-const $ = new Env(config.name)
-     d = new Date();
-     Y = d.getFullYear(),
-     M = $.getdata('Mon').slice(-2)||d.getMonth()  //上月
+let $ = new Env(config.name),
+     Y = $.time('yyyy'),
+     M = $.getdata('Mon').slice(-2)||$.time('MM') ; //查询前几个月，可以')'号后减几
+
    let AUTHTOKEN = $.getdata(config.authTokenKey)
    let COOKIE = $.getdata(config.CookieKey)
 var requests = {
@@ -82,7 +82,6 @@ var requests = {
     }
 }
 
-//console.log(requests.bill)
 if (isGetCookie = typeof $request !== 'undefined') {
     GetCookie()
     $.done()
@@ -101,7 +100,7 @@ function GetCookie() {
         if (cookieVal) {
             if ($.setdata(cookieVal, config.authTokenKey)) {
                 $.msg(config.name, '获取authToken: 成功', '')
-              // $.log.info(`[${config.name}] 获取authToken: 成功, authToken: ${cookieVal}, Cookie: [${COOKIE}]` )
+              // console.log(`[${config.name}] 获取authToken: 成功, authToken: ${cookieVal}, Cookie: [${COOKIE}]` )
             }
         }
     }
@@ -181,25 +180,14 @@ function parseData(detail, balance, info, bill) {
 }
 
 function notify(data, balance, exdata, bldata) {
+//console.log(data.items)
  try{
     var subtitle = ""
     if (config.info) {
         subtitle = "【手机】" + exdata.mobileShort + "  (" + exdata.province + "-" + exdata.city + ")"
     }
-    var productname = "中国电信"
-    if (typeof data.items[1].offerType == 11) {
-        productname = data.items[1].productOFFName
-    }
-    else if (typeof data.items[0].productOFFName != "undefined") {
-        productname = data.items[0].productOFFName
-    }
-    var message = "【套餐】" + productname
-    var voiceAmount = " "
-    var voiceUsage = " "
-    var voiceBalance = " "
-    var msgUsage = ""
-    var msgBalance = ""
-    var msgAmount = ""
+    let productname = "中国电信", voiceAmount = " ", voiceUsage = " ", voiceBalance = " ", msgUsage = "", msgBalance = "", msgAmount = "",usagedCommon,balanceCommon,totalCommon;
+
   if(data.usedCommon){
      usagedCommon = formatFlow(data.usedCommon/1024)
 }
@@ -208,44 +196,46 @@ function notify(data, balance, exdata, bldata) {
 }
   if(data.totalCommon){
      totalCommon = formatFlow(data.totalCommon/1024)
-}
+}  //流量信息
+
 for (i=0;i<data.items.length;i++){
  for (k=0;k<data.items[i].items.length;k++){
-if(data.items[i].items[k].nameType == 131100){
+if(data.items[i].items[k].nameType == '131100'){
    voiceAmount = data.items[i].items[k].ratableAmount
    voiceBalance = data.items[i].items[k].balanceAmount
    voiceUsage = data.items[i].items[k].usageAmount
-  };
-if(data.items[i].items[k].nameType == 401100||data.items[i].items[k].nameType == 431100){
+  }; //语音余量
+if(data.items[i].items[k].nameType == '401100'||data.items[i].items[k].nameType == '431100'){
    msgUsage = data.items[i].items[k].usageAmount
    msgAmount = data.items[i].items[k].ratableAmount
    msgBalance = data.items[i].items[k].balanceAmount
-  };
+  }; //短信余量
+
+if (data.items[i].offerType == '11'|| data.items[i].offerType == '21') {
+        productname = data.items[i].productOFFName
+    }; //主套餐名称
 if(data.items[i].productOFFName == "畅享套餐"){
    usagedCommon = formatFlow(data.items[i].items[k].usageAmount/1024)
    balanceCommon = data.items[i].items[k].ratableResourcename
    totalCommon = data.items[i].productOFFName
+    }; // 畅享套餐
   }
-else if(data.items[i].items[k].nameType == 331101){
-   productname = data.items[i].productOFFName
-   usagedCommon = formatFlow(data.items[i].items[k].usageAmount/1024)
-   balanceCommon = formatFlow(data.items[i].items[k].balanceAmount/1024)
-   totalCommon = formatFlow(data.items[i].items[k].ratableAmount/1024)
-  }
- }
 }
+        message = "【套餐】" + productname
     if (voiceUsage) {
         var voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟"
-        message = message + "\n" + voice
+        message += "\n" + voice
     }
     if (msgUsage) {
         msginfo = "【短信】已用: " + msgUsage + "条 剩余: " + msgBalance + "条 合计: " + msgAmount + "条"
-        message = message + "\n" + msginfo
+        message += "\n" + msginfo
     }
-    const flow = "【流量】已用: " + usagedCommon + "  剩余:" + balanceCommon + "  合计:" + totalCommon
-     message = message + "\n" + flow
-    const cost = "【话费】剩余: " + (Number(balance.totalBalanceAvailable)/100).toFixed(2) + "元"
-     message = message + "\n" + cost
+    if (usagedCommon){
+      flow = "【流量】已用: " + usagedCommon + "  剩余:" + balanceCommon + "  合计:" + totalCommon
+       message += "\n" + flow
+   }; //以上为套餐用量
+
+      message += "\n" +"【话费】剩余: " + (Number(balance.totalBalanceAvailable)/100).toFixed(2) + "元"
     if (bldata != '无'){message +=  `  ${M}月消费合计: `+ bldata.items[0].sumCharge/100+'元'};
     if (bldata == '无'){
 message = message + "\n" + `【${M}月账单】   `+ bldata
@@ -255,11 +245,11 @@ message = message + "\n" + `【${M}月账单】   `+ bldata
 billcharge[1].charge/100+'元'+ "\n   "+ billcharge[2].chargetypeName + ':  '+
 billcharge[2].charge/100+'元'+ "\n   "+ billcharge[0].chargetypeName + ':  '+ billcharge[0].charge/100+'元'
     message = message + "\n" + bills
-   }
+   }; //账单明细
     $.msg(config.name, subtitle, message)
   }
   catch(err){
-     console.log("查询错误，错误原因:"+ err+'\n账单响应数据:'+bldata+'\n请将以上数据反馈给作者')
+     console.log("查询错误，错误原因:"+ err+'\n账单响应数据:'+JSON.stringify(bldata)+'\n请将以上数据机主姓名删除后反馈给作者')
   }
 }
 
