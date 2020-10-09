@@ -1,5 +1,5 @@
 /*
-更新时间:09-16 09:05
+更新时间:10-09 20:05
 本脚本为京东旗下京喜app签到脚本
 本脚本使用京东公共Cooike，支持双账号，获取方法请查看NobyDa大佬脚本说明
 
@@ -41,7 +41,10 @@ if ($.isNode()) {
       await Tasklist();
       await doublesign();
       await coininfo();
-      await showmsg()
+      await showmsg();
+    if ($.isNode()){
+       await notify.sendNotify($.name + " 账号昵称:" + nickname, $.sub+`\n`+$.desc)
+         }
     }
   }
 })()
@@ -193,9 +196,6 @@ function showmsg() {
     $.desc = signdays +doubleres+ '\n' + "今日签到得" + todaypoint + "个金币 共计" +  (daytotal+todaypoint)+'个金币'
     $.msg($.name + " 账号昵称:" + nickname, $.sub, $.desc)
      }
-    if ($.isNode()){
-       await notify.sendNotify($.name + " 账号昵称:" + nickname, $.sub+`\n`+$.desc)
-         }
    resolve()
   })
 }
