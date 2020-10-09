@@ -84,6 +84,7 @@ if ($request && $request.method != 'OPTIONS'&&
   if (infoheaderVal) $.setdata(infoheaderVal, `sy_infoheader_snews`)
   $.msg($.name, `获取信息Cookie: 成功`, ``)
   } 
+  $.done()
 }
 //签到
 function getsign() {
