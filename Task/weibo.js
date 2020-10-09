@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-09-07 21:25
+更新时间: 2020-10-09 22:25
 
 本脚本仅适用于微博每日签到  
 获取Cookie方法:
@@ -16,7 +16,7 @@ Surge 4.0 :
 weibo.js = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
 
 # 获取微博 Cookie.
-weibo.js = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/video\/machine\?gsid,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+weibo.js = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/[a-z]+\/\w+\?gsid,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 # 微博钱包签到Cookie
 weibo.js = type=http-request,pattern=https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
@@ -26,7 +26,7 @@ Loon 2.1.0+
 # 本地脚本
 cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
 
-http-request https:\/\/api\.weibo\.cn\/\d\/video\/machine\?gsid script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+http-request https:\/\/api\.weibo\.cn\/\d\/[a-z]+\/\w+\?gsid script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
 http-request https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
@@ -37,7 +37,7 @@ QX 1.0.6+ :
 0 9 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
 [rewrite_local]
-https:\/\/api\.weibo\.cn\/\d\/video\/machine\?gsid url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+https:\/\/api\.weibo\.cn\/\d\/[a-z]+\/\w+\?gsid url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
 # 钱包签到Cookie
 https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\? url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
@@ -70,7 +70,7 @@ if (isGetCookie = typeof $request !==`undefined`) {
 }
 
 function GetCookie() {
-if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/video\/machine/)) {
+if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/\d\/[a-z]+\/\w+\?gsid/)) {
   const signurlVal = $request.url
   const token = signurlVal.split(`?`)[1]
   const signheaderVal = JSON.stringify($request.headers)
