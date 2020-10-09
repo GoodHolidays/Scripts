@@ -47,7 +47,7 @@ https?:\/\/lite\.sina\.cn\/\?resource=userpoint\/signIn - script-request-header 
 */
 const $ = new Env('新浪新闻')
 const signurlVal = $.getdata(`sy_signurl_snews`)
-const infourlVal = $.getdata(`sy_ck_snews`)
+const infourlVal = $.getdata(`sy_info_snews`)
 const signheaderVal =$.getdata(`sy_ck_snews`)
 const infoheaderVal =$.getdata(`sy_infoheader_snews`)
 
