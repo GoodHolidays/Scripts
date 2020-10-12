@@ -218,9 +218,6 @@ if(data.items[i].items[k].nameType == '401100'||data.items[i].items[k].nameType 
 //console.log(data.items)  //套餐信息
 if (data.items[i].offerType == '11'|| data.items[i].offerType == '21') {
         productname = data.items[i].productOFFName
-    }
-else if (data.items[i].offerType == '19'&&data.items[i].items[k].nameType != "331101") {
-        productname = data.items[i].productOFFName
     }; //主套餐名称
 if(data.items[i].items[k].nameType == "331101"){
    usagedCommon = formatFlow(data.items[i].items[k].usageAmount/1024)
@@ -229,8 +226,8 @@ if(data.items[i].items[k].nameType == "331101"){
     } // 畅享套餐
  else if(data.items[i].items[k].nameType == "331100"){
    usagedCommon = formatFlow(data.items[i].items[k].usageAmount/1024)
-   balanceCommon = data.items[i].items[k].balanceAmount
-   totalCommon = data.items[i].ratableAmount
+   balanceCommon = formatFlow(data.items[i].items[k].balanceAmount/1024)
+   totalCommon = formatFlow(data.items[i].items[k].ratableAmount/1024)
     };
   }
 }
