@@ -1,5 +1,5 @@
 /**
-更新时间: 2028-10-12 18:05
+更新时间: 2020-10-12 20:05
  1.根据原版脚本修改，增加上月账单信息，需重新获取Cookie，打开app即可
  2.适合流量畅享套餐使用，其他套餐，自行测试，此项仅供测试 
  3.可能因地区不同，脚本不一定适用
@@ -62,22 +62,25 @@ var requests = {
         url: "https://e.189.cn/store/user/balance_new.do",
         headers: {
             "authToken": AUTHTOKEN,
-            "type": "alipayMiniApp"
+            "type": "alipayMiniApp",
+            "User-Agent": "TYUserCenter/2.8 (iPhone; iOS 14.0; Scale/3.00)"
         },
-        method: "GET"
+        body: "t=tysuit",
+        method: "POST"
     },
     info: {
         url: "https://e.189.cn/store/user/getExtInfo.do",
         headers: {
             "authToken": AUTHTOKEN,
-            "type": "alipayMiniApp"
+            "type": "alipayMiniApp",
+           // "Cookie": COOKIE
         },
         method: "GET"
     },
       bill: {
         url: `https://e.189.cn/store/user/bill.do?year=${Y}&month=${M}&t=tysuit`,
         headers: {
-            "Cookie": COOKIE,
+            "Cookie": COOKIE
         },
         method: "GET"
     }
@@ -212,9 +215,9 @@ function notify(data, balance, exdata, bldata) {
              for ( Voiceiterm of VoiceArr)
                     voiceAmount = Voiceiterm.ratableAmount, 
                     voiceBalance = Voiceiterm.balanceAmount, 
-                    voiceUsage = Voiceiterm.usageAmount;
+                    voiceUsage = Voiceiterm.usageAmount
               }
-            voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟"
+             voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟";
              message += "\n" + voice; //语音
     
             if (item.nameType == "331101") {
@@ -237,8 +240,8 @@ function notify(data, balance, exdata, bldata) {
     console.log("查询错误，错误原因:" + err + '\n套餐响应数据:' + JSON.stringify(data) + '\n请将以上数据机主姓名删除后反馈给作者')
 }; //以上为套餐用量
 
-
-           message += "\n" + "【话费】剩余: " + (parseInt(balance.totalBalanceAvailable) / 100).toFixed(2) + "元"; //话费余额
+   //console.log(balance)  //话费余额
+           message += "\n" + "【话费】剩余: " + (parseInt(balance.totalBalanceAvailable) / 100).toFixed(2) + "元"; 
 
    //console.log(bldata.items)  //账单信息
 try {
