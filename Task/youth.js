@@ -225,7 +225,7 @@ function sign() {
                 signresult = `【签到结果】重复`;
                 detail = "";
               if(runtimes!==undefined){
-              $.setdata(`${Number(runtimes)+1}`,'times')  
+              $.setdata(`${parseInt(runtimes)+1}`,'times')  
               }
             }
            resolve() 

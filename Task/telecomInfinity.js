@@ -213,8 +213,8 @@ function notify(data, balance, exdata, bldata) {
                     voiceAmount = Voiceiterm.ratableAmount, 
                     voiceBalance = Voiceiterm.balanceAmount, 
                     voiceUsage = Voiceiterm.usageAmount;
-                    voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟"
               }
+            voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟"
              message += "\n" + voice; //语音
     
             if (item.nameType == "331101") {
