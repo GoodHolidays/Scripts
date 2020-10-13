@@ -60,12 +60,6 @@ if ($.isNode()) {
   else if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('\n') && process.env.DSJ_DRAWAL.split('\n').length > 0) {
   Drawals = process.env.DSJ_DRAWAL.split('\n');
   };
-  if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('#') && process.env.DSJ_SIGN.split('#').length > 0) {
-  Dsjurl = process.env.DSJ_SIGN.split('#');
-  }
-  else if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('\n') && process.env.DSJ_SIGN.split('\n').length > 0) {
-  Dsjurl = process.env.DSJ_SIGN.split('\n');
-  };
   Object.keys(Dsjheaders).forEach((item) => {
         if (Dsjheaders[item]) {
           tokenArr.push(Dsjheaders[item])
@@ -76,17 +70,11 @@ if ($.isNode()) {
           DrawalArr.push(Drawals[item])
         }
     });
-    Object.keys(Dsjurl).forEach((item) => {
-        if (Dsjurl[item]) {
-          DsjurlArr.push(Dsjurl[item])
-        }
-    });
     console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
     console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
  } else {
     tokenArr.push($.getdata('sy_signheader_dsj'))
     DrawalArr.push($.getdata('drawal_dsj'))
-    DsjurlArr.push($.getdata('sy_signurl_dsj'))
  }
  
 if (isGetCookie = typeof $request !== 'undefined') {
@@ -101,7 +89,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
     console.log(`------------- 共${tokenArr.length}个账号\n`)
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
-      signurl = DsjurlArr[i];
       signheaderVal = tokenArr[i];
       drawalVal = DrawalArr[i];
       $.index = i + 1;
@@ -127,11 +114,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
   }
 function GetCookie() {
  if ($request && $request.method != 'OPTIONS'&&$request.url.match(/\/sign\/signin/)) {
-  const signurlVal = $request.url
   const signheaderVal = JSON.stringify($request.headers)
-  $.log(`signurlVal:${signurlVal}`)
   $.log(`signheaderVal:${signheaderVal}`)
-  if(signurlVal) $.setdata(signurlVal, 'sy_signurl_dsj')
   if (signheaderVal) $.setdata(signheaderVal, 'sy_signheader_dsj')
   $.msg($.name, `获取Cookie: 成功`, ``)
   }
@@ -162,8 +146,7 @@ function GetCookie() {
 function signin() {      
    return new Promise((resolve, reject) =>
      {
-     console.log(signurl)
-      $.get({url: signurl, headers: JSON.parse(signheaderVal)}, async(error, response, data) =>
+      $.get({url: `${dianshijia_API}/v5/sign/signin?accelerate=0&ext=0&ticket=`, headers: JSON.parse(signheaderVal)}, async(error, response, data) =>
        {
       if(logs)$.log(`${$.name}, 签到结果: ${data}\n`)
       let result = JSON.parse(data)

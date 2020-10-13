@@ -42,7 +42,7 @@
     {
       "id": "dianshijia",
       "name": "电视家",
-      "keys": ["sy_signurl_dsj", "sy_signheader_dsj", "drawal_dsj"],
+      "keys": ["sy_signheader_dsj", "drawal_dsj"],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/dianshijia.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/dianshijia.png", "https://raw.githubusercontent.com/Orz-3/task/master/dianshijia.png"],

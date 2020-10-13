@@ -24,7 +24,6 @@ jobs:
         run: |
           node Task/dianshijia.js
         env:
-          DSJ_SIGN: ${{ secrets.DSJ_SIGN }}
           DSJ_HEADERS: ${{ secrets.DSJ_HEADERS }}
           DSJ_DRAWAL: ${{ secrets.DSJ_DRAWAL }}
           DSJ_NOTIFY_CONTROL: ${{ secrets.DSJ_NOTIFY_CONTROL }}
