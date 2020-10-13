@@ -185,7 +185,7 @@ function paysign() {
  return new Promise((resolve, reject) =>{
    let payurl =  {
       url: `https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do?_=${$.startTime+50}`,
-     headers: payheaderVal
+     headers: JSON.parse(payheaderVal)
      }
 $.post(payurl, (error, response, data) => {
    try{
