@@ -2,7 +2,7 @@
 /*
 更新时间: 2020-10-13 21:21
 赞赏:电视家邀请码`893988`,农妇山泉 -> 有点咸，万分感谢
-本脚本仅适用于电视家签到，支持Actions多账号运行
+本脚本仅适用于电视家签到，支持Actions多账号运行，请用'#'或者换行隔开‼️
 获取Cookie方法:
 1.将下方[rewrite_local]和[Task]地址复制的相应的区域，无需添加 hostname，每日7点、12点、20点各运行一次，其他随意
 2.APP登陆账号后，点击菜单栏'领现金',即可获取Cookie，进入提现页面，点击随机金额，可获取提现地址!!
@@ -47,20 +47,20 @@ const $ = new Env('电视家')
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [];
 if ($.isNode()) {
-  if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('&') && process.env.DSJ_HEADERS.split('&').length > 0) {
-  Dsjheaders = process.env.DSJ_HEADERS.split('&');
+  if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('#') && process.env.DSJ_HEADERS.split('#').length > 0) {
+  Dsjheaders = process.env.DSJ_HEADERS.split('#');
   }
   else if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('\n') && process.env.DSJ_HEADERS.split('\n').length > 0) {
   Dsjheaders = process.env.DSJ_HEADERS.split('\n');
   };
-  if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('&') && process.env.DSJ_DRAWAL.split('&').length > 0) {
-  Drawals = process.env.DSJ_DRAWAL.split('&');
+  if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('#') && process.env.DSJ_DRAWAL.split('#').length > 0) {
+  Drawals = process.env.DSJ_DRAWAL.split('#');
   }
   else if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('\n') && process.env.DSJ_DRAWAL.split('\n').length > 0) {
   Drawals = process.env.DSJ_DRAWAL.split('\n');
   };
-  if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('&') && process.env.DSJ_SIGN.split('&').length > 0) {
-  Dsjurl = process.env.DSJ_SIGN.split('&');
+  if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('#') && process.env.DSJ_SIGN.split('#').length > 0) {
+  Dsjurl = process.env.DSJ_SIGN.split('#');
   }
   else if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('\n') && process.env.DSJ_SIGN.split('\n').length > 0) {
   Dsjurl = process.env.DSJ_SIGN.split('\n');
