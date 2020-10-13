@@ -4,7 +4,7 @@ name: dianshijia
 on:
   workflow_dispatch:
   schedule:
-     - cron: '5 5 * * *'
+     - cron: '*/29 4,12,23 * * *'
   watch:
     types: started
 jobs:
