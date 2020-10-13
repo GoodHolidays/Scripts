@@ -101,6 +101,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     if (tokenArr[i]) {
       signurl= DsjurlArr[i];
       signheaderVal = tokenArr[i];
+      console.log(signheaderVal)
       drawalVal = DrawalArr[i];
       $.index = i + 1;
       console.log(`-------------------------\n\n开始【电视家${$.index}】`)
