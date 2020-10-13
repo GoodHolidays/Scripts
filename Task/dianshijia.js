@@ -162,6 +162,7 @@ function GetCookie() {
 function signin() {      
    return new Promise((resolve, reject) =>
      {
+     console.log(signurl)
       $.get({url: signurl, headers: JSON.parse(signheaderVal)}, async(error, response, data) =>
        {
       if(logs)$.log(`${$.name}, 签到结果: ${data}\n`)
