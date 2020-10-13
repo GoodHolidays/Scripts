@@ -43,6 +43,7 @@ const walkstep = '20000';//每日步数设置，可设置0-20000
 const gametimes = "2888";  //游戏时长
 const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
+const notify = $.isNode() ? require('./sendNotify') : '';
 
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [];
@@ -101,7 +102,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
     if (tokenArr[i]) {
       signurl= DsjurlArr[i];
       signheaderVal = tokenArr[i];
-      console.log(tokenArr)
       drawalVal = DrawalArr[i];
       $.index = i + 1;
       console.log(`-------------------------\n\n开始【电视家${$.index}】`)
