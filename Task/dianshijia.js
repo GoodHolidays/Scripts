@@ -104,7 +104,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
       drawalVal = DrawalArr[i];
       $.index = i + 1;
       console.log(`-------------------------\n\n开始【电视家${$.index}】`)
-    }
   await signin();     // 签到
   await signinfo();   // 签到信息
   await Withdrawal(); // 金额提现
@@ -118,7 +117,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
   if ($.isNode()) {
        await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
-  }
+    }
+   }
   })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
