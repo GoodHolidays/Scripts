@@ -1,8 +1,8 @@
 
 /*
-更新时间: 2020-09-08 11:21
+更新时间: 2020-10-13 21:21
 赞赏:电视家邀请码`893988`,农妇山泉 -> 有点咸，万分感谢
-本脚本仅适用于电视家签到，
+本脚本仅适用于电视家签到，支持Actions多账号运行
 获取Cookie方法:
 1.将下方[rewrite_local]和[Task]地址复制的相应的区域，无需添加 hostname，每日7点、12点、20点各运行一次，其他随意
 2.APP登陆账号后，点击菜单栏'领现金',即可获取Cookie，进入提现页面，点击随机金额，可获取提现地址!!
@@ -43,15 +43,68 @@ const walkstep = '20000';//每日步数设置，可设置0-20000
 const gametimes = "2888";  //游戏时长
 const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
-const signheaderVal = $.getdata('sy_signheader_dsj')
-const drawalVal = $.getdata('drawal_dsj')
-const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 
+const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
+let tokenArr = [], DsjurlArr = [], DrawalArr = [];
+if ($.isNode()) {
+  if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('&') && process.env.DSJ_HEADERS.split('&').length > 0) {
+  Dsjheaders = process.env.DSJ_HEADERS.split('&');
+  }
+  else if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('\n') && process.env.DSJ_HEADERS.split('\n').length > 0) {
+  Dsjheaders = process.env.DSJ_HEADERS.split('\n');
+  };
+  if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('&') && process.env.DSJ_DRAWAL.split('&').length > 0) {
+  Drawals = process.env.DSJ_DRAWAL.split('&');
+  }
+  else if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('\n') && process.env.DSJ_DRAWAL.split('\n').length > 0) {
+  Drawals = process.env.DSJ_DRAWAL.split('\n');
+  };
+  if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('&') && process.env.DSJ_SIGN.split('&').length > 0) {
+  Dsjurl = process.env.DSJ_SIGN.split('&');
+  }
+  else if (process.env.DSJ_SIGN && process.env.DSJ_SIGN.split('\n') && process.env.DSJ_SIGN.split('\n').length > 0) {
+  Dsjurl = process.env.DSJ_SIGN.split('\n');
+  };
+  Object.keys(Dsjheaders).forEach((item) => {
+        if (Dsjheaders[item]) {
+          tokenArr.push(Dsjheaders[item])
+        }
+    });
+    Object.keys(Drawals).forEach((item) => {
+        if (Drawals[item]) {
+          DrawalArr.push(Drawals[item])
+        }
+    });
+    Object.keys(Dsjurl).forEach((item) => {
+        if (Dsjurl[item]) {
+          DdjurlArr.push(Dsjurl[item])
+        }
+    });
+    console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
+    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
+ } else {
+    tokenArr.push($.getdata('sy_signheader_dsj'))
+    DrawalArr.push($.getdata('drawal_dsj'))
+    DsjurlArr.push($.getdata('sy_signurl_dsj'))
+ }
+ 
 if (isGetCookie = typeof $request !== 'undefined') {
-   GetCookie()
+   GetCookie();
+   $.done()
   } else {
-  
-!(async() => {
+ !(async () => {
+  if (!tokenArr[0]) {
+    $.msg($.name, '【提示】请先获取电视家一cookie')
+    return;
+  }
+  for (let i = 0; i < tokenArr.length; i++) {
+    if (tokenArr[i]) {
+      signurl= DsjurlArr[i];
+      signheaderVal = tokenArr[i];
+      drawalVal = DrawalArr[i];
+      $.index = i + 1;
+      console.log(`-------------------------\n\n开始【电视家${$.index}】`)
+    }
   await signin();     // 签到
   await signinfo();   // 签到信息
   await Withdrawal(); // 金额提现
@@ -62,6 +115,10 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
+  if ($.isNode()) {
+       await notify.sendNotify($.name, subTitle+'\n'+ detail)
+     }
+  }
   })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
@@ -82,7 +139,6 @@ function GetCookie() {
   if (drawalVal) $.setdata(drawalVal, 'drawal_dsj')
   $.msg($.name, `获取提现地址: 成功`, ``)
   }
- $.done()
 }
 
   var date = new Date();
@@ -104,7 +160,7 @@ function GetCookie() {
 function signin() {      
    return new Promise((resolve, reject) =>
      {
-      $.get({url: $.getdata('sy_signurl_dsj'), headers: JSON.parse(signheaderVal)}, (error, response, data) =>
+      $.get({url: signurl, headers: JSON.parse(signheaderVal)}, async(error, response, data) =>
        {
       if(logs)$.log(`${$.name}, 签到结果: ${data}\n`)
       const result = JSON.parse(data)
@@ -125,8 +181,12 @@ function signin() {
            {
             subTitle = `【签到结果】 失败`
             detail = `原因: ${result.msg}`
+         if ($.isNode()) {
+             await   notify.sendNotify($.name,subTitle+'\n'+detail)
+            }
+            return
            }  
-     resolve()
+       resolve()
        })
     })
 }
@@ -378,7 +438,7 @@ function CarveUp() {
      headers: JSON.parse(signheaderVal),
    }
     $.get(url, (error, response, data) => {
-      $.log(`瓜分百万金币: ${data}`)
+      if(logs)$.log(`瓜分百万金币: ${data}`)
       const result = JSON.parse(data)
      if (result.errCode == 0) {
       detail += `【金币瓜分】✅ 报名成功\n`
@@ -401,7 +461,7 @@ function getCUpcoin() {
 }
 function Withdrawal() {
   return new Promise((resolve, reject) => {
-   if (drawalVal !=undefined||null){
+   if (drawalVal !=undefined){
     let url = { 
      url: drawalVal, 
      headers: JSON.parse(signheaderVal),
@@ -412,7 +472,7 @@ function Withdrawal() {
      if (result.errCode == 0) {
       detail += `【金额提现】✅ 到账`+result.data.price/100+`元 🌷\n`
     } 
-  resolve()
+    resolve()
    })
   }
 else {
