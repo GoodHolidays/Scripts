@@ -89,12 +89,13 @@ if (isGetCookie = typeof $request !==`undefined`) {
     $.msg($.name, '【提示】请先获取新浪微博一cookie')
     return;
   }
+   console.log(`------------- 共${tokenArr.length}个账号\n`)
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       token = tokenArr[i];
       payheaderVal = payArr[i];
       $.index = i + 1;
-      console.log(`-------------共${tokenArr.length}个账号\n开始【微博签到${$.index}】`)
+      console.log(`\n开始【微博签到${$.index}】`)
      await getsign();
      await doCard();
  if (payheaderVal !== undefined){

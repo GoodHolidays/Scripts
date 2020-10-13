@@ -98,13 +98,14 @@ if (isGetCookie = typeof $request !== 'undefined') {
     $.msg($.name, '【提示】请先获取电视家一cookie')
     return;
   }
+    console.log(`------------- 共${tokenArr.length}个账号\n`)
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       signurl = DsjurlArr[i];
       signheaderVal = tokenArr[i];
       drawalVal = DrawalArr[i];
       $.index = i + 1;
-      console.log(`-------------------------\n\n开始【电视家${$.index}】`)
+      console.log(`\n开始【电视家${$.index}】`)
   await signin();     // 签到
   await signinfo();   // 签到信息
   await Withdrawal(); // 金额提现
