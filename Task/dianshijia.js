@@ -251,10 +251,10 @@ function cashlist() {
   return new Promise((resolve, reject) => {
     $.get({ url: `${dianshijia_API}/cash/detail`, 
      headers: JSON.parse(signheaderVal)}, (error, response, data) => {
-     //if(logs)$.log(`提现列表: ${data}`)
       const result = JSON.parse(data)
             totalcash = Number()
             cashres = ""
+  try{
      if (result.errCode == 0) {
     for (i=0;i<result.data.length;i++){
  if
@@ -269,6 +269,10 @@ function cashlist() {
      detail += `【提现结果】今日未提现 共计提现:`+cashtotal+`元\n`
     }
    }
+  }
+ catch (error){
+       console.log(`提现列表失败，可忽略: ${data}`)
+    }
    resolve()
     })
   })
@@ -452,7 +456,7 @@ function Withdrawal() {
      url: drawalVal, 
      headers: JSON.parse(signheaderVal),
    }
-    $.get(url, (error, response, data) => {
+    $.get({url: drawalVal, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
     if(logs)$.log(`金币随机兑换 : ${data}\n`)
       const result = JSON.parse(data)
      if (result.errCode == 0) {
