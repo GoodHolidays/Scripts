@@ -364,14 +364,9 @@ function coinlist() {
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
 //$.log(`金币列表: ${data}`)
-      const result = JSON.parse(data)
-       let onlamount = Number();
-         vdamount = new Number();
-         gamestime = new Number()
+      let  result = JSON.parse(data)
+      let onlamount =  vdamount = gamestime = todaysign = 0;
     for (i=0;i<result.data.length&&result.data[i].ctime>=time;i++){
-     if (result.data[i].from=="签到"){
-      detail += `【每日签到】✅ 获得金币`+result.data[i].amount+'\n'
-      }
      if (result.data[i].from=="领取走路金币"){
       detail += `【走路任务】✅ 获得金币`+result.data[i].amount+'\n'
       }
@@ -399,7 +394,13 @@ function coinlist() {
      if (result.data[i].from=="手机在线"){
      onlamount += result.data[i].amount
       }
+    if (result.data[i].from=="签到"){
+      todaysign += parseInt(result.data[i].amount)
+      }
    }
+if(todaysign){
+   detail += `【每日签到】✅ 获得金币`+todaysign+'\n'
+}
 if(vdamount){
    detail += `【激励视频】✅ 获得金币`+vdamount+'\n'
 }
