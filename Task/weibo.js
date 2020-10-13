@@ -94,8 +94,7 @@ if (isGetCookie = typeof $request !==`undefined`) {
       token = tokenArr[i];
       payheaderVal = payArr[i];
       $.index = i + 1;
-      console.log(`-------------------------\n\n开始【微博签到${$.index}】`)
-    }
+      console.log(`-------------共${tokenArr.length}个账号\n开始【微博签到${$.index}】`)
      await getsign();
      await doCard();
  if (payheaderVal !== undefined){
@@ -103,6 +102,7 @@ if (isGetCookie = typeof $request !==`undefined`) {
     };
      await showmsg()
    }
+  }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
