@@ -49,6 +49,7 @@ hostname = api.weibo.cn, pay.sc.weibo.com
 */
 
 const $ = new Env('新浪微博')
+const notify = $.isNode() ? require('./sendNotify') : '';
 let tokenArr = [],payArr = [];
 if ($.isNode()) {
   if (process.env.WB_TOKEN && process.env.WB_TOKEN.split('&') && process.env.WB_TOKEN.split('&').length > 0) {

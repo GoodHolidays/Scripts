@@ -100,7 +100,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   }
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
-      signurl= DsjurlArr[i];
+      signurl = DsjurlArr[i];
       signheaderVal = tokenArr[i];
       drawalVal = DrawalArr[i];
       $.index = i + 1;
@@ -164,7 +164,7 @@ function signin() {
       $.get({url: signurl, headers: JSON.parse(signheaderVal)}, async(error, response, data) =>
        {
       if(logs)$.log(`${$.name}, 签到结果: ${data}\n`)
-      const result = JSON.parse(data)
+      let result = JSON.parse(data)
       if  (result.errCode == 0) 
           { signinres = `签到成功 `
             var h = result.data.reward.length
