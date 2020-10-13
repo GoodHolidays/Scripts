@@ -77,7 +77,7 @@ if ($.isNode()) {
     });
     Object.keys(Dsjurl).forEach((item) => {
         if (Dsjurl[item]) {
-          DdjurlArr.push(Dsjurl[item])
+          DsjurlArr.push(Dsjurl[item])
         }
     });
     console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
