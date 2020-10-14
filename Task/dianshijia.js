@@ -414,7 +414,9 @@ function coinlist() {
    if(gamestime){
    detail += `【游戏时长】✅ 获得金币`+gamestime+'\n'
    }
+   if(i>0){
    detail += `【任务统计】共完成${i-1}次任务🌷`
+   }
    $.msg($.name+`  `+sleeping, subTitle, detail)
     resolve()
   } catch(error) {
