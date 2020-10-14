@@ -40,11 +40,11 @@ http:\/\/api\.gaoqingdianshi\.com\/api\/v2\/cash\/withdrawal url script-request-
 
 */
 const walkstep = '20000';//每日步数设置，可设置0-20000
-const gametimes = "2888";  //游戏时长
+const gametimes = "1999";  //游戏时长
 const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
-
+ let sleeping = "";
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal;
 if ($.isNode()) {
@@ -92,7 +92,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
       signheaderVal = tokenArr[i];
       drawalVal = DrawalArr[i];
       $.index = i + 1;
-      console.log(`\n开始【电视家${$.index}】`)
+      console.log(`开始【电视家${$.index}】`)
   await signin();     // 签到
   await signinfo();   // 签到信息
   if (drawalVal != undefined){
@@ -100,6 +100,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
    } else {
        detail += `【金额提现】❌ 请获取提现地址 \n`
   };// 金额提现
+  await run();
   await tasks(); // 任务状态
   await getGametime();// 游戏时长
   await total();      // 总计
@@ -129,22 +130,19 @@ function GetCookie() {
   $.msg($.name, `获取提现地址: 成功`, ``)
   }
 }
-
-  var date = new Date();
-  var hour = date.getHours();
-  var sleeping = "";
-   if (hour>17){
+function run() { 
+   if ($.time('HH')>17){
        sleep();
        CarveUp();
   }
-   else if(hour > 11&&hour <14){
+   else if($.time('HH') > 11&&$.time('HH') <14){
        getCUpcoin();
        walk();
    }
-   else if(hour > 6&&hour <9){
+   else if($.time('HH') > 6&&$.time('HH') <9){
        wakeup()
    }
-   var time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
+}
    
 function signin() {      
    return new Promise((resolve, reject) =>
@@ -193,26 +191,9 @@ function signinfo() {
         {
        if (d == result.data.recentDays[i].day)
           {detail += ` 连续签到${d}天\n`
-       var j = result.data.recentDays[i].rewards.length
-       if (j > 1){
-                detail += `【奖励信息】今日:${result.data.recentDays[i].rewards[1].name}  `
-                 } 
-          else   if (j == 1) 
-                 { 
-                detail += `【奖励信息】今日: 无 ` 
-                 }
-        var k = result.data.recentDays[i+1].rewards.length
-        if ( k > 1 ) {
-          detail += ` 明日: `+ result.data.recentDays[i+1].rewards[1].name+`\n`
-           
-                 }  
-           else  { 
-              detail += `明日: 无\n`
-        
-                 }
-               }               
+             }
            }  
-     resolve()
+        resolve()
         }
     })
   })
@@ -233,7 +214,7 @@ function total() {
        }
       }
      catch(err){
-      err }
+      console.log(err) }
     resolve()
      })
   }) 
@@ -255,8 +236,8 @@ function cashlist() {
     $.get({ url: `${dianshijia_API}/cash/detail`, 
      headers: JSON.parse(signheaderVal)}, (error, response, data) => {
       const result = JSON.parse(data)
-            totalcash = Number()
-            cashres = ""
+       let  totalcash = Number(),cashres = ""
+       var time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
   try{
      if (result.errCode == 0) {
     for (i=0;i<result.data.length;i++){
@@ -292,7 +273,7 @@ function tasks(tkcode) {
 function dotask(code) {
  return new Promise((resolve, reject) => {  
     $.get({ url: `${dianshijia_API}/v4/task/complete?code=${code}`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
-    taskres= JSON.parse(data)
+       taskres = JSON.parse(data)
    if (taskres.errCode==0){
      console.log('任务代码:'+code+'，获得金币:'+taskres.data.getCoin)
        if (code== 'playTask'&&taskres.data.doneStatus == 3) {
@@ -314,8 +295,7 @@ function walk() {
       {
       if(logs)$.log(`走路任务: ${data}\n`)
       const result = JSON.parse(data)
-     walkcoin = result.data.unGetCoin
-    if (walkcoin>10){
+       if (result.data.unGetCoin>10){
       $.get({ url: `${dianshijia_API}/taskext/getCoin?code=walk&coin=${walkcoin}&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => 
       {
       })
@@ -363,13 +343,14 @@ resolve()
 
 function coinlist() {
  return new Promise((resolve, reject) => {
-    let url = { url: `${dianshijia_API}/coin/detail`, 
+   let url = { url: `${dianshijia_API}/coin/detail`, 
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
     //console.log(`金币列表: ${data}`)
       let  result = JSON.parse(data)
       let onlamount =  0, vdamount = 0,
           gamestime = 0, todaysign = 0;
+   var time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
   try {
     for (i=0;i<result.data.length && result.data[i].ctime >= time;i++){
      if (result.data[i].from=="领取走路金币"){
