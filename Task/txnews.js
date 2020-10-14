@@ -90,12 +90,9 @@ if (isGetCookie) {
   GetCookie()
 } else {
 !(async () => {
- if(!cookiesArr){
+ if(!cookiesArr[0]){
       $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
-    if ($.isNode()){
-      await notify.sendNotify($.name, '【提示】请先获取腾讯新闻一Cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
-     }
-     return;
+      return;
     }
   if ($.isNode()){
       console.log(`\n============ 脚本执行来自 Github Action  ==============\n`)
