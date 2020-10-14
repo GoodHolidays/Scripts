@@ -255,6 +255,58 @@ function dice_double() {
         })
     })
 }
+  
+// 每日签到
+function signDay(bodyVal) {
+    return new Promise((resolve, reject) => {
+        const signurlVal = 'https://apiwz.midukanshu.com/wz/task/signInV2?' + bodyVal
+        const url = {
+            url: signurlVal,
+            headers: {}
+        }
+        url.headers['Host'] = 'apiwz.midukanshu.com'
+        url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+        $.post(url, (error, response, data) => {
+            try {
+                $.log(`🐍🐢 ${cookieName} signDay - response: ${JSON.stringify(response)}`)
+                signinfo.signDay = JSON.parse(data)
+                resolve()
+            } catch (e) {
+                $.msg(cookieName, `签到结果: 失败`, `说明: ${e}`)
+                $.log(`❌ ${cookieName} signDay - 签到失败: ${e}`)
+                $.log(`❌ ${cookieName} signDay - response: ${JSON.stringify(response)}`)
+                resolve()
+            }
+        })
+    })
+}
+
+// 签到视频奖励
+function signVideo(bodyVal) {
+    return new Promise((resolve, reject) => {
+        const signVideourlVal = 'https://apiwz.midukanshu.com/wz/task/signVideoReward?' + bodyVal
+        const url = {
+            url: signVideourlVal,
+            headers: {}
+        }
+        url.headers['Host'] = 'apiwz.midukanshu.com'
+        url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+        $.post(url, (error, response, data) => {
+            try {
+                $.log(`🐍🐢 ${cookieName} signVideo - response: ${JSON.stringify(response)}`)
+                signinfo.signVideo = JSON.parse(data)
+                resolve()
+            } catch (e) {
+                $.msg(cookieName, `签到视频: 失败`, `说明: ${e}`)
+                $.log(`❌ ${cookieName} signVideo - 签到视频失败: ${e}`)
+                $.log(`❌ ${cookieName} signVideo - response: ${JSON.stringify(response)}`)
+                resolve()
+            }
+        })
+    })
+}
 
 
 
