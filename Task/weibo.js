@@ -107,7 +107,7 @@ if ($.isNode()) {
     };
     $.msg($.name, nickname, wbsign+paybag+docard)
   if ($.isNode()) {
-       await notify.sendNotify($.name, $.sub+'\n'+ $.desc)
+       await notify.sendNotify($.name, nickname+'\n'+ wbsign+paybag+docard)
      }
    }
   }
