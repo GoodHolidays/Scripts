@@ -1,5 +1,5 @@
 
-name: weibo_signin
+name: weibo
 
 on:
   workflow_dispatch:
