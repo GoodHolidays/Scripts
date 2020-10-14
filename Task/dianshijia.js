@@ -366,9 +366,12 @@ function coinlist() {
     let url = { url: `${dianshijia_API}/coin/detail`, 
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
-    console.log(`金币列表: ${data}`)
+    //console.log(`金币列表: ${data}`)
       let  result = JSON.parse(data)
-      let onlamount =  vdamount = gamestime = todaysign = 0;
+      let onlamount =  0,
+      vdamount = 0,
+      gamestime = 0,
+      todaysign = 0;
   try {
     for (i=0;i<result.data.length&&result.data[i].ctime>=time;i++){
      if (result.data[i].from=="领取走路金币"){
