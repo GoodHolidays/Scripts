@@ -95,7 +95,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
       console.log(`\n开始【电视家${$.index}】`)
   await signin();     // 签到
   await signinfo();   // 签到信息
-    console.log(drawalVal)
+    console.log(DrawalArr)
   if (drawalVal != undefined){
   await Withdrawal()
    } else {
