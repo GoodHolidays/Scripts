@@ -266,7 +266,7 @@ function cashlist() {
       detail += `【提现结果】`+cashres+`共计提现:`+cashtotal+`元\n`
      }
      else if(cashtotal){
-     detail += `【提现结果】今日未提现 共计提现:`+cashtotal+`元\n`
+      detail += `【提现结果】今日未提现 共计提现:`+cashtotal+`元\n`
     }
    }
   }
@@ -452,11 +452,8 @@ function getCUpcoin() {
 }
 function Withdrawal() {
   return new Promise((resolve, reject) => {
-   if (drawalVal !=undefined){
-    let url = { 
-     url: drawalVal, 
-     headers: JSON.parse(signheaderVal),
-   }
+  console.log(drawal)
+   if (drawalVal != undefined){
     $.get({url: drawalVal, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
     if(logs)$.log(`金币随机兑换 : ${data}\n`)
       const result = JSON.parse(data)
