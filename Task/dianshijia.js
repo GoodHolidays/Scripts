@@ -414,12 +414,14 @@ function coinlist() {
    if(gamestime){
    detail += `【游戏时长】✅ 获得金币`+gamestime+'\n'
    }
-  } catch(error) {
-   console.log(`获取任务金币列表失败，错误代码${error}+ \n响应数据:${data}`)
-   }
    detail += `【任务统计】共完成${i-1}次任务🌷`
    $.msg($.name+`  `+sleeping, subTitle, detail)
     resolve()
+  } catch(error) {
+   console.log(`获取任务金币列表失败，错误代码${error}+ \n响应数据:${data}`)
+     $.msg($.name+`  `+sleeping, subTitle, detail)
+      resolve()
+     }
    })
  })
 }
