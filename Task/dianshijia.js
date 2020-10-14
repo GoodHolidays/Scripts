@@ -366,7 +366,7 @@ function coinlist() {
     let url = { url: `${dianshijia_API}/coin/detail`, 
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
-//$.log(`金币列表: ${data}`)
+    console.log(`金币列表: ${data}`)
       let  result = JSON.parse(data)
       let onlamount =  vdamount = gamestime = todaysign = 0;
   try {
@@ -402,28 +402,24 @@ function coinlist() {
       todaysign += result.data[i].amount
       }
    }
-if(todaysign){
-   detail += `【每日签到】✅ 获得金币`+todaysign+'\n'
-}
-if(vdamount){
-   detail += `【激励视频】✅ 获得金币`+vdamount+'\n'
-}
-if(onlamount){
-   detail += `【手机在线】✅ 获得金币`+onlamount+'\n'
-}
-if(gamestime){
+   if(todaysign){
+    detail += `【每日签到】✅ 获得金币`+todaysign+'\n'
+   }
+   if(vdamount){
+    detail += `【激励视频】✅ 获得金币`+vdamount+'\n'
+   }
+   if(onlamount){
+    detail += `【手机在线】✅ 获得金币`+onlamount+'\n'
+   }
+   if(gamestime){
    detail += `【游戏时长】✅ 获得金币`+gamestime+'\n'
-}
-   
- if (i>=7){
-   detail += `【任务统计】共完成${i-1}次任务🌷`
-}
-   $.msg($.name+`  `+sleeping, subTitle, detail)
-   resolve()
-   } catch(error){
+   }
+  } catch(error) {
    console.log(`获取任务金币列表失败，错误代码${error}+ \n响应数据:${data}`)
    }
-   resolve()
+   detail += `【任务统计】共完成${i-1}次任务🌷`
+   $.msg($.name+`  `+sleeping, subTitle, detail)
+    resolve()
    })
  })
 }
