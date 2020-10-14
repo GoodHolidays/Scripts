@@ -80,7 +80,8 @@ if ($.isNode()) {
 if (isGetCookie = typeof $request !== 'undefined') {
    GetCookie();
    $.done()
-  } else {
+} 
+  
  !(async () => {
   if (!tokenArr[0]) {
     $.msg($.name, '【提示】请先获取电视家一cookie')
@@ -115,7 +116,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-  }
+    
 function GetCookie() {
  if ($request && $request.method != 'OPTIONS'&&$request.url.match(/\/sign\/signin/)) {
   const signheaderVal = JSON.stringify($request.headers)

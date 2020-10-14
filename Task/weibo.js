@@ -82,8 +82,10 @@ if ($.isNode()) {
  }
  
 if (isGetCookie = typeof $request !==`undefined`) {
-   GetCookie()
-} else {
+   GetCookie();
+   $.done()
+} 
+
  !(async () => {
   if (!tokenArr[0]) {
     $.msg($.name, '【提示】请先获取新浪微博一cookie')
@@ -107,7 +109,7 @@ if (isGetCookie = typeof $request !==`undefined`) {
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-}
+
 
 function GetCookie() {
 if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/\d\/[a-z]+\/\w+\?gsid/)) {
