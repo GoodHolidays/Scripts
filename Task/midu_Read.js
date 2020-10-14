@@ -4,38 +4,38 @@ const $ = new Env(cookieName)
 let cookiesArr = [], BodyArr = [],DrawArr= [];
 
 if ($.isNode()) {
-  if (process.env.MIDU_COOKIE && process.env.MIDU_COOKIE.split('&') && process.env.MIDU_COOKIE.split('&').length > 0) {
-  miduCookie = process.env.MIDU_COOKIE.split('&');
+  if (process.env.MIDU_TOKEN && process.env.MIDU_TOKEN.split('&') && process.env.MIDU_TOKEN.split('&').length > 0) {
+  miduToken = process.env.MIDU_COOKIE.split('&');
   }
- if (process.env.MIDU_BODY && process.env.MIDU_BODY.split('&') && process.env.MIDU_BODY.split('&').length > 0) {
-  miduBodys = process.env.MIDU_BODY.split('&');
+ if (process.env.MIDU_TIME && process.env.MIDU_BODY.split('&') && process.env.MIDU_TIME.split('&').length > 0) {
+  ReadBodys = process.env.MIDU_TIME.split('&');
   }
-  if (process.env.MIDU_DRAW && process.env.MIDU_DRAW.split('#') && process.env.MIDU_DRAW.split('#').length > 0) {
-  DrawBodys = process.env.MIDU_DRAW.split('#');
+  if (process.env.MIDU_SIGN && process.env.MIDU_SIGN.split('#') && process.env.MIDU_SIGN.split('#').length > 0) {
+  SignBodys = process.env.MIDU_SIGN.split('#');
   }
-    Object.keys(miduCookie).forEach((item) => {
-        if (miduCookie[item]) {
-          cookiesArr.push(miduCookie[item])
+    Object.keys(miduToken).forEach((item) => {
+        if (miduToken[item]) {
+          tokenArr.push(miduToken[item])
         }
       })
-    Object.keys(miduBodys).forEach((item) => {
-        if (miduBodys[item]) {
-          BodyArr.push(miduBodys[item])
+    Object.keys(ReadBodys).forEach((item) => {
+        if (ReadBodys[item]) {
+          TimeArr.push(ReadBodys[item])
         }
       })
-    Object.keys(DrawBodys).forEach((item) => {
-        if (DrawBodys[item]) {
-          DrawArr.push(DrawBodys[item])
+    Object.keys(SignBodys).forEach((item) => {
+        if (SignBodys[item]) {
+          SignArr.push(SignBodys[item])
         }
     })
   } else {
-                 cookiesArr.push($.getdata('tokenMidu_read'));
-  BodyArr.push($.getdata('senku_readTimebody_midu'));
-DrawArr.push($.getdata('senku_signbody_midu'))
+      tokenArr.push($.getdata('tokenMidu_read'));
+      TimeArr.push($.getdata('senku_readTimebody_midu'));
+      SignArr.push($.getdata('senku_signbody_midu'))
 }
 
 !(async () => {
-  if (!cookiesArr[0]){
+  if (!tokenArr[0]){
     $.msg($.name, '【提示】米读一cookie');
     console.log($.name, '【提示】米读一cookie');
     return;
@@ -45,11 +45,11 @@ DrawArr.push($.getdata('senku_signbody_midu'))
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}=============\n`)
      };
-  for (let i = 0; i < BodyArr.length; i++) {
-    if (BodyArr[i]) {
-      tokenVal = cookiesArr[i];
-      bodyVal = BodyArr[i];
-      drawVal = DrawArr[i];
+  for (let i = 0; i < tokenArr.length; i++) {
+    if (tokenArr[i]) {
+      tokenVal = tokenArr[i];
+      bodyVal = TimeArr[i];
+      drawVal = SignArr[i];
       //console.log(bodyVal)
       $.index = i + 1;
       console.log(`-------------------------\n\n开始【米读账号${$.index}】`)

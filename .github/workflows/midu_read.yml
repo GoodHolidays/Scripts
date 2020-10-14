@@ -12,9 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-        MIDU_COOKIE: ${{ secrets.MIDU_COOKIE }}
-        MIDU_BODY: ${{ secrets.MIDU_BODY }}
-        MIDU_DRAW: ${{ secrets.MIDU_DRAW }}
+        MIDU_TOKEN: ${{ secrets.MIDU_TOKEN }}
+        MIDU_TIME: ${{ secrets.MIDU_TIME }}
+        MIDU_SIGN: ${{ secrets.MIDU_SIGN }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 10.x
@@ -22,11 +22,10 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
-
         run: |
           npm install
       - name: '运行 【米读自动阅读】'
-        if: env.MIDU_COOKIE
+        if: env.MIDU_TOKEN
         run: |
           node Task/midu_Read.js
         env:
