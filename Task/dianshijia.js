@@ -95,8 +95,12 @@ if (isGetCookie = typeof $request !== 'undefined') {
       console.log(`\n开始【电视家${$.index}】`)
   await signin();     // 签到
   await signinfo();   // 签到信息
-  await Withdrawal(); // 金额提现
-//await Withdrawal2();// 固定金额
+    console.log(drawalVal)
+  if (drawalVal != undefined){
+  await Withdrawal()
+   } else {
+       detail += `【金额提现】❌ 请获取提现地址 \n`
+  };// 金额提现
   await tasks(); // 任务状态
   await getGametime();// 游戏时长
   await total();      // 总计
@@ -440,11 +444,7 @@ resolve()
 }
 function getCUpcoin() {
   return new Promise((resolve, reject) => {
-    let url = { 
-     url: `${dianshijia_API}/taskext/getCoin?code=carveUp&coin=0&ext=1`, 
-     headers: JSON.parse(signheaderVal),
-   }
-    $.get(url, (error, response, data) => {
+    $.get({ url: `${dianshijia_API}/taskext/getCoin?code=carveUp&coin=0&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
    if(logs) $.log(`瓜分百万金币: ${data}`)
    })
    resolve()
@@ -452,8 +452,6 @@ function getCUpcoin() {
 }
 function Withdrawal() {
   return new Promise((resolve, reject) => {
-  console.log(drawal)
-   if (drawalVal != undefined){
     $.get({url: drawalVal, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
     if(logs)$.log(`金币随机兑换 : ${data}\n`)
       const result = JSON.parse(data)
@@ -462,11 +460,6 @@ function Withdrawal() {
     } 
     resolve()
    })
-  }
-else {
-      detail += `【金额提现】❌ 请获取提现地址 \n`
-   }
-resolve()
  })
 }
 function getGametime() {
