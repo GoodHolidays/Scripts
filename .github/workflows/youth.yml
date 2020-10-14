@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
-      if: env.YOUTH_HEADER
+        if: env.YOUTH_HEADER
         run: |
           npm install
       - name: '运行 【中青看点】'
