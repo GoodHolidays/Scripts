@@ -358,6 +358,7 @@ resolve()
 
 function coinlist() {
  return new Promise((resolve, reject) => {
+    setTimeout(() =>  {
    let url = { url: `${dianshijia_API}/coin/detail`, 
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
@@ -421,7 +422,8 @@ function coinlist() {
      $.msg($.name+`  `+sleeping, subTitle, detail)
       resolve()
      }
-   })
+    })
+   },1000)
  })
 }
 
