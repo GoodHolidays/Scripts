@@ -267,7 +267,7 @@ function signDay(bodyVal) {
         const url = {
             url: signurlVal,
             headers: {},
-            body: drawVal
+            body: tokenVal
         }
         url.headers['token'] = tokenVal
         url.headers['Host'] = 'apiwz.midukanshu.com'
@@ -295,7 +295,7 @@ function signVideo(bodyVal) {
         const url = {
             url: signVideourlVal,
             headers: {},
-            body: drawVal
+            body: tokenVal
         }
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
