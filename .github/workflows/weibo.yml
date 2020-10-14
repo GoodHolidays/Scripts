@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
+    env:
+        WB_TOKEN: ${{ secrets.WB_TOKEN }}
+        WB_PAY: ${{ secrets.WB_PAY }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 10.x
@@ -18,14 +21,13 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
+        if: env.WB_TOKEN
         run: |
           npm install
       - name: '运行 【新浪微博】'
         run: |
           node Task/weibo.js
         env:
-          WB_TOKEN: ${{ secrets.WB_TOKEN }}
-          WB_PAY: ${{ secrets.WB_PAY }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}

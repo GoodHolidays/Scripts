@@ -11,6 +11,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
+    env:
+        JD_COOKIE: ${{ secrets.JD_COOKIE }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 10.x
@@ -18,13 +20,13 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
+        if: env.JD_COOKIE
         run: |
           npm install
       - name: '运行 【京喜】'
         run: |
           node Task/jingxi.js
         env:
-          JD_COOKIE: ${{ secrets.JD_COOKIE }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}

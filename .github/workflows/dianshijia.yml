@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
+    env:
+        DSJ_HEADERS: ${{ secrets.DSJ_HEADERS }}
+        DSJ_DRAWAL: ${{ secrets.DSJ_DRAWAL }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 10.x
@@ -18,14 +21,13 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
+        if: env.DSJ_HEADERS
         run: |
           npm install
       - name: '运行 【电视家】'
         run: |
           node Task/dianshijia.js
         env:
-          DSJ_HEADERS: ${{ secrets.DSJ_HEADERS }}
-          DSJ_DRAWAL: ${{ secrets.DSJ_DRAWAL }}
           DSJ_NOTIFY_CONTROL: ${{ secrets.DSJ_NOTIFY_CONTROL }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
