@@ -95,7 +95,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
       console.log(`\n开始【电视家${$.index}】`)
   await signin();     // 签到
   await signinfo();   // 签到信息
-    console.log(DrawalArr)
   if (drawalVal != undefined){
   await Withdrawal()
    } else {
@@ -370,6 +369,7 @@ function coinlist() {
 //$.log(`金币列表: ${data}`)
       let  result = JSON.parse(data)
       let onlamount =  vdamount = gamestime = todaysign = 0;
+  try {
     for (i=0;i<result.data.length&&result.data[i].ctime>=time;i++){
      if (result.data[i].from=="领取走路金币"){
       detail += `【走路任务】✅ 获得金币`+result.data[i].amount+'\n'
@@ -421,6 +421,9 @@ if(gamestime){
    detail += `【任务统计】共完成${i-1}次任务🌷`
 }
    $.msg($.name+`  `+sleeping, subTitle, detail)
+   } catch(error){
+   console.log(`获取任务金币列表失败，错误代码${error}，响应数据:`+data)
+   }
    resolve()
    })
  })
