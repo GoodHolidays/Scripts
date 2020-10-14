@@ -25,10 +25,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use Node.js 10.x
         uses: actions/setup-node@v1
-     if: env.TXNEWS_COOKIE
         with:
           node-version: 10.x
       - name: npm install
+        if: env.TXNEWS_COOKIE
         run: |
           npm install
       - name: '运行 【腾讯新闻】'

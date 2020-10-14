@@ -50,9 +50,10 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let s = parseInt($.getdata('delay'))||200 // 间隔延迟时间
 let notifyInterval =$.getdata('notifynum')||50; //阅读篇数间隔通知开为1，常关为0;
 const TX_HOST = 'https://api.inews.qq.com/activity/v1/'
-let SignArr = [],signurlVal = "";
-    cookiesArr = [],cookieVal = "";
-    VideoArr = [],videoVal = "";
+let SignArr = [],SignUrl = "";
+    cookiesArr = [],CookieTxnews = "";
+    VideoArr = [],SignUrl = "";
+    
 
 if ($.isNode()) {
   if (process.env.TXNEWS_COOKIE && process.env.TXNEWS_COOKIE.split('&') && process.env.TXNEWS_COOKIE.split('&').length > 0) {
