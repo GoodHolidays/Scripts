@@ -21,10 +21,10 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
-        if: env.DSJ_HEADERS
         run: |
           npm install
       - name: '运行 【电视家】'
+        if: env.DSJ_HEADERS
         run: |
           node Task/dianshijia.js
         env:

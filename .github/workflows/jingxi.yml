@@ -20,10 +20,10 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
-        if: env.JD_COOKIE
         run: |
           npm install
       - name: '运行 【京喜】'
+        if: env.JD_COOKIE
         run: |
           node Task/jingxi.js
         env:

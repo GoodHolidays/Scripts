@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
-        if: env.MIDU_COOKIE
+
         run: |
           npm install
       - name: '运行 【米读自动阅读】'
+        if: env.MIDU_COOKIE
         run: |
           node Task/midu_Read.js
         env:
