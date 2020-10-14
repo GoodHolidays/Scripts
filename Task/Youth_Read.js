@@ -11,8 +11,7 @@ Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk030
 let s = 30000 //等待延迟30s
 const $ = new Env("中青看点")
 //const notify = $.isNode() ? require('./sendNotify') : '';
-let ReadArr = [], articlebody ='';
-let YOUTH_READ = [ '','',];
+let ReadArr = [], YouthBody;
   if (process.env.YOUTH_READ && process.env.YOUTH_READ.split('&') && process.env.YOUTH_READ.split('&').length > 0) {
   YouthBody = process.env.YOUTH_READ.split('&');
   }
