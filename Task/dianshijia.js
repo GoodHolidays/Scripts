@@ -372,7 +372,6 @@ function coinlist() {
           gamestime = 0, todaysign = 0;
   try {
     for (i=0;i<result.data.length && result.data[i].ctime >= time;i++){
-    console.log(i)
      if (result.data[i].from=="领取走路金币"){
       detail += `【走路任务】✅ 获得金币`+result.data[i].amount+'\n'
       }
