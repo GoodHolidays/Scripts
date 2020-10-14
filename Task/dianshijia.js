@@ -368,12 +368,11 @@ function coinlist() {
    $.get(url, (error, response, data) => {
     //console.log(`金币列表: ${data}`)
       let  result = JSON.parse(data)
-      let onlamount =  0,
-      vdamount = 0,
-      gamestime = 0,
-      todaysign = 0;
+      let onlamount =  0, vdamount = 0,
+          gamestime = 0, todaysign = 0;
   try {
-    for (i=0;i<result.data.length&&result.data[i].ctime>=time;i++){
+    for (i=0;i<result.data.length && result.data[i].ctime >= time;i++){
+    console.log(i)
      if (result.data[i].from=="领取走路金币"){
       detail += `【走路任务】✅ 获得金币`+result.data[i].amount+'\n'
       }
