@@ -296,7 +296,7 @@ function walk() {
       if(logs)$.log(`走路任务: ${data}\n`)
       const result = JSON.parse(data)
        if (result.data.unGetCoin>10){
-      $.get({ url: `${dianshijia_API}/taskext/getCoin?code=walk&coin=${walkcoin}&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => 
+      $.get({ url: `${dianshijia_API}/taskext/getCoin?code=walk&coin=${result.data.unGetCoin}&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => 
       {
       })
      }
