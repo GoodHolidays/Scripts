@@ -393,13 +393,13 @@ function coinlist() {
       gamestime += result.data[i].amount
       }
      if (result.data[i].from =="激励视频"){
-     vdamount += result.data[i].amount
+      vdamount += result.data[i].amount
      }
      if (result.data[i].from=="手机在线"){
-     onlamount += result.data[i].amount
+      onlamount += result.data[i].amount
       }
-    if (result.data[i].from=="签到"){
-      todaysign += parseInt(result.data[i].amount)
+     if (result.data[i].from=="签到"){
+      todaysign += result.data[i].amount
       }
    }
 if(todaysign){
@@ -414,13 +414,12 @@ if(onlamount){
 if(gamestime){
    detail += `【游戏时长】✅ 获得金币`+gamestime+'\n'
 }
-   if (i<7){
-   detail += '【未完成/总计】'+`${i-1}/7`
-}
-   else if (i>=7){
+   
+ if (i>=7){
    detail += `【任务统计】共完成${i-1}次任务🌷`
 }
    $.msg($.name+`  `+sleeping, subTitle, detail)
+   resolve()
    } catch(error){
    console.log(`获取任务金币列表失败，错误代码${error}+ \n响应数据:${data}`)
    }
