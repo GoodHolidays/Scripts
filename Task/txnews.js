@@ -81,8 +81,8 @@ if ($.isNode()) {
         }
     })
   } else {
-                cookiesArr.push($.getdata('sy_cookie_txnews'));
-   SignArr.push($.getdata( 'sy_signurl_txnews'));
+      cookiesArr.push($.getdata('sy_cookie_txnews'));
+      SignArr.push($.getdata( 'sy_signurl_txnews'));
       VideoArr.push($.getdata( 'video_txnews'))
   }
 
@@ -93,10 +93,9 @@ if (isGetCookie) {
 !(async () => {
  if(!cookiesArr[0]){
       $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
-      return;
+      return
     }
   if ($.isNode()){
-      console.log(`\n============ 脚本执行来自 Github Action  ==============\n`)
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}=============\n`)
      }

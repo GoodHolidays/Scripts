@@ -12,9 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TXNEWS_SIGN: ${{ secrets.TXNEWS_SIGN }}
-      TXNEWS_COOKIE: ${{ secrets.TXNEWS_COOKIE }}
-      TXNEWS_VIDEO: ${{ secrets.TXNEWS_VIDEO }}
+        MIDU_COOKIE: ${{ secrets.MIDU_COOKIE }}
+        MIDU_BODY: ${{ secrets.MIDU_BODY }}
+        MIDU_DRAW: ${{ secrets.MIDU_DRAW }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 10.x
@@ -22,15 +22,13 @@ jobs:
         with:
           node-version: 10.x
       - name: npm install
+        if: env.MIDU_COOKIE
         run: |
           npm install
       - name: '运行 【米读自动阅读】'
         run: |
           node Task/midu_Read.js
         env:
-          MIDU_COOKIE: ${{ secrets.MIDU_COOKIE }}
-          MIDU_BODY: ${{ secrets.MIDU_BODY }}
-          MIDU_DRAW: ${{ secrets.MIDU_DRAW }}
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
