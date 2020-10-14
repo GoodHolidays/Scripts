@@ -422,7 +422,7 @@ if(gamestime){
 }
    $.msg($.name+`  `+sleeping, subTitle, detail)
    } catch(error){
-   console.log(`获取任务金币列表失败，错误代码${error}，响应数据:`+data)
+   console.log(`获取任务金币列表失败，错误代码${error}+ \n响应数据:${data}`)
    }
    resolve()
    })
