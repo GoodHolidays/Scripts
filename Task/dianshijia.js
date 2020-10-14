@@ -130,18 +130,33 @@ function GetCookie() {
   $.msg($.name, `获取提现地址: 成功`, ``)
   }
 }
-function run() { 
+async function run() { 
+ if ($.isNode()) {
+      if ($.time('HH')>11){
+       await sleep();
+       await CarveUp();
+    }
+   else if($.time('HH') > 3&&$.time('HH') <5){
+       await getCUpcoin();
+       await walk();
+    }
+   else if($.time('HH') > 22 ){
+       await wakeup()
+    }
+ }
+  else {
    if ($.time('HH')>17){
-       sleep();
-       CarveUp();
-  }
+       await sleep();
+       await CarveUp();
+    }
    else if($.time('HH') > 11&&$.time('HH') <14){
-       getCUpcoin();
-       walk();
-   }
+       await getCUpcoin();
+       await walk();
+    }
    else if($.time('HH') > 6&&$.time('HH') <9){
-       wakeup()
-   }
+       await wakeup()
+    }
+  }
 }
    
 function signin() {      
