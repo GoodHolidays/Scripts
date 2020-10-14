@@ -120,6 +120,7 @@ function drawPrize() {
             headers: {},
             body: drawVal
         }
+        url.headers['token'] = tokenVal
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 qapp miduapp'
@@ -149,6 +150,7 @@ function prizeTask() {
             headers: {},
             body: drawVal       
        }
+        url.headers['token'] = tokenVal
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
@@ -178,6 +180,7 @@ function prizeInfo() {
             headers: {},
             body: drawVal
         }
+        url.headers['token'] = tokenVal
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
@@ -239,6 +242,7 @@ function dice_double() {
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+        url.headers['token'] = tokenVal
         $.post(url, (error, response, data) => {
             try {
                 $.log(`🐍🐢 ${cookieName} dice_double - response: ${JSON.stringify(response)}`)
@@ -259,11 +263,13 @@ function dice_double() {
 // 每日签到
 function signDay(bodyVal) {
     return new Promise((resolve, reject) => {
-        const signurlVal = 'https://apiwz.midukanshu.com/wz/task/signInV2?' + bodyVal
+        const signurlVal = 'https://apiwz.midukanshu.com/wz/task/signInV2' 
         const url = {
             url: signurlVal,
-            headers: {}
+            headers: {},
+            body: drawVal
         }
+        url.headers['token'] = tokenVal
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
@@ -285,14 +291,16 @@ function signDay(bodyVal) {
 // 签到视频奖励
 function signVideo(bodyVal) {
     return new Promise((resolve, reject) => {
-        const signVideourlVal = 'https://apiwz.midukanshu.com/wz/task/signVideoReward?' + bodyVal
+        const signVideourlVal = 'https://apiwz.midukanshu.com/wz/task/signVideoReward' 
         const url = {
             url: signVideourlVal,
-            headers: {}
+            headers: {},
+            body: drawVal
         }
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+        url.headers['token'] = tokenVal
         $.post(url, (error, response, data) => {
             try {
                 $.log(`🐍🐢 ${cookieName} signVideo - response: ${JSON.stringify(response)}`)
