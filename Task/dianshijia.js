@@ -108,7 +108,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  if ($.isNode()&& process.env.process.env.DSJ_NOTIFY_CONTROL == false) {
+  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false) {
        await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
     }
