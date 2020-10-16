@@ -57,17 +57,23 @@ if (isGetCookie = typeof $request !==`undefined`) {
    $.done()
 } 
 if ($.isNode()) {
-  if (process.env.WB_TOKEN && process.env.WB_TOKEN.split('#') && process.env.WB_TOKEN.split('#').length > 0) {
-  wbtoken = process.env.WB_TOKEN.split('#');
+  if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('#') > -1) {
+   wbtoken = process.env.WB_TOKEN.split('#');
+   console.log(`您选择的是用"#"隔开\n`)
   }
-  else if (process.env.WB_TOKEN && process.env.WB_TOKEN.split('\n') && process.env.WB_TOKEN.split('\n').length > 0) {
-  wbtoken = process.env.WB_TOKEN.split('\n');
+  else if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('\n') > -1) {
+   wbtoken = process.env.WB_TOKEN.split('\n');
+   console.log(`您选择的是用换行隔开\n`)
+  } else {
+   wbtoken = process.env.WB_TOKEN.split()
   };
-  if (process.env.WB_PAY && process.env.WB_PAY.split('#') && process.env.WB_PAY.split('#').length > 0) {
-  wbPay = process.env.WB_PAY.split('#');
+  if (process.env.WB_PAY && process.env.WB_PAY.indexOf('#') > -1) {
+   wbPay = process.env.WB_PAY.split('#');
   }
-  else if (process.env.WB_PAY && process.env.WB_PAY.split('\n') && process.env.WB_PAY.split('\n').length > 0) {
-  wbPay = process.env.WB_PAY.split('\n');
+  else if (process.env.WB_PAY && process.env.WB_PAY.split('\n').length > 0) {
+   wbPay = process.env.WB_PAY.split('\n');
+  } else  {
+   wbPay = process.env.WB_PAY.split()
   };
   Object.keys(wbtoken).forEach((item) => {
         if (wbtoken[item]) {

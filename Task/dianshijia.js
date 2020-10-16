@@ -48,17 +48,24 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal;
 if ($.isNode()) {
-  if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('#') && process.env.DSJ_HEADERS.split('#').length > 0) {
+  if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.indexOf('#') > -1) {
   Dsjheaders = process.env.DSJ_HEADERS.split('#');
+  console.log(`您选择的是用"#"隔开\n`)
   }
-  else if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.split('\n') && process.env.DSJ_HEADERS.split('\n').length > 0) {
+  else if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.indexOf('\n') > -1) {
   Dsjheaders = process.env.DSJ_HEADERS.split('\n');
+  console.log(`您选择的是用换行隔开\n`)
+  } else {
+      Dsjheaders = process.env.DSJ_HEADERS.split()
   };
-  if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('#') && process.env.DSJ_DRAWAL.split('#').length > 0) {
-  Drawals = process.env.DSJ_DRAWAL.split('#');
+
+  if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.indexOf('#') > -1) {
+      Drawals = process.env.DSJ_DRAWAL.split('#');
   }
-  else if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.split('\n') && process.env.DSJ_DRAWAL.split('\n').length > 0) {
-  Drawals = process.env.DSJ_DRAWAL.split('\n');
+  else if (process.env.DSJ_DRAWAL && process.env.DSJ_DRAWAL.indexOf('\n') > -1) {
+      Drawals = process.env.DSJ_DRAWAL.split('\n');
+  } else {
+      Drawals = process.env.DSJ_DRAWAL.split()
   };
   Object.keys(Dsjheaders).forEach((item) => {
         if (Dsjheaders[item]) {

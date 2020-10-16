@@ -4,15 +4,21 @@ const $ = new Env(cookieName)
 let tokenArr = [], TimeArr = [],SignArr= [];
 
 if ($.isNode()) {
-  if (process.env.MIDU_TOKEN && process.env.MIDU_TOKEN.split('#') && process.env.MIDU_TOKEN.split('#').length > 0) {
-  miduToken = process.env.MIDU_TOKEN.split('#');
-  }
- if (process.env.MIDU_TIME && process.env.MIDU_TIME.split('#') && process.env.MIDU_TIME.split('#').length > 0) {
-  ReadBodys = process.env.MIDU_TIME.split('#');
-  }
-  if (process.env.MIDU_SIGN && process.env.MIDU_SIGN.split('#') && process.env.MIDU_SIGN.split('#').length > 0) {
-  SignBodys = process.env.MIDU_SIGN.split('#');
-  }
+  if (process.env.MIDU_TOKEN && process.env.MIDU_TOKEN.indexOf('#') > -1) {
+     miduToken = process.env.MIDU_TOKEN.split('#');
+  } else {
+      miduToken = process.env.MIDU_TOKEN.split()
+  };
+ if (process.env.MIDU_TIME && process.env.MIDU_TIME.indexOf('#') > -1) {
+     ReadBodys = process.env.MIDU_TIME.split('#');
+  } else {
+      ReadBodys = process.env.MIDU_TIME.split()
+  };
+  if (process.env.MIDU_SIGN && process.env.MIDU_SIGN.split('#') && process.env.MIDU_SIGN.indexOf('#') > -1) {
+     SignBodys = process.env.MIDU_SIGN.split('#');
+  } else {
+      SignBodys = process.env.MIDU_SIGN.split()
+  };
     Object.keys(miduToken).forEach((item) => {
         if (miduToken[item]) {
           tokenArr.push(miduToken[item])

@@ -77,18 +77,29 @@ let CookieYouth = [
 ] ,
     ARTBODYs = [], REDBODYs  = [], READTIME = [];
 if ($.isNode()) {
-  if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.split('#') && process.env.YOUTH_HEADER.split('#').length > 0) {
+  if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.indexOf('#') > -1) {
   CookieYouth = process.env.YOUTH_HEADER.split('#');
-  }
- if (process.env.YOUTH_ARTBODY && process.env.YOUTH_ARTBODY.split('&') && process.env.YOUTH_ARTBODY.split('&').length > 0) {
+  } else {
+      CookieYouth = process.env.YOUTH_HEADER.split()
+  };
+  
+  if (process.env.YOUTH_ARTBODY && process.env.YOUTH_ARTBODY.indexOf('&') > -1) {
   ARTBODYs = process.env.YOUTH_ARTBODY.split('&');
-  }
- if (process.env.YOUTH_REDBODY && process.env.YOUTH_REDBODY.split('&') && process.env.YOUTH_REDBODY.split('&').length > 0) {
+  } else {
+      ARTBODYs = process.env.YOUTH_ARTBODY.split()
+  };
+  
+  if (process.env.YOUTH_REDBODY && process.env.YOUTH_REDBODY.indexOf('&') > -1) {
   REDBODYs = process.env.YOUTH_REDBODY.split('&');
-  }
- if (process.env.YOUTH_TIME && process.env.YOUTH_TIME.split('&') && process.env.YOUTH_TIME.split('&').length > 0) {
+  } else {
+      REDBODYs = process.env.YOUTH_REDBODY.split()
+  };
+  
+  if (process.env.YOUTH_TIME && process.env.YOUTH_TIME.indexOf('&') > -1) {
   READTIME = process.env.YOUTH_TIME.split('&');
-  }
+  }else {
+      READTIME = process.env.YOUTH_TIME.split()
+  };
 }
     
 if ($.isNode()) {
