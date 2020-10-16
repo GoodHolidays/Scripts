@@ -110,7 +110,7 @@ function readTime() {
                     detail += '【阅读时长】失败'
                     $.msg(cookieName, subTitle, detail)
                 }
-                  console.log(" 总计
+                  console.log(" 总计金币:"+total_coin+" 现金收益"+readtime.data.popup.corner)
                 resolve()
             } catch (e) {
                 $.msg(cookieName, `阅读时长: 失败`, `说明: ${e}`)
