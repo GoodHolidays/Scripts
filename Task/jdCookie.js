@@ -1,13 +1,14 @@
 /*
 此文件为Node.js专用。其他用户请忽略
  */
-//此处填写京东账号cookie。注：github action用户ck填写到Settings-Secrets里面
+//此处填写京东账号cookie。
+//注：github action用户cookie填写到Settings-Secrets里面，新增JD_COOKIE，多个账号的cookie使用`&`隔开或者换行
 let CookieJDs = [
   '',//账号一ck
   '',//账号二ck,如有更多,依次类推
 ]
 // 判断github action里面是否有京东ck
-if (process.env.JD_COOKIE && process.env.JD_COOKIE.split('&') && process.env.JD_COOKIE.split('&').length > 0) {
+if (process.env.JD_COOKIE) {
   if (process.env.JD_COOKIE.indexOf('&') > -1) {
     console.log(`您的cookie选择的是用&隔开\n`)
     CookieJDs = process.env.JD_COOKIE.split('&');
