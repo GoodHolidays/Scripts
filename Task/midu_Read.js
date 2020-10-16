@@ -110,6 +110,7 @@ function readTime() {
                     detail += '【阅读时长】失败'
                     $.msg(cookieName, subTitle, detail)
                 }
+                  console.log(" 总计
                 resolve()
             } catch (e) {
                 $.msg(cookieName, `阅读时长: 失败`, `说明: ${e}`)
