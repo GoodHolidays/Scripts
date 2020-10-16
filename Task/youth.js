@@ -175,8 +175,8 @@ else if ($.time('HH')>4&&$.time('HH')<8){
   await rotaryCheck();
   await earningsInfo();
   await showmsg();
-  if ($.isNode(){
-      && rotaryres.data.remainTurn%50 == 0 &&cash >= 10){
+  if ($.isNode())
+    if(rotaryres.data.remainTurn%50 == 0 && cash >= 10){
        await notify.sendNotify($.name + " " + nick, "您的余额约为"+cash+"元，已可以提现"+'\n'+`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n${detail}`)
     }
  }
