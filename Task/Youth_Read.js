@@ -13,10 +13,10 @@ const $ = new Env("中青看点")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], YouthBody ="";
 
-  if (process.env.YOUTH_READ && process.env.YOUTH_READ.split('&') && process.env.YOUTH_READ.split('&').length > 0) {
+  if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('&') > -1) {
   YouthBody = process.env.YOUTH_READ.split('&');
   }
-  else if (process.env.YOUTH_READ && process.env.YOUTH_READ.split('\n') && process.env.YOUTH_READ.split('\n').length > 0) {
+  else if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('\n') > -1) {
   YouthBody = process.env.YOUTH_READ.split('\n');
   }
   Object.keys(YouthBody).forEach((item) => {
