@@ -61,11 +61,11 @@ function AutoRead() {
         $.post(url, (error, response, data) => {
            let readres = JSON.parse(data);
              console.log(data)
-           if (readres.success == 'true' && typeof readres.items.read_score === 'number') {
+           if (readres.error_code == '0' && typeof readres.items.read_score === 'number') {
               console.log(`\n本次阅读获得${readres.items.read_score}个青豆，即将开始下次阅读\n`)
               readscore += readres.items.read_score
             }
-            else if (readres.success == 'true' && typeof readres.items.score === 'number') {
+            else if (readres.error_code == '0' && typeof readres.items.score === 'number') {
               console.log(`\n本次阅读获得${readres.items.score}个青豆，即将开始下次阅读\n`)
               readscore += readres.items.score
             }
