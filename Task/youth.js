@@ -13,8 +13,8 @@
  ④ 在阅读文章最下面有个惊喜红包，点击获取惊喜红包请求
 3.增加转盘抽奖通知间隔，为了照顾新用户，前三次会有通知，以后默认每50次转盘抽奖通知一次，可自行修改❗️ 转盘完成后通知会一直开启
 4.非专业人士制作，欢迎各位大佬提出宝贵意见和指导
-5.注意: 阅读奖励和看视频得奖励一个请求只能运行三次‼️，请不要询问为什么，次日可以继续，增加每日打卡，打卡时间每日5:00-8:00❗️，请不要忘记设置运行时间，共4条Cookie，请全部获取，获取请注释
-6. 支持Github Actions多账号运行，填写'YOUTH_HEADER'值多账号时用'#'号隔开，其余值均用'&'分割  ‼️
+5.增加每日打卡，打卡时间每日5:00-8:00❗️，请不要忘记设置运行时间，共4条Cookie，请全部获取，获取请注释
+6. 支持Github Actions多账号运行，填写'YOUTH_HEADER'值多账号时用'#'号隔开，其余值均用'&'分割  ‼️，当转盘次数为50或者100并且余额大于10元时推送通知
 
 ~~~~~~~~~~~~~~~~
 Surge 4.0 :
@@ -71,11 +71,8 @@ let cookiesArr = [], signheaderVal = '',
     readArr = [], articlebodyVal ='',
     timeArr = [], timebodyVal = '',
     redpArr = [], redpbodyVal = '';
-let CookieYouth = [
-    '',//账号一ck 
-    '',//账号二ck,如有更多,依次类推
-] ,
-    ARTBODYs = [], REDBODYs  = [], READTIME = [];
+let CookieYouth = [] ,ARTBODYs = [], 
+    REDBODYs  = [], READTIME = [];
 if ($.isNode()) {
   if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.indexOf('#') > -1) {
   CookieYouth = process.env.YOUTH_HEADER.split('#');
@@ -178,6 +175,10 @@ else if ($.time('HH')>4&&$.time('HH')<8){
   await rotaryCheck();
   await earningsInfo();
   await showmsg();
+  if ($.isNode(){
+      && rotaryres.data.remainTurn%50 == 0 &&cash >= 10){
+       await notify.sendNotify($.name + " " + nick, "您的余额约为"+cash+"元，已可以提现"+'\n'+`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n${detail}`)
+    }
  }
 })()
   .catch((e) => $.logErr(e))
@@ -636,9 +637,6 @@ async function showmsg() {
         }else if (rotaryres.code == 10010 && notifyInterval != 0) {
          rotarynum = ` 转盘${rotaryres.msg}🎉`
          $.msg($.name+"  "+nick+" "+rotarynum,subTitle,detail)//任务全部完成且通知间隔不为0时通知;
-      if ($.isNode()&&cash >= 10){
-       await notify.sendNotify($.name + " " + nick, "您的余额约为"+cash+"元，已可以提现"+'\n'+`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n${detail}`)
-         }
         } 
      else {
        console.log(`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n`+ detail)

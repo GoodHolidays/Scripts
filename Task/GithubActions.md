@@ -8,18 +8,18 @@
  | YOUTH_ARTBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"， <br>阅读请求体: p=xxx |
  | YOUTH_REDBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/red_packet"， <br>惊喜红包请求体: p=xxx |
  | YOUTH_TIME | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/user/app_stay.json"，  <br>阅读时长请求体: p=xxx |
- | YOUTH_NOTIFY_CONTROL | 同上 | true/false | 可选 | 中青通知开关 |
+ | YOUTH_NOTIFY_CONTROL | 同上 | true/false | 可选 | 中青通知开关 <br>默认当转盘次数为50或者100并且余额大于10元时推送通知 |
  |  |  |  | - |  |
   | YOUTH_READ | **中青阅读** youth_read.yml| &或者换行 | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"，  <br>阅读请求体: p=xxx |
  |  |  |  | - |  |
  | TXNEWS_COOKIE | **腾讯新闻** txnews.yml| & | 必须 | 请求地址: "https://api.inews.qq.com/event/v1/user/event/report?"，  <br>腾讯新闻 Cookie: openxx=xxx |
   | TXNEWS_SIGN | 同上 | # | 必须 | 请求地址同上， 阅读请求地址链接 |
   | TXNEWS_VIDEO | 同上 | # | 必须 | 请求地址同上， 视频请求地址链接 |
-   | TXNEWS_NOTIFY_CONTROL | 同上 | true/false | 可选 | 腾讯新闻通知开关 |
+   | TXNEWS_NOTIFY_CONTROL | 同上 | true/false | 可选 | 腾讯新闻通知开关 <br>默认当余额大于2元且通知间隔为50时推送通知 |
  |  |  |  | - |  |
   | DSJ_HEADERS | **电视家** dianshijia.yml | #或换行 | 必须 | 请求地址: "http://api.gaoqingdianshi.com/api/v2/sign/signin"， <br>签到请求头: { xxx } |
   | DSJ_DRAWAL | 同上 | #或换行 | 必须 | 请求地址: "http://api.gaoqingdianshi.com/api/v2/cash/withdrawal"， <br>即提现请求地址 |
-   | DSJ_NOTIFY_CONTROL | 同上 | true/false | 可选 | 电视家通知开关 |
+   | DSJ_NOTIFY_CONTROL | 同上 | true/false | 可选 | 电视家通知开关 <br>默认不推送 |
  |  |  |  | - |  |
   | WB_TOKEN | **新浪微博** weibo.yml | #或换行 | 必须 | 请求地址: "https://api.weibo.cn/xxx?gsid="， <br>签到token: gsid=xxx |
   | WB_PAY | 同上 | #或换行 | 必须 | 请求地址: "https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do"， <br> 提现请求头 |

@@ -24,6 +24,12 @@ let TG_USER_ID = '';
 let DD_BOT_TOKEN = '';
 //密钥，机器人安全设置页面，加签一栏下面显示的SEC开头的字符串
 let DD_BOT_SECRET = '';
+//以下为脚本运行通知开关，true为不推送，false为推送通知
+let txnewsNotifyControl = false;//(默认腾讯新闻脚本推送通知)
+
+let youthNotifyControl = false;//(默认中青脚本推送通知)
+
+let dsjNotifyControl = true;//(默认电视家脚本推送不通知)
 
 if (process.env.PUSH_KEY) {
   SCKEY = process.env.PUSH_KEY;
@@ -57,6 +63,16 @@ if (process.env.DD_BOT_TOKEN) {
     DD_BOT_SECRET = process.env.DD_BOT_SECRET;
   }
 }
+if (process.env.YOUTH_NOTIFY_CONTROL && process.env.YOUTH_NOTIFY_CONTROL==false) {
+  youthNotifyControl = process.env.YOUTH_NOTIFY_CONTROL;
+}
+if (process.env.TXNEWS_NOTIFY_CONTROL && process.env.TXNEWS_NOTIFY_CONTROL==false) {
+  txnewsNotifyControl = process.env.TXNEWS_NOTIFY_CONTROL;
+}
+if (process.env.DSJ_NOTIFY_CONTROL && process.env.DSJ_NOTIFY_CONTROL==false) {
+  dsjNotifyControl = process.env.DSJ_NOTIFY_CONTROL;
+}
+
 async function sendNotify(text, desp) {
   //提供三种通知
   await serverNotify(text, desp);
