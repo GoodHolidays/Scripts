@@ -290,8 +290,9 @@ function Redpack() {
           }
         }
         catch(error){
-          $.log("打开红包失败,响应数据: "+ data+"\n错误代码:"+error) };
+          console.log("打开红包失败,响应数据: "+ data) 
           $.msg($.name, "开红包失败，详情请看日志 ❌", error)
+          };
         resolve()
       })
     },s)
