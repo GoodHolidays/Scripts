@@ -177,7 +177,7 @@ else if ($.time('HH')>4&&$.time('HH')<8){
   await rotaryCheck();
   await earningsInfo();
   await showmsg();
-  if ($.isNode())
+  if ($.isNode()&&rotaryres.code !== 10010)
     if( rotarytimes && rotarytimes%50 == 0 && cash >= 10){
        await notify.sendNotify($.name + " " + nick, "您的余额约为"+cash+"元，已可以提现"+'\n'+`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n${detail}`)
     }
@@ -372,7 +372,7 @@ function ArticleShare() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const url = {
-                url: `https://focu.youth.cn/article/s?&uid=46308484&signature=0Z3Jgv96wqmVPeM7obRdNpHXgAmRhxNPJ6y4jpGDnANbo8KXQr`,
+                url: `https://focu.youth.cn/article/s?signature=0Z3Jgv96wqmVPeM7obRdNpHXgAmRhxNPJ6y4jpGDnANbo8KXQr`,
                 headers: JSON.parse(signheaderVal),
             }
             $.post(url, async(error, response, data) => {
