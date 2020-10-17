@@ -165,6 +165,8 @@ if ($.isNode()&& $.time('HH')>20&&$.time('HH')<22){
 else if ($.time('HH')>4&&$.time('HH')<8){
   await endCard();
   }
+  await SevCont();
+  await ArticleShare();
   await openbox();
   await getAdVideo();
   await gameVideo();
@@ -344,6 +346,43 @@ function Cardshare() {
         })
     })
 }
+
+function SevCont() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            $.post({url: `${YOUTH_HOST}PunchCard/luckdraw?`,
+              headers: JSON.parse(signheaderVal),
+            }, async(error, response, data) => {
+                sevres = JSON.parse(data)
+                if (sevres.code == 1) {
+          
+                    detail += `【七日签到】+${sevres.data.score}青豆 \n`
+          
+                }else if (sevres.code == 0){
+                     //detail += `【七日签到】${sevres.msg}\n`
+                   // $.log(`${boxres.msg}`)
+                }
+                resolve()
+            })
+        },s)
+    })
+}
+
+function ArticleShare() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const url = {
+                url: `https://focu.youth.cn/article/s?&uid=46308484&signature=0Z3Jgv96wqmVPeM7obRdNpHXgAmRhxNPJ6y4jpGDnANbo8KXQr`,
+                headers: JSON.parse(signheaderVal),
+            }
+            $.post(url, async(error, response, data) => {
+                //boxres = JSON.parse(data)
+                resolve()
+            })
+        },s)
+    })
+}
+
 
 //开启时段宝箱
 function openbox() {
