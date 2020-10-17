@@ -16,10 +16,10 @@ jobs:
         WB_PAY: ${{ secrets.WB_PAY }}
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 10.x
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 14.x
       - name: npm install
         if: env.WB_TOKEN
         run: |
