@@ -129,8 +129,7 @@ function readTime() {
                     } else if ($.getdata('debug') == 'true') {
                         readTotalMinute ? detail += ` 阅读时长${readTotalMinute / 2}分钟,该账户:${total_coin}💰` : detail += `该账户:${total_coin}💰`
                        // $.msg(cookieName, subTitle, detail)
-                        
-                        
+                                                
                     }
                 } else if (readTime.code != 0) {
                     detail += `【阅读时长】错误代码${readtime.code},错误信息${readtime.message}`
@@ -192,7 +191,7 @@ function userInfo() {
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
         $.post(url, (error, response, data) => {
             try {
-               // $.log(`🐍🐢 ${cookieName} userInfo - response: ${JSON.stringify(response)}`)
+                //$.log(`🐍🐢 ${cookieName} userInfo - response: ${JSON.stringify(response)}`)
                 userInfo = JSON.parse(data)
                 resolve()
             } catch (e) {
@@ -293,8 +292,6 @@ function taskTime() {
 }
 
 
-
-
 // 观看视频获取抽奖机会
 function prizeTask() {
     return new Promise((resolve, reject) => {
@@ -327,11 +324,9 @@ function prizeTask() {
 // 抽奖信息
 function prizeInfo() {
     return new Promise((resolve, reject) => {
-        const prizeInfourlVal = 'https://apiwz.midukanshu.com/wz/task/prizeList'
         const url = {
-            url: prizeInfourlVal,
-            headers: {},
-            body: drawVal
+            url: 'https://apiwz.midukanshu.com/wz/task/prizeList?'+drawVal,
+            headers:{}
         }
         url.headers['token'] = tokenVal
         url.headers['Host'] = 'apiwz.midukanshu.com'
