@@ -120,7 +120,7 @@ function readTime() {
                     const readTotalMinute = readtime.data.readTotalMinute
                     const total_coin = readtime.data.total_coin
                     coin == 0 ? detail += `` : detail += `【阅读时长】获得${coin}💰`
-                     console.log("总计金币:"+total_coin+" 现金收益"+readtime.data.popup.corner)
+                     console.log("总计金币:"+total_coin+" 现金收益"+readtime.data.popup.corner+`\n本次获得${coin}`)
                     if (readTotalMinute) {
       console.log("总计阅读时长"+readTotalMinute / 2+"分钟")
                         readTotalMinute ? detail += ` 阅读时长${readTotalMinute / 2}分钟,该账户:${total_coin}💰` : detail += `该账户:${total_coin}💰`
