@@ -1,11 +1,16 @@
-
+/*
+MIDU_TOKEN 为 "https://apiwz.midukanshu.com/user/readTimeBase/readTime"此链接请求头内的token;
+MIDU_TIME  为 "https://apiwz.midukanshu.com/user/readTimeBase/readTime"此链接请求体，格式为 "dataEncStr=XXX;
+MIDU_SIGN 为 "https://apiwz.midukanshu.com/wz/task/" 请求体，格式为 "fullVersion=XXX"
+以上全部值不许换行，多账号用#分隔
+*/
 const cookieName = '米读阅读时长'
 const $ = new Env(cookieName)
 let tokenArr = [], TimeArr = [],SignArr= [];
  const bind = true;
 if ($.isNode()) {
   if (process.env.MIDU_TOKEN && process.env.MIDU_TOKEN.indexOf('#') > -1) {
-     miduToken = process.env.MIDU_TOKEN.split('#');
+      miduToken = process.env.MIDU_TOKEN.split('#');
   } else {
       miduToken = process.env.MIDU_TOKEN.split()
   };
