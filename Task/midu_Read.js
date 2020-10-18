@@ -66,7 +66,7 @@ if ($.isNode()) {
       console.log(`-------------------------\n\n开始【米读账号${$.index}】`)
      tkVal = drawVal.match(/tk=(\w+)/)[1]
       //console.log(TimeArr)
-   for (i=0;i<10;i++){
+   for (j=0;j<10;j++){
       await readTime()
      };   
       await prizeInfo();
