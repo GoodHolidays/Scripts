@@ -119,7 +119,7 @@ function readTime() {
       console.log("总计阅读时长"+readTotalMinute / 2+"分钟")
                         readTotalMinute ? detail += ` 阅读时长${readTotalMinute / 2}分钟,该账户:${total_coin}💰` : detail += `该账户:${total_coin}💰`
                   
-                        $.msg(cookieName, subTitle, detail)
+                        //$.msg(cookieName, subTitle, detail)
                     } else if ($.getdata('debug') == 'true') {
                         readTotalMinute ? detail += ` 阅读时长${readTotalMinute / 2}分钟,该账户:${total_coin}💰` : detail += `该账户:${total_coin}💰`
                        // $.msg(cookieName, subTitle, detail)
