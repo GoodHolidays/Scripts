@@ -29,17 +29,17 @@ if ($.isNode()) {
         if (miduToken[item]) {
           tokenArr.push(miduToken[item])
         }
-      })
+      });
     Object.keys(ReadBodys).forEach((item) => {
         if (ReadBodys[item]) {
           TimeArr.push(ReadBodys[item])
         }
-      })
+      });
     Object.keys(SignBodys).forEach((item) => {
         if (SignBodys[item]) {
           SignArr.push(SignBodys[item])
         }
-    })
+      });
   } else {
       tokenArr.push($.getdata('tokenMidu_read'));
       TimeArr.push($.getdata('senku_readTimebody_midu'));
@@ -53,44 +53,45 @@ if ($.isNode()) {
     return;
   }
   if ($.isNode()){
-      console.log(`============ 共${tokenArr.length}个米读账号  =============\n`)
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}=============\n`)
+      console.log(`============ 共${tokenArr.length}个米读账号  =============\n`)
      };
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       tokenVal = tokenArr[i];
       bodyVal = TimeArr[i];
       drawVal = SignArr[i];
-      //console.log(bodyVal)
       $.index = i + 1;
       console.log(`-------------------------\n\n开始【米读账号${$.index}】`)
-    $.log(`🔔 ${cookieName}`)
-   tkVal = drawVal.match(/tk=(\w+)/)[1]
+     tkVal = drawVal.match(/tk=(\w+)/)[1]
+      console.log(TimeArr)
    for (i=0;i<10;i++){
-    await readTime();
-}   
-     await prizeInfo();
+      await readTime()
+     };   
+      await prizeInfo();
      if (prizeinfo && prizeinfo.data && prizeinfo.data.total_num) {
-            await prizeTask()
-            await drawPrize()
-     }
-    await addDraw();
-    await taskTime();
-    await OthersAd();
-    await dice_roll();
-    await dice_double();
-    await userInfo();
-    bind ? '' : $.setdata('', 'bind');
-      if (bind) {
-         await Bind()
-        }
-    await signDay();
-    await signVideo()
-   }
- }
+          await prizeTask(),
+          await drawPrize()
+     };
+      await addDraw();
+      await taskTime();
+      await OthersAd();
+      await dice_roll();
+      await dice_double();
+      await userInfo();
+     bind ? '' : $.setdata('', 'bind');
+     if (bind) {
+          await Bind();
+      }
+      await signDay();
+      await signVideo()
+    }
+  }
 })()
-  .catch((e) => $.log(`❌ ${cookieName} 签到失败: ${e}`))
+      .catch((e) => $.logErr(e))
+      .finally(() => $.done())
+  
 
 
 // 阅读时长
@@ -120,9 +121,9 @@ function readTime() {
                     const readTotalMinute = readtime.data.readTotalMinute
                     const total_coin = readtime.data.total_coin
                     coin == 0 ? detail += `` : detail += `【阅读时长】获得${coin}💰`
-                     console.log("总计金币:"+total_coin+" 现金收益"+readtime.data.popup.corner+`\n本次获得${coin}`)
+                     console.log("总计金币:"+total_coin+" 现金收益"+readtime.data.popup.corner)
                     if (readTotalMinute) {
-      console.log("总计阅读时长"+readTotalMinute / 2+"分钟")
+      console.log("总计阅读时长"+readTotalMinute / 2+"分钟，本次获得+"+`${coin}金币\n`)
                         readTotalMinute ? detail += ` 阅读时长${readTotalMinute / 2}分钟,该账户:${total_coin}💰` : detail += `该账户:${total_coin}💰`
                   
                         //$.msg(cookieName, subTitle, detail)
@@ -147,10 +148,11 @@ function readTime() {
                 $.log(`❌ ${cookieName} readTime - response: ${JSON.stringify(response)}\n`)
                 resolve()
             }
-        })
+         })
       },30000)
     })
 }
+
 function drawPrize() {
     return new Promise((resolve, reject) => {
         const url = {
@@ -216,7 +218,7 @@ function Bind() {
         url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
         $.post(url, (error, response, data) => {
             $.setdata('', 'bind')
-            resolve()
+           resolve()
         })
     })
 }
