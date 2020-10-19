@@ -366,7 +366,7 @@ function getTotal() {
         $.msg("获取收益信息失败‼️", "", error)
       } else {
         const Total_Earn = JSON.parse(data)
-        subTile = '【收益总计】'+Total_Earn.data.wealth[0].title +'金币  '+"钱包: " +Total_Earn.data.wealth[1].title+'元'
+        subTile = '【收益总计】'+ Total_Earn.data.wealth[0].title +'金币  '+"钱包: " + Total_Earn.data.wealth[1].title+'元'
      // $.log("钱包收益共计"+obj.data.wealth[1].title+"元")
       }
       resolve()
