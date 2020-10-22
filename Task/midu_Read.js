@@ -100,7 +100,7 @@ function readTime() {
     let request = {
     url: "https://apiwz.midukanshu.com/user/readTimeBase/readTime",
             headers: {
-                'host': 'apiwz.midukanshu.com',
+                'Host': 'apiwz.midukanshu.com', 
                 'versionName': '1.24.0.0918.1649',
                 "User-Agent": "MRSpeedNovel/0918.1649 CFNetwork/1128.0.1 Darwin/19.6.0",
                 "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
@@ -109,6 +109,7 @@ function readTime() {
         },
         body: bodyVal
     }
+    console.log("您的:"+tokenVal+'\n'+tkVal+'\n'+bodyVal)
         $.post(request, (error, response, data) => {
             try {
                 $.log(`❕ ${cookieName} readTime - response: ${JSON.stringify(response)}\n`)
