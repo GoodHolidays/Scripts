@@ -70,8 +70,9 @@ let logs = $.getdata('zqlogs')||false, signresult;
 let cookiesArr = [], signheaderVal = '',
     readArr = [], articlebodyVal ='',
     timeArr = [], timebodyVal = '',
-    redpArr = [], redpbodyVal = '';
-let CookieYouth = [] ,ARTBODYs = [], 
+    redpArr = [], redpbodyVal = '',
+    detail = ``, subTitle = ``;
+let CookieYouth = [], ARTBODYs = [], 
     REDBODYs  = [], READTIME = [];
 if ($.isNode()) {
   if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.indexOf('#') > -1) {

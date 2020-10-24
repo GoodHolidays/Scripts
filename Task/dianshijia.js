@@ -44,7 +44,7 @@ const gametimes = "1999";  //游戏时长
 const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
- let sleeping = "";
+let sleeping = "",detail=``,subTitle=``;
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal;
 if ($.isNode()) {
@@ -206,7 +206,7 @@ function signinfo() {
      $.get({ url: `${dianshijia_API}/v4/sign/get`, headers: JSON.parse(signheaderVal)}, (error, response, data) => 
   {
    if(logs)$.log(`${$.name}, 签到信息: ${data}\n`)
-     const result = JSON.parse(data)
+     let result = JSON.parse(data)
      if (result.errCode == 0) 
     {
      var d = `${result.data.currentDay}`
@@ -226,7 +226,7 @@ function total() {
  return new Promise((resolve, reject) => {
    $.get({url: `${dianshijia_API}/coin/info`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
      if(logs)$.log(`${$.name}, 总计: ${data}\n`)
-     const result = JSON.parse(data)
+     let result = JSON.parse(data)
      subTitle = `待兑换金币: ${result.data.coin} ` 
    try{
       if(result.data.tempCoin){
@@ -247,7 +247,7 @@ function cash() {
     $.get({ url: `${dianshijia_API}/cash/info`, headers: JSON.parse(signheaderVal)}, (error, response, data) => 
       {
       if(logs)$.log(`现金: ${data}\n`)
-      const cashresult = JSON.parse(data)
+      let cashresult = JSON.parse(data)
       subTitle += '现金:'+ cashresult.data.amount/100+'元 额度:'+cashresult.data.withdrawalQuota/100+'元'
       cashtotal = cashresult.data.totalWithdrawn/100
        resolve()

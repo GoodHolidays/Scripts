@@ -52,8 +52,8 @@ let notifyInterval =$.getdata('notifynum')||50; //阅读篇数间隔通知开为
 const TX_HOST = 'https://api.inews.qq.com/activity/v1/'
 let SignArr = [],SignUrl = "";
     cookiesArr = [],CookieTxnews = "";
-    VideoArr = [],SignUrl = "",order = "";
-    
+    VideoArr = [],SignUrl = "",order = "",
+    detail = ``, subTitle = ``;
 
 if ($.isNode()) {
   if (process.env.TXNEWS_COOKIE && process.env.TXNEWS_COOKIE.indexOf('&') > -1) {
