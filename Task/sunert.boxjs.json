@@ -105,7 +105,7 @@
          "desc": "请填写小写英文台标，示例: 北京: btv1 | 湖南: hunan | 浙江: zhejiang 河南: henan| 江苏: jiangsu|广东: guangdong 更多电视台请参加电视家网络列表" }],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/tvpreview.js",
-      "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview.png"],
+      "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview_mini.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview.png"],
       "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/tvpreview.js"
     },
     {
