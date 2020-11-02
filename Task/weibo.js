@@ -194,10 +194,11 @@ function paysign() {
    try{
      let result = JSON.parse(data)
      console.log(data)
-     if (result.status == 1){
+     
+     if (result.code == 0 && result.status == 1){
           paybag = `【微博钱包】 ✅ +`+ result.score+' 分\n'
          }  
-     else if (result.code == 100000){
+     else if (result.code == '100000'){
           paybag = `【微博钱包】 🔁\n`
          }
        }
