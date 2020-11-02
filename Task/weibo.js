@@ -201,11 +201,12 @@ function paysign() {
      else if (result.code == '100000'){
           paybag = `【微博钱包】 🔁\n`
          }
+         resolve()
        }
      catch(error){
        paybag = `【钱包签到】❌ Cookie失效`+'\n'
+       resolve()
        }
-      resolve()
      })
   })
 }
