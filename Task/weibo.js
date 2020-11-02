@@ -200,7 +200,6 @@ function paysign() {
          paybag = `【钱包签到】❌ Cookie失效`+'\n'
         }
        resolve()
-       }
      })
   })
 }
