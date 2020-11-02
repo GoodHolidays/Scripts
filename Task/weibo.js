@@ -104,12 +104,12 @@ if ($.isNode()) {
       payheaderVal = payArr[i];
       $.index = i + 1;
       console.log(`\n开始【微博签到${$.index}】`)
-     await getsign();
-     await doCard();
- if (payheaderVal !== undefined){
-     await paysign()
+      await getsign();
+      await doCard();
+    if (payheaderVal !== undefined){
+      await paysign()
     } else {
-    paybag = `【钱包签到】❌ 未获取Cooiekie`
+      paybag = `【钱包签到】❌ 未获取Cooiekie`
     };
     $.msg($.name, nickname, wbsign+paybag+docard)
   if ($.isNode()) {
@@ -193,6 +193,7 @@ function paysign() {
      }, (error, response, data) => {
    try{
      let result = JSON.parse(data)
+     console.log(data)
      if (result.status == 1){
           paybag = `【微博钱包】 ✅ +`+ result.score+' 分\n'
          }  
