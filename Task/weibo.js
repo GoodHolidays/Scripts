@@ -188,20 +188,17 @@ function paysign() {
  return new Promise((resolve, reject) =>{
    $.post({url: `https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do?_=${$.startTime+10}`,headers: JSON.parse(payheaderVal)
      }, (error, response, data) => {
-   try{
      let result = JSON.parse(data)
      console.log(data)
-     
-     if (result.code == 0 && result.status == 1){
+     if (result.status == 1){
           paybag = `【微博钱包】 ✅ +`+ result.score+' 分\n'
          }  
-     else if (result.code == '100000'){
+     else if (result.status == '2'){
           paybag = `【微博钱包】 🔁\n`
          }
-         resolve()
-       }
-     catch(error){
-       paybag = `【钱包签到】❌ Cookie失效`+'\n'
+      else {
+         paybag = `【钱包签到】❌ Cookie失效`+'\n'
+        }
        resolve()
        }
      })
