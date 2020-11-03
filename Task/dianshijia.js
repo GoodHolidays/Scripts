@@ -116,7 +116,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false) {
+  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false&&sleepres.errCode==0) {
        await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
     }
@@ -335,16 +335,16 @@ function sleep() {
      $.get(url, (error, response, data) => {
   try {
       if(logs)$.log(`睡觉任务: ${data}\n`)
-      const result = JSON.parse(data)
-     if (result.errCode==0){
-      sleeping = result.data.name+'报名成功 🛌'
+      const sleepres = JSON.parse(data)
+     if (sleepres.errCode==0){
+      sleeping = sleepres.data.name+'报名成功 🛌'
       }
-else if (result.errCode==4006){
+else if (sleepres.errCode==4006){
       sleeping = '睡觉中😴'
       }
 else {
       sleeping = ''
-    }
+     }
     }
  catch (e) {
         $.msg($.name, `睡觉结果: 失败`, `说明: ${e}`)}
@@ -493,7 +493,7 @@ function Addsign() {
     $.get(url, (error, response, data) => {
     if(logs)$.log(`额外签到: ${data}\n`)
    })
-resolve()
+  resolve()
  })
 }
 
