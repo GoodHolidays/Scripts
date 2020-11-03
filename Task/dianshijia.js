@@ -44,7 +44,8 @@ const gametimes = "1999";  //游戏时长
 const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
-let sleeping = "",detail=``,subTitle=``,taskres = {};
+let sleeping = "",detail=``,subTitle=``;
+let RewardId = $.getdata('REWARD')||'55'; //额外签到奖励，默认55为兑换0.2元额度，44为兑换1天VIP，42为兑换1888金币
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal,CountMax,CompCount;
 if ($.isNode()) {
@@ -492,7 +493,7 @@ function getGametime() {
 function Addsign() {
   return new Promise((resolve, reject) => {
     let url = { 
-     url: `${dianshijia_API}/sign/chooseAdditionalReward?rewardId=55`, 
+     url: `${dianshijia_API}/sign/chooseAdditionalReward?rewardId=${RewardId}`, 
      headers: JSON.parse(signheaderVal),
    }
     $.get(url, (error, response, data) => {
