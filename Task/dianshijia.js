@@ -44,7 +44,7 @@ const gametimes = "1999";  //游戏时长
 const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
-let sleeping = "",detail=``,subTitle=``;
+let sleeping = "",detail=``,subTitle=``,taskres = {};
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
 let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal,CountMax,CompCount;
 if ($.isNode()) {
@@ -298,8 +298,8 @@ function tasks(tkcode) {
 function dotask(code) {
  return new Promise((resolve, reject) => {  
     $.get({ url: `${dianshijia_API}/v4/task/complete?code=${code}`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
-       let taskres = JSON.parse(data)
-   if (taskres.errCode==0){
+    let taskres = JSON.parse(data)
+   if (taskres.errCode == 0){
         CompCount = taskres.data.dayCompCount 
         CountMax = taskres.data.dayDoCountMax
        console.log('任务代码:'+code+'，获得金币:'+taskres.data.getCoin)
