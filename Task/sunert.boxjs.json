@@ -44,6 +44,23 @@
       "name": "电视家",
       "keys": ["sy_signheader_dsj", "drawal_dsj"],
       "author": "@sunert",
+      "settings": [{
+        "id": "REWARD",
+        "name": "额外签到奖励",
+        "val": "55",
+        "type": "radios",
+        "desc": "",
+        "items": [{
+          "key": "55",
+          "label": "提现额度"
+        }, {
+          "key": "44",
+          "label": "1天VIP"
+        }, {
+          "key": "42",
+          "label": "1888金币"
+       }]
+      }],
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/dianshijia.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/dianshijia.png", "https://raw.githubusercontent.com/Orz-3/task/master/dianshijia.png"],
       "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/dianshijia.js"
