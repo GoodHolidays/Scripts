@@ -217,8 +217,8 @@ function signinfo() {
           {detail += ` 连续签到${d}天\n`
              }
            }  
-        resolve()
         }
+      resolve()
     })
   })
 }             
@@ -236,10 +236,10 @@ function total() {
       $.get({ url: `http://api.gaoqingdianshi.com/api/coin/temp/exchange?id=`+coinid, headers: JSON.parse(signheaderVal)}, (error, response, data))    
         }
        }
-      }
-     catch(err){
-      console.log(err) }
-    resolve()
+       resolve()
+      } catch(error){
+      console.log(error) }
+      resolve()
      })
   }) 
 }
@@ -277,11 +277,12 @@ function cashlist() {
       detail += `【提现结果】今日未提现 共计提现:`+cashtotal+`元\n`
     }
    }
+   resolve()
   }
  catch (error){
        console.log(`提现列表失败，可忽略: ${data}`)
+       resolve()
     }
-   resolve()
     })
   })
 }
@@ -310,8 +311,8 @@ function dotask(code) {
   if (taskres.errCode==4000){
      //console.log('任务代码:'+code+'，'+taskres.msg)
        }
+       resolve()
      })
-     resolve()
   })
 }
 
@@ -327,7 +328,7 @@ function walk() {
       {
       })
      }
-    resolve()
+     resolve()
      })
   })
 }
@@ -348,6 +349,7 @@ else if (sleepres.errCode==4006){
 else {
       sleeping = ''
      }
+     resolve()
     }
  catch (e) {
         $.msg($.name, `睡觉结果: 失败`, `说明: ${e}`)}
@@ -362,8 +364,8 @@ function wakeup() {
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
       if(logs)$.log(`睡觉打卡: ${data}\n`)
+      resolve()
    })
-resolve()
  })
 }
 
@@ -451,16 +453,16 @@ function CarveUp() {
      if (result.errCode == 0) {
       detail += `【金币瓜分】✅ 报名成功\n`
     } 
+    resolve()
    })
-resolve()
  })
 }
 function getCUpcoin() {
   return new Promise((resolve, reject) => {
     $.get({ url: `${dianshijia_API}/taskext/getCoin?code=carveUp&coin=0&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
    if(logs) $.log(`瓜分百万金币: ${data}`)
-   })
    resolve()
+   })
  })
 }
 function Withdrawal() {
@@ -483,8 +485,8 @@ function getGametime() {
    }
     $.get(url, (error, response, data) => {
     if(logs)$.log(`游戏时长: ${data}\n`)
+    resolve()
    })
-resolve()
  })
 }
 function Addsign() {
@@ -495,8 +497,8 @@ function Addsign() {
    }
     $.get(url, (error, response, data) => {
     if(logs)$.log(`额外签到: ${data}\n`)
+    resolve()
    })
-  resolve()
  })
 }
 
