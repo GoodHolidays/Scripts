@@ -46,7 +46,7 @@ const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
 let sleeping = "",detail=``,subTitle=``;
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
-let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal;
+let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal,CountMax,CompCount;
 if ($.isNode()) {
   if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.indexOf('#') > -1) {
   Dsjheaders = process.env.DSJ_HEADERS.split('#');
