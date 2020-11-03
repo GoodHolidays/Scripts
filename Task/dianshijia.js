@@ -1,6 +1,6 @@
 
 /*
-更新时间: 2020-10-13 21:21
+更新时间: 2020-11-03 14:21
 赞赏:电视家邀请码`893988`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于电视家签到，支持Actions多账号运行，请用'#'或者换行隔开‼️
 获取Cookie方法:
@@ -116,7 +116,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false && CountMax == CompCount ) {
+  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false && CountMax == CompCount && taskres.errCode == 0 ) {
        await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
     }
@@ -299,7 +299,6 @@ function dotask(code) {
  return new Promise((resolve, reject) => {  
     $.get({ url: `${dianshijia_API}/v4/task/complete?code=${code}`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
        let taskres = JSON.parse(data)
-       console.log(data)
    if (taskres.errCode==0){
         CompCount = taskres.data.dayCompCount 
         CountMax = taskres.data.dayDoCountMax
