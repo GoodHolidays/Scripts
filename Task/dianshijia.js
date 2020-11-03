@@ -116,7 +116,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false&&sleepres.errCode==0) {
+  if ($.isNode()&& process.env.DSJ_NOTIFY_CONTROL == false && CountMax == CompCount ) {
        await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
     }
@@ -298,10 +298,13 @@ function dotask(code) {
  return new Promise((resolve, reject) => {  
     $.get({ url: `${dianshijia_API}/v4/task/complete?code=${code}`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
        taskres = JSON.parse(data)
+       
    if (taskres.errCode==0){
-     console.log('任务代码:'+code+'，获得金币:'+taskres.data.getCoin)
+        CompCount = taskres.data.dayCompCount 
+        CountMax = taskres.data.dayDoCountMax
+       console.log('任务代码:'+code+'，获得金币:'+taskres.data.getCoin)
        if (code== 'playTask'&&taskres.data.doneStatus == 3) {
-       detail += `【播放任务】🔕 完成/共计 `+taskres.data.dayCompCount+`/`+taskres.data.dayDoCountMax+` 次\n`
+       detail += `【播放任务】🔕 完成/共计 `+CompCount+`/`+CountMax+` 次\n`
         } 
        }
   if (taskres.errCode==4000){
