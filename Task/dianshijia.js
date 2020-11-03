@@ -259,7 +259,7 @@ function cashlist() {
   return new Promise((resolve, reject) => {
     $.get({ url: `${dianshijia_API}/cash/detail`, 
      headers: JSON.parse(signheaderVal)}, (error, response, data) => {
-      const result = JSON.parse(data)
+      let result = JSON.parse(data)
        let  totalcash = Number(),cashres = ""
        var time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
   try{
@@ -322,7 +322,7 @@ function walk() {
    $.get(url, (error, response, data) => 
       {
       if(logs)$.log(`走路任务: ${data}\n`)
-      const result = JSON.parse(data)
+      let result = JSON.parse(data)
        if (result.data.unGetCoin>10){
       $.get({ url: `${dianshijia_API}/taskext/getCoin?code=walk&coin=${result.data.unGetCoin}&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => 
       {
@@ -339,7 +339,7 @@ function sleep() {
      $.get(url, (error, response, data) => {
   try {
       if(logs)$.log(`睡觉任务: ${data}\n`)
-      const sleepres = JSON.parse(data)
+      let sleepres = JSON.parse(data)
      if (sleepres.errCode==0){
       sleeping = sleepres.data.name+'报名成功 🛌'
       }
