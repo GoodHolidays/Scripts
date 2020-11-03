@@ -1,48 +1,36 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: 京东星店长
+name: 星店长
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 1 * * * '
+     - cron: '5 5 * * *'
   watch:
     types: started
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
+    env:
+        JD_COOKIE: ${{ secrets.JD_COOKIE }}
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 10.x
+      - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: 10.x
+          node-version: 12.x
       - name: npm install
         run: |
           npm install
-          npm install request
-          npm install --save got
-          npm install tough-cookie
-      - name: '京东星店长'
-        env: 
-            COOKIE: ${{secrets.JD_COOKIE}}
-            TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
-            TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_starStore.js
-            MULT_CUSTOM_REPLACE: '[[{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-YTX'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-SR'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-ZGX'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WJY'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ2'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-RQ'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WRX'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-GC'')"}],
-                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WSR'')"}]
-                                  ]'
+      - name: '运行 【京东星店长】'
+        if: env.JD_COOKIE
         run: |
-          node 'scripts/remote/runRemoteScripts.js'
+          node Task/jd_starStore.js
+        env:
+          PUSH_KEY: ${{ secrets.PUSH_KEY }}
+          BARK_PUSH: ${{ secrets.BARK_PUSH }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_USER_ID: ${{ secrets.TG_USER_ID }}
+          BARK_SOUND: ${{ secrets.BARK_SOUND }}
+          DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
+          DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
