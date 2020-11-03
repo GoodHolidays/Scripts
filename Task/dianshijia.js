@@ -307,7 +307,7 @@ function dotask(code) {
        detail += `【播放任务】🔕 完成/共计 `+CompCount+`/`+CountMax+` 次\n`
         } 
        }
-  if (taskres.errCode==4000){
+  else if (taskres.errCode==4000){
      //console.log('任务代码:'+code+'，'+taskres.msg)
        }
        resolve()
