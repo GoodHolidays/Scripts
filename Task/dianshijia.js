@@ -122,7 +122,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     }
    }
   })()
-    .catch((error) => $.logErr(error))
+    .catch((e) => $.logErr(e))
     .finally(() => $.done())
     
 function GetCookie() {
@@ -237,8 +237,8 @@ function total() {
         }
        }
        resolve()
-      } catch(error){
-      console.log(error) }
+      } catch(e){
+      console.log(e) }
       resolve()
      })
   }) 
@@ -279,7 +279,7 @@ function cashlist() {
    }
    resolve()
   }
- catch (error){
+ catch (e){
        console.log(`提现列表失败，可忽略: ${data}`)
        resolve()
     }
@@ -431,8 +431,8 @@ function coinlist() {
    }
    $.msg($.name+`  `+sleeping, subTitle, detail)
     resolve()
-  } catch(error) {
-   console.log(`获取任务金币列表失败，错误代码${error}+ \n响应数据:${data}`)
+  } catch(e) {
+   console.log(`获取任务金币列表失败，错误代码${e}+ \n响应数据:${data}`)
      $.msg($.name+`  `+sleeping, subTitle, detail)
       resolve()
      }
