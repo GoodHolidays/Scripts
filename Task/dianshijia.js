@@ -263,14 +263,15 @@ function cashlist() {
     $.get({ url: `${dianshijia_API}/cash/detail`, 
      headers: JSON.parse(signheaderVal)}, (error, response, data) => {
       let result = JSON.parse(data)
-       let  totalcash = Number(),cashres = ""
-       var time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
+       let  totalcash = Number(),cashres = "";
+       var  time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
   try{
      if (result.errCode == 0) {
     for (i=0;i<result.data.length;i++){
-     console.log(result.data[i].ctime)
+     console.log(time)
  if
-(result.data[i].type == 2 && result.data[i].ctime >= time){
+(result.data[i].type == '2' && result.data[i].ctime >= time ){
+    console.log(result.data[i].amount)
       cashres = `✅ 今日提现:`+result.data[i].amount/100+`元 `
         } 
       }
