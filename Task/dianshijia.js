@@ -272,8 +272,8 @@ function cashlist() {
 (result.data[i].type==2&&result.data[i].ctime>=time){
       cashres = `✅ 今日提现:`+result.data[i].amount/100+`元 `
         } 
+      console.log(cashres)
       }
-      console.log(cashtotal+cashres)
     if(cashres && cashtotal){
       detail += `【提现结果】`+cashres+`共计提现:`+cashtotal+`元\n`
      }
