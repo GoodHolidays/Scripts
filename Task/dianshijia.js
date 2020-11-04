@@ -47,7 +47,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let sleeping = "",detail=``,subTitle=``;
 let RewardId = $.getdata('REWARD')||'55'; //额外签到奖励，默认55为兑换0.2元额度，44为兑换1天VIP，42为兑换1888金币
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
-let tokenArr = [], DsjurlArr = [], DrawalArr = [],drawalVal,CountMax,CompCount;
+let tokenArr = [], DsjurlArr = [], DrawalArr = [],CountMax,CompCount;
 if ($.isNode()) {
   if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.indexOf('#') > -1) {
   Dsjheaders = process.env.DSJ_HEADERS.split('#');
@@ -106,7 +106,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await signinfo();   // 签到信息
   await Addsign();    // 额外奖励，默认额度
   if (drawalVal != undefined){
-  await Withdrawal()
+     await Withdrawal()
    } else {
        detail += `【金额提现】❌ 请获取提现地址 \n`
   };// 金额提现
@@ -305,15 +305,15 @@ function dotask(code) {
         CompCount = taskres.data.dayCompCount 
         CountMax = taskres.data.dayDoCountMax
        console.log('任务代码:'+code+'，获得金币:'+taskres.data.getCoin)
-       if (code== 'playTask'&&taskres.data.doneStatus == 3) {
+       if ( code == 'playTask'&&taskres.data.doneStatus == 3) {
        detail += `【播放任务】🔕 完成/共计 `+CompCount+`/`+CountMax+` 次\n`
         } 
        }
   else if (taskcode == '4000'){
      //console.log('任务代码:'+code+'，'+taskres.msg)
        }
-       resolve()
      })
+     resolve()
   })
 }
 
@@ -486,8 +486,8 @@ function getGametime() {
    }
     $.get(url, (error, response, data) => {
     if(logs)$.log(`游戏时长: ${data}\n`)
-    resolve()
    })
+   resolve()
  })
 }
 function Addsign() {
@@ -498,8 +498,8 @@ function Addsign() {
    }
     $.get(url, (error, response, data) => {
     if(logs)$.log(`额外签到: ${data}\n`)
-    resolve()
    })
+   resolve()
  })
 }
 
