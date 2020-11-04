@@ -1,6 +1,6 @@
 
 /*
-更新时间: 2020-11-03 20:40
+更新时间: 2020-11-04 21:20
 赞赏:电视家邀请码`893988`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于电视家签到，支持Actions多账号运行，请用'#'或者换行隔开‼️
 获取Cookie方法:
@@ -250,8 +250,10 @@ function cash() {
       {
       if(logs)$.log(`现金: ${data}\n`)
       let cashresult = JSON.parse(data)
-      subTitle += '现金:'+ cashresult.data.amount/100+'元 额度:'+cashresult.data.withdrawalQuota/100+'元'
-      cashtotal = cashresult.data.totalWithdrawn/100
+       if(cashresult.errCode=="0"){
+         subTitle += '现金:'+ cashresult.data.amount/100+'元 额度:'+cashresult.data.withdrawalQuota/100+'元'
+         cashtotal = cashresult.data.totalWithdrawn/100
+        }
        resolve()
       })
    })
@@ -274,7 +276,7 @@ function cashlist() {
     if(cashres&&cashtotal){
       detail += `【提现结果】`+cashres+`共计提现:`+cashtotal+`元\n`
      }
-     else if(cashtotal){
+     else if(!cashres&&cashtotal){
       detail += `【提现结果】今日未提现 共计提现:`+cashtotal+`元\n`
     }
    }
@@ -282,8 +284,7 @@ function cashlist() {
   }
  catch (e){
        console.log(`提现列表失败，可忽略: ${data}`)
-       resolve()
-    }
+     }
     })
   })
 }
@@ -462,15 +463,15 @@ function getCUpcoin() {
   return new Promise((resolve, reject) => {
     $.get({ url: `${dianshijia_API}/taskext/getCoin?code=carveUp&coin=0&ext=1`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
    if(logs) $.log(`瓜分百万金币: ${data}`)
-   resolve()
    })
+   resolve()
  })
 }
 function Withdrawal() {
   return new Promise((resolve, reject) => {
     $.get({url: drawalVal, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
     if(logs)$.log(`金币随机兑换 : ${data}\n`)
-      const result = JSON.parse(data)
+      let result = JSON.parse(data)
      if (result.errCode == 0) {
       detail += `【金额提现】✅ 到账`+result.data.price/100+`元 🌷\n`
     } 
