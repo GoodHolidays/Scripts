@@ -96,8 +96,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
     return;
   }
     console.log(`------------- 共${tokenArr.length}个账号`)
-    if(new Date().getTimezoneOffset()/60 != `-8`){
-        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-(0-new Date().getTimezoneOffset()*60)
+    if(new Date().getTimezoneOffset()/60 != '-8'){
+        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000 + new Date().getTimezoneOffset()*60
         
         console.log(time)
        } else {
