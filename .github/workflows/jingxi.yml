@@ -1,10 +1,10 @@
 
-name: jingxi
+name: 京喜
 
 on:
   workflow_dispatch:
   schedule:
-     - cron: '5 5 * * *'
+     - cron: '1 19 * * *'
   watch:
     types: started
 jobs:
@@ -14,17 +14,21 @@ jobs:
     env:
         JD_COOKIE: ${{ secrets.JD_COOKIE }}
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js 14.x
+      - name: Checkout
+        run: |
+          git clone https://github.com/Sunert/Scripts.git ~/Scripts
+      - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 12.x
       - name: npm install
         run: |
+          cd ~/Scripts
           npm install
       - name: '运行 【京喜】'
         if: env.JD_COOKIE
         run: |
+          cd ~/Scripts
           node Task/jingxi.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}

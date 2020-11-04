@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: midu_read
+name: 米读
 
 on:
   workflow_dispatch:
@@ -17,10 +17,10 @@ jobs:
         MIDU_SIGN: ${{ secrets.MIDU_SIGN }}
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 14.x
+      - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 12.x
       - name: npm install
         run: |
           npm install
