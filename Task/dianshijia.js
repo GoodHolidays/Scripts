@@ -96,6 +96,11 @@ if (isGetCookie = typeof $request !== 'undefined') {
     return;
   }
     console.log(`------------- 共${tokenArr.length}个账号`)
+    if($.isNode()){
+        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-28800
+       } else {
+        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
+    }
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       signheaderVal = tokenArr[i];
@@ -264,17 +269,12 @@ function cashlist() {
      headers: JSON.parse(signheaderVal)}, (error, response, data) => {
       let result = JSON.parse(data)
        let  totalcash = Number(),cashres = "";
-       var  time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
   try{
      if (result.errCode == 0) {
     for (i=0;i<result.data.length;i++){
-    if(result.data[i].ctime >= time && result.data[i].type == '2'){
-     console.log(result.data[i].ctime)
-     };
  if
 (result.data[i].type == '2' && result.data[i].ctime >= time ){
-      console.log(result.data[i].amount);
-      cashres = `✅ 今日提现:`+result.data[i].amount/100+`元 `
+        cashres = `✅ 今日提现:`+result.data[i].amount/100+`元 `
         } 
       };
     if(cashres && cashtotal){
@@ -386,7 +386,6 @@ function coinlist() {
       let  result = JSON.parse(data)
       let onlamount =  0, vdamount = 0,
           gamestime = 0, todaysign = 0;
-   var time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
   try {
     for (i=0;i<result.data.length && result.data[i].ctime >= time;i++){
      if (result.data[i].from=="领取走路金币"){
