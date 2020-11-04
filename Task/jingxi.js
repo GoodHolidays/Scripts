@@ -76,7 +76,7 @@ function getsign() {
       } else if (signres.retCode == '30003') {
         $.msg($.name, '【提示】京东cookie已失效,请重新登录获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         if($.isNode()){
-         await notify.sendNotify($.name + " 账号" + $.index+ `\n【提示】京东cookie已失效,请重新登录获取`)
+         await notify.sendNotify($.name + " 账号" + $.index, `【提示】京东cookie已失效,请重新登录获取`)
         }
         return
       }
