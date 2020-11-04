@@ -96,13 +96,13 @@ function serverNotify(text, desp) {
       $.post(options, (err, resp, data) => {
         try {
           if (err) {
-            console.log('\n发送通知调用API失败！！\n')
+            console.log('\n发送通知调用API失败！！')
           } else {
             data = JSON.parse(data);
             if (data.errno === 0) {
-              console.log('\nserver酱发送通知消息成功\n')
+              console.log('\nserver酱发送通知消息成功')
             } else if (data.errno === 1024) {
-              console.log('\nPUSH_KEY 错误\n')
+              console.log('\nPUSH_KEY 错误')
             }
           }
         } catch (e) {
@@ -112,7 +112,7 @@ function serverNotify(text, desp) {
         }
       })
     } else {
-      console.log('\n您未提供server酱的SCKEY，取消微信推送消息通知\n');
+      console.log('\n您未提供server酱的SCKEY，取消微信推送消息通知');
       resolve()
     }
   })
@@ -127,13 +127,13 @@ function BarkNotify(text, desp) {
       $.get(options, (err, resp, data) => {
         try {
           if (err) {
-            console.log('\nBark APP发送通知调用API失败！！\n')
+            console.log('\nBark APP发送通知调用API失败！！')
           } else {
             data = JSON.parse(data);
             if (data.code === 200) {
-              console.log('\nBark APP发送通知消息成功\n')
+              console.log('\nBark APP发送通知消息成功')
             } else {
-              console.log(`\n${data.message}\n`);
+              console.log(`\n${data.message}`);
             }
           }
         } catch (e) {
@@ -143,7 +143,7 @@ function BarkNotify(text, desp) {
         }
       })
     } else {
-      console.log('\n您未提供Bark的APP推送BARK_PUSH，取消Bark推送消息通知\n');
+      console.log('\n您未提供Bark的APP推送BARK_PUSH，取消Bark推送消息通知');
       resolve()
     }
   })
@@ -162,15 +162,15 @@ function tgBotNotify(text, desp) {
       $.post(options, (err, resp, data) => {
         try {
           if (err) {
-            console.log('\ntelegram发送通知消息失败！！\n')
+            console.log('\ntelegram发送通知消息失败！！')
           } else {
             data = JSON.parse(data);
             if (data.ok) {
-              console.log('\nTelegram发送通知消息完成。\n')
+              console.log('\nTelegram发送通知消息完成。')
             } else if (data.error_code === 400) {
-              console.log('\n请主动给bot发送一条消息并检查接收用户ID是否正确。\n')
+              console.log('\n请主动给bot发送一条消息并检查接收用户ID是否正确。')
             } else if (data.error_code === 401){
-              console.log('\nTelegram bot token 填写错误。\n')
+              console.log('\nTelegram bot token 填写错误。')
             }
           }
         } catch (e) {
@@ -180,7 +180,7 @@ function tgBotNotify(text, desp) {
         }
       })
     } else {
-      console.log('\n您未提供telegram机器人推送所需的TG_BOT_TOKEN和TG_USER_ID，取消telegram推送消息通知\n');
+      console.log('\n您未提供telegram机器人推送所需的TG_BOT_TOKEN和TG_USER_ID，取消telegram推送消息通知');
       resolve()
     }
   })
@@ -209,14 +209,14 @@ function ddBotNotify(text, desp) {
       $.post(options, (err, resp, data) => {
         try {
           if (err) {
-            console.log('\n钉钉发送通知消息失败！！\n')
+            console.log('\n钉钉发送通知消息失败！！')
             console.log(err);
           } else {
             data = JSON.parse(data);
             if (data.errcode === 0) {
-              console.log('\n钉钉发送通知消息完成。\n')
+              console.log('\n钉钉发送通知消息完成。')
             } else {
-              console.log(`\n${data.errmsg}\n`)
+              console.log(`\n${data.errmsg}`)
             }
           }
         } catch (e) {
@@ -229,14 +229,14 @@ function ddBotNotify(text, desp) {
       $.post(options, (err, resp, data) => {
         try {
           if (err) {
-            console.log('\n钉钉发送通知消息失败！！\n')
+            console.log('\n钉钉发送通知消息失败！！')
             console.log(err);
           } else {
             data = JSON.parse(data);
             if (data.errcode === 0) {
-              console.log('\n钉钉发送通知消息完成。\n')
+              console.log('\n钉钉发送通知消息完成。')
             } else {
-              console.log(`\n${data.errmsg}\n`)
+              console.log(`\n${data.errmsg}`)
             }
           }
         } catch (e) {
@@ -246,7 +246,7 @@ function ddBotNotify(text, desp) {
         }
       })
     } else {
-      console.log('\n您未提供钉钉机器人推送所需的DD_BOT_TOKEN或者DD_BOT_SECRET，取消钉钉推送消息通知\n');
+      console.log('\n您未提供钉钉机器人推送所需的DD_BOT_TOKEN或者DD_BOT_SECRET，取消钉钉推送消息通知');
       resolve()
     }
   })
