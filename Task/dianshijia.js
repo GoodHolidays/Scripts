@@ -273,7 +273,8 @@ function cashlist() {
       cashres = `✅ 今日提现:`+result.data[i].amount/100+`元 `
         } 
       }
-    if(cashres&&cashtotal){
+      console.log(cashtotal+cashres)
+    if(cashres && cashtotal){
       detail += `【提现结果】`+cashres+`共计提现:`+cashtotal+`元\n`
      }
      else if(!cashres&&cashtotal){
