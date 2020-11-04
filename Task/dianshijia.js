@@ -270,13 +270,13 @@ function cashlist() {
     for (i=0;i<result.data.length;i++){
     if(result.data[i].ctime >= time && result.data[i].type == '2'){
      console.log(result.data[i].ctime)
-     }
+     };
  if
 (result.data[i].type == '2' && result.data[i].ctime >= time ){
     console.log(result.data[i].amount)
       cashres = `✅ 今日提现:`+result.data[i].amount/100+`元 `
-        } 
-      }
+        }, 
+      };
     if(cashres && cashtotal){
       detail += `【提现结果】`+cashres+`共计提现:`+cashtotal+`元\n`
      }
