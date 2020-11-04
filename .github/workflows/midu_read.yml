@@ -16,17 +16,21 @@ jobs:
         MIDU_TIME: ${{ secrets.MIDU_TIME }}
         MIDU_SIGN: ${{ secrets.MIDU_SIGN }}
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        run: |
+          git clone https://github.com/Sunert/Scripts.git ~/Scripts
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
       - name: npm install
         run: |
+          cd ~/Scripts
           npm install
       - name: '运行 【米读自动阅读】'
         if: env.MIDU_TOKEN
         run: |
+          cd ~/Scripts
           node Task/midu_Read.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}

@@ -14,7 +14,9 @@ jobs:
     env:
         JD_COOKIE: ${{ secrets.JD_COOKIE }}
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        run: |
+          git clone https://github.com/Sunert/Scripts.git ~/Scripts
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
