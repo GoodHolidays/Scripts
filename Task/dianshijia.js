@@ -268,7 +268,9 @@ function cashlist() {
   try{
      if (result.errCode == 0) {
     for (i=0;i<result.data.length;i++){
-     console.log(time)
+    if(result.data[i].ctime >= time && result.data[i].type == '2'){
+     console.log(result.data[i].ctime)
+     }
  if
 (result.data[i].type == '2' && result.data[i].ctime >= time ){
     console.log(result.data[i].amount)
