@@ -1,6 +1,6 @@
 
 /*
-更新时间: 2020-11-04 21:20
+更新时间: 2020-11-04 22:20
 赞赏:电视家邀请码`893988`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于电视家签到，支持Actions多账号运行，请用'#'或者换行隔开‼️
 获取Cookie方法:
@@ -96,8 +96,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
     return;
   }
     console.log(`------------- 共${tokenArr.length}个账号`)
-    if($.isNode()){
-        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-28800
+    if(new Date().getTimezoneOffset()/60 != `-8`){
+        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-(0-new Date().getTimezoneOffset()*60)
        } else {
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
     }
