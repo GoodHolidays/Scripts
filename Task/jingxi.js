@@ -60,7 +60,7 @@ function getsign() {
         Referer: "https://wqsh.jd.com/pingou/taskcenter/index.html"
       },
     }
-    $.get(signurl, (err, resp, data) => {
+    $.get(signurl, async(err, resp, data) => {
       signres = JSON.parse(data)
       if (signres.retCode == '0') {
         nickname = signres.data.nickname
