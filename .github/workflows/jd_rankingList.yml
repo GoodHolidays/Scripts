@@ -1,10 +1,10 @@
 
-name: 星店长
+name: 京东排行榜
 
 on:
   workflow_dispatch:
   schedule:
-     - cron: '5 16 * * *'
+     - cron: '10 16 * * *'
   watch:
     types: started
 jobs:
@@ -25,11 +25,11 @@ jobs:
         run: |
           cd ~/Scripts
           npm install
-      - name: '运行 【京东星店长】'
+      - name: '运行 【京东排行榜】'
         if: env.JD_COOKIE
         run: |
           cd ~/Scripts
-          node Task/jd_starStore.js
+          node Task/jd_rankingList.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           BARK_PUSH: ${{ secrets.BARK_PUSH }}
