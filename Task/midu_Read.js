@@ -212,7 +212,7 @@ function addDraw() {
          url = {
             url: 'https://apiwz.midukanshu.com/wz/task/weekReward',
             headers: {},
-            body:  drawVal
+            body:  drawVal+"&draw_num=28&sign=36646430333630313c3c353c6661326136333266326036353663333232363d3d"
         }
         url.headers['Host'] = 'apiwz.midukanshu.com'
         url.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -222,12 +222,12 @@ function addDraw() {
                // $.log(`🐍🐢 ${cookieName} addDraw - response: ${JSON.stringify(data)}\n`)
                     add_Draw = JSON.parse(data)
                 if(add_Draw.code==0){
-                  console.log("额外奖励："+add_Draw.data.msg)
+                  console.log("转盘额外奖励："+add_Draw.data.msg)
                   }
                 resolve()
             } catch (e) {
                 // $.msg(cookieName, `额外奖励: 失败`, `说明: ${e}`)
-                $.log(`❌ ${cookieName} addDraw - 额外奖励失败: ${e}`)
+                $.log(`❌ ${cookieName} addDraw - 转盘额外奖励失败: ${e}`)
                 $.log(`❌ ${cookieName} addDraw - response: ${JSON.stringify(data)}\n`)
                 resolve()
             }
