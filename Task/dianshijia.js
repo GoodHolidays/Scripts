@@ -41,7 +41,7 @@ http:\/\/api\.gaoqingdianshi\.com\/api\/v2\/cash\/withdrawal url script-request-
 */
 const walkstep = '20000';//每日步数设置，可设置0-20000
 const gametimes = "1999";  //游戏时长
-const logs = 0   //响应日志开关,默认关闭
+const logs = 1   //响应日志开关,默认关闭
 const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
 let sleeping = "",detail=``,subTitle=``;
@@ -317,8 +317,8 @@ function dotask(code) {
   else if (taskcode == '4000'){
      //console.log('任务代码:'+code+'，'+taskres.msg)
        }
+       resolve()
      })
-     resolve()
   })
 }
 
