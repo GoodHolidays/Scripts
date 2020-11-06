@@ -47,7 +47,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let sleeping = "",detail=``,subTitle=``;
 let RewardId = $.getdata('REWARD')||'55'; //额外签到奖励，默认55为兑换0.2元额度，44为兑换1天VIP，42为兑换1888金币
 const dianshijia_API = 'http://api.gaoqingdianshi.com/api'
-let tokenArr = [], DsjurlArr = [], DrawalArr = [],CountMax,CompCount;
+let tokenArr = [], DsjurlArr = [], DrawalArr = [],todrawal="";
 if ($.isNode()) {
   if (process.env.DSJ_HEADERS && process.env.DSJ_HEADERS.indexOf('#') > -1) {
   Dsjheaders = process.env.DSJ_HEADERS.split('#');
@@ -122,8 +122,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  if ($.isNode() && code == 'playTask' && CountMax == CompCount && taskcode == 0 ) {
-       await notify.sendNotify($.name, subTitle+'\n'+ detail)
+  if ($.isNode() && todrawal == '0') {
+       await notify.sendNotify($.name+"提现成功", subTitle+'\n'+ detail)
      }
     }
    }
@@ -146,7 +146,7 @@ function GetCookie() {
   }
 }
 async function run() { 
- if ($.isNode()) {
+ if ($.isNode()&&new Date().getTimezoneOffset() == '0') {
       if ($.time('HH')>11){
        await sleep();
        await CarveUp();
@@ -302,8 +302,8 @@ function tasks(tkcode) {
 function dotask(code) {
  return new Promise((resolve, reject) => {  
     $.get({ url: `${dianshijia_API}/v4/task/complete?code=${code}`, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
-    let taskres = JSON.parse(data)
-    taskcode = taskres.errCode
+    let taskres = JSON.parse(data),
+        taskcode = taskres.errCode;
    if (taskcode == 0){
         CompCount = taskres.data.dayCompCount 
         CountMax = taskres.data.dayDoCountMax
@@ -368,8 +368,8 @@ function wakeup() {
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
       if(logs)$.log(`睡觉打卡: ${data}\n`)
-      resolve()
    })
+  resolve()
  })
 }
 
@@ -471,9 +471,10 @@ function getCUpcoin() {
 function Withdrawal() {
   return new Promise((resolve, reject) => {
     $.get({url: drawalVal, headers: JSON.parse(signheaderVal)}, (error, response, data) => {
-    if(logs)$.log(`金币随机兑换 : ${data}\n`)
-      let result = JSON.parse(data)
-     if (result.errCode == 0) {
+    $.log(`金币随机兑换 : ${data}\n`)
+      let result = JSON.parse(data),
+         todrawal = result.errCode;
+     if (todrawal == 0) {
       detail += `【金额提现】✅ 到账`+result.data.price/100+`元 🌷\n`
     } 
     resolve()
