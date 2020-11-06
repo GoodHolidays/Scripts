@@ -283,11 +283,12 @@ function cashlist() {
      else if(!cashres&&cashtotal){
       detail += `【提现结果】今日未提现 共计提现:`+cashtotal+`元\n`
     }
+    resolve()
    }
-   resolve()
   }
  catch (e){
        console.log(`提现列表失败，可忽略: ${data}`)
+       resolve()
      }
     })
   })
