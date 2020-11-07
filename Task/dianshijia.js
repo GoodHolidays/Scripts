@@ -374,7 +374,6 @@ function wakeup() {
  })
 }
 
-
 function coinlist() {
  return new Promise((resolve, reject) => {
     setTimeout(() =>  {
@@ -439,8 +438,8 @@ function coinlist() {
      $.msg($.name+`  `+sleeping, subTitle, detail)
      }
     })
+    resolve()
    },2000)
-   resolve()
  })
 }
 
