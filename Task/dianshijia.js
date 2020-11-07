@@ -122,8 +122,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  console.log(todrawal)
-  if ($.isNode() && todrawal == '0') {
+  console.log(todrawal);
+  if ($.isNode() && todrawal != '0') {
        await notify.sendNotify($.name+"提现成功", subTitle+'\n'+ detail)
      }
     }
@@ -435,7 +435,7 @@ function coinlist() {
    $.msg($.name+`  `+sleeping, subTitle, detail)
   } catch(e) {
    console.log(`获取任务金币列表失败，错误代码${e}+ \n响应数据:${data}`)
-     $.msg($.name+` 获取任务金币详情失败 `, subTitle, detail)
+     $.msg($.name+` 获取金币详情失败 `, subTitle, detail)
      }
      resolve()
     })
@@ -473,10 +473,10 @@ function Withdrawal() {
     $.log(`金币随机兑换 : ${data}\n`)
       let result = JSON.parse(data),
          todrawal = result.errCode;
-     if (todrawal == 0) {
-      detail += `【金额提现】✅ 到账`+result.data.price/100+`元 🌷\n`
-    } 
-    resolve()
+       if (todrawal == 0) {
+         detail += `【金额提现】✅ 到账`+result.data.price/100+`元 🌷\n`
+      } 
+     resolve()
    })
  })
 }
