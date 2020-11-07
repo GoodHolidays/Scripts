@@ -41,7 +41,7 @@ http:\/\/api\.gaoqingdianshi\.com\/api\/v2\/cash\/withdrawal url script-request-
 */
 const walkstep = '20000';//每日步数设置，可设置0-20000
 const gametimes = "1999";  //游戏时长
-const logs = 1   //响应日志开关,默认关闭
+const logs = 0   //响应日志开关,默认关闭
 const $ = new Env('电视家')
 const notify = $.isNode() ? require('./sendNotify') : '';
 let sleeping = "",detail=``,subTitle=``;
@@ -270,7 +270,7 @@ function cashlist() {
      headers: JSON.parse(signheaderVal)}, (error, response, data) => {
       let result = JSON.parse(data)
        let  totalcash = Number(),cashres = "";
-       //console.log(`提现列表: ${data}`)
+       console.log(`提现列表: ${data}`)
        if (result.errCode == 0) {
         for (i=0;i<result.data.length;i++){
  if
@@ -381,7 +381,7 @@ function coinlist() {
    let url = { url: `${dianshijia_API}/coin/detail`, 
     headers: JSON.parse(signheaderVal)}
    $.get(url, (error, response, data) => {
-      //console.log(`金币列表: ${data}`)
+      console.log(`金币列表: ${data}`)
       let  result = JSON.parse(data)
       let onlamount =  0, vdamount = 0,
           gamestime = 0, todaysign = 0;
@@ -434,14 +434,13 @@ function coinlist() {
    detail += `【任务统计】共完成${i+1}次任务🌷`
    }
    $.msg($.name+`  `+sleeping, subTitle, detail)
-    resolve()
   } catch(e) {
    console.log(`获取任务金币列表失败，错误代码${e}+ \n响应数据:${data}`)
      $.msg($.name+`  `+sleeping, subTitle, detail)
-      resolve()
      }
     })
-   },1000)
+   },2000)
+   resolve()
  })
 }
 
