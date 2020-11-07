@@ -21,7 +21,7 @@
 ***您使用或者复制了本仓库且本人制作的任何脚本，则视为`已接受`此免责声明，请仔细阅读***
 
 ####开发者不易,请赏杯茶水费
-<div align=center><img width="200" height="200" src="https://gitee.com/Sunert/QuantX/raw/master/Rules/Images/Complimentcode.jpeg"/></div>
+<div align=center><img width="200" height="200" src="https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/Complimentcode.jpeg"/></div>
 
 
 ### 特别感谢：
