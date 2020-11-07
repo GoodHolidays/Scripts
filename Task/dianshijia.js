@@ -435,10 +435,10 @@ function coinlist() {
    $.msg($.name+`  `+sleeping, subTitle, detail)
   } catch(e) {
    console.log(`获取任务金币列表失败，错误代码${e}+ \n响应数据:${data}`)
-     $.msg($.name+`  `+sleeping, subTitle, detail)
+     $.msg($.name+` 获取任务金币详情失败 `, subTitle, detail)
      }
+     resolve()
     })
-    resolve()
    },2000)
  })
 }
