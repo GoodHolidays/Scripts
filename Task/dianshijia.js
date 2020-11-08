@@ -98,6 +98,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     console.log(`------------- 共${tokenArr.length}个账号`)
     if(new Date().getTimezoneOffset()/60 != '-8'){
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-8*60*60
+        console.log(time)
        } else {
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
     }
