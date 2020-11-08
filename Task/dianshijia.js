@@ -99,7 +99,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     if(new Date().getTimezoneOffset()/60 != '-8'){
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-8*60*60
         console.log(time)
-        console.log(env.TZ)
+        console.log(process.env.TZ)
        } else {
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
     }
