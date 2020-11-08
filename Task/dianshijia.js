@@ -113,8 +113,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await Addsign();    // 额外奖励，默认额度
   if (drawalVal != undefined){
      await Withdrawal()
-   } else {
-       detail += `【金额提现】❌ 请获取提现地址 \n`}; // 金额提现
+   } else { detail += `【金额提现】❌ 请获取提现地址 \n`}; 
   await run();
   await tasks(); // 任务状态
   await getGametime();// 游戏时长
@@ -244,8 +243,9 @@ function total() {
        }
        resolve()
       } catch(e){
-      console.log(e) }
-      resolve()
+        console.log(e)
+        resolve()
+         }
      })
   }) 
 }
