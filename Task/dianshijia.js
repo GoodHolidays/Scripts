@@ -97,10 +97,10 @@ if (isGetCookie = typeof $request !== 'undefined') {
   }
     console.log(`------------- 共${tokenArr.length}个账号`)
     if(new Date().getTimezoneOffset()/60 != '-8'&&$.time('HH')<'16'){
-        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
+        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-28800
        console.log(time)
        } else if(new Date().getTimezoneOffset()/60 != '-8'&&$.time('HH')>'16'){
-        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000+24*60*60
+        time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000+16*60*60
        } else {
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000
     }
