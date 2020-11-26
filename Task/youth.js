@@ -475,7 +475,7 @@ function friendSign(uid) {
             friendres = JSON.parse(data)
             if (friendres.error_code == "0") {
                 //detail += `【好友红包】+${friendres.score}个青豆\n`
-               console.log("好友签到，我得红包+"+friendres.score+"个青豆")
+               console.log(`好友签到，我得红包 +${friendres.score}个青豆`)
             }
             resolve()
         })
