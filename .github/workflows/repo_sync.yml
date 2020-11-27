@@ -33,8 +33,15 @@ jobs:
         uses: Yikun/hub-mirror-action@master
         if: env.dst_key
         with:
+          # 必选，需要同步的Github用户（源）
           src: github/Sunert
+          # 必选，需要同步到的Gitee的用户（目的）
           dst: gitee/Sunert
+          # 必选，更新指定库名字
           static_list: "Scripts"
+
+          # 必选，Gitee公钥对应的私钥，https://gitee.com/profile/sshkeys
           dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+
+          # 必选，Gitee对应的用于创建仓库的token，https://gitee.com/profile/personal_access_tokens
           dst_token: ${{ secrets.GITEE_TOKEN }}
