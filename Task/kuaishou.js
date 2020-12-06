@@ -58,7 +58,8 @@ if (isGetCookie) {
  !(async() => {
   await sign();
   await signifo();
-  await info()
+  await info();
+  await invite()
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
