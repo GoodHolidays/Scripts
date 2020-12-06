@@ -99,14 +99,19 @@ function sign() {
 		url: 'https://nebula.kuaishou.com/rest/n/nebula/sign/sign',
 		headers: {Cookie: cookieVal}}
     $.get(signurl, (error, response, data) => {
-      if(logs) $.log(`${$.name}, data: ${data}`)
+      $.log(`${$.name}, data: ${data}`)
       let result = JSON.parse(data)
       if(result.result == 10007){
-        subTitle = `签到结果: ${result.error_msg}`
-        $.msg($.name,subTitle,'')}
-        if(logs) $.log(`错误代码: ${result.result}, 返回信息: ${result.error_msg}`)
-       })
-     resolve()
+        _sign = `签到结果: ${result.error_msg}`;
+        $.msg($.name,subTitle,'');
+       if(logs) $.log(`错误信息: ${result.error_msg}`)
+        } else if(result.result == 10901){
+         _sign = `签到结果: ${result.error_msg}`
+        } else {
+         _sign = `签到结果: ${result.error_msg}`
+        }
+       resolve()
+      })
    })
  }
 function signifo() {
@@ -115,12 +120,10 @@ function signifo() {
 		url: 'https://nebula.kuaishou.com/rest/n/nebula/sign/query',
 		headers: {Cookie: cookieVal}}
     $.get(earnurl, (error, response, data) => {
-      if(logs)$.log(`${$.name}, data: ${data}`)
+     if(logs)$.log(`${$.name}, data: ${data}`)
       let result = JSON.parse(data)
-     if (result.data.nebulaSignInPopup.button == '立即签到'){ 
-       detail = `签到成功: ${result.data.nebulaSignInPopup.subTitle}, ${result.data.nebulaSignInPopup.title}`
-      } else if (result.data.nebulaSignInPopup.button == '好的'){ 
-       detail = `重复签到: ${result.data.nebulaSignInPopup.subTitle}, ${result.data.nebulaSignInPopup.title}`
+     if (result.result == '1'){ 
+        detail = `${result.data.nebulaSignInPopup.subTitle}, ${result.data.nebulaSignInPopup.title}\n`
       }
     resolve()
      })
@@ -136,10 +139,10 @@ function info() {
 	if (result.result == 1) {
 	     subTitle = `现金收益: 💵${result.data.allCash}元    金币收益: 💰${result.data.totalCoin}`
 		  } 
-         $.msg($.name,subTitle,detail)
+           $.msg($.name,subTitle,detail+_sign)
           resolve()
-	     })
-      })
+	   })
+    })
  }
 function invite() {
    return new Promise((resolve, reject) => {
@@ -150,8 +153,8 @@ function invite() {
 		body:   '{"code":"774010415","stage":"launch_app_try_launch","dph":736,"dpw":414,"reader":3,"platform":"copylink"}'
 		}
     $.post(invurl, (error, response, data) => {
-      if(logs) $.log(`${$.name}, data: ${data}`)
-      let result = JSON.parse(data)
+     if(logs)$.log(`${$.name}, data: ${data}`)
+      //let result = JSON.parse(data)
        })
      resolve()
    })
