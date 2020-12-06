@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-12-06 13:46
+更新时间: 2020-12-06 15:46
 赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
@@ -42,13 +42,13 @@ let ksUrl = [], ksArr = [];
       $.index = i + 1;
     console.log(`-------------------------\n\n开始快手极速版共${$.index}个视频`)
     }
-     for (let j = 0; j < 20; j++) {
+     for (let j = 0; j < 50; j++) {
       await AutoRead();
-      await $.wait(5000);
-      console.log(`\n  "请等待5s后继续视频${$.index}第${j+1}次任务`)
+      await $.wait(2000);
+      console.log(`\n  "请等待2s后继续视频${$.index}第${j+1}次任务`)
     }
  };
-   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*20)次，视频金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*50)次，视频金币详情见App，任务全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
