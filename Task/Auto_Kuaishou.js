@@ -48,7 +48,7 @@ let ksUrl = [], ksArr = [];
       console.log(`\n  "请等待5s后继续视频${$.index}第${j+1}次任务`)
     }
  };
-   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*50)次，视频金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*20)次，视频金币详情见App，任务全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
