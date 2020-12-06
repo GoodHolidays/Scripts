@@ -1,5 +1,6 @@
 /*
 更新时间: 2020-12-06 13:46
+赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，刷视频即，可获得更多包数据，抓包地址为"http://ali2.a.yximgs.com/ksc1/xxxxxx.kpg"，在Github Actions中的Secrets新建name为'KUAISHOUMV'的一个值，拷贝抓包的请求体到下面Value的文本框中，本脚本不包含任何推送通知
