@@ -144,9 +144,12 @@ function info() {
 function invite() {
    return new Promise((resolve, reject) => {
 	 let invurl = {
-		url: 'https://nbictssmx.kwairr9aw56vso581r.com/f/YPCw7XfI_AO',
-		headers: {Cookie: cookieVal}}
-    $.get(invurl, (error, response, data) => {
+		url: 'https://nbictssmx.kwairr9aw56vso581r.com/rest/n/nebula/invitation/external/click',
+		headers: {Cookie: cookieVal,
+		          Host: 'nbictssmx.kwairr9aw56vso581r.com'},
+		body:   '{"code":"774010415","stage":"launch_app_try_launch","dph":736,"dpw":414,"reader":3,"platform":"copylink"}'
+		}
+    $.post(invurl, (error, response, data) => {
       if(logs) $.log(`${$.name}, data: ${data}`)
       let result = JSON.parse(data)
        })
