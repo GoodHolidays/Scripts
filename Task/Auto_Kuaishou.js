@@ -42,13 +42,13 @@ let ksUrl = [], ksArr = [];
       $.index = i + 1;
     console.log(`-------------------------\n\n开始快手极速版第${$.index}个视频`)
     }
-     for (let j = 0; j < 50; j++) {
+     for (let j = 0; j < 20; j++) {
       await AutoRead();
-      await $.wait(2000);
-      console.log(`\n  请等待2s后继续视频${$.index}第${j+1}次任务`)
+      await $.wait(5000);
+      console.log(`\n  请等待5s后继续视频${$.index}第${j+1}次任务`)
     }
  };
-   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*50)次，视频金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*20)次，视频金币详情见App，任务全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
