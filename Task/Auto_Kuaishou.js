@@ -66,7 +66,7 @@ function AutoRead(){
       'Accept-Language' : `zh-Hans-CN;q=1, en-CN;q=0.9, zh-Hant-CN;q=0.8`},
 };
   $.get(myRequest, (error, response, data) => {
-    console.log(response.statusCode + "\n\n" + data);
+    //console.log(response.statusCode + "\n\n" + data);
     //$.done();
       })
     resolve()
