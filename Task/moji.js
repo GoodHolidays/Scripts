@@ -6,6 +6,7 @@
 const $ = new Env('墨迹天气')
 const City = encodeURIComponent($.getdata('city')||"北京")
 const j = $.getdata('citynum')||"1"
+const reduction = $.getdata('cut') || true
 
 !(async() => {
   await SearchCity();
@@ -137,7 +138,10 @@ for ( Hourlyweather of $.weather.data.hourly){
          indexLevelDesc =indexdata.indexLevelDesc 
          indexDesc = indexdata.indexDesc
           console.log("\n "+indexType+"  "+indexLevel+"级  "+ indexLevelDesc+"\n"+indexDesc )
-         $.desc += "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n     "+indexDesc+"\n"
+         $.desc += "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n"
+         if (!reduction){
+           $.desc +=indexDesc+"\n"
+          }
          }
        }  
          $.sub = "【今日天气】" 
