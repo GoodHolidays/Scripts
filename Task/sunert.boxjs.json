@@ -89,7 +89,7 @@
       "keys": ["now_qq", "nowqq_cookie"],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/NOWLIVE.js",
-      "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/NOWLIVE.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/NOWLIVE.png"],
+      "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/NOWLIVE_mini.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/NOWLIVE.png"],
       "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/NOWLIVE.js"
     },
     {
