@@ -145,7 +145,7 @@
          "type": "text", 
          "desc": "请填写中文地区"
          },
-       . {
+         {
           "id": "citynum",
           "name": "城市序号",
           "val": "1",
