@@ -42,13 +42,13 @@ let ksUrl = [], ksArr = [];
       $.index = i + 1;
     console.log(`-------------------------\n\n开始快手极速版第${$.index}个视频`)
     }
-     for (let j = 0; j < 20; j++) {
+     for (let j = 0; j < 5; j++) {
       await AutoRead();
-      await $.wait(5000);
-      console.log(`\n  请等待5s后继续视频${$.index}第${j+1}次任务`)
+      await $.wait(10000);
+      console.log(`\n  请等待10s后继续视频${$.index}第${j+1}次任务`)
     }
  };
-   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*20)次，视频金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n快手视频共完成任务(${$.index}*5)次，视频金币详情见App，任务全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -66,6 +66,9 @@ function AutoRead(){
       'Accept-Language' : `zh-Hans-CN;q=1, en-CN;q=0.9, zh-Hant-CN;q=0.8`},
 };
   $.get(myRequest, (error, response, data) => {
+     if(error){
+     console.log("响应数据失败："+response.statusCode + "\n\n" + data);
+     }
     //console.log(response.statusCode + "\n\n" + data);
     //$.done();
       })
