@@ -122,7 +122,7 @@
     {
       "id": "TVlist",
       "name": "电视预告",
-      "keys": [],
+      "keys": ["c"],
       "settings": [{ 
          "id": "c", 
          "name": "电视台", 
@@ -133,6 +133,30 @@
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/tvpreview.js",
       "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview_mini.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview.png"],
       "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/tvpreview.js"
+    },
+    {
+      "id": "moji",
+      "name": "墨迹天气",
+      "keys": ["city","citynum"],
+      "settings": [{ 
+         "id": "city", 
+         "name": "城市", 
+         "val": "北京", 
+         "type": "text", 
+         "desc": "请填写中文地区"
+         },
+       . {
+          "id": "citynum",
+          "name": "城市序号",
+          "val": "1",
+          "type": "number",
+          "placeholder": "默认1 (点击以展开说明)",
+          "desc": "选择地区，请填写日志内冒号前的数字序号"
+        }],
+      "author": "@sunert",
+      "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/moji.js",
+      "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji_mini.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji.png"],
+      "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/moji.js"
     },
     {
       "id": "mydigit",
