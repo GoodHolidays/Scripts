@@ -163,7 +163,7 @@
           {
           "id": "day_desc",
           "name": "每周天气",
-          "val": false,
+          "val": true,
           "type": "boolean",
           "desc": "每周天气接口，可显示6天天气情况"
           },
@@ -172,12 +172,12 @@
           "name": "小时天气",
           "val": false,
           "type": "boolean",
-          "desc": "每周天气接口，可显示6天天气情况"
+          "desc": "未来24小时天气情况"
           },
           {
           "id": "index_desc",
           "name": "生活指数",
-          "val": false,
+          "val": true,
           "type": "boolean",
           "desc": "可显示生活指数情况"
          }],
