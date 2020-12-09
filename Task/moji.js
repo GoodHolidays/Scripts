@@ -132,16 +132,18 @@ for ( Hourlyweather of $.weather.data.hourly){
         //console.log("  "+hours+":00  "+hourweather+"  "+ hourtemps+"  "+hourWinds)
        }
    if ($.index.code == 0){
+    if (!reduction){
        $.desc += "【生活指数】\n"
+      }
        for (indexdata of $.index.indexs){
          indexType = indexdata.indexType
          indexLevel = indexdata.indexLevel
          indexLevelDesc =indexdata.indexLevelDesc 
          indexDesc = indexdata.indexDesc
-          console.log("\n "+indexType+"  "+indexLevel+"级  "+ indexLevelDesc+"\n"+indexDesc )
          $.desc += "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n"
          if (!reduction){
            $.desc +=indexDesc+"\n"
+           console.log("\n "+indexType+"  "+indexLevel+"级  "+ indexLevelDesc+"\n"+indexDesc )
           }
          }
        }  
