@@ -92,14 +92,16 @@ function showmsg() {
    if (weatherstate == "晴") icon = "☀️";
    if (weatherstate == "多云") icon = "⛅️";
    if (weatherstate == "阴") icon = "☁️";
+   if (weatherstate == "雷阵雨") icon = "🌩";
    if (weatherstate == "小雨") icon = "💧";
    if (weatherstate == "中雨") icon = "💦";
    if (weatherstate == "大雨") icon = "🌧";
    if (weatherstate == "暴雨") icon = "⛈";
    if (weatherstate == "小雪") icon = "🌨";
    if (weatherstate == "中雪") icon = "❄️";
-   if (weatherstate == "大雪") icon = "☃️";
-   if (weatherstate == "暴雪") icon = "⛄️";
+   if (weatherstate == "大雪") icon = "⛄️";
+   if (weatherstate == "暴雪") icon = "☃️";
+   if (weatherstate == "霾") icon = "💭";
    //if (weatherstate == "雾") icon = "🌫";
    //if (weatherstate == "浮尘") icon = "💨";
    //if (weatherstate == "大风") icon = "🌪";
@@ -110,7 +112,7 @@ function showmsg() {
        nowhum = $.weather.data.humidity  //当前湿度
        aqidesc = $.weather.data.aqi_desc //空气质量
 
-       $.desc = "  "+nowweather +icon+"  温度🌡:"+nowtemp+"  风速🌪:"+ nowwindval + "\n  空气质量🌫:"+aqidesc+"   湿度☔️:"+nowhum+"\n【每周天气】\n"
+       $.desc = "  "+nowweather +icon+"  温度🌡:"+nowtemp+"  风速🌪:"+ nowwindval + "\n  空气质量🌬:"+aqidesc+"   湿度☔️:"+nowhum+"\n【每周天气】\n"
 
 for ( Dayweather of $.weather.data.forecast_day){
         date = Dayweather.predict_date+ " " +Dayweather.predict_week        // 日期
@@ -122,7 +124,6 @@ for ( Dayweather of $.weather.data.forecast_day){
       }
       //$.desc +="【小时天气】\n"
 for ( Hourlyweather of $.weather.data.hourly){
-
         hours = Hourlyweather.temperature.hour
         hourweather = Hourlyweather.temperature.condition
         hourWinds = Hourlyweather.wind.wind_desc.winddir+Hourlyweather.wind.wind_desc.value+ Hourlyweather.wind.wind_desc.unit
