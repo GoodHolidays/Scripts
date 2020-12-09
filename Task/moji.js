@@ -67,7 +67,7 @@ function SearchCity() {
       }
    $.post(cityurl, (error, response, data) => {
      let result = JSON.parse(data)
-     if(result.city_list.length>0){
+     if(result.city_list.length>0 && j<= result.city_list.length){
       console.log("城市或者地区名称及ID序号")
       for(i=0; i<result.city_list.length;i++ ){
       cityname = (i+1)+": "+result.city_list[i].name
@@ -75,9 +75,9 @@ function SearchCity() {
       Province = result.city_list[i].pname
       console.log(cityname+': '+cityids)
          }
-       cityid = result.city_list[j-1].cityId
-       cityname = result.city_list[j-1].name
-       province = result.city_list[j-1].pname
+         cityid = result.city_list[j-1].cityId
+         cityname = result.city_list[j-1].name
+         province = result.city_list[j-1].pname
        }else {
         $.msg($.name,"地区有误或者无此地区天气情况")
         return
