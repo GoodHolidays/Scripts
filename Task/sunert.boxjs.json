@@ -146,20 +146,21 @@
          "desc": "请填写中文地区"
          },
          {
-          "id": "cut",
-          "name": "精简模式",
-          "val": true,
-          "type": "boolean",
-          "desc": "取消详情描述，默认打开"
-         },
-         {
           "id": "citynum",
           "name": "城市序号",
           "val": "",
           "type": "number",
           "placeholder": "默认1 (点击以展开说明)",
           "desc": "选择地区，请填写日志内冒号前的数字序号"
-        }],
+          },
+          {
+          "id": "cut",
+          "name": "精简模式",
+          "val": true,
+          "type": "boolean",
+          "desc": "取消详情描述，默认打开"
+          }
+        ],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/moji.js",
       "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji_mini.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji.png"],
