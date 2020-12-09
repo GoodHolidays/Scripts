@@ -1,14 +1,14 @@
 /*
 支持boxjs手动修改位置，可直接输入中文地区名
-更新时间 2020-12-09 14:12
+更新时间 2020-12-09 14:23
 */
 const $ = new Env('墨迹天气')
 const City = encodeURIComponent($.getdata('city')||"北京")
 const j = $.getdata('citynum')||"1";
-let reduction = $.getdata('cut') || false;
-let daylys = $.getdata('day_desc') || false,
-    hourlys = $.getdata('hour_desc') || false,
-    indexs = $.getdata('index_desc') || false;
+let reduction = $.getdata('cut') || false; //日志
+let daylys = $.getdata('day_desc') || true, //每日天气
+    hourlys = $.getdata('hour_desc') || false, //小时预报
+    indexs = $.getdata('index_desc') || false; //生活指数
     
 !(async() => {
   await SearchCity();
@@ -148,13 +148,17 @@ for ( Hourlyweather of $.weather.data.hourly){
       }
      }
    if ($.index.code == 0){
-       $.desc += !indexs ? "【生活指数】\n":""
+    if(indexs== 'true'){
+       $.desc +=  "【生活指数】\n"
+      }
        for (indexdata of $.index.indexs){
          indexType = indexdata.indexType
          indexLevel = indexdata.indexLevel
          indexLevelDesc =indexdata.indexLevelDesc 
          indexDesc = indexdata.indexDesc
-         $.desc += !indexs ?  "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n":""
+         if(indexs== 'true'){
+         $.desc += "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n"
+         }
          if(reduction == 'true'){ console.log("\n "+indexType+"  "+indexLevel+"级  "+ indexLevelDesc+"\n"+indexDesc )
           }
          }
