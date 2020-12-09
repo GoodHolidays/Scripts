@@ -161,23 +161,26 @@
           "desc": "取消详情描述，默认打开"
           },
           {
-          "id": "weatherapi",
-          "name": "天气接口",
-          "val": "",
-          "type": "checkboxes",
-          "desc": "",
-          "items": [{
-            "key": "day_desc",
-            "label": "每日天气"
-            },
-            {
-            "key": "hour_desc",
-            "label": "小时天气"
-            },
-            {
-            "key": "index_desc",
-            "label": "生活指数"
-           }]
+          "id": "day_desc",
+          "name": "每周天气",
+          "val": false,
+          "type": "boolean",
+          "desc": "每周天气接口，可显示6天天气情况"
+          },
+          {
+          "id": "hour_desc",
+          "name": "小时天气",
+          "val": false,
+          "type": "boolean",
+          "desc": "每周天气接口，可显示6天天气情况"
+          },
+          {
+          "id": "index_desc",
+          "name": "生活指数",
+          "val": false,
+          "type": "boolean",
+          "desc": "可显示生活指数情况"
+          }
          }],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/moji.js",
