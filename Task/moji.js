@@ -4,9 +4,12 @@
 */
 const $ = new Env('墨迹天气')
 const City = encodeURIComponent($.getdata('city')||"北京")
-const j = $.getdata('citynum')||"1"
-const reduction = $.getdata('cut') || true
-
+const j = $.getdata('citynum')||"1";
+let reduction = $.getdata('cut') || false;
+let daylys = $.getdata('day_desc') || false,
+    hourlys = $.getdata('hour_desc') || false,
+    indexs = $.getdata('index_desc') || false;
+    
 !(async() => {
   await SearchCity();
   await Weather();
@@ -104,7 +107,7 @@ function showmsg() {
    //if (weatherstate == "雾") icon = "🌫";
    //if (weatherstate == "浮尘") icon = "💨";
    //if (weatherstate == "大风") icon = "🌪";
-       console.log("\n您的地区为〈"+$.weather.data.city+"〉\n")
+       console.log("\n您的地区为〈"+$.weather.data.city+"〉")
        nowweather = $.weather.data.weather_desc //当前天气
        nowtemp = $.weather.data.temp.value+$.weather.data.temp.unit  //当前温度
        nowwindval = $.weather.data.wind_desc.winddir+$.weather.data.wind_desc.value+$.weather.data.wind_desc.unit  //当前风速
@@ -113,37 +116,37 @@ function showmsg() {
        sunrise = $.weather.data.sunset.sunrise
        sundown = $.weather.data.sunset.sundown
        daytemp = $.weather.data.forecast_day[0].temp_low.value+"℃"+"-"+$.weather.data.forecast_day[0].temp_high.value+"℃"
-       $.desc = "  当天温度: "+daytemp+"  当前温度🌡:"+nowtemp+"\n  "+nowweather +icon+"    风速🌪:"+ nowwindval + "\n  空气质量🌬:"+aqidesc+"  湿度☔️:"+nowhum+"\n  日出时间:"+sunrise+"\n  日落时间:"+sundown+"\n【每周天气】\n"
+       $.desc = "  当天温度: "+daytemp+"  当前温度🌡:"+nowtemp+"\n  "+nowweather +icon+"    风速🌪:"+ nowwindval + "\n  空气质量🌬:"+aqidesc+"  湿度☔️:"+nowhum+"\n  日出时间:"+sunrise+"\n  日落时间:"+sundown+"\n"
+       $.desc += !daylys ? "【每周天气】\n":""
 
-for ( Dayweather of $.weather.data.forecast_day){
+        for ( Dayweather of $.weather.data.forecast_day){
         date = Dayweather.predict_date+ " " +Dayweather.predict_week        // 日期
         Daysweather = Dayweather.weather_desc_day     //当日天气
         Winds = Dayweather.wind_desc_day.winddir+Dayweather.wind_desc_day.value+ Dayweather.wind_desc_day.unit   //当日风速
         temps = Dayweather.temp_low.value+Dayweather.temp_low.unit+"至"+Dayweather.temp_high.value+Dayweather.temp_high.unit                      //当日温度
-        //console.log(" "+ date+" "+Daysweather+" "+ temps+" "+Winds)
-        $.desc +=  "  "+date+" "+Daysweather+" "+ temps+" "+Winds+"\n"
-      }
-      //$.desc +="【小时天气】\n"
+        //console.log(reduction)
+        !reduction ? $.log(" "+ date+" "+Daysweather+" "+ temps+" "+Winds):""
+        $.desc +=  !daylys ? "  "+date+" "+Daysweather+" "+ temps+" "+Winds+"\n":""
+       };
+      $.desc += hourlys ? "【小时预报】\n":""
 for ( Hourlyweather of $.weather.data.hourly){
         hours = Hourlyweather.temperature.hour
         hourweather = Hourlyweather.temperature.condition
         hourWinds = Hourlyweather.wind.wind_desc.winddir+Hourlyweather.wind.wind_desc.value+ Hourlyweather.wind.wind_desc.unit
         hourtemps = Hourlyweather.temperature.temp.value+Hourlyweather.temperature.temp.unit
-        //$.desc += "  "+hours+":00  "+hourweather+"  "+ hourtemps+"  "+hourWinds +"\n"
-        //console.log("  "+hours+":00  "+hourweather+"  "+ hourtemps+"  "+hourWinds)
-       }
+        $.desc += hourlys ? "  "+hours+":00  "+hourweather+"  "+ hourtemps+"  "+hourWinds +"\n":""
+        !reduction ? $.log("  "+hours+":00  "+hourweather+"  "+ hourtemps+"  "+hourWinds):""
+         
+     }
    if ($.index.code == 0){
-       $.desc += "【生活指数】\n"
+       $.desc += !indexs ? "【生活指数】\n":""
        for (indexdata of $.index.indexs){
          indexType = indexdata.indexType
          indexLevel = indexdata.indexLevel
          indexLevelDesc =indexdata.indexLevelDesc 
          indexDesc = indexdata.indexDesc
-         $.desc += "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n"
-         if (!reduction){
-           $.desc +=indexDesc+"\n"
-           console.log("【生活指数】\n "+indexType+"  "+indexLevel+"级  "+ indexLevelDesc+"\n"+indexDesc )
-          }
+         $.desc += !indexs ?  "  "+indexType+":  "+indexLevel+"级   "+ indexLevelDesc+"\n":""
+         !reduction ? console.log("\n "+indexType+"  "+indexLevel+"级  "+ indexLevelDesc+"\n"+indexDesc ):"";
          }
        }  
          $.sub = "【今日天气】" 

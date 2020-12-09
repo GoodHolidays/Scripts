@@ -137,7 +137,7 @@
     {
       "id": "moji",
       "name": "墨迹天气",
-      "keys": ["city","citynum"],
+      "keys": ["city","citynum","cut","day_desc","hour_desc","index_desc"],
       "settings": [{ 
          "id": "city", 
          "name": "城市", 
@@ -155,10 +155,31 @@
           },
           {
           "id": "cut",
-          "name": "精简模式",
+          "name": "精简日志模式",
           "val": true,
           "type": "boolean",
           "desc": "取消详情描述，默认打开"
+          },
+          {
+          "id": "day_desc",
+          "name": "每周天气预报",
+          "val": false,
+          "type": "boolean",
+          "desc": "每周天气接口，可显示6天天气情况"
+          },
+          {
+          "id": "hour_desc",
+          "name": "小时天气预报",
+          "val": false,
+          "type": "boolean",
+          "desc": "每周天气接口，可显示6天天气情况"
+          },
+          {
+          "id": "index_desc",
+          "name": "生活指数",
+          "val": false,
+          "type": "boolean",
+          "desc": "可显示生活指数情况"
           }
         ],
       "author": "@sunert",
