@@ -71,7 +71,7 @@ function getsign() {
      let result = JSON.parse(data)
      if (result.retcode == 0){
          signres = `签到成功🎉`
-         detail = `获得收益${result.result.rewardList.match(/\"name\"\:"([\u4e00-\u9fa5]+)/)[1]}: ${result.result.rewardList.match(/"num":(\d+)/)[1]}💰 `
+         detail = `获得收益${result.result.rewardList.match(/\"name\"\:"([\u4e00-\u9fa5]+)/)[1]}: ${result.result.rewardList.match(/"num":(\d+)/)[1]}💰 \n`
          }  
      else if (result.retcode == -1100){
          signres = result.retmsg + "  本月已签到"+result.result.signCnt+"次"
@@ -79,7 +79,7 @@ function getsign() {
          }
      else {
          signres = `签到失败❌`
-         detail = `说明: `+ result.retmsg
+         detail = `说明: `+ result.retmsg+"\n"
          }
       resolve()
     })
