@@ -170,13 +170,15 @@
             "key": "day_desc",
             "label": "每日天气"
             },
+            {
             "key": "day_desc",
             "label": "小时天气"
             },
+            {
             "key": "index_desc",
             "label": "生活指数"
            }]
-        ],
+         }],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/moji.js",
       "icons": ["https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji_mini.png", "https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji.png"],
