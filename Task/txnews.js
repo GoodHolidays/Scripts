@@ -328,7 +328,7 @@ function Redpack() {
   return new Promise((resolve, reject) => {
     setTimeout(()=>{
       const cashUrl = {
-        url: `${TX_HOST}activity/redpack/get?isJailbreak=0&${ID}`,
+        url: `${TX_HOST}activity/redpack/get?isJailbreak=0&mac=${token}`,
         headers: {Cookie:cookieVal,"Content-Type": "application/x-www-form-urlencoded","User-Agent": "QQNews/6.3.40 (iPhone; iOS 14.2; Scale/3.00)"},
         body: redbody
       }
