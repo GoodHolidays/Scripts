@@ -156,9 +156,9 @@
           {
           "id": "cut",
           "name": "精简日志模式",
-          "val": true,
+          "val": false,
           "type": "boolean",
-          "desc": "取消详情描述，默认打开"
+          "desc": "显示详情描述，默认关闭日志"
           },
           {
           "id": "day_desc",
