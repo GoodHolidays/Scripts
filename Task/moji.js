@@ -1,6 +1,6 @@
 /*
 支持boxjs手动修改位置，可直接输入中文地区名
-更新时间 2020-12-18 20:13
+更新时间 2020-12-10 20:13
 */
 const $ = new Env('墨迹天气')
 const City = encodeURIComponent($.getdata('city')||"北京")
