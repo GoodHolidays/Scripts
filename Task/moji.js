@@ -211,7 +211,7 @@ function showmsg() {
          }
        }  
          $.sub = "【今日天气】"  +`${mapSkycon(nowweather)[0]}`
-         $.msg($.weather.data.city +"天气预报 "+date +week,$.sub, $.desc,{"media-url": `${mapSkycon(nowweather)[1]}`
+         $.msg($.weather.data.city +"天气预报 "+$.weather.data.forecast_day[0].predict_date +$.weather.data.forecast_day[0].predict_week,$.sub, $.desc,{"media-url": `${mapSkycon(nowweather)[1]}`
     })
 }
 
