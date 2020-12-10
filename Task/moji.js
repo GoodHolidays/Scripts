@@ -99,7 +99,7 @@ function mapSkycon(skycon) {
       "☁️ 阴天",
       "https://raw.githubusercontent.com/58xinian/icon/master/Weather/CLOUDY.gif",
     ],
-    "霾": [
+    "雾": [
       "😤 雾霾",
       "https://raw.githubusercontent.com/58xinian/icon/master/Weather/HAZE.gif",
     ],
