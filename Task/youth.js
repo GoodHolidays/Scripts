@@ -184,6 +184,7 @@ if (rotaryres.status == 0) {
       break
    } else if(rotaryres.status == 1){
       rotaryscore += rotaryres.data.score
+     rotarytimes = rotaryres.data.remainTurn
   }
  if (rotaryres.status == 1 && rotaryres.data.doubleNum !== 0) {
               await TurnDouble();
@@ -642,14 +643,13 @@ function rotary() {
                 body: rotarbody
             }
             $.post(url,async (error, response, data) => {
-                rotaryres = JSON.parse(data)
-                if (rotaryres.status == 1) {
-                    rotarytimes = rotaryres.data.remainTurn
-                    //rotaryscore = rotaryres.data.score
-                    //detail += `【转盘抽奖】+${rotaryres.data.score}个青豆 剩余${rotaryres.data.remainTurn}次\n`
+                try{
+                      rotaryres = JSON.parse(data)
+                     } catch (e) {
+                   $.logErr(e, resp);
+                   } finally {
+                  resolve()
                 }
-                
-              resolve();
             })
         }, s);
     })
@@ -704,16 +704,16 @@ function TurnDouble() {
           let time = (new Date()).getTime()
             const url = {
                 url: `${YOUTH_HOST}RotaryTable/toTurnDouble?_=${time}`,headers: JSON.parse(signheaderVal),body: rotarbody}
-            $.post(url, (error, response, data) => {
+            $.post(url, (error, response, data) => { 
+              try{
                 Doubleres = JSON.parse(data)
-                if (Doubleres.status == 1) {
-                    detail += `【转盘双倍】+${Doubleres.data.score1}青豆 剩余${rotaryres.data.doubleNum}次\n`
-                }else{
-                    //detail += `【转盘双倍】失败 ${Doubleres.msg}\n`
-     
+                     } catch (e) {
+                   $.logErr(e, resp);
+                   } finally {
+                  resolve()
                 }
+             resolve()
             })
-         resolve()
         },s)
     })
 }
