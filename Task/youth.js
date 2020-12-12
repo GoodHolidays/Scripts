@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-12-10 23:00
+更新时间: 2020-12-12 23:00
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 
@@ -175,7 +175,11 @@ else if ($.time('HH')>4&&$.time('HH')<8){
   await readArticle();
   await Articlered();
   await readTime();
+for ( i=0;i<5;i++){
+ console.log("等待5s进行下一次任务")
+  await $.wait(5000);
   await rotary();
+}
   await rotaryCheck();
   await earningsInfo();
   await showmsg();
