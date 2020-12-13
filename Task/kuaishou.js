@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-12-13 22:30
+更新时间: 2020-12-14 00:30
 
 本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版
 正式版APP获取Cookie方法:
@@ -169,14 +169,14 @@ function speedSign() {
 		url: 'https://nebula.kuaishou.com/rest/n/nebula/sign/sign',
 		headers: {Cookie: cookieVal}}
     $.get(signurl, (error, response, data) => {
-      if(logs)$.log(`${$.name}, data: ${data}`)
+      $.log(`${$.name}, data: ${data}`)
       let speed_res = JSON.parse(data)
        speed_code = speed_res.result
       if(speed_code == 10007){
          speed_sign = `签到结果: ${speed_res.error_msg}`;
-         $.msg($.name,subTitle,'');
+         $.msg($.name,speed_sign,'');
        if(logs) $.log(`错误信息: ${speed_res.error_msg}`)
-        return
+         $.done()
         } else if(speed_code == 10901){
          speed_sign = `签到结果: ${speed_res.error_msg}`
         } else if(speed_code == 1){
