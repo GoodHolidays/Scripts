@@ -4,7 +4,7 @@ name: 快手视频签到
 on:
   workflow_dispatch:
   schedule:
-     - cron: ’15 19 * * *‘
+     - cron: '15 19 * * *'
   watch:
     types: started
 jobs:
