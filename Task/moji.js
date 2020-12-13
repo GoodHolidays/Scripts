@@ -107,6 +107,10 @@ function mapSkycon(skycon) {
       "⛈ 雷阵雨",
       "https://raw.githubusercontent.com/58xinian/icon/master/Weather/STORM_RAIN.gif",
     ],
+  "阵雨": [
+      "🌦 阵雨",
+      "https://raw.githubusercontent.com/58xinian/icon/master/Weather/LIGHT.gif",
+    ],
     "小雨": [
       "💧 小雨",
       "https://raw.githubusercontent.com/58xinian/icon/master/Weather/LIGHT.gif",
