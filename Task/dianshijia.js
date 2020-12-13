@@ -124,7 +124,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
   if ($.isNode() && drawalCode == '0') {
-       await notify.sendNotify($.name+"提现成功", subTitle+'\n'+ detail)
+       await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
     }
    }
