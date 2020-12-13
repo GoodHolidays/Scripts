@@ -1,6 +1,6 @@
 # 快手视频刷金币测试，抓包获取secrets
 
-name: 快手视频
+name: 快手视频浏览
 
 on:
   workflow_dispatch:
