@@ -40,6 +40,15 @@
       "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/youth.js"
     },
     {
+      "id": "youthGain",
+      "name": "中青看看赚",
+      "keys": ["youth_start", "youth_end"],
+      "author": "@sunert",
+      "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/youth_gain.js",
+      "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", "https://raw.githubusercontent.com/Orz-3/task/master/youth.png"],
+      "script": "https://gitee.com/Sunert/Scripts/raw/master/Task/youth_gain.js"
+    },
+    {
       "id": "dianshijia",
       "name": "电视家",
       "keys": ["sy_signheader_dsj", "drawal_dsj"],
