@@ -141,7 +141,11 @@ function mapSkycon(skycon) {
     ],
     "暴雪": [
       "⛄️暴雪",
-      "https://raw.githubusercontent.com/58xinian/icon/master/Weather/HEAVY_SNOW",
+      "https://raw.githubusercontent.com/58xinian/icon/master/Weather/HEAVY_SNOW.gif",
+    ],
+    "雨夹雪": [
+      "🌨雨夹雪",
+      "https://raw.githubusercontent.com/Sunert/ProxyConfig/master/QuantumultX/Rules/Images/ICON/RAIN_SNOW.png",
     ],
     //FOG: ["🌫️ 雾"],
     //DUST: ["💨 浮尘"],
