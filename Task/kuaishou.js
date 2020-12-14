@@ -169,7 +169,7 @@ function speedSign() {
 		url: 'https://nebula.kuaishou.com/rest/n/nebula/sign/sign',
 		headers: {Cookie: cookieVal}}
     $.get(signurl, (error, response, data) => {
-      $.log(`${$.name}, data: ${data}`)
+      if(logs)$.log(`${$.name}, data: ${data}`)
       let speed_res = JSON.parse(data)
        speed_code = speed_res.result
       if(speed_code == 10007){
