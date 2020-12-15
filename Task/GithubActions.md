@@ -3,7 +3,7 @@
  <br><br>
 
 | Name | 脚本相关YML | Value分割符 | 必须可选 | 注意事项及样式(其中"xxx"代表任意字符) |
-| ------- | :-------: | ------- | ------ | ------- |
+| :-------: | :-------: | ------- | ------ | ------- |
 | YOUTH_HEADER | **中青看点**   youth.yml|  #  | 必须 | 请求地址:  "https://kd.youth.cn/TaskCenter/getSign"，  <br>中青签到请求头: { xxx } |
 | YOUTH_ARTBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"， <br>阅读请求体: p=xxx |
 | YOUTH_REDBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/red_packet"， <br>惊喜红包请求体: p=xxx |
