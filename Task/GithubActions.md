@@ -1,28 +1,28 @@
 ## Actions Secrets 环境变量配置说明 :  <br>
 
-| Name | 脚本相关YML | Value分割符 | 必须可选 | 注意事项及样式(其中"xxx"代表任意字符) |
-| :-------: | :-------: | ------- | ------ | ------- |
-| YOUTH_HEADER | **中青看点**   youth.yml|  #  | 必须 | 请求地址:  "https://kd.youth.cn/TaskCenter/getSign"，  <br>中青签到请求头: { xxx } |
+| Name | 脚本相关YML | Value分割符 | 必须/可选 | 注意事项及样式(其中"xxx"代表任意字符) |
+| :-------: | :------: | ------- | ------ | ------- |
+| YOUTH_HEADER | <table><tr><td bgcolor=yellow align=center>中青看点 youth.yml</td></tr></table> |  #  | 必须 | 请求地址:  "https://kd.youth.cn/TaskCenter/getSign"，  <br>中青签到请求头: { xxx } |
 | YOUTH_ARTBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"， <br>阅读请求体: p=xxx |
 | YOUTH_REDBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/red_packet"， <br>惊喜红包请求体: p=xxx |
 | YOUTH_TIME | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/user/app_stay.json"，  <br>阅读时长请求体: p=xxx |
 | YOUTH_NOTIFY_CONTROL | 同上 | true/false | 可选 | 中青通知开关 <br>默认当转盘次数为50或者100并且余额大于10元时推送通知 |
 |  |  |  | - |  |
-| YOUTH_READ | **中青阅读** youth_read.yml| &或者换行 | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"，  <br>阅读请求体: p=xxx |
- |  |  |  | - |  |
-| TXNEWS_COOKIE | **腾讯新闻** txnews.yml| & | 必须 | 请求地址: "https://api.inews.qq.com/event/v1/user/event/report?"，  <br>腾讯新闻 Cookie: openxx=xxx |
+| YOUTH_READ | <table><tr><td bgcolor=yellow align=center>中青阅读 youth_read.yml</td></tr></table> | &或者换行 | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"，  <br>阅读请求体: p=xxx |
+ |  |  | - |  |  |
+| TXNEWS_COOKIE | <table><tr><td bgcolor=yellow align=center>腾讯新闻 txnews.yml</td></tr></table> | & | 必须 | 请求地址: "https://api.inews.qq.com/event/v1/user/event/report?"，  <br>腾讯新闻 Cookie: openxx=xxx |
 | TXNEWS_SIGN | 同上 | # | 必须 | 请求地址同上， 阅读请求地址链接 |
 | TXNEWS_VIDEO | 同上 | # | 必须 | 请求地址同上， 视频请求地址链接 |
 | TXNEWS_NOTIFY_CONTROL | 同上 | true/false | 可选 | 腾讯新闻通知开关 <br>默认当余额大于2元且通知间隔为50时推送通知 |
 |  |  |  | - |  |
-| DSJ_HEADERS | **电视家** dianshijia.yml | #或换行 | 必须 | 请求地址: "http://api.gaoqingdianshi.com/api/v2/sign/signin"， <br>签到请求头: { xxx } |
+| DSJ_HEADERS | <table><tr><td bgcolor=yellow align=center>电视家dianshijia.yml</td></tr></table> | #或换行 | 必须 | 请求地址: "http://api.gaoqingdianshi.com/api/v2/sign/signin"， <br>签到请求头: { xxx } |
 | DSJ_DRAWAL | 同上 | #或换行 | 必须 | 请求地址: "http://api.gaoqingdianshi.com/api/v2/cash/withdrawal"， <br>即提现请求地址 |
 | DSJ_NOTIFY_CONTROL | 同上 | true/false | 可选 | 电视家通知开关 <br>默认不推送 |
 |  |  |  | - |  |
-| WB_TOKEN | **新浪微博** weibo.yml | #或换行 | 必须 | 请求地址: "https://api.weibo.cn/xxx?gsid="， <br>签到token: gsid=xxx |
+| WB_TOKEN | <table><tr><td bgcolor=yellow align=center>微博 weibo.yml</td></tr></table> weibo.yml | #或换行 | 必须 | 请求地址: "https://api.weibo.cn/xxx?gsid="， <br>签到token: gsid=xxx |
 | WB_PAY | 同上 | #或换行 | 必须 | 请求地址:"https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do"， <br> 提现请求头 |
 |  |  |  | - |  |
-| JD_COOKIE | **京喜** <br>jingxi.yml | &或换行| 必须 | 京东cookie,多个账号的cookie使用`&`隔开或者换行。具体获取参考[浏览器获取京东cookie教程](https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie.md) 或者 [插件获取京东cookie教程](https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie2.md) |
+| JD_COOKIE | <table><tr><td bgcolor=yellow align=center>京喜 jingxi.yml</td></tr></table> | &或换行| 必须 | 京东cookie,多个账号的cookie使用`&`隔开或者换行。具体获取参考[浏览器获取京东cookie教程](https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie.md) 或者 [插件获取京东cookie教程](https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie2.md) |
 | ***推送通知选项*** |  |  | - |  |
 | PUSH_KEY | 微信推送 | - | 可选 | cookie失效推送[server酱的微信通知](http://sc.ftqq.com/3.version) |
 | BARK_PUSH | BARK推送 | - | 可选 | cookie失效推送BARK这个APP,填写内容是app提供的`设备码`，例如：https://api.day.app/123 ，那么此处的设备码就是`123`，再不懂看 [这个图](icon/bark.jpg) |
