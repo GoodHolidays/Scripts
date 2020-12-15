@@ -37,7 +37,7 @@
    # 以上为配置方法详见[@lxk0301](https://raw.githubusercontent.com/lxk0301/jd_scripts/master/githubAction.md)
    
    ## ***感谢***
-        * [@lxk0301](https://t.me/lxk0301)
-        * [@chavy](https://t.me/chavyleung)
+* [@lxk0301](https://t.me/lxk0301)
+* [@chavy](https://t.me/chavyleung)
    
   
