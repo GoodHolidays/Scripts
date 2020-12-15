@@ -29,6 +29,7 @@
 - 您必须在下载后的24小时内从计算机或手机中完全删除以上内容.   </br>
 <div align=center >   您使用或者复制了本仓库且本人制作的任何脚本，则视为 <font color=red size=5>已接受</font> 此免责声明，请仔细阅读
 <div>
+
 ***
 
 #### 开发者不易,请赏杯茶水费
@@ -46,4 +47,3 @@
 * [@lxk0301](https://github.com/lxk0301)
 
 * [@id77_Github](https://github.com/id77)
-
