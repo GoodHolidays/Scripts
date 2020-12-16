@@ -1,8 +1,8 @@
 /*
-更新时间: 2020-12-15 01:46
+更新时间: 2020-12-16 20:16
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
-中青看点看看赚任务，手动完成任务，获取请求体，支持boxjs及Github Actions，多请求用"&"分开，支持自动获取请求
+中青看点浏览赚任务，手动完成任务，获取请求体，支持boxjs及Github Actions，多请求用"&"分开，支持自动获取请求
 
 https:\/\/ios\.baertt\.com\/v5\/task\/browse_(start|end)\.json url script-request-body youth_gain.js
 
@@ -14,8 +14,10 @@ https:\/\/ios\.baertt\.com\/v5\/task\/browse_(start|end)\.json url script-reques
 
 const $ = new Env("中青看看赚")
 const notify = $.isNode() ? require('./sendNotify') : '';
-let StartBody = [], EndBody = [],gainscore = 0;
+let StartBody = [], EndBody = [], gainscore = Number();
 let startArr = [],endArr = [];
+let startbodys = $.getdata('youth_start')
+let endbodys = $.getdata('youth_end')
 if (isGetCookie = typeof $request !==`undefined`) {
    GetCookie();
    $.done()
@@ -56,7 +58,6 @@ if ($.isNode()) {
     console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以&隔开')
     return;
   }
-
   console.log(`您共提供${startArr.length}次看看赚任务`)
   for (let i = 0; i < startArr.length; i++) {
     if (startArr[i]) {
@@ -66,12 +67,9 @@ if ($.isNode()) {
     console.log(`-------------------------\n\n开始中青看点看看赚第${$.index}次任务`)
     }
       await GainStart();
-
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次任务，共计获得${gainscore}个青豆，看看赚任务全部结束`);
-
    $.msg($.name, `共完成${$.index}次任务`, `共计获得${gainscore}个青豆`)
-
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -126,36 +124,38 @@ function GainEnd() {
 
 function GetCookie() {
 if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/browse_start\.json/)) {
-  const startbodyVal = $request.body
-  let startbodys = $.getdata('youth_start')
+  const startbodyVal = $request.body;
   if(startbodys){
   if(startbodys.indexOf(startbodyVal)>-1){
-        $.msg($.name,'阅读请求重复，本次跳过');
-   } else if(startbodys.indexOf("&")>-1){
-     startbodys += "&"+startbodyVal 
-   } else if(endbodys.indexOf("&")=-1){
-    startbodys = startbodyVal 
+     $.msg($.name,'阅读请求重复，本次跳过');
+     return
+   }else if(startbodys.indexOf(startbodyVal)==-1)
+     {
+        startbodys  += "&"+startbodyVal 
+     } 
+   }  else {
+        startbodys = $request.body
    } 
      $.setdata(startbodys,'youth_start')
      $.log("看看赚开始请求: "+startbodyVal)
      $.msg($.name,'获取开始请求成功');
-   }
-}
+   };
+
 if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/browse_end\.json/)) {
   const endbodyVal = $request.body
-  let endbodys = $.getdata('youth_end')
   if(endbodys){
     if(endbodys.indexOf(endbodyVal)>-1){
       $.msg($.name,'获取任务开始请求重复，本次跳过');
-   } else if(endbodys.indexOf("&")>-1){
-     endbodys += "&"+endbodyVal 
-   }else if(endbodys.indexOf("&")=-1){
-    endbodys = endbodyVal 
+      return
+    } else if(endbodys.indexOf(endbodyVal)==-1){
+        endbodys += "&"+endbodyVal 
+    }
+   }else {
+        endbodys = $request.body
    }
      $.setdata(endbodys,'youth_end')
      $.log("看看赚结束请求: "+endbodyVal)
      $.msg($.name,'获取任务结束请求成功');
-   }
   }
 }
 
