@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-12-16 20:16
+更新时间: 2020-12-16 22:06
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 中青看点浏览赚任务，手动完成任务，获取请求体，支持boxjs及Github Actions，多请求用"&"分开，支持自动获取请求
@@ -12,7 +12,7 @@ https:\/\/ios\.baertt\.com\/v5\/task\/browse_(start|end)\.json url script-reques
 */
 
 
-const $ = new Env("中青看看赚")
+const $ = new Env("中青看点浏览赚")
 const notify = $.isNode() ? require('./sendNotify') : '';
 let StartBody = [], EndBody = [], gainscore = Number();
 let startArr = [],endArr = [];
@@ -58,18 +58,21 @@ if ($.isNode()) {
     console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以&隔开')
     return;
   }
-  console.log(`您共提供${startArr.length}次看看赚任务`)
+  console.log(`您共提供${startArr.length}次浏览赚任务`)
   for (let i = 0; i < startArr.length; i++) {
     if (startArr[i]) {
       gainStartbody = startArr[i];
       gainEndbody = endArr[i]
       $.index = i + 1;
-    console.log(`-------------------------\n\n开始中青看点看看赚第${$.index}次任务`)
+    console.log(`-------------------------\n\n开始中青看点浏览赚第${$.index}次任务`)
     }
       await GainStart();
  }
-   console.log(`-------------------------\n\n中青看点共完成${$.index}次任务，共计获得${gainscore}个青豆，看看赚任务全部结束`);
+   console.log(`-------------------------\n\n中青看点共完成${$.index}次任务，共计获得${gainscore}个青豆，浏览赚任务全部结束`);
    $.msg($.name, `共完成${$.index}次任务`, `共计获得${gainscore}个青豆`)
+   if ($.isNode()){
+     //await notify.sendNotify($.name，`共完成${$.index}次任务，\n共计获得${gainscore}个青豆`
+}
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
