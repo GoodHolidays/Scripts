@@ -29,9 +29,11 @@
 <br>
 
 <details>
-<summary>
-   <span style="font-size:22">相关通知推送</span>
-</summary>  
+  <summary>
+    <span style="font-size:22">
+       相关通知推送 
+    </span>
+  </summary>  
 
 | Name | 脚本相关YML | Value分割符 | 必须 / 可选 | 注意事项及样式(其中"xxx"代表任意字符) |
 | :-------: | :------: | ------- | ------ | ------- |
