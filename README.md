@@ -40,10 +40,10 @@
 
 ### 特别感谢：
 
-* [@chavyleung](https://github.com/chavyleung)
+  * [@chavyleung](https://github.com/chavyleung)
 
-* [@NobyDa](https://github.com/NobyDa)
+  * [@NobyDa](https://github.com/NobyDa)
 
-* [@lxk0301](https://github.com/lxk0301)
+  * [@lxk0301](https://github.com/lxk0301)
 
-* [@id77_Github](https://github.com/id77)
+  * [@id77_Github](https://github.com/id77)
