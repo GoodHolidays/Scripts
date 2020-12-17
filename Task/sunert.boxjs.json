@@ -41,7 +41,7 @@
     },
     {
       "id": "youthGain",
-      "name": "中青看看赚",
+      "name": "中青浏览赚",
       "keys": ["youth_start", "youth_end"],
       "author": "@sunert",
       "repo": "https://gitee.com/Sunert/Scripts/blob/master/Task/youth_gain.js",
