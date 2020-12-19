@@ -1,6 +1,6 @@
 /*
 支持boxjs手动修改位置，可直接输入中文地区名
-更新时间 2020-12-19 14:13
+更新时间 2020-12-19 14:36
 */
 const $ = new Env('墨迹天气')
 const City = encodeURIComponent($.getdata('city')||"北京")  //可在此处修改城市
@@ -10,7 +10,8 @@ let daylys = $.getdata('day_desc') || 'true', //每日天气
     hourlys = $.getdata('hour_desc') || 'false', //小时预报
     indexs = $.getdata('index_desc') || 'false'; //生活指数
     fortys = $.getdata('forty_desc') || 'false'; //40天预告
-    
+let Alerts = "";
+
 !(async() => {
   await SearchCity();
   await fortyReport();
@@ -260,10 +261,10 @@ function TodayReport() {
        sunrise = $.weather.data.sunset.sunrise
        sundown = $.weather.data.sunset.sundown
        daytemp = $.weather.data.forecast_day[0].temp_low.value+"℃"+"-"+$.weather.data.forecast_day[0].temp_high.value+"℃"
-
-       Alerts = $.weather.data.alerts ? '【气象预警】'+"预警级别: "+$.weather.data.alerts[0].level+'\n   '+$.weather.data.alerts[0].content:""
-  
-       $.desc = "   当天温度: "+daytemp+"   实时温度🌡:"+nowtemp+"\n  " +` 实时天气: ${today_Skycon}`+"   风速🌪: "+ windDirection + nowwindval +"级" + windSpeed(nowwindval)+ "\n   空气质量🌬: "+aqidesc+"    湿度☔️: "+nowhum+"\n" +Alerts +'\n'
+    if($.weather.data.alerts.length>0){
+       Alerts = '\n【气象预警】'+"预警级别: "+$.weather.data.alerts[0].level+'\n   '+$.weather.data.alerts[0].content
+  }
+       $.desc = "   当天温度: "+daytemp+"   实时温度🌡:"+nowtemp+"\n  " +` 实时天气: ${today_Skycon}`+"   风速🌪: "+ windDirection + nowwindval +"级" + windSpeed(nowwindval)+ "\n   空气质量🌬: "+aqidesc+"    湿度☔️: "+nowhum+Alerts +'\n'
 }
 
 async function showmsg() {
