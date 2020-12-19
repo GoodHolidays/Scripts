@@ -86,7 +86,7 @@ if (isGetCookie) {
      await speedSignifo();
      await speedInfo();
      await officialSign();
-  if(offici_code !== 100111){
+  if(offici_code !== 100119){
      await officialSignifo();
      await officialtaskCenter();
    } 
@@ -109,7 +109,7 @@ function  officialSign() {
       if(logs)$.log(`${$.name}, data: ${data}`)
       let officialSign_res = JSON.parse(data)
           offici_code = officialSign_res.result
-      if(offici_code == 109){
+      if(offici_code == 100111){
          offic_sign = `签到结果: ${officialSign_res.error_msg}`;
          $.msg($.name,offic_sign,"")
          logs?$.log(`错误信息: ${officialSign_res.error_msg}`):"";
