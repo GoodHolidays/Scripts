@@ -1,17 +1,19 @@
 /*
 支持boxjs手动修改位置，可直接输入中文地区名
-更新时间 2020-12-14 21:13
+更新时间 2020-12-19 14:13
 */
 const $ = new Env('墨迹天气')
-const City = encodeURIComponent($.getdata('city')||"北京")
+const City = encodeURIComponent($.getdata('city')||"北京")  //可在此处修改城市
 const j = $.getdata('citynum')||"1";
-let reduction = $.getdata('cut') || false; //日志
-let daylys = $.getdata('day_desc') || true, //每日天气
-    hourlys = $.getdata('hour_desc') || false, //小时预报
-    indexs = $.getdata('index_desc') || false; //生活指数
+let reduction = $.getdata('cut') || 'false'; //日志
+let daylys = $.getdata('day_desc') || 'true', //每日天气
+    hourlys = $.getdata('hour_desc') || 'false', //小时预报
+    indexs = $.getdata('index_desc') || 'false'; //生活指数
+    fortys = $.getdata('forty_desc') || 'false'; //40天预告
     
 !(async() => {
   await SearchCity();
+  await fortyReport();
   await Weather();
   await TodayReport();
   await showmsg()
@@ -36,12 +38,35 @@ function Weather() {
   })
 }
 
+function fortyReport() {
+  return new Promise((resolve, reject) =>{
+   let fortyurl =  {
+      url:  `https://h5ctywhr.api.moji.com/fc40`,
+      headers: {'Host': 'h5ctywhr.api.moji.com',},
+      body: `{"cityId": ${cityid},"cityType":${cityType}}`
+      }
+   $.post(fortyurl, (error, response, data) => {
+    try {
+        $.forty = JSON.parse(data)
+        realFeel = $.forty.condition.realFeel
+        forDay40 = $.forty.forecastDays.forecastDay40.fallTrendDesc[0] ? $.forty.forecastDays.forecastDay40.fallTrendDesc[0].desc:""
+        temp40 = $.forty.forecastDays.forecastDay40.tempTrendDesc[0] ? $.forty.forecastDays.forecastDay40.tempTrendDesc[0].desc:""
+        Festival = $.forty.forecastDays.forecastDay[1].festival
+      } catch (e) {
+        $.logErr(e, resp);
+      } finally {
+        resolve()
+      }
+    })
+  })
+}
+
 function Indexs() {
   return new Promise((resolve, reject) =>{
    let indexsurl =  {
       url:  `https://h5ctywhr.api.moji.com/indexDetail?cityId=${cityid}`,
       headers: {},
-      body: `{"cityId": ${cityid}}`
+      body: `{"cityId": ${cityid},"cityType":${cityType}}`
       }
    $.post(indexsurl, (error, response, data) => {
 try {
@@ -72,6 +97,8 @@ function SearchCity() {
       console.log(cityname+': '+cityids)
          }
          cityid = result.city_list[j-1].cityId
+         cityType
+ = result.city_list[j-1].cityType
          cityname = result.city_list[j-1].name
          province = result.city_list[j-1].pname
      } else {
@@ -233,11 +260,14 @@ function TodayReport() {
        sunrise = $.weather.data.sunset.sunrise
        sundown = $.weather.data.sunset.sundown
        daytemp = $.weather.data.forecast_day[0].temp_low.value+"℃"+"-"+$.weather.data.forecast_day[0].temp_high.value+"℃"
-       $.desc = "   当天温度: "+daytemp+"   实时温度🌡:"+nowtemp+"\n  " +` 实时天气: ${today_Skycon}`+"   风速🌪: "+ windDirection + nowwindval +"级" + windSpeed(nowwindval)+ "\n   空气质量🌬: "+aqidesc+"    湿度☔️: "+nowhum+"\n"
+
+       Alerts = $.weather.data.alerts ? '【气象预警】'+"预警级别: "+$.weather.data.alerts[0].level+'\n   '+$.weather.data.alerts[0].content:""
+  
+       $.desc = "   当天温度: "+daytemp+"   实时温度🌡:"+nowtemp+"\n  " +` 实时天气: ${today_Skycon}`+"   风速🌪: "+ windDirection + nowwindval +"级" + windSpeed(nowwindval)+ "\n   空气质量🌬: "+aqidesc+"    湿度☔️: "+nowhum+"\n" +Alerts +'\n'
 }
 
 async function showmsg() {
-      if(daylys== 'true'){
+      if(daylys == 'true'){
        $.desc += "【每周天气】\n"
         await WeekReport()
       }
@@ -250,8 +280,11 @@ async function showmsg() {
         await Indexs();
         await IndexReport()
       }
+      if (fortys == 'true'){
+        $.desc +=  "【40天预告】\n  "+forDay40+temp40
+      }
          $.sub = "【今日天气】"  +`${mapSkycon(nowweather)[0]}`
-         $.msg($.weather.data.city +"天气预报 "+$.weather.data.forecast_day[0].predict_date +$.weather.data.forecast_day[0].predict_week,$.sub, $.desc,{"media-url": `${mapSkycon(nowweather)[1]}`
+         $.msg($.weather.data.city +"天气预报 "+$.weather.data.forecast_day[0].predict_date +$.weather.data.forecast_day[0].predict_week +" "+Festival,$.sub, $.desc,{"media-url": `${mapSkycon(nowweather)[1]}`
    })
 }
 
