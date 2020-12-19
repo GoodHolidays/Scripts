@@ -181,7 +181,14 @@
           "name": "小时天气",
           "val": false,
           "type": "boolean",
-          "desc": "未来24小时天气情况"
+          "desc": "未来6小时天气情况"
+          },
+          {
+          "id": "forty_desc",
+          "name": "40天预告",
+          "val": false,
+          "type": "boolean",
+          "desc": "未来40天天气预告"
           },
           {
           "id": "index_desc",
