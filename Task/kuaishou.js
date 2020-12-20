@@ -1,5 +1,5 @@
 /*
-更新时间: 2020-12-14 00:30
+更新时间: 2020-12-20 15:30
 
 本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版
 正式版APP获取Cookie方法:
@@ -111,7 +111,7 @@ function  officialSign() {
           offici_code = officialSign_res.result
       if(offici_code == 100111){
          offic_sign = `签到结果: ${officialSign_res.error_msg}`;
-         $.msg($.name,offic_sign,"")
+        // $.msg($.name,offic_sign,"")
          logs?$.log(`错误信息: ${officialSign_res.error_msg}`):"";
          resolve()
         return
@@ -174,7 +174,7 @@ function speedSign() {
        speed_code = speed_res.result
       if(speed_code == 10007){
          speed_sign = `签到结果: ${speed_res.error_msg}`;
-         //$.msg($.name,speed_sign,'');
+         $.msg($.name,speed_sign,'');
        if(logs) $.log(`错误信息: ${speed_res.error_msg}`)
          $.done()
         } else if(speed_code == 10901){
