@@ -174,7 +174,7 @@ function speedSign() {
        speed_code = speed_res.result
       if(speed_code == 10007){
          speed_sign = `签到结果: ${speed_res.error_msg}`;
-         $.msg($.name,speed_sign,'');
+         //$.msg($.name,speed_sign,'');
        if(logs) $.log(`错误信息: ${speed_res.error_msg}`)
          $.done()
         } else if(speed_code == 10901){
