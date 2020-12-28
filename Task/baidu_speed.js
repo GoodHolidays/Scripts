@@ -126,7 +126,7 @@ function TaskCenter() {
    $.get(rewurl, async(error, resp, data) => {
   try{
      let get_tasks = JSON.parse(data)
-      $.log("获取任务数据"+data)
+      //$.log("获取任务数据"+data)
        tasks = get_tasks.data.comps
       for ( x in tasks){
          taskid = tasks[x].taskId
@@ -141,12 +141,11 @@ function TaskCenter() {
           taskName = '【'+jingangs.jingangName+'】'
           RefererUrl = jingangs.jingangUrl
         $.log(taskName+"tid:"+tid)
-   $.log(tasks[x].data.countDown[tid].countDown)
+   //$.log(tasks[x].data.countDown[tid].countDown)
         if ($.isNode()){
            await $.wait(1000)
            await get_pkg();
           } 
-
 else if(tasks[x].data.countDown[tid].countDown ==0){
            await $.wait(1000)
            await get_pkg();
