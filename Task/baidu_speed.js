@@ -141,7 +141,7 @@ function TaskCenter() {
           taskName = '【'+jingangs.jingangName+'】'
           RefererUrl = jingangs.jingangUrl
 
- $.log(tasks[x].data.countDown[tid].countDown)
+ $.log(tasks[x].data.countDown.590.countDown)
 
           downtime = tasks[x].data.countDown[tid].countDown
           $.log(taskName+"tid:"+tid)
