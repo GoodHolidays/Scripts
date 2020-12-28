@@ -142,15 +142,19 @@ function TaskCenter() {
           RefererUrl = jingangs.jingangUrl
         $.log(taskName+"tid:"+tid)
    $.log(tasks[x].data.countDown[tid].countDown)
-          downtime = tasks[x].data.countDown[tid].countDown
-         if(downtime == 0){
+        if ($.isNode()){
+           await $.wait(1000)
+           await get_pkg();
+          } 
+
+else if(tasks[x].data.countDown[tid].countDown ==0){
            await $.wait(1000)
            await get_pkg();
           } else {
-           $.log( "  请等待"+Number(downtime/60).toFixed(2)+"分钟")
-            }
+           $.log( "  请等待"+Number(tasks[x].data.countDown[tid].countDown/60).toFixed(2)+"分钟")
            }
           }
+         }
         } else if(id ==1076){
          for ( tasklists  of  tasks[x].data.tasklist){
           tid = tasklists.id
