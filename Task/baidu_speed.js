@@ -8,7 +8,7 @@
 */
 const $ = new Env('百度极速版')
 
-let CookieArr = []
+let CookieArr = [];
 
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
@@ -140,7 +140,8 @@ function TaskCenter() {
           tid = jingangs.jingangTid
           taskName = '【'+jingangs.jingangName+'】'
           RefererUrl = jingangs.jingangUrl
-          downtime = `${tasks[x].data.countDown[tid].countDown}`
+          downtime = tasks[x].data.countDown[tid].countDown
+   $.log(tasks[x].data.countDown[tid].countDown)
           $.log(taskName+"tid:"+tid)
          if(downtime == 0){
            await $.wait(1000)
@@ -305,7 +306,7 @@ function Tasks() {
         await $.wait(15000);
          //$.log(data+'\n')
      if (do_task.errno == 0){
-         $.desc += taskName + do_task.data.coin +"\n"
+         $.desc += taskName + "获得收益"+ do_task.data.coin +"\n"
          $.log("  获得收益: +"+do_task.data.coin+'\n  ')
      }  else if (do_task.errno == 19001){
         $.desc += taskName + "  "+ do_task.data.originData.msg + "\n"
