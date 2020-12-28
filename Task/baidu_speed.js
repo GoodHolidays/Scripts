@@ -45,12 +45,9 @@ if ($.isNode()) {
       await getsign();
       await coinInfo();
       await firstbox();
-     //await acchristmas()
       await TaskCenter()
-  //await get_search();
-  //await getRewards();
-  //await drawPrize();
-  //await get_pkg()
+      await getRewards();
+     //await drawPrize();
   }
  } 
 })()
@@ -108,15 +105,30 @@ function getRewards() {
       url: `https://haokan.baidu.com/activity/tasks/taskreward?productid=2`,
       headers: {Cookie:cookieval}
       }
-   $.get(rewurl, (error, response, data) => {
+   $.get(rewurl, async(error, response, data) => {
      let get_reward = JSON.parse(data)
+      await invite()
      if (get_reward.errno == 0&&get_reward.data.coin!==0){
          $.desc += '获得收益: +' + get_reward.data.coin
          }  
-   resolve()
+       resolve()
     })
   })
 }
+
+function invite() {
+  return new Promise((resolve, reject) =>{
+   let rewurl =  {
+      url: `https://dwz.cn/iSUFu2b0`,
+      headers: {Cookie:cookieval}
+      }
+   $.get(rewurl, (error, response, data) => {
+     let get_reward = JSON.parse(data)
+      resolve()
+    })
+  })
+}
+
 
 function TaskCenter() {
   return new Promise((resolve, reject) =>{
@@ -220,7 +232,7 @@ function get_pkg() {
      if (get_pkg.errno == 0&&get_pkg.data.isDone ==0){
        Pkg = get_pkg.data.adInfo[0].material.pkg
        taskid = get_pkg.data.taskPf.taskId;
-      $.log("\n"+taskid +" "+ Pkg)
+        //$.log("\n"+taskid +" "+ Pkg)
        await activeBox()
        }  
     else if (get_pkg.errno == 0&&get_pkg.data.isDone ==1){
@@ -285,12 +297,11 @@ function activeBox() {
       url: `https://haokan.baidu.com/activity/tasks/active?productid=2&id=${tid}`,
       headers: {Cookie:cookieval,Referer:RefererUrl}
       }
-$.log(tid)
    $.get(actboxurl, async(error, response, data) => {
      //let act_box = JSON.parse(data)
      //$.log('actbox: ' + data)
-     await $.wait(15000);
-     await Tasks();
+       await $.wait(15000);
+       await Tasks();
      resolve()
     })
   })
