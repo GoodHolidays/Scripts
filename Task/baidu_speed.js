@@ -126,7 +126,7 @@ function TaskCenter() {
    $.get(rewurl, async(error, resp, data) => {
   try{
      let get_tasks = JSON.parse(data)
-      //$.log("获取任务数据"+data)
+      $.log("获取任务数据"+data)
        tasks = get_tasks.data.comps
       for ( x in tasks){
          taskid = tasks[x].taskId
