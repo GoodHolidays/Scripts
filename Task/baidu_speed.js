@@ -140,11 +140,9 @@ function TaskCenter() {
           tid = jingangs.jingangTid
           taskName = '【'+jingangs.jingangName+'】'
           RefererUrl = jingangs.jingangUrl
-
- $.log(tasks[x].data.countDown.590.countDown)
-
+        $.log(taskName+"tid:"+tid)
+   $.log(tasks[x].data.countDown[tid].countDown)
           downtime = tasks[x].data.countDown[tid].countDown
-          $.log(taskName+"tid:"+tid)
          if(downtime == 0){
            await $.wait(1000)
            await get_pkg();
@@ -221,7 +219,7 @@ function get_pkg() {
      if (get_pkg.errno == 0&&get_pkg.data.isDone ==0){
        Pkg = get_pkg.data.adInfo[0].material.pkg
        taskid = get_pkg.data.taskPf.taskId;
-       $.log("\n"+taskid +" "+ Pkg)
+      // $.log("\n"+taskid +" "+ Pkg)
        await activeBox()
        }  
     else if (get_pkg.errno == 0&&get_pkg.data.isDone ==1){
