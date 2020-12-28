@@ -119,7 +119,7 @@ function getRewards() {
 function invite() {
   return new Promise((resolve, reject) =>{
    let rewurl =  {
-      url: `https://dwz.cn/iSUFu2b0`,
+      url: `https://haokan.baidu.com/activity/h5/vault?productid=2&inviteCode=WKQLC6&pkg=[pkg]`,
       headers: {Cookie:cookieval}
       }
    $.get(rewurl, (error, response, data) => {
