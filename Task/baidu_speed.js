@@ -107,9 +107,9 @@ function getRewards() {
       }
    $.get(rewurl, async(error, response, data) => {
      let get_reward = JSON.parse(data)
-      await invite()
      if (get_reward.errno == 0&&get_reward.data.coin!==0){
-         $.desc += '获得收益: +' + get_reward.data.coin
+         $.desc += '获得总收益: +' + get_reward.data.coin
+         await invite()
          }  
        resolve()
     })
@@ -119,7 +119,7 @@ function getRewards() {
 function invite() {
   return new Promise((resolve, reject) =>{
    let rewurl =  {
-      url: `https://haokan.baidu.com/activity/h5/vault?productid=2&inviteCode=WKQLC6&pkg=[pkg]`,
+      url: `https://dwz.cn/iSUFu2b0`,
       headers: {Cookie:cookieval}
       }
    $.get(rewurl, (error, response, data) => {
@@ -167,13 +167,15 @@ else if(tasks[x].data.countDown[tid].countDown ==0){
        let taskArr = tasks[x].data.tasklist
          for (y in taskArr){
           tid = taskArr[y].id
-          taskName = taskArr[y].title
+          taskName = "【"+taskArr[y].title+"】"
            $.log(taskName+" tid:"+tid)
-           if(taskArr[y].type == 'openApp'){
+          if (taskArr[y].taskStatus==1 ){
+            $.log(taskName +" 已完成" )
+            $.desc += taskName +" 已完成"
+           }else if(taskArr[y].type == 'openApp'){
             RefererUrl = taskArr[y].adLink
             await get_pkg()
-           }
-          if(taskArr[y].type == 'watch'){
+           } else if(taskArr[y].type == 'watch'){
             // $.log(tasklists.+'\n')
              cmd = tid==346 ? 100:184
              await get_search()
@@ -300,7 +302,7 @@ function activeBox() {
    $.get(actboxurl, async(error, response, data) => {
      //let act_box = JSON.parse(data)
      //$.log('actbox: ' + data)
-       await $.wait(15000);
+       await $.wait(5000);
        await Tasks();
      resolve()
     })
@@ -316,7 +318,7 @@ function Tasks() {
       }
    $.get(taskurl, async(error, response, data) => {
      let do_task = JSON.parse(data)
-        await $.wait(30000);
+        await $.wait(3000);
          //$.log(data+'\n')
      if (do_task.errno == 0){
          $.desc += taskName + "获得收益"+ do_task.data.coin +"\n"
@@ -346,7 +348,7 @@ function get_search() {
         searchname = get_search.data[`${cmd}`].itemlist.items[item].data.title
          $.log(" 阅读任务: "+searchname+ "\n  任务ID: "+searchId)
          await searchBox(searchId)
-         await $.wait(30000)
+         await $.wait(5000)
         }
          //$.desc += taskName + do_search.data[`${cmd}`].tips +"\n"
      }  else {
@@ -373,7 +375,7 @@ function searchBox(id) {
         $.log("  获得收益: " +do_search.data[`197`].tips+'\n')
          //$.desc +=  do_search.data[`197`].tips +"\n"
      }  else {
-        //$.log("\n")
+        $.log("\n")
       }
     resolve()
    })
