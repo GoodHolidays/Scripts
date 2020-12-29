@@ -123,7 +123,7 @@ function invite() {
       headers: {Cookie:cookieval}
       }
    $.get(rewurl, (error, response, data) => {
-     let get_reward = JSON.parse(data)
+   //  let get_reward = JSON.parse(data)
       resolve()
     })
   })
