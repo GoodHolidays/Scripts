@@ -302,7 +302,7 @@ function activeBox() {
    $.get(actboxurl, async(error, response, data) => {
      //let act_box = JSON.parse(data)
      //$.log('actbox: ' + data)
-       await $.wait(5000);
+       await $.wait(25000);
        await Tasks();
      resolve()
     })
@@ -318,7 +318,7 @@ function Tasks() {
       }
    $.get(taskurl, async(error, response, data) => {
      let do_task = JSON.parse(data)
-        await $.wait(3000);
+        await $.wait(20000);
          //$.log(data+'\n')
      if (do_task.errno == 0){
          $.desc += taskName + "获得收益"+ do_task.data.coin +"\n"
@@ -348,7 +348,7 @@ function get_search() {
         searchname = get_search.data[`${cmd}`].itemlist.items[item].data.title
          $.log(" 阅读任务: "+searchname+ "\n  任务ID: "+searchId)
          await searchBox(searchId)
-         await $.wait(5000)
+         await $.wait(30000)
         }
          //$.desc += taskName + do_search.data[`${cmd}`].tips +"\n"
      }  else {
