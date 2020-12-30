@@ -76,10 +76,13 @@ if (typeof $request !== 'undefined') {
       cookieval = CookieArr[i]
       bodyval = BodyArr[i]
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
+      bodys = [bodyval,bodyval.replace(/time%22%20%3A%20%22\d+/, 'cateid%22%20:%20%2253')]
       $.index = i + 1;
       await getsign();
       await userinfo()
+ for ( readbodyVal of bodys){
       await artList()
+   }
   }
  } 
 })()
@@ -139,17 +142,18 @@ function userinfo() {
     })
   })
 }
-
-
 function artList() {
   return new Promise((resolve, reject) =>{
+ 
    let infourl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/newmobile/artlist.action`,
       headers: {Cookie:cookieval},
-      body: bodyval
+      body: readbodyVal
       }
+ //$.log(infourl.body)
    $.post(infourl, async(error, resp, data) => {
      let get_list = JSON.parse(data)
+      //$.log( data)
          $.log("【开始自动阅读】")
      if (get_list.ret == "ok"){
        for( lists of get_list.artlist){
@@ -157,8 +161,16 @@ function artList() {
           art_Title = lists.art_title
           artid =lists.art_id
           screen_Name = lists.screen_name
-         $.log(" "+art_Title +"  -------- <"+screen_Name +">\n ")
+          $.log("正在阅读文章: "+art_Title +"  -------- <"+screen_Name +">\n ")
          await readTask(lists.art_id,lists.open_url)
+          }
+         if(lists.item_type=="video"){
+          art_Title = lists.art_title
+          artid =lists.art_id
+          screen_Name = lists.screen_name
+           artvideo = 1
+         $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
+          await readTask(lists.art_id,lists.open_url)
           }
          }
        }  
@@ -171,9 +183,9 @@ function artList() {
 function readTask(artid,readurl) {
   return new Promise((resolve, reject) =>{
    let rewurl =  {
-      url: readurl,
+      url: `https://www.xiaodouzhuan.cn/jkd/newmobile/artDetail.action`,
       headers: {Cookie:cookieval},
-      body: `openID=${ID}&articleID=${artid}&ce=iOS&articlevideo=0&event=oa&advCodeRandom=0&isShowAdv=1`
+      body: `jsondata={  "appid" : "xzwl",  "channel" : "IOS-qianzhuan",  "psign" : "0cf94b87f584dfc81a87fa74dcb3757f",  "appversioncode" : "6006",  "time" : "1609293915",  "relate" : 1,  "requestid" : "1609293912717038",  "artid" : "${artid}",  "os" : "IOS",${ID},  "apptoken" : "xzwltoken070704",  "appversion" : "60.0.6"}`
       }
    $.post(rewurl, async(error, resp, data) => {
      if(resp.statusCode ==200){
