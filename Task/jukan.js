@@ -283,7 +283,7 @@ function BoxProfit() {
       headers: {Cookie:cookieval,'User-Agent':UA}, body: `box_type=${boxtype}`
       }
    $.post(profiturl, async(error, resp, data) => {
-     //$.log(data+"\n")
+     $.log(data+"\n")
      let do_box = JSON.parse(data)
      if (do_box.ret == "ok"&&do_box.profit>0){
        $.log("获得收益: +"+do_box.profit)
