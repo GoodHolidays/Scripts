@@ -78,14 +78,19 @@ if (typeof $request !== 'undefined') {
       bodyval = BodyArr[i]
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
-      $.log(apptoken)
       bodys = [bodyval,bodyval.replace(/time%22%20%3A%20%22\d+/, 'cateid%22%20:%20%2253')]
       $.index = i + 1;
       await getsign();
-      await userinfo()
  for ( readbodyVal of bodys){
       await artList()
    }
+      position = "17"
+     await Stimulate()
+   for( boxtype of [1,2]){
+    await $.wait(1000)
+    await BoxProfit(boxtype)
+    }
+    await userinfo()
   }
  } 
 })()
@@ -105,8 +110,7 @@ function getsign() {
       //$.log(data)
      if (get_sign.ret == "ok"){
          $.sub = `签到成功🎉`
-         $.desc = `签到收益: +${get_sign.todaySignProfit}${get_sign.todaySignProfitType}💰，明日 +${get_sign.tomorrowSignProfit}${get_sign.tomorrowSignProfitType} 已签到 ${get_sign.signDays} 天` ;
-          $.log($.desc)
+         $.desc = `签到收益: +${get_sign.todaySignProfit}${get_sign.todaySignProfitType}💰，明日 +${get_sign.tomorrowSignProfit}${get_sign.tomorrowSignProfitType} 已签到 ${get_sign.signDays} 天\n` ;
            await invite()
          }  
      else if (get_sign.rtn_code == "R-ART-0008"){
@@ -118,7 +122,7 @@ function getsign() {
          $.sub = `签到失败❌`
          $.desc = `说明: `+ get_sign.rtn_msg
          $.msg($.name,$.sub,$.desc)
-         return
+         $.done()
          }
      resolve()
     })
@@ -137,9 +141,12 @@ function userinfo() {
       if( get_info.ret=="ok"){
        userName = get_info.userinfo.username
        sumcash = get_info.userinfo.infoMeSumCashItem.title+get_info.userinfo.infoMeCurCashItem.value
-     curcash = get_info.userinfo.infoMeCurCashItem.title+get_info.userinfo.infoMeCurCashItem.value
-    gold = get_info.userinfo.infoMeGoldItem.title+get_info.userinfo.infoMeGoldItem.value
+       curcash = get_info.userinfo.infoMeCurCashItem.title+get_info.userinfo.infoMeCurCashItem.value
+    gold = get_info.userinfo.infoMeGoldItem.title+": "+get_info.userinfo.infoMeGoldItem.value
     $.log("昵称:"+userName+"  "+gold +"\n"+sumcash + "/"+curcash )
+     $.sub += " "+gold
+     $.desc += sumcash + "/"+curcash 
+     $.msg($.name+" 昵称:"+userName, $.sub, $.desc)
      }
      resolve()
     })
@@ -158,16 +165,20 @@ function artList() {
          $.log("【开始自动阅读】")
      if (get_list.ret == "ok"){
        for( lists of get_list.artlist){
+          if(lists.item_type=="article"){
           art_Title = lists.art_title
           artid =lists.art_id
-          screen_Name = lists.screen_name
-          if(lists.item_type=="article"){
           arttype = "1"
+          screen_Name = lists.screen_name
           $.log("正在阅读文章: "+art_Title +"  -------- <"+screen_Name +">\n ")
          await readTask(lists.art_id,arttype)
           }
          if(lists.item_type=="video"){
+          art_Title = lists.art_title
+          artid =lists.art_id
           arttype = "2"
+          screen_Name = lists.screen_name
+           artvideo = 1
          $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
           await readTask(lists.art_id,arttype)
           }
@@ -192,7 +203,7 @@ function readTask(artid,arttype) {
    $.post(rewurl, async(error, resp, data) => {
      //$.log(data)
      if(resp.statusCode ==200){
-         await $.wait(32000) 
+         await $.wait(31000) 
          await finishTask(artid,arttype)
        } else {
         $.log("阅读失败: "+data)
@@ -214,12 +225,54 @@ function finishTask(artid,arttype) {
           taskresult = do_read.rtn_code
      if (do_read.ret == "ok"){
        $.log("获得收益: +"+do_read.profit +"\n")
-        // $.desc += '获得总收益: +' + 
          }  
        resolve()
     })
   })
 }
+
+//激励视频
+function Stimulate() {
+  return new Promise((resolve, reject) =>{
+   let stimurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/account/stimulateAdvAccount.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA},      
+      body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : ${position},${apptoken},"appversion":"60.0.6",${ID},"os":"iOS","channel":"iOS"}`
+      }
+   $.post(stimurl, async(error, response, data) => {
+     //$.log(data+"\n")
+     let do_stim = JSON.parse(data)
+     if ( do_stim.ret == "ok"){
+          $.log( do_stim.profit_title+": +"+ do_stim.profit +"(以实际情况为准)")
+         }  
+       resolve()
+    })
+  })
+}
+
+function BoxProfit() {
+  return new Promise((resolve, reject) =>{
+   let profiturl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/task/getTaskBoxProfit.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}, body: `box_type=${boxtype}`
+      }
+   $.post(profiturl, async(error, resp, data) => {
+     //$.log(data+"\n")
+     let do_box = JSON.parse(data)
+     if (do_box.ret == "ok"&&do_box.profit>0){
+       $.log("获得收益: +"+do_box.profit)
+          position = do_box.advertPopup.position
+          await Stimulate()
+          $.log(position)
+         }  
+       else if (do_box.rtn_code=='TAS-A-1'){
+         $.log("计时金币"+do_box.rtn_msg)
+        }
+       resolve()
+    })
+  })
+}
+
 
 function invite() {
    let rewurl =  {
