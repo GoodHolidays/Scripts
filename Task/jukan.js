@@ -42,9 +42,13 @@ if ($.isNode()) {
           BodyArr.push(JKbody[item])
         } 
     })
-} else if (CookieArr.indexOf("&")>-1 &&BodyArr.indexOf("&")>-1){
- CookieArr.push(cookie.split("&"))
-  BodyArr.push(bodys.split("&"))
+} else if (cookie.indexOf('&')>-1 &&bodys.indexOf('&')>-1){
+ Object.keys(cookie.split('&')).forEach((item) => {
+      CookieArr.push(cookie.split('&')[item])
+    })
+  Object.keys(bodys.split('&')).forEach((item) => {
+      BodyArr.push(bodys.split('&')[item])
+    })
 } else {
    CookieArr.push(cookie)
    BodyArr.push(bodys)
@@ -168,7 +172,7 @@ function userinfo() {
     $.log("昵称:"+userName+"  "+gold +"\n"+sumcash + "/"+curcash )
      $.sub += " "+gold
      $.desc += sumcash + "/"+curcash 
-     $.msg($.name+" 昵称:"+userName, $.sub, $.desc)
+     $.msg($.name+" 昵称:"+userName, $.sub, $.desc+"\n")
      }
      resolve()
     })
