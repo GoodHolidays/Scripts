@@ -4,6 +4,7 @@
 
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
+hostname = www.xiaodouzhuan.cn
 ~~~~~~~~~~~~~~~~
 
 */
@@ -81,11 +82,11 @@ if (typeof $request !== 'undefined') {
       bodys = [bodyval,bodyval.replace(/time%22%20%3A%20%22\d+/, 'cateid%22%20:%20%2253')]
       $.index = i + 1;
       await getsign();
+      await signShare();
  for ( readbodyVal of bodys){
-      await artList()
+         await artList()
    }
-      position = "17"
-     await Stimulate()
+     await Stimulate("17")
    for( boxtype of [1,2]){
     await $.wait(1000)
     await BoxProfit(boxtype)
@@ -128,6 +129,27 @@ function getsign() {
     })
   })
 }
+
+function signShare() {
+  return new Promise((resolve, reject) =>{
+   let profiturl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/account/signShareAccount.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
+      }
+   $.post(profiturl, async(error, resp, data) => {
+     //$.log(data+"\n")
+     let sign_share = JSON.parse(data)
+     if (sign_share.ret == "ok"){
+       $.log("签到分享收益: +"+sign_share.profit)
+        await Stimulate("23")
+         }  else {
+       $.log(sign_share.rtn_msg)
+     }
+       resolve()
+    })
+  })
+}
+
 
 function userinfo() {
   return new Promise((resolve, reject) =>{
@@ -232,7 +254,7 @@ function finishTask(artid,arttype) {
 }
 
 //激励视频
-function Stimulate() {
+function Stimulate(position) {
   return new Promise((resolve, reject) =>{
    let stimurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/stimulateAdvAccount.action`,
@@ -262,7 +284,7 @@ function BoxProfit() {
      if (do_box.ret == "ok"&&do_box.profit>0){
        $.log("获得收益: +"+do_box.profit)
           position = do_box.advertPopup.position
-          await Stimulate()
+          await Stimulate(position)
           $.log(position)
          }  
        else if (do_box.rtn_code=='TAS-A-1'){
