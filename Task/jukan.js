@@ -85,8 +85,8 @@ if (typeof $request !== 'undefined') {
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
       bodys = [bodyval,bodyval.replace(/time%22%20%3A%20%22\d+/, 'cateid%22%20:%20%2253')]
       $.index = i + 1;
-      await getsign();
-      await signShare();
+       await getsign();
+       await signShare();
  for ( readbodyVal of bodys){
          await artList()
    }
@@ -208,7 +208,7 @@ function artList() {
          $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
           await readTask(lists.art_id,arttype)
           }
-        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0017`){
+        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0011`){
          break 
           }
          }
