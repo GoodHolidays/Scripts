@@ -18,11 +18,11 @@
          "20 5 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js, tag=中青浏览赚 ,img-url=https://raw.githubusercontent.com/Orz-3/task/master/youth.png",
          "4 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js, tag=数码之家 ,img-url=https://raw.githubusercontent.com/Orz-3/task/master/mydigit.png",
          "7 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jingxi.js, tag=京喜 ,img-url= https://raw.githubusercontent.com/Orz-3/task/master/jingxi.png",
-         "7 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js, tag=墨迹天气 ,img-url=https://gitee.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji.png"
+         "7 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js, tag=墨迹天气 ,img-url=https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji.png",
+         "*/10 */3 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js, tag=聚看点 ,img-url=https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan.png",
+         "*/30 * * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baidu_speed.js, tag=百度极速版 ,img-url=https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/baiduspeed.png"
     ],
 }
         
         
-        
-        
-        
+  
