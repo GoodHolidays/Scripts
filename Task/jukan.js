@@ -13,7 +13,7 @@ const $ = new Env('聚看点')
 let CookieArr=[],BodyArr=[];
 let cookie = $.getdata('jukan_ck')
 let bodys = $.getdata('jukan_body')
-let UA = 'QianZhuan/60.0.6 (iPhone; iOS 13.7; Scale/3.00)'
+let UA = 'JuKanDian/5.6.5 (iPhone; iOS 14.2; Scale/3.00)'
 
 if ($.isNode()) {
   if (process.env.JUKAN_COOKIE && process.env.JUKAN_COOKIE.indexOf('&') > -1) {
@@ -25,7 +25,7 @@ if ($.isNode()) {
   JKCookie = process.env.JUKAN_COOKIE.split()
   }
   if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('&') > -1) {
-  JKbody = process.env.JUKAN_BODY.split('&');
+  JKbody = process.env.BODY_BODY.split('&');
   }
  if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('\n') > -1) {
   JKbody = process.env.JUKAN_BODY.split('\n');
@@ -85,10 +85,10 @@ if (typeof $request !== 'undefined') {
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
       bodys = [bodyval,bodyval.replace(/time%22%20%3A%20%22\d+/, 'cateid%22%20:%20%2253')]
       $.index = i + 1;
-       await getsign();
-       await signShare();
- for ( readbodyVal of bodys){
-         await artList()
+      await getsign();
+      await signShare();
+ for (readbodyVal of bodys){
+       await artList(readbodyVal)
    }
      await Stimulate("17")
    for( boxtype of [1,2]){
@@ -178,7 +178,7 @@ function userinfo() {
     })
   })
 }
-function artList() {
+function artList(readbodyVal) {
   return new Promise((resolve, reject) =>{
    let infourl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/newmobile/artlist.action`,
@@ -194,21 +194,19 @@ function artList() {
           if(lists.item_type=="article"){
           art_Title = lists.art_title
           artid =lists.art_id
-          arttype = "1"
           screen_Name = lists.screen_name
           $.log("正在阅读文章: "+art_Title +"  -------- <"+screen_Name +">\n ")
-         await readTask(lists.art_id,arttype)
+         await readTask(lists.art_id,"1")
           }
          if(lists.item_type=="video"){
           art_Title = lists.art_title
           artid =lists.art_id
           arttype = "2"
           screen_Name = lists.screen_name
-           artvideo = 1
          $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
-          await readTask(lists.art_id,arttype)
+          await readTask(lists.art_id,"2")
           }
-        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0011`){
+        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0017`){
          break 
           }
          }
@@ -282,10 +280,8 @@ function BoxProfit() {
       url: `https://www.xiaodouzhuan.cn/jkd/task/getTaskBoxProfit.action`,
       headers: {Cookie:cookieval,'User-Agent':UA}, body: `box_type=${boxtype}`
       }
-
-$.log(profiturl.body)
    $.post(profiturl, async(error, resp, data) => {
-     $.log(data+"\n")
+     //$.log(data+"\n")
      let do_box = JSON.parse(data)
      if (do_box.ret == "ok"&&do_box.profit>0){
        $.log("获得收益: +"+do_box.profit)
