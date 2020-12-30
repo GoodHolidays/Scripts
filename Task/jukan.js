@@ -280,6 +280,8 @@ function BoxProfit() {
       url: `https://www.xiaodouzhuan.cn/jkd/task/getTaskBoxProfit.action`,
       headers: {Cookie:cookieval,'User-Agent':UA}, body: `box_type=${boxtype}`
       }
+      $.log(boxtype)
+      $.log(cookieval)
    $.post(profiturl, async(error, resp, data) => {
      //$.log(data+"\n")
      let do_box = JSON.parse(data)
