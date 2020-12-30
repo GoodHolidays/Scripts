@@ -25,7 +25,7 @@ if ($.isNode()) {
   JKCookie = process.env.JUKAN_COOKIE.split()
   }
   if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('&') > -1) {
-  JKbody = process.env.BODY_BODY.split('&');
+  JKbody = process.env.JUKAN_BODY.split('&');
   }
  if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('\n') > -1) {
   JKbody = process.env.JUKAN_BODY.split('\n');
