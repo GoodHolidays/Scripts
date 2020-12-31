@@ -391,7 +391,7 @@ function stimulate() {
      let _Adv = JSON.parse(data)
      if (_Adv.ret == "ok"&&_Adv.status==1){
        $.log("视频"+ _Adv.videoType+"获得红包: +"+_Adv.rewardAmount+_Adv.rewardName)
-         await $.wait(1000)
+         await $.wait(2000)
          await Stimulate("17")
          }  else {
        $.log("视频广告红包，"+ _Adv.message)
@@ -432,6 +432,7 @@ function BoxProfit() {
      if (do_box.ret == "ok"&&do_box.profit>0){
        $.log("获得收益: +"+do_box.profit)
           position = do_box.advertPopup.position
+          await $.wait(2000) 
           await Stimulate(position)
          // $.log(position)
          }  
