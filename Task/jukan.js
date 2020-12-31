@@ -87,10 +87,11 @@ if (typeof $request !== 'undefined') {
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
    if (new Date().getTimezoneOffset()/60 != -8){
-      times = Date.parse(new Date())/1000+28800
+      times = Date.parse(new Date())/1000
     } else {
       times = Date.parse(new Date())/1000
     }
+$.log(times)
       bodys = [bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times}`),bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'cateid%22%20:%20%2253')]
       $.index = i + 1;
       await sign();
@@ -108,7 +109,7 @@ if (typeof $request !== 'undefined') {
       await WelfareCash();
  for (readbodyVal of bodys){
      $.log(readbodyVal)
-     await artList(readbodyVal)
+     //await artList(readbodyVal)
    }
   }
  } 
