@@ -1,6 +1,6 @@
 
 /*
-更新时间: 2020-10-18 00:50
+更新时间: 2021-1-1 00:50
 
 腾讯新闻签到修改版，可以自动阅读文章获取红包，该活动为瓜分百万现金挑战赛，针对幸运用户参与
 
@@ -119,11 +119,9 @@ if (isGetCookie) {
       await getsign();
       await activity();
       await toRead();
+      await $.wait(3000)
       await lookVideo();
-      await OrderID();
-      if(order) {
-      await Pending();
-    };
+      await redrain();
       await StepsTotal();
       if(getreadred != 0){
         redbody = `redpack_type=article&activity_id=${actid}`
@@ -241,6 +239,22 @@ function lookVideo() {
        })
     },s*2)
   })
+}
+function redrain() {
+  return new Promise((resolve, reject) => {
+      $.post({url: `https://api.prize.qq.com/v1/newsapp/fireworks/fw_202012/outer_get/KIJ1Q0FD57W0`, headers: {Cookie:cookieVal,"Referer": "https://gh.prize.qq.com/h5/fireworks/send.html?_addparams=%7B%22id%22%3A%22KIJ1Q0FD57W0%22%7D"}},(error, resp, data) =>{
+         //console.log(data)
+    if(resp.statusCode !== 403){
+      try {
+          let openres = JSON.parse(data)
+            if (openres.message == "success" ){
+            }
+           } catch(error){
+             console.log("分享失败:"+ data)      }
+         }
+        resolve()
+      })
+   })
 }
 
 function OrderID() {
