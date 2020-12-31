@@ -85,12 +85,12 @@ if (typeof $request !== 'undefined') {
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
       bodys = [bodyval,bodyval.replace(/time%22%20%3A%20%22\d+/, 'cateid%22%20:%20%2253')]
       $.index = i + 1;
+      await sign();
       await getsign();
-      await signShare();
  for (readbodyVal of bodys){
       await artList(readbodyVal)
    }
-      await Stimulate("17")
+     await Stimulate("17")
    for( boxtype of [1,2]){
       await $.wait(1000)
       await BoxProfit(boxtype)
@@ -103,6 +103,27 @@ if (typeof $request !== 'undefined') {
     .finally(() => $.done())
 }
 //签到
+function sign() {
+  return new Promise((resolve, reject) =>{
+   let profiturl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/account/homeSignAccount.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
+      }
+   $.post(profiturl, async(error, resp, data) => {
+     //$.log(data+"\n")
+     let sign_res = JSON.parse(data)
+     if (sign_res.ret == "ok"&&sign_res.profit>0){
+       $.log("签到收益: +"+sign_res.profitDesc)
+         }  else {
+       $.log(sign_res.rtn_msg)
+     }
+       resolve()
+    })
+  })
+}
+
+
+
 function getsign() {
   return new Promise((resolve, reject) =>{
    let signurl =  {
@@ -116,7 +137,7 @@ function getsign() {
      if (get_sign.ret == "ok"){
          $.sub = `签到成功🎉`
          $.desc = `签到收益: +${get_sign.todaySignProfit}${get_sign.todaySignProfitType}💰，明日 +${get_sign.tomorrowSignProfit}${get_sign.tomorrowSignProfitType} 已签到 ${get_sign.signDays} 天\n` ;
-           await invite()
+           await signShare()
          }  
      else if (get_sign.rtn_code == "R-ART-0008"){
          $.sub =  get_sign.rtn_msg
@@ -146,6 +167,7 @@ function signShare() {
      if (sign_share.ret == "ok"){
        $.log("签到分享收益: +"+sign_share.profit)
         await Stimulate("23")
+        await invite()
          }  else {
        $.log(sign_share.rtn_msg)
      }
@@ -168,7 +190,7 @@ function userinfo() {
        userName = get_info.userinfo.username
        sumcash = get_info.userinfo.infoMeSumCashItem.title+get_info.userinfo.infoMeCurCashItem.value
        curcash = get_info.userinfo.infoMeCurCashItem.title+get_info.userinfo.infoMeCurCashItem.value
-       gold = get_info.userinfo.infoMeGoldItem.title+": "+get_info.userinfo.infoMeGoldItem.value
+    gold = get_info.userinfo.infoMeGoldItem.title+": "+get_info.userinfo.infoMeGoldItem.value
     $.log("昵称:"+userName+"  "+gold +"\n"+sumcash + "/"+curcash )
      $.sub += " "+gold
      $.desc += sumcash + "/"+curcash 
@@ -206,7 +228,7 @@ function artList(readbodyVal) {
          $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
           await readTask(lists.art_id,"2")
           }
-        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0011`){
+        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0017`){
          break 
           }
          }
@@ -222,7 +244,7 @@ function readTask(artid,arttype) {
    let rewurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/newmobile/artDetail.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},
-      body: `jsondata={"appid":"xzwl","channel":"IOS","relate":1,"artid":"${artid}","os":"IOS",${ID},${apptoken},"appversion":"5.6.5"}`
+      body: `jsondata={"appid":"xzwl","channel":"IOS-qianzhuan","psign":"0cf94b87f584dfc81a87fa74dcb3757f","relate":1,"artid":"${artid}","os":"IOS",${ID},${apptoken},"appversion":"60.0.6"}`
       }
    $.post(rewurl, async(error, resp, data) => {
      //$.log(data)
@@ -241,7 +263,7 @@ function finishTask(artid,arttype) {
   return new Promise((resolve, reject) =>{
    let finishurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/readAccount.action`,
-      headers: {Cookie:cookieval,'User-Agent':UA},      body: `jsondata={"read_weal":"0","appid":"xzwl","paytype":${arttype},"channel":"IOS",${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","artid":"${artid}","readmodel":"1"}`
+      headers: {Cookie:cookieval,'User-Agent':UA},      body: `jsondata={"read_weal":"0","appid":"xzwl","paytype":${arttype},"channel":"IOS-qianzhuan",${apptoken},"appversion":"60.0.6",${ID},"os":"iOS","artid":"${artid}","readmodel":"1"}`
       }
    $.post(finishurl, async(error, response, data) => {
      $.log(data+"\n")
@@ -261,7 +283,7 @@ function Stimulate(position) {
    let stimurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/stimulateAdvAccount.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},      
-      body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : ${position},${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","channel":"iOS"}`
+      body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : ${position},${apptoken},"appversion":"60.0.6",${ID},"os":"iOS","channel":"iOS"}`
       }
    $.post(stimurl, async(error, response, data) => {
      //$.log(data+"\n")
@@ -280,8 +302,6 @@ function BoxProfit() {
       url: `https://www.xiaodouzhuan.cn/jkd/task/getTaskBoxProfit.action`,
       headers: {Cookie:cookieval,'User-Agent':UA}, body: `box_type=${boxtype}`
       }
-      $.log(boxtype)
-      $.log(cookieval)
    $.post(profiturl, async(error, resp, data) => {
      //$.log(data+"\n")
      let do_box = JSON.parse(data)
