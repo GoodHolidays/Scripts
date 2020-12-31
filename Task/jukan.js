@@ -312,7 +312,8 @@ function readTask(artid,arttype) {
    $.post(rewurl, async(error, resp, data) => {
      //$.log(data)
      if(resp.statusCode ==200){
-         await $.wait(31000) 
+        $.log("请等待30s\n")
+         await $.wait(30000) 
          await finishTask(artid,arttype)
        } else {
         $.log("阅读失败: "+data)
@@ -331,12 +332,14 @@ function finishTask(artid,arttype) {
       body: `jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"${times}",${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","artid":${artid},"accountType":"0","readmodel":"1"}`
       }
    $.post(finishurl, async(error, response, data) => {
-     $.log(data+"\n")
+     //$.log(data+"\n")
      let do_read = JSON.parse(data)
           taskresult = do_read.rtn_code
      if (do_read.ret == "ok"){
        $.log("获得收益: +"+do_read.profit +"\n")
-         }  
+         }  else {
+      $.log(do_read.rtn_msg)
+    }
        resolve()
     })
   })
