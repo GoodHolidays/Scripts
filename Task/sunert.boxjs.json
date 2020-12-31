@@ -208,6 +208,22 @@
       "keys": ["jukan_ck","jukan_body"],
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js",
+       "settings": [
+        {
+          "id": "jukan_cash",
+          "name": "提现金额",
+          "val": "",
+          "type": "number",
+          "placeholder": "默认30 (点击以展开说明)",
+          "desc": "仅允许填入数字，所选金额可见聚看点APP"
+        },
+        {
+          "id": "jukan_name",
+          "name": "微信真实姓名",
+          "val": "",
+          "type": "textarea",
+          "placeholder": "填入微信真实姓名"
+        }],
       "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan.png"],
       "script": "https://github.com/Sunert/Scripts/raw/master/Task/jukan.js"
     },
