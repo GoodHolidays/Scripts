@@ -16,6 +16,7 @@ let wxname = $.getdata('jukan_name') || ""//微信真实名字，可以在双引
 let CookieArr=[],BodyArr=[];
 let cookie = $.getdata('jukan_ck')
 let bodys = $.getdata('jukan_body')
+let signtimes = $.getdata('jukan_times')
 let UA = 'JuKanDian/5.6.5 (iPhone; iOS 14.2; Scale/3.00)'
 
 if ($.isNode()) {
@@ -99,7 +100,10 @@ if (typeof $request !== 'undefined') {
       await realname();
       await Withdraw()
    }
+   if (signtimes&&signtimes<5){
       await WelfareCash();
+    return
+}
       times = Date.parse(new Date())/1000
       bodys = [bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203'),bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')]
  if(new Date().getTimezoneOffset() != '-480'){
@@ -107,9 +111,12 @@ if (typeof $request !== 'undefined') {
    } else {
  for (readbodyVal of bodys){
      await artList(readbodyVal)
-    }
+    }  
+   if (taskresult == 'R-ART-1002'){
+     $.desc += "\n"+sumnotify
+     $.msg($.name+" 昵称:"+userName, $.sub, $.desc)
+     }
    }
-   
   }
  } 
 })()
@@ -147,8 +154,10 @@ function getsign() {
      let get_sign = JSON.parse(data)
       //$.log(data)
      if (get_sign.ret == "ok"){
+       signtimes = get_sign.signDays
+      if(signtimes) $.setdata(signtimes, 'jukan_times')
          $.sub = `签到成功🎉`
-         $.desc = `签到收益: +${get_sign.todaySignProfit}${get_sign.todaySignProfitType}💰，明日 +${get_sign.tomorrowSignProfit}${get_sign.tomorrowSignProfitType} 已签到 ${get_sign.signDays} 天\n` ;
+         $.desc = `签到收益: +${get_sign.todaySignProfit}${get_sign.todaySignProfitType}💰，明日 +${get_sign.tomorrowSignProfit}${get_sign.tomorrowSignProfitType} 已签到 ${signtimes} 天\n` ;
            await signShare()
          }  
      else if (get_sign.rtn_code == "R-ART-0008"){
@@ -253,11 +262,10 @@ function userinfo() {
        userName = get_info.userinfo.username
        sumcash = get_info.userinfo.infoMeSumCashItem.title+get_info.userinfo.infoMeSumCashItem.value
        curcash = get_info.userinfo.infoMeCurCashItem.title+get_info.userinfo.infoMeCurCashItem.value
-        gold = get_info.userinfo.infoMeGoldItem.title+": "+get_info.userinfo.infoMeGoldItem.value
+       gold = get_info.userinfo.infoMeGoldItem.title+": "+get_info.userinfo.infoMeGoldItem.value
     $.log("昵称:"+userName+"  "+gold +"\n"+sumcash + "/"+curcash )
      $.sub += " "+gold
      $.desc += sumcash + "/"+curcash 
-     $.msg($.name+" 昵称:"+userName, $.sub, $.desc+"\n")
      }
      resolve()
     })
@@ -334,12 +342,13 @@ function finishTask(artid,arttype) {
    $.post(finishurl, async(error, response, data) => {
      //$.log(data+"\n")
      let do_read = JSON.parse(data)
-          taskresult = do_read.rtn_code
+         taskresult = do_read.rtn_code
+         $.log(do_read.rtn_msg)
      if (do_read.ret == "ok"){
        $.log("获得收益: +"+do_read.profit +"\n")
-         }  else {
-      $.log(do_read.rtn_msg)
-    }
+         }  else if (arttype == 1 ){
+         sumnotify = do_read.rtn_msg
+        }
        resolve()
     })
   })
@@ -356,7 +365,7 @@ function Stimulate(position) {
    $.post(stimurl, async(error, response, data) => {
      //$.log(data+"\n")
      let do_stim = JSON.parse(data)
-     if ( do_stim.ret == "ok"){
+     if ( do_stim.ret == "ok"&&position !="17"){
           $.log( do_stim.profit_title+": +"+ do_stim.profit +"(以实际情况为准)")
          }  
        resolve()
@@ -377,7 +386,7 @@ function BoxProfit() {
        $.log("获得收益: +"+do_box.profit)
           position = do_box.advertPopup.position
           await Stimulate(position)
-          $.log(position)
+         // $.log(position)
          }  
        else if (do_box.rtn_code=='TAS-A-1'){
          $.log("计时金币"+do_box.rtn_msg)
