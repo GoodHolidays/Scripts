@@ -88,7 +88,7 @@ if (typeof $request !== 'undefined') {
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
    
       times = Date.parse(new Date())/1000
-      bodys = [bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times}%22%2C%20`+'cateid%22%20:%20%223'),bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'cateid%22%20:%20%2253')]
+      bodys = [bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203'),bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')]
       $.index = i + 1;
       await sign();
       await getsign();
@@ -326,7 +326,6 @@ function finishTask(artid,arttype) {
       headers: {Cookie:cookieval,'User-Agent':UA},      
       body: `jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"${times}",${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","artid":${artid},"accountType":"0","readmodel":"1"}`
       }
-  return
    $.post(finishurl, async(error, response, data) => {
      $.log(data+"\n")
      let do_read = JSON.parse(data)
