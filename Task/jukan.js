@@ -87,10 +87,12 @@ if (typeof $request !== 'undefined') {
       bodyval = BodyArr[i]
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
+      times = Date.parse(new Date())/1000
       $.index = i + 1;
       await sign();
       await getsign();
-      await Stimulate("17");
+      await stimulate();
+      await TimeBox();
    for(boxtype of [1,2]){
       await $.wait(1000);
       await BoxProfit(boxtype)
@@ -102,9 +104,7 @@ if (typeof $request !== 'undefined') {
    }
    if (signtimes&&signtimes<5){
       await WelfareCash();
-    return
-}
-      times = Date.parse(new Date())/1000
+   }
       bodys = [bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203'),bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')]
  if(new Date().getTimezoneOffset() != '-480'){
     continue
@@ -214,6 +214,30 @@ function WelfareCash() {
     })
   })
 }
+
+function TimeBox() {
+  return new Promise((resolve, reject) =>{
+   let boxurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/account/openTimeBoxAccount.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA},
+       body: bodyval
+      }
+   $.post(boxurl, async(error, resp, data) => {
+     //$.log(data+"\n")
+     let _timebox = JSON.parse(data)
+     if (_timebox.ret == "ok"){
+       $.log("定时宝箱开启成功，获得收益+"+_timebox.profit + "下次需"+_timebox.next_time+"分钟")
+       await $.wait(5000)
+       await  Stimulate(_timebox.advertPopup.position)
+         //$.log(_timebox.advertPopup.buttonText )
+         }  else {
+       $.log(_timebox.rtn_msg)
+     }
+       resolve()
+    })
+  })
+}
+
 function realname() {
   return new Promise((resolve, reject) =>{
    let realurl =  {
@@ -354,13 +378,36 @@ function finishTask(artid,arttype) {
   })
 }
 
+
+function stimulate() {
+  return new Promise((resolve, reject) =>{
+   let Advurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/newmobile/stimulateAdv.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA},
+      body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : "17","time" : "${times}", ${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","channel":"iOS"}`
+      }
+   $.post(Advurl, async(error, resp, data) => {
+     //$.log(data+"\n")
+     let _Adv = JSON.parse(data)
+     if (_Adv.ret == "ok"&&_Adv.status==1){
+       $.log("视频"+ _Adv.videoType+"获得红包: +"+_Adv.rewardAmount+_Adv.rewardName)
+         await $.wait(1000)
+         await Stimulate("17")
+         }  else {
+       $.log("视频广告红包，"+ _Adv.message)
+     }
+       resolve()
+    })
+  })
+}
+
 //激励视频
 function Stimulate(position) {
   return new Promise((resolve, reject) =>{
    let stimurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/stimulateAdvAccount.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},      
-      body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : ${position},${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","channel":"iOS"}`
+      body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : ${position},"time" : "${times}", ${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","channel":"iOS"}`
       }
    $.post(stimurl, async(error, response, data) => {
      //$.log(data+"\n")
