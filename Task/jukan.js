@@ -4,12 +4,15 @@
 
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
+可自动提现，提现需填写微信真实姓名，设置提现金额，默认30，此设置可以boxjs内完成，也可本地配置
+
 hostname = www.xiaodouzhuan.cn
 ~~~~~~~~~~~~~~~~
 
 */
 const $ = new Env('聚看点')
-
+let drawcash = $.getdata('jukan_name') || 30 //提现金额
+let wxname = $.getdata('jukan_name') || ""//微信真实名字，可以在双引号内填入
 let CookieArr=[],BodyArr=[];
 let cookie = $.getdata('jukan_ck')
 let bodys = $.getdata('jukan_body')
@@ -87,15 +90,20 @@ if (typeof $request !== 'undefined') {
       $.index = i + 1;
       await sign();
       await getsign();
- for (readbodyVal of bodys){
-      await artList(readbodyVal)
-   }
-     await Stimulate("17")
+      await Stimulate("17")
    for( boxtype of [1,2]){
       await $.wait(1000)
       await BoxProfit(boxtype)
     }
-      await userinfo()
+   await userinfo()
+  if (sumcash >= drawcash&&wxname){
+      await realname();
+      await Withdraw();
+   }
+      await WelfareCash();
+ for (readbodyVal of bodys){
+      await artList(readbodyVal)
+   }
   }
  } 
 })()
@@ -175,7 +183,51 @@ function signShare() {
     })
   })
 }
+function WelfareCash() {
+  return new Promise((resolve, reject) =>{
+   let welurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/activity/cashweal/noviceWelfareCash.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}
+      }
+   $.post(welurl, async(error, resp, data) => {
+     //$.log(data+"\n")
+     let _welfareCash = JSON.parse(data)
+     if (_welfareCash.ret == "ok"){
+       $.log("新手福利提现: 成功")
+        
+         }  else {
+       $.log(_welfareCash.rtn_msg)
+     }
+       resolve()
+    })
+  })
+}
+function realname() {
+  return new Promise((resolve, reject) =>{
+   let drawurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/verifyIdentity.action?realname=${wxname}`,
+      headers: {Cookie:cookieval,'User-Agent':UA}
+      }
+   $.get(drawurl, async(error, resp, data) => {
+       $.log(data+"\n")
+       resolve()
+    })
+  })
+}
 
+//提现
+function Withdraw() {
+  return new Promise((resolve, reject) =>{
+   let drawurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/userWithdrawPost.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}, body: `type=wx&sum=${sumcash}&mobile=&pid=0`
+      }
+   $.post(drawurl, async(error, resp, data) => {
+       $.log(data+"\n")
+       resolve()
+    })
+  })
+}
 
 function userinfo() {
   return new Promise((resolve, reject) =>{
@@ -322,7 +374,7 @@ function BoxProfit() {
 
 function invite() {
    let rewurl =  {
-      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/member/receiveMonkeyXd.action?userid=f99d2227a3be4a1599e936e0522537ac`,
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/member/receiveMonkeyXd.action?userid=fe0d318cdfbd4f8f9950ce67c5643eaa`,
       headers: {Cookie:cookieval}
       }
    $.get(rewurl, (error, response, data) => {
