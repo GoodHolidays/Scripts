@@ -86,8 +86,9 @@ if (typeof $request !== 'undefined') {
       bodyval = BodyArr[i]
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
+   
       times = Date.parse(new Date())/1000
-      bodys = [bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times}`),bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'cateid%22%20:%20%2253')]
+      bodys = [bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times}%22%2C%20`+'cateid%22%20:%20%223'),bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'cateid%22%20:%20%2253')]
       $.index = i + 1;
       await sign();
       await getsign();
@@ -103,7 +104,6 @@ if (typeof $request !== 'undefined') {
    }
       await WelfareCash();
  for (readbodyVal of bodys){
-     $.log(readbodyVal)
      await artList(readbodyVal)
    }
   }
@@ -269,7 +269,7 @@ function artList(readbodyVal) {
       }
    $.post(infourl, async(error, resp, data) => {
      let get_list = JSON.parse(data)
-        //$.log( data)
+       // $.log( data)
          $.log("【开始自动阅读】")
      if (get_list.ret == "ok"){
        for( lists of get_list.artlist){
@@ -287,8 +287,8 @@ function artList(readbodyVal) {
          $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
           await readTask(lists.art_id,"2")
           }
-        if(taskresult  == `R-ART-1002`|| taskresult ==`R-ART-0011`){
-         break 
+        if(taskresult == 'R-ART-1002'|| taskresult ==`R-ART-0011`){
+         break
           }
          }
        }  
@@ -320,19 +320,15 @@ function readTask(artid,arttype) {
 
 function finishTask(artid,arttype) {
   return new Promise((resolve, reject) =>{
-  times = Date.parse(new Date())/1000
-  $.log(times)
-finishbody = encodeURIComponent(`jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"${times}","${apptoken}","appversion":"5.6.5",${ID},"os":"iOS","artid":"${artid}","accountType":"0","readmodel":"1"}`)
    let finishurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/readAccount.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},      
-      body: finishbody
+      body: `jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"1609399731",${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","artid":${artid},"accountType":"0","readmodel":"1"}`
       }
-      $.log(finishbody)
    $.post(finishurl, async(error, response, data) => {
      $.log(data+"\n")
      let do_read = JSON.parse(data)
-         taskresult = do_read.rtn_code
+          taskresult = do_read.rtn_code
      if (do_read.ret == "ok"){
        $.log("获得收益: +"+do_read.profit +"\n")
          }  
