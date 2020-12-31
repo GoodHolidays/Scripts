@@ -320,11 +320,13 @@ function readTask(artid,arttype) {
 
 function finishTask(artid,arttype) {
   return new Promise((resolve, reject) =>{
+    times = Date.parse(new Date())/1000
    let finishurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/readAccount.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},      
-      body: `jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"1609399731",${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","artid":${artid},"accountType":"0","readmodel":"1"}`
+      body: `jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"${times}",${apptoken},"appversion":"5.6.5",${ID},"os":"iOS","artid":${artid},"accountType":"0","readmodel":"1"}`
       }
+  return
    $.post(finishurl, async(error, response, data) => {
      $.log(data+"\n")
      let do_read = JSON.parse(data)
