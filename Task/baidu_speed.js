@@ -171,7 +171,7 @@ else if(tasks[x].data.countDown[tid].countDown ==0){
            $.log(taskName+" tid:"+tid)
           if (taskArr[y].taskStatus==1 ){
             $.log(taskName +" 已完成" )
-            $.desc += taskName +" 已完成"
+            $.desc += taskName +" 已完成\n"
            }else if(taskArr[y].type == 'openApp'){
             RefererUrl = taskArr[y].adLink
             await get_pkg()
