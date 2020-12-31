@@ -103,6 +103,10 @@ if (typeof $request !== 'undefined') {
       await Withdraw();
    }
       await WelfareCash();
+      $.log(new Date().getTimezoneOffset())
+   if(new Date().getTimezoneOffset() !='-480'){
+    $.done()
+   }
  for (readbodyVal of bodys){
      await artList(readbodyVal)
    }
