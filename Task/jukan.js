@@ -1,5 +1,5 @@
 /*
-聚看点极速版签到任务
+聚看点签到任务，不支持Actions跑阅读任务，其他任务可运行
 打开'我的'获取Cookie
 
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
@@ -105,7 +105,7 @@ if (typeof $request !== 'undefined') {
       await WelfareCash();
       $.log(new Date().getTimezoneOffset())
    if(new Date().getTimezoneOffset() !='-480'){
-    return
+    break
    }
  for (readbodyVal of bodys){
      await artList(readbodyVal)
