@@ -204,12 +204,19 @@ function WelfareCash() {
 }
 function realname() {
   return new Promise((resolve, reject) =>{
-   let drawurl =  {
+   let realurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/verifyIdentity.action?realname=${wxname}`,
       headers: {Cookie:cookieval,'User-Agent':UA}
       }
-   $.get(drawurl, async(error, resp, data) => {
-       $.log(data+"\n")
+   $.get(realurl, async(error, resp, data) => {
+       let get_name = JSON.parse(data)
+      if (get_name.ret="ok"){
+       $.log("恭喜您，实名验证通过" + get_name.return_msg)
+       await Withdraw()
+      } else {
+         $.log("实名验证" + get_name.return_msg)
+         $.msg($.name,"提现实名认证失败")
+      }
        resolve()
     })
   })
@@ -223,7 +230,8 @@ function Withdraw() {
       headers: {Cookie:cookieval,'User-Agent':UA}, body: `type=wx&sum=${sumcash}&mobile=&pid=0`
       }
    $.post(drawurl, async(error, resp, data) => {
-       $.log(data+"\n")
+       $.log("提现"+sumcash+"元\n"+data)
+       $.desc += "\n提现"+sumcash+"元  "+data
        resolve()
     })
   })
