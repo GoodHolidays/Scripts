@@ -105,7 +105,7 @@ if (typeof $request !== 'undefined') {
       await WelfareCash();
       $.log(new Date().getTimezoneOffset())
    if(new Date().getTimezoneOffset() !='-480'){
-    $.done()
+    return
    }
  for (readbodyVal of bodys){
      await artList(readbodyVal)
