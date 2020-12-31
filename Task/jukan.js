@@ -86,11 +86,7 @@ if (typeof $request !== 'undefined') {
       bodyval = BodyArr[i]
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
-   if (new Date().getTimezoneOffset()/60 != -8){
       times = Date.parse(new Date())/1000
-    } else {
-      times = Date.parse(new Date())/1000
-    }
 $.log(times)
       bodys = [bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times}`),bodyval.replace(/time%22%20%3A%20%22\d+/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'cateid%22%20:%20%2253')]
       $.index = i + 1;
@@ -109,7 +105,7 @@ $.log(times)
       await WelfareCash();
  for (readbodyVal of bodys){
      $.log(readbodyVal)
-     //await artList(readbodyVal)
+     await artList(readbodyVal)
    }
   }
  } 
@@ -311,7 +307,7 @@ function readTask(artid,arttype) {
       body: `jsondata={"appid":"xzwl","channel":"IOS","psign":"92dea068b6c271161be05ed358b59932","relate":1,"artid":"${artid}","os":"IOS",${ID},${apptoken},"appversion":"5.6.5"}`
       }
    $.post(rewurl, async(error, resp, data) => {
-     //$.log(data)
+     $.log(data)
      if(resp.statusCode ==200){
          await $.wait(31000) 
          await finishTask(artid,arttype)
