@@ -322,12 +322,13 @@ function finishTask(artid,arttype) {
   return new Promise((resolve, reject) =>{
   times = Date.parse(new Date())/1000
   $.log(times)
+finishbody = encodeURIComponent(`jsondata={"appid":"xzwl","read_weal":0,"paytype":${arttype},"securitykey":"","channel":"iOS","psign":"92dea068b6c271161be05ed358b59932","appversioncode":"565","time":"${times}","${apptoken}","appversion":"5.6.5",${ID},"os":"iOS","artid":"${artid}","accountType":"0","readmodel":"1"}`)
    let finishurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/account/readAccount.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},      
-      body: `jsondata%3D%7B%20%20%22appid%22%20%3A%20%22xzwl%22%2C%20%20%22read_weal%22%20%3A%200%2C%20%20%22paytype%22%20%3A%20%24%7Barttype%7D%2C%20%20%22securitykey%22%20%3A%20%22%22%2C%20%20%22channel%22%20%3A%20%22iOS%22%2C%20%20%22psign%22%20%3A%20%2292dea068b6c271161be05ed358b59932%22%2C%20%20%22appversioncode%22%20%3A%20%22565%22%2C%20%20%22time%22%20%3A%20%22%24%7Btimes%7D%22%2C%20%22%24%7Bapptoken%7D%22%2C%20%20%22appversion%22%20%3A%20%225.6.5%22%2C%20%20%24%7BID%7D%2C%20%20%22os%22%20%3A%20%22iOS%22%2C%20%20%22artid%22%3A%22%24%7Bartid%7D%22%2C%20%20%22accountType%22%20%3A%20%220%22%2C%20%20%22readmodel%22%20%3A%20%221%22%7D`
+      body: finishbody
       }
-      $.log(finishurl.body)
+      $.log(finishbody)
    $.post(finishurl, async(error, response, data) => {
      $.log(data+"\n")
      let do_read = JSON.parse(data)
