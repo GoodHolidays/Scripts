@@ -86,30 +86,30 @@ if (typeof $request !== 'undefined') {
       bodyval = BodyArr[i]
       ID =  decodeURIComponent(bodyval).match(/"openid" : "\w+"/)
       apptoken = decodeURIComponent(bodyval).match(/"apptoken" : "\w+"/)
-   
-      times = Date.parse(new Date())/1000
-      bodys = [bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203'),bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')]
       $.index = i + 1;
       await sign();
       await getsign();
-      await Stimulate("17")
+      await Stimulate("17");
    for(boxtype of [1,2]){
       await $.wait(1000);
-      await BoxProfit(boxtype);
+      await BoxProfit(boxtype)
     }
-      await userinfo()
+      await userinfo();
   if (curcash >= drawcash&&wxname){
       await realname();
-      await Withdraw();
+      await Withdraw()
    }
       await WelfareCash();
-   if(new Date().getTimezoneOffset() !='-480'){
-    break
+      times = Date.parse(new Date())/1000
+      bodys = [bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203'),bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')]
+ if(new Date().getTimezoneOffset() != '-480'){
+    continue
    } else {
  for (readbodyVal of bodys){
      await artList(readbodyVal)
     }
    }
+   
   }
  } 
 })()
@@ -292,7 +292,7 @@ function artList(readbodyVal) {
           await readTask(lists.art_id,"2")
           }
         if(taskresult == 'R-ART-1002'|| taskresult ==`R-ART-0011`){
-         break
+           break
           }
          }
        }  
