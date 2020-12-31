@@ -94,21 +94,21 @@ if (typeof $request !== 'undefined') {
       await getsign();
       await Stimulate("17")
    for(boxtype of [1,2]){
-      await $.wait(1000)
-      await BoxProfit(boxtype)
+      await $.wait(1000);
+      await BoxProfit(boxtype);
     }
-   await userinfo()
+      await userinfo()
   if (curcash >= drawcash&&wxname){
       await realname();
       await Withdraw();
    }
       await WelfareCash();
-      $.log(new Date().getTimezoneOffset())
    if(new Date().getTimezoneOffset() !='-480'){
     break
-   }
+   } else {
  for (readbodyVal of bodys){
      await artList(readbodyVal)
+    }
    }
   }
  } 
