@@ -205,7 +205,7 @@
     {
       "id": "jukan",
       "name": "聚看点",
-      "keys": ["jukan_ck","jukan_body"],
+      "keys": ["jukan_body","jukan_name"],
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js",
        "settings": [
@@ -221,7 +221,7 @@
           "id": "jukan_name",
           "name": "微信真实姓名",
           "val": "",
-          "type": "textarea",
+          "type": "text",
           "placeholder": "填入微信真实姓名"
         }],
       "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan.png"],
