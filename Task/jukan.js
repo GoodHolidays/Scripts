@@ -447,7 +447,7 @@ function BoxProfit() {
 
 function invite() {
    let rewurl =  {
-      url: `http://a.app.qq.com/o/simple.jsp?pkgname=com.xiangzi.jukandian&ckey=CK1416436838701`,
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/member/bindTeacher.action?teacherCode=24222820`,
       headers: {Cookie:cookieval},
       body: bodyval
       }
