@@ -184,7 +184,7 @@ else if(tasks[x].data.countDown[tid].countDown ==0){
          }
        }
       } catch(e){
-        $.logErr(e, resp);
+        $.logErr(e, data);
       } finally {
  $.msg($.name, $.sub, $.desc)
         resolve()
@@ -201,7 +201,7 @@ function firstbox() {
       headers: {Cookie:cookieval},
      body: 'task_type=-1&task_id=-1'
 }
-   $.post(bdurl, (error, response, data) => {
+   $.post(bdurl, (error, resp, data) => {
      let get_first = JSON.parse(data)
      //$.log("【首页宝箱】\n"+data +'\n')
      if (get_first.err_no == 0){
@@ -253,8 +253,9 @@ function chestTime() {
       headers: {Cookie:cookieval,Referer: `https://eopa.baidu.com/page/pagekey-qWYNoPr0?type=1&tid=695&productid=2&chesttid=669&chestname=chestTime`}
       }
    $.get(timeurl, (error, response, data) => {
+     $.log(data)
+  try{
      let get_chest = JSON.parse(data)
-$.log(data)
      if (get_chest.errno == 11006){
          $.log("开宝箱任务"+get_chest.errmsg)
          }  
@@ -265,7 +266,11 @@ $.log(data)
          //$.desc += get_chest.data.originData.msg
          $.log("开宝箱任务ID:"+taskid+ get_chest.data.originData.msg)
          }  
-       resolve()
+       } catch(e){
+        $.logErr(e, data);
+      } finally {
+        resolve()
+      }
     })
   })
 }
@@ -317,6 +322,7 @@ function Tasks() {
       headers: {Cookie:cookieval,Referer:RefererUrl}
       }
    $.get(taskurl, async(error, response, data) => {
+    try {
      let do_task = JSON.parse(data)
         await $.wait(20000);
          //$.log(data+'\n')
@@ -328,8 +334,12 @@ function Tasks() {
       }else if (do_task.errno == 11004){
         $.desc += taskName + "  "+ do_task.errmsg + "\n"
       }
-    resolve()
-   })
+    } catch(e){
+        $.logErr(e, data);
+      } finally {
+        resolve()
+      }
+    })
   })
 }
 
@@ -342,6 +352,7 @@ function get_search() {
    $.get(geturl, async(error, resp, data) => {
      let get_search = JSON.parse(data)
           //$.log(data+'\n')
+    try{
      if (get_search.errno == 0 ) {
      for ( item in get_search.data[`${cmd}`].itemlist.items){
         searchId = get_search.data[`${cmd}`].itemlist.items[item].id
@@ -354,7 +365,11 @@ function get_search() {
      }  else {
        // $.desc += taskName + "  "+ do_search.data[`${cmd}`].tips + "\n"
       }
-    resolve()
+      } catch(e){
+        $.logErr(e, data);
+      } finally {
+        resolve()
+      }
    })
   })
 }
