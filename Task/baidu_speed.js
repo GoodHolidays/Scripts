@@ -9,6 +9,7 @@
 const $ = new Env('百度极速版')
 
 let CookieArr = [];
+let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.0.10 (Baidu; P2 14.2)`
 
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
@@ -59,7 +60,7 @@ function getsign() {
   return new Promise((resolve, reject) =>{
    let signurl =  {
       url:  `https://haokan.baidu.com/activity/acusercheckin/update`,
-      headers: {Cookie:cookieval},
+      headers: {Cookie:cookieval,'User-Agent': UA},
       body: 'productid=2&ugus=9766888061'
       }
    $.post(signurl, (error, response, data) => {
@@ -87,7 +88,7 @@ function coinInfo() {
   return new Promise((resolve, reject) =>{
    let infourl =  {
       url: `https://haokan.baidu.com/activity/h5/displaybyday?type=1&page=1&productid=2`,
-      headers: {Cookie:cookieval}
+      headers: {Cookie:cookieval,'User-Agent': UA}
       }
    $.get(infourl, (error, response, data) => {
      let get_info = JSON.parse(data)
@@ -103,7 +104,7 @@ function getRewards() {
   return new Promise((resolve, reject) =>{
    let rewurl =  {
       url: `https://haokan.baidu.com/activity/tasks/taskreward?productid=2`,
-      headers: {Cookie:cookieval}
+      headers: {Cookie:cookieval,'User-Agent': UA}
       }
    $.get(rewurl, async(error, response, data) => {
      let get_reward = JSON.parse(data)
@@ -134,7 +135,7 @@ function TaskCenter() {
   return new Promise((resolve, reject) =>{
    let rewurl =  {
       url: `https://haokan.baidu.com/activity/h5/vault?_format=json&productid=2&channel=2`,
-      headers: {Cookie:cookieval}
+      headers: {Cookie:cookieval,'User-Agent': UA}
       }
    $.get(rewurl, async(error, resp, data) => {
   try{
@@ -198,8 +199,8 @@ function firstbox() {
   return new Promise((resolve, reject) =>{
    let bdurl =  {
       url: 'https://mbrowser.baidu.com/lite/gold/receive?service=bdbox',
-      headers: {Cookie:cookieval},
-     body: 'task_type=-1&task_id=-1'
+      headers: {Cookie:cookieval,'User-Agent': UA},
+      body: 'task_type=-1&task_id=-1'
 }
    $.post(bdurl, (error, resp, data) => {
      let get_first = JSON.parse(data)
@@ -226,7 +227,7 @@ function get_pkg() {
   return new Promise((resolve, reject) =>{
    let pkgurl =  {
       url: `https://haokan.baidu.com/activity/acad/rewardad?device=%7B%22imei_md5%22%3A%22%22%2C%22device_type%22%3A1%2C%22model%22%3A%22IPHONE%22%2C%22manufacturer%22%3A%22Apple%22%2C%22os_version%22%3A%2213.7%22%2C%22idfa%22%3A%22_a2S8_aq28_qa28qii2A8laJ28gxC28Q_iXni0uKvNYIPviVzaHtiYah2ul6iHim_l2880uQvflqisa9liBgIgarv8oIOHutlhSPu_ux2a_Wi-uRz_qAC%22%2C%22androidId%22%3A%22%22%2C%22geo%22%3A%7B%22lat%22%3A%22%22%2C%22lon%22%3A%22%22%7D%2C%22screen_width%22%3A1242%2C%22screen_height%22%3A2208%7D&network=%7B%22connect_type%22%3A1%2C%22carrier%22%3A0%7D&productid=2&tid=${tid}&type=1`,
-      headers:{Cookie:cookieval,'Referer':RefererUrl}
+      headers:{Cookie:cookieval,,'User-Agent': UA,'Referer':RefererUrl}
       }
    $.get(pkgurl, async(error, resp, data) => {
      let get_pkg = JSON.parse(data)
@@ -250,7 +251,7 @@ function chestTime() {
   return new Promise((resolve, reject) =>{
    let timeurl =  {
       url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=chestTime&rewardVideoPkg=${Pkg}`,
-      headers: {Cookie:cookieval,Referer: `https://eopa.baidu.com/page/pagekey-qWYNoPr0?type=1&tid=695&productid=2&chesttid=669&chestname=chestTime`}
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer: `https://eopa.baidu.com/page/pagekey-qWYNoPr0?type=1&tid=695&productid=2&chesttid=669&chestname=chestTime`}
       }
    $.get(timeurl, (error, response, data) => {
      $.log(data)
@@ -280,7 +281,7 @@ function activeBox2() {
   return new Promise((resolve, reject) =>{
    let actboxurl =  {
       url: `https://haokan.baidu.com/activity/acuserchest/opennew`,
-      headers: {Cookie:cookieval},
+      headers: {Cookie:cookieval,'User-Agent': UA},
       body: `taskid=${taskid}&productid=2&ugus=5256798061`
       }
    $.post(actboxurl, async(error, response, data) => {
@@ -302,7 +303,7 @@ function activeBox() {
   return new Promise((resolve, reject) =>{
    let actboxurl =  {
       url: `https://haokan.baidu.com/activity/tasks/active?productid=2&id=${tid}`,
-      headers: {Cookie:cookieval,Referer:RefererUrl}
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
       }
    $.get(actboxurl, async(error, response, data) => {
      //let act_box = JSON.parse(data)
@@ -319,7 +320,7 @@ function Tasks() {
   return new Promise((resolve) =>{
    let taskurl =  {
       url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=coin&rewardVideoPkg=${Pkg}&_=`+new Date().getTime()+`&sys=ios&rewardVideoDrawKey=&source=0&appid=0&bid=0&chestTid=0&signAim=0&date=`,
-      headers: {Cookie:cookieval,Referer:RefererUrl}
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
       }
    $.get(taskurl, async(error, response, data) => {
     try {
@@ -347,7 +348,7 @@ function get_search() {
   return new Promise((resolve) =>{
    let geturl =  {
       url: `https://mbd.baidu.com/searchbox?action=feed&cmd=${cmd}&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
-      headers: {Cookie:cookieval}
+      headers: {Cookie:cookieval,'User-Agent': UA}
       }
    $.get(geturl, async(error, resp, data) => {
      let get_search = JSON.parse(data)
@@ -380,7 +381,7 @@ function searchBox(id) {
   return new Promise((resolve) =>{
    let searchurl =  {
       url: `https://mbd.baidu.com/searchbox?action=feed&cmd=197&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
-      headers: {Cookie:cookieval},
+      headers: {Cookie:cookieval,'User-Agent': UA},
       body: `data={"origin_nid":"${id}","taskid":"${tid}"}`
       }
    $.post(searchurl, async(error, resp, data) => {
@@ -401,7 +402,7 @@ function doubleBox() {
   return new Promise((resolve, reject) =>{
    let douboxurl =  {
       url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=chestDouble&rewardVideoPkg=${Pkg}`,
-      headers: {Cookie:cookieval,Referer: `Referer: https://eopa.baidu.com/page/pagekey-ASKWNd8W?productid=2&type=1&tid=346`}
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer: `Referer: https://eopa.baidu.com/page/pagekey-ASKWNd8W?productid=2&type=1&tid=346`}
       }
    $.get(douboxurl, (error, response, data) => {
      let get_doubox = JSON.parse(data)
