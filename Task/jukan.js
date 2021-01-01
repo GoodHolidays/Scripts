@@ -11,8 +11,8 @@ hostname = www.xiaodouzhuan.cn
 
 */
 const $ = new Env('聚看点')
-let drawcash = $.getdata('jukan_cash') || 30 //提现金额
-let wxname = $.getdata('jukan_name') || ""//微信真实名字，可以在双引号内填入
+const drawcash = $.getdata('jukan_cash') || "30" //提现金额
+const wxname = $.getdata('jukan_name') || ""//微信真实名字，可以在双引号内填入
 let CookieArr=[],BodyArr=[];
 let cookie = $.getdata('jukan_ck')
 let bodys = $.getdata('jukan_body')
@@ -91,16 +91,16 @@ if (typeof $request !== 'undefined') {
       $.index = i + 1;
       await sign();
       await getsign();
-      await stimulate();
-      await TimeBox();
+      //await stimulate();
+      //await TimeBox();
    for(boxtype of [1,2]){
       await $.wait(1000);
       await BoxProfit(boxtype)
     }
       await userinfo();
-  if (curcash >= drawcash&&wxname){
+
+  if (curcash >= drawcash && wxname){
       await realname();
-      await Withdraw()
    }
    if (signtimes&&signtimes<5){
       await WelfareCash();
@@ -110,7 +110,7 @@ if (typeof $request !== 'undefined') {
     continue
    } else {
  for (readbodyVal of bodys){
-     await artList(readbodyVal)
+       await artList(readbodyVal)
     }  
    if (taskresult == 'R-ART-1002'){
      $.desc += "\n"+sumnotify
@@ -241,15 +241,15 @@ function TimeBox() {
 function realname() {
   return new Promise((resolve, reject) =>{
    let realurl =  {
-      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/verifyIdentity.action?realname=${wxname}`,
-      headers: {Cookie:cookieval,'User-Agent':UA}
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/verifyIdentity.action?realname=%E8%81%82%E6%B5%B7%E6%9C%8B`,
+      headers: {Cookie:cookieval}
       }
    $.get(realurl, async(error, resp, data) => {
        let get_name = JSON.parse(data)
-      if (get_name.ret="ok"){
+      if (get_name.ret=="ok"){
        $.log("恭喜您，实名验证通过" + get_name.return_msg)
        await Withdraw()
-      } else {
+      } else  if(get_name.ret== "failed"){
          $.log("实名验证" + get_name.return_msg)
          $.msg($.name,"提现实名认证失败")
       }
@@ -391,7 +391,7 @@ function stimulate() {
      let _Adv = JSON.parse(data)
      if (_Adv.ret == "ok"&&_Adv.status==1){
        $.log("视频"+ _Adv.videoType+"获得红包: +"+_Adv.rewardAmount+_Adv.rewardName)
-         await $.wait(2000)
+         await $.wait(1000)
          await Stimulate("17")
          }  else {
        $.log("视频广告红包，"+ _Adv.message)
@@ -432,7 +432,6 @@ function BoxProfit() {
      if (do_box.ret == "ok"&&do_box.profit>0){
        $.log("获得收益: +"+do_box.profit)
           position = do_box.advertPopup.position
-          await $.wait(2000) 
           await Stimulate(position)
          // $.log(position)
          }  
@@ -447,10 +446,12 @@ function BoxProfit() {
 
 function invite() {
    let rewurl =  {
-      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/member/receiveMonkeyXd.action?userid=fe0d318cdfbd4f8f9950ce67c5643eaa`,
-      headers: {Cookie:cookieval}
+      url: `http://a.app.qq.com/o/simple.jsp?pkgname=com.xiangzi.jukandian&ckey=CK1416436838701`,
+      headers: {Cookie:cookieval},
+      body: bodyval
       }
-   $.get(rewurl, (error, response, data) => {
+   $.get(rewurl, (error, resp, data) => {
+    //$.log(data)
   })
 }
 
