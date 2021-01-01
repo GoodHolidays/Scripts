@@ -227,7 +227,7 @@ function get_pkg() {
   return new Promise((resolve, reject) =>{
    let pkgurl =  {
       url: `https://haokan.baidu.com/activity/acad/rewardad?device=%7B%22imei_md5%22%3A%22%22%2C%22device_type%22%3A1%2C%22model%22%3A%22IPHONE%22%2C%22manufacturer%22%3A%22Apple%22%2C%22os_version%22%3A%2213.7%22%2C%22idfa%22%3A%22_a2S8_aq28_qa28qii2A8laJ28gxC28Q_iXni0uKvNYIPviVzaHtiYah2ul6iHim_l2880uQvflqisa9liBgIgarv8oIOHutlhSPu_ux2a_Wi-uRz_qAC%22%2C%22androidId%22%3A%22%22%2C%22geo%22%3A%7B%22lat%22%3A%22%22%2C%22lon%22%3A%22%22%7D%2C%22screen_width%22%3A1242%2C%22screen_height%22%3A2208%7D&network=%7B%22connect_type%22%3A1%2C%22carrier%22%3A0%7D&productid=2&tid=${tid}&type=1`,
-      headers:{Cookie:cookieval,,'User-Agent': UA,'Referer':RefererUrl}
+      headers:{Cookie:cookieval,'User-Agent': UA,'Referer':RefererUrl}
       }
    $.get(pkgurl, async(error, resp, data) => {
      let get_pkg = JSON.parse(data)
