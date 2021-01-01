@@ -101,6 +101,7 @@ if (typeof $request !== 'undefined') {
 
   if (curcash >= drawcash && wxname){
       await realname();
+      //await Withdraw() //实名未通过，强制提现，可取消此注释，不保证成功
    }
    if (signtimes&&signtimes<5){
       await WelfareCash();
