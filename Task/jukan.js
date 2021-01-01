@@ -91,8 +91,8 @@ if (typeof $request !== 'undefined') {
       $.index = i + 1;
       await sign();
       await getsign();
-      //await stimulate();
-      //await TimeBox();
+      await stimulate();
+      await TimeBox();
    for(boxtype of [1,2]){
       await $.wait(1000);
       await BoxProfit(boxtype)
