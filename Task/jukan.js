@@ -252,7 +252,7 @@ function realname() {
        await Withdraw()
       } else  if(get_name.ret== "failed"){
          $.log("实名验证" + get_name.return_msg)
-         $.msg($.name,"提现实名认证失败")
+        // $.msg($.name,"提现实名认证失败")
       }
        resolve()
     })
