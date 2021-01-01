@@ -242,7 +242,7 @@ function TimeBox() {
 function realname() {
   return new Promise((resolve, reject) =>{
    let realurl =  {
-      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/verifyIdentity.action?realname=%E8%81%82%E6%B5%B7%E6%9C%8B`,
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/verifyIdentity.action?realname=${wxname}`,
       headers: {Cookie:cookieval}
       }
    $.get(realurl, async(error, resp, data) => {
