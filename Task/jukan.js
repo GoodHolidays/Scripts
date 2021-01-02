@@ -17,6 +17,7 @@ let CookieArr=[],BodyArr=[];
 let bodys = $.getdata('jukan_body')
 let signtimes = $.getdata('jukan_times')
 let UA = 'JuKanDian/5.6.5 (iPhone; iOS 14.2; Scale/3.00)'
+let taskresult = ""
 
 if ($.isNode()) {
   if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('&') > -1) {
@@ -70,9 +71,15 @@ if (typeof $request !== 'undefined') {
       times = Date.parse(new Date())/1000
       $.index = i + 1;
       await sign();
+     //await LuckDrawLevel();
+     //return
+     for ( x =14;x<32;++x){
+      await Stimulate(x)
+     }
       await getsign();
       await stimulate();
       await TimeBox();
+      //await LuckDrawLevel();
    for(boxtype of [1,2]){
       await $.wait(1000);
       await BoxProfit(boxtype)
@@ -87,10 +94,12 @@ if (typeof $request !== 'undefined') {
    }
    if(new Date().getTimezoneOffset() != '-480'){
     continue
-   } else {await artTotal() }  
+   } else {
+     await artTotal() 
+}  
    if (taskresult == 'R-ART-1002'){
      $.desc += "\n"+sumnotify
-     $.msg($.name+" 昵称:"+userName, $.sub, $.desc)
+     $.msg($.name+" 昵称:"+userName, $.sub, $.desc,{'media-url': calendarpic })
      }
    }
  } 
@@ -106,14 +115,20 @@ function sign() {
       headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
       }
    $.post(profiturl, async(error, resp, data) => {
-    // $.log(data+"\n")
+     //$.log(data+"\n")
+   try{
      let sign_res = JSON.parse(data)
      if (sign_res.ret == "ok"&&sign_res.profit>0){
-       $.log("签到收益: +"+sign_res.profitDesc)
+       calendarpic = sign_res.calendar_pic
+       //$.log("签到收益: +"+`calendar_pic`)
          }  else {
        $.log(sign_res.rtn_msg)
-     }
-       resolve()
+        }
+       } catch (e) {
+        $.logErr(e, data)
+      } finally {
+        resolve();
+      }
     })
   })
 }
@@ -126,6 +141,7 @@ function getsign() {
       body: bodyval
       }
    $.post(signurl, async(error, response, data) => {
+   try{
      let get_sign = JSON.parse(data)
       //$.log(data)
      if (get_sign.ret == "ok"){
@@ -146,7 +162,11 @@ function getsign() {
          $.msg($.name,$.sub,$.desc)
          $.done()
          }
-     resolve()
+       } catch (e) {
+        $.logErr(e, data)
+      } finally {
+        resolve();
+      }
     })
   })
 }
@@ -172,21 +192,45 @@ function signShare() {
   })
 }
 
-function advluckdraw() {
+function LuckDrawBox() {
+  return new Promise((resolve, reject) =>{
+   let profiturl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/activity/advluckdraw/getLuckDrawBox.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
+      }
+   $.post(profiturl, async(error, resp, data) => {
+     $.log(data+"\n")
+     let get_luckdraw = JSON.parse(data)
+     if (get_luckdraw.ret == "ok" &&get_luckdraw.luckName=="神秘宝箱"){
+       $.log(sign_luckdraw.return_msg+`剩余 ${get_luckdraw.data.unFinishNum} 次`)
+        $.log(get_luckdraw.rtn_msg +`去领取神秘宝箱奖励`)  
+        await Stimulate("11")
+       }  else if (get_luckdraw.ret =="failed"){
+       $.log(get_luckdraw.rtn_msg +`去开启宝箱失败`)  
+     }
+       resolve()
+    })
+  })
+}
+
+function LuckDrawLevel() {
   return new Promise((resolve, reject) =>{
    let profiturl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/activity/advluckdraw/getLuckDrawLevel.action`,
       headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
       }
    $.post(profiturl, async(error, resp, data) => {
-     //$.log(data+"\n")
-     let sign_share = JSON.parse(data)
-     if (sign_share.ret == "ok"){
-       $.log("簽到分享收益: +"+sign_share.profit)
-        await Stimulate("23")
-        await invite()
-         }  else {
-       $.log(sign_share.rtn_msg)
+     $.log(data+"\n")
+     if (err) {
+          $.log(`开启神秘宝箱失败: `+err+"\n"+data)
+      } else if (get_luckdraw.ret == "ok"){
+         let get_luckdraw = JSON.parse(data)
+        $.log(sign_luckdraw.return_msg+`剩余 ${get_luckdraw.data.unFinishNum} 次`)
+       
+        $.log(get_luckdraw.rtn_msg +`去领取神秘宝箱奖励`)  
+        await Stimulate("11")
+       }  else if (get_luckdraw.ret =="failed"){
+       $.log(get_luckdraw.rtn_msg +`去开启宝箱失败`)  
      }
        resolve()
     })
@@ -278,6 +322,7 @@ function userinfo() {
       body: bodyval
       }
    $.post(infourl, async(error, resp, data) => {
+  try{
      let get_info = JSON.parse(data)
       if( get_info.ret=="ok"){
        userName = get_info.userinfo.username
@@ -289,7 +334,11 @@ function userinfo() {
      $.sub += " "+gold
      $.desc += sumcash + "/"+curcash 
      }
-     resolve()
+     } catch (e) {
+        $.logErr(e, data)
+      } finally {
+        resolve();
+      }
     })
   })
 }
@@ -440,11 +489,13 @@ function Stimulate(position) {
       headers: {Cookie:cookieval,'User-Agent':UA},      
       body: `jsondata={"read_weal":"0","appid":"xzwl", "position" : ${position},"time" : "${times}","apptoken":"${apptoken}","appversion":"5.6.5","openid":"${ID}","os":"iOS","channel":"iOS"}`
       }
-   $.post(stimurl, async(error, response, data) => {
+   $.post(stimurl, async(error, resp, data) => {
      //$.log(data+"\n")
      let do_stim = JSON.parse(data)
-     if ( do_stim.ret == "ok"&&position !="17"){
-          $.log( do_stim.profit_title+": +"+ do_stim.profit +"(以实际情况为准)")
+    if(typeof do_stim.profit_title == "undefined"){
+   } else {
+          $.log( do_stim.profit_title+ "position"+": "+x+"  获得收益 +"+ do_stim.profit)
+         await $.wait(5000)
          }  
        resolve()
     })
@@ -461,7 +512,7 @@ function BoxProfit(boxtype) {
      //$.log(data+"\n")
      let do_box = JSON.parse(data)
      if (do_box.ret == "ok"&&do_box.profit>0){
-       $.log("获得收益: +"+do_box.profit)
+        $.log("计时宝箱获得收益: +"+do_box.profit)
           position = do_box.advertPopup.position
           await Stimulate(position)
          // $.log(position)
