@@ -280,7 +280,7 @@ function LuckProfit() {
   return new Promise((resolve, reject) =>{
    let LuckProfiturl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/activity/advluckdraw/getTotalLuckProfit.action`,
-      headers: {Cookie:cookieval,'User-Agent':UA}, 
+      headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
       }
    $.post(LuckProfiturl, async(error, resp, data) => {
      //$.log(data+"\n")
