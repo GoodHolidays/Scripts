@@ -17,7 +17,7 @@ let CookieArr=[],BodyArr=[];
 let bodys = $.getdata('jukan_body')
 let signtimes = $.getdata('jukan_times')
 let UA = 'JuKanDian/5.6.5 (iPhone; iOS 14.2; Scale/3.00)'
-let taskresult = ""
+let taskresult = "",sumnotify ="";
 
 if ($.isNode()) {
   if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('&') > -1) {
