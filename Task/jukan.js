@@ -244,7 +244,7 @@ function LuckDrawGold() {
       headers: {Cookie:cookieval,'User-Agent':UA}, body: bodyval
       }
    $.post(DrawGoldurl, async(error, resp, data) => {
-      $.log(data+"\n")
+      //$.log(data+"\n")
      let get_drawGold = JSON.parse(data)
      if (get_drawGold.ret == "ok"){
        $.log(get_drawGold.return_msg)
