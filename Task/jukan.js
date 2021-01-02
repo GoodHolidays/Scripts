@@ -1,7 +1,7 @@
 /*
 聚看点签到任务，不支持Actions跑阅读任务，其他任务可运行
 打开'我的'获取Cookie
-更新时间: 2021-01-02 11:50
+更新时间: 2021-01-02 13:50
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
 可自动提现，提现需填写微信真实姓名，设置提现金额，默认30，此设置可以boxjs内完成，也可本地配置
@@ -358,7 +358,7 @@ function artTotal() {
       sharetotal = data.match(/\d+金币/g)[9]
       $.desc += "【今日阅读统计】\n  文章: " +Number(artcount) + "次 收益: "+artcoin+"\n  视频: " +Number(videocount)  + "次 收益: "+videocoin+"\n"
       $.desc += "【昨日阅读统计】\n  自阅收益: " +readtotal +"  分享收益: "+sharetotal 
-      $.log( "当前阅读次数"+artcount+"次，视频次数"+videocount+"次\n")
+      $.log( "\n当前阅读次数"+artcount+"次，视频次数"+videocount+"次\n")
          $.log("开始自动阅读")
        if(artcount > 0 ){
        readbodyVal = bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203')
@@ -449,7 +449,6 @@ function finishTask(artid,arttype) {
      //$.log(data+"\n")
      let do_read = JSON.parse(data)
          taskresult = do_read.rtn_code
-         $.log(do_read.rtn_msg)
      if (do_read.ret == "ok"){
        $.log("获得收益: +"+do_read.profit +"\n")
          }  else if (arttype == 1 ){
