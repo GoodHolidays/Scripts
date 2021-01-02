@@ -283,10 +283,10 @@ function LuckProfit() {
       headers: {Cookie:cookieval,'User-Agent':UA}, 
       }
    $.post(LuckProfiturl, async(error, resp, data) => {
-     $.log(data+"\n")
+     //$.log(data+"\n")
      let luckProfit = JSON.parse(data)
      if (luckProfit.ret == "ok"){
-       ltotalProfit = luckProfit.data.totalProfit
+       lktotalProfit = luckProfit.data.totalProfit
        $.log("转盘任务成功，总计金币: "+ lktotalProfit+ luckProfit.return_msg)
        }  else if (luckProfit.ret =="failed"){
        $.log(`转盘抽奖失败`)  
