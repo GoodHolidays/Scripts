@@ -1,7 +1,7 @@
 /*
 聚看点签到任务，不支持Actions跑阅读任务，其他任务可运行
 打开'我的'获取Cookie
-更新时间: 2021-01-02 12:15
+更新时间: 2021-01-02 11:50
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
 可自动提现，提现需填写微信真实姓名，设置提现金额，默认30，此设置可以boxjs内完成，也可本地配置
@@ -60,7 +60,7 @@ if (typeof $request !== 'undefined') {
     console.log($.name, '【提示】请把聚看点Cookie填入Github 的 Secrets 中，请以&或者换行隔开')
     return;
   }
-  console.log(`您共提供${BodyArr.length}个聚看点账号Cookie`)
+  console.log(`您共提供${BodyArr.length}个聚看点账号Cookie\n————————————————————————————————————\n`)
   for (let i = 0; i < BodyArr.length; i++) {
     if (BodyArr[i]) {
       bodyval = BodyArr[i]
@@ -70,10 +70,8 @@ if (typeof $request !== 'undefined') {
       cookieval = `xz_jkd_appkey=${ID}!iOS!${appVersion}`
       times = Date.parse(new Date())/1000
       $.index = i + 1;
-   console.log("开始聚看点账号"+$.index+"任务\n")
+   console.log("聚看点账号"+$.index+"任务开始\n")
       await sign();
-     //await LuckDrawLevel();
-     //return
      for ( x =15;x<32;++x){
       await Stimulate(x)
      }
@@ -99,7 +97,7 @@ if (typeof $request !== 'undefined') {
      await artTotal() 
 }  
    if (artcount == 0&&videocount ==0){
-     $.msg($.name+" 昵称:"+userName, $.sub, "今日阅读任务已完成\n"+$.desc,{'media-url': calendarpic })
+     $.msg($.name+" 昵称:"+userName, $.sub, $.desc+"今日阅读任务已完成",{'media-url': calendarpic })
      }
      $.log($.name+"账号"+$.index+" : "+userName+ "  本次运行任务已结束\n~~~~~~~~~~~~~~~~~~\n")
    }
@@ -347,37 +345,41 @@ function userinfo() {
 function artTotal() {
   return new Promise((resolve, reject) =>{
    let infourl =  {
-      url: `https://www.xiaodouzhuan.cn/jkd/minfo/call.action`,
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/station/readAccount.action`,
       headers: {Cookie:cookieval,'User-Agent':UA},
-      body: `jdata={"openID":"${ID}","openid":"${ID}","app_id":"xzwl","channel":"iOS","app_token":"${apptoken}","version":"${appVersion}","pars":{"openID":${ID},"uniqueid":"","os":"iOS","channel":"iOS","openid":"${ID}"}}&opttype=ART_READ`
       } 
    $.post(infourl, async(error, resp, data) => {
      try{
-       let get_total = JSON.parse(data)
-          artcount = get_total.datas.artcount
-          videocount = get_total.datas.videocount
-          $.log( "当前剩余阅读次数"+artcount+"次，剩余阅读次数"+videocount+"次")
+      artcount = data.match(/(今日奖励次数\((\d+)次\))/g)[0].match(/\d+/)
+      videocount = data.match(/(今日奖励次数\((\d+)次\))/g)[1].match(/\d+/)
+      artcoin = data.match(/\d+金币/g)[6]
+      videocoin =  data.match(/\d+金币/g)[7]
+      readtotal = data.match(/\d+金币/g)[8]
+      sharetotal = data.match(/\d+金币/g)[9]
+      $.desc += "【今日阅读统计】\n  文章: " +Number(artcount) + "次 收益: "+artcoin+"\n  视频: " +Number(videocount)  + "次 收益: "+videocoin+"\n"
+      $.desc += "【昨日阅读统计】\n  自阅收益: " +readtotal +"  分享收益: "+sharetotal 
+      $.log( "当前阅读次数"+artcount+"次，视频次数"+videocount+"次\n")
+         $.log("开始自动阅读")
        if(artcount > 0 ){
        readbodyVal = bodyval.replace(/time%22%20%3A%20%22\d+%22/, `time%22%20%3A%20%22${times}%22%2C%20`+'%22cateid%22%20%3A%203')
         await artList(readbodyVal)
        }  else if ( artcount == 0  ){
-        $.log("今日阅读任务已完成，本次跳过")
+          $.log("今日阅读任务已完成，本次跳过")
        };
        if(videocount > 0 ){
-       readbodyVal = bodyval.replace(/time%22%20%3A%20%22\d+%22/,`time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')
+           readbodyVal = bodyval.replace(/time%22%20%3A%20%22\d+%22/,`time%22%20%3A%20%22${times+31000}%22%2C%20`+'%22cateid%22%20%3A%2053')
         await artList(readbodyVal)
         }  else if ( artcount == 0  ){
         $.log("今日视频任务已完成，本次跳过")
-       };
-      } catch (e) {
+        };
+        } catch (e) {
           $.logErr(e, data)
         } finally {
           resolve(data);
         }
-
       })
-     })
-   }
+   })
+}
 
 function artList(readbodyVal) {
   return new Promise((resolve, reject) =>{
@@ -389,21 +391,20 @@ function artList(readbodyVal) {
    $.post(infourl, async(error, resp, data) => {
      let get_list = JSON.parse(data)
        // $.log( data)
-         $.log("【开始自动阅读】")
      if (get_list.ret == "ok"){
        for( lists of get_list.artlist){
           if(lists.item_type=="article"){
           art_Title = lists.art_title
           artid =lists.art_id
           screen_Name = lists.screen_name
-          $.log("正在阅读文章: "+art_Title +"  -------- <"+screen_Name +">\n ")
+          $.log(" 【阅读文章】: "+art_Title +"  -------- <"+screen_Name +">\n ")
           await readTask(lists.art_id,"1")
           }
          if(lists.item_type=="video"){
           art_Title = lists.art_title
           artid =lists.art_id
           screen_Name = lists.screen_name
-         $.log("正在观看视频: "+art_Title +"  -------- <"+screen_Name +">\n ")
+         $.log("【观看视频】: "+art_Title +"  -------- <"+screen_Name +">\n ")
           await readTask(lists.art_id,"2")
           }
         if(taskresult == 'R-ART-1002'|| taskresult ==`R-ART-0011`){
