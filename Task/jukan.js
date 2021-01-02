@@ -212,7 +212,7 @@ function LuckDrawLevel() {
         }
      } 
       if(lktotalProfit){
-        $.desc += "【转盘任务】金币总计:"+ lktotalProfit+"剩余次数"+unNum+"次\n"
+        $.desc += "\n【转盘任务】金币总计:"+ lktotalProfit+"剩余次数"+unNum+"次\n"
       }
        let liststatus = JSON.parse(get_drawLevel.data.list)
       for ( var x in liststatus){
