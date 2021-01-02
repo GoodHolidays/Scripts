@@ -73,7 +73,7 @@ if (typeof $request !== 'undefined') {
       await sign();
      //await LuckDrawLevel();
      //return
-     for ( x =14;x<32;++x){
+     for ( x =15;x<32;++x){
       await Stimulate(x)
      }
       await getsign();
