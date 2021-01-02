@@ -101,6 +101,7 @@ if (typeof $request !== 'undefined') {
      $.desc += "\n"+sumnotify
      $.msg($.name+" 昵称:"+userName, $.sub, $.desc,{'media-url': calendarpic })
      }
+     $.log($.name+"账号"+$.index+" : "+userName+ "  本次运行任务已完成\n")
    }
  } 
 })()
