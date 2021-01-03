@@ -1,7 +1,7 @@
 /*
 聚看点签到任务，不支持Actions跑阅读任务，其他任务可运行
 打开'我的'获取Cookie
-更新时间: 2021-01-03 17:13
+更新时间: 2021-01-03 12:03
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
 可自动提现，提现需填写微信真实姓名，设置提现金额，默认30，此设置可以boxjs内完成，也可本地配置
@@ -16,6 +16,7 @@ const wxname = $.getdata('jukan_name') || ""//微信真实名字，可以在双�
 let CookieArr=[],BodyArr=[];
 let bodys = $.getdata('jukan_body')
 let signtimes = $.getdata('jukan_times')
+let cashout = $.getdata('jukan_out')|| false
 let UA = 'JuKanDian/5.6.5 (iPhone; iOS 14.2; Scale/3.00)'
 let taskresult = "",sumnotify ="";
 
@@ -84,8 +85,8 @@ if (typeof $request !== 'undefined') {
      for ( x =18;x<32;++x){
       await Stimulate(x)
      }
-  if (curcash >= drawcash && wxname){
-     // await realname();
+  if (cashout==true&&curcash >= drawcash && wxname){
+        await realname();
       //await Withdraw() //实名未通过，强制提现，可取消此注释，不保证成功
    }
    if (signtimes&&signtimes<5){
@@ -362,8 +363,23 @@ function Withdraw() {
   return new Promise((resolve, reject) =>{
    let drawurl =  {
       url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/userWithdrawPost.action`,
-      headers: {Cookie:cookieval,'User-Agent':UA}, body: `type=wx&sum=${sumcash}&mobile=&pid=0`
+      headers: {Cookie:cookieval,'User-Agent':UA,'Referer': 'https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/userWithdraw.action'}, body: `type=wx&sum=${sumcash}&mobile=&pid=0&accountid=&productcode=`
       }
+   $.post(drawurl, async(error, resp, data) => {
+       $.log("提现"+drawcash+"元"+data+"\n")
+       $.desc += "提现"+drawcash+"元  "+data+"\n"
+       resolve()
+    })
+  })
+}
+
+
+function  Cashstatus() {
+  return new Promise((resolve, reject) =>{
+   let drawurl =  {
+      url: `https://www.xiaodouzhuan.cn/jkd/weixin20/userWithdraw/userWithdrawPost.action`,
+      headers: {Cookie:cookieval,'User-Agent':UA}
+}
    $.post(drawurl, async(error, resp, data) => {
        $.log("提现"+drawcash+"元"+data+"\n")
        $.desc += "提现"+drawcash+"元  "+data+"\n"
