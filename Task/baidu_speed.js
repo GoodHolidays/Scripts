@@ -169,17 +169,18 @@ else if(tasks[x].data.countDown[tid].countDown ==0){
          for (y in taskArr){
           tid = taskArr[y].id
           taskName = "【"+taskArr[y].title+"】"
-           $.log(taskName+" tid:"+tid)
+           $.log(taskName+" ID:"+id +" tid:"+tid)
           if (taskArr[y].taskStatus==1 ){
-            $.log(taskName +" 已完成" )
+            $.log(taskName +" ID:"+id +" 已完成" )
             $.desc += taskName +" 已完成\n"
            }else if(taskArr[y].type == 'openApp'){
+            tid = tid=='395' ? "385":tid
             RefererUrl = taskArr[y].adLink
-            await get_pkg()
+             await get_pkg()
            } else if(taskArr[y].type == 'watch'){
             // $.log(tasklists.+'\n')
              cmd = tid==346 ? 100:184
-             await get_search()
+             //await get_search()
            };
           }
          }
@@ -226,12 +227,12 @@ function firstbox() {
 function get_pkg() {
   return new Promise((resolve, reject) =>{
    let pkgurl =  {
-      url: `https://haokan.baidu.com/activity/acad/rewardad?device=%7B%22imei_md5%22%3A%22%22%2C%22device_type%22%3A1%2C%22model%22%3A%22IPHONE%22%2C%22manufacturer%22%3A%22Apple%22%2C%22os_version%22%3A%2213.7%22%2C%22idfa%22%3A%22_a2S8_aq28_qa28qii2A8laJ28gxC28Q_iXni0uKvNYIPviVzaHtiYah2ul6iHim_l2880uQvflqisa9liBgIgarv8oIOHutlhSPu_ux2a_Wi-uRz_qAC%22%2C%22androidId%22%3A%22%22%2C%22geo%22%3A%7B%22lat%22%3A%22%22%2C%22lon%22%3A%22%22%7D%2C%22screen_width%22%3A1242%2C%22screen_height%22%3A2208%7D&network=%7B%22connect_type%22%3A1%2C%22carrier%22%3A0%7D&productid=2&tid=${tid}&type=1`,
+      url: `https://haokan.baidu.com/activity/acad/rewardad?device=%7B%22imei_md5%22%3A%22%22%2C%22device_type%22%3A1%2C%22model%22%3A%22IPHONE%22%2C%22manufacturer%22%3A%22Apple%22%2C%22os_version%22%3A%2214.2%22%2C%22androidId%22%3A%22%22%7D%2C%22screen_width%22%3A1242%2C%22screen_height%22%3A2208&network=%7B%22connect_type%22%3A1%2C%22carrier%22%3A0%7D&productid=2&tid=${tid}&type=1`,
       headers:{Cookie:cookieval,'User-Agent': UA,'Referer':RefererUrl}
       }
    $.get(pkgurl, async(error, resp, data) => {
      let get_pkg = JSON.parse(data)
-       // $.log("数据: "+data+'\n')
+      // $.log("数据: "+data+'\n')
      if (get_pkg.errno == 0&&get_pkg.data.isDone ==0){
        Pkg = get_pkg.data.adInfo[0].material.pkg
        taskid = get_pkg.data.taskPf.taskId;
@@ -244,6 +245,103 @@ function get_pkg() {
        } 
       resolve()
     })
+  })
+}
+function activeBox() {
+  return new Promise((resolve, reject) =>{
+   let actboxurl =  {
+      url: `https://haokan.baidu.com/activity/tasks/active?productid=2&id=${tid}`,
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
+      }
+   $.get(actboxurl, async(error, response, data) => {
+     //let act_box = JSON.parse(data)
+     //$.log('actbox: ' + data)
+       await $.wait(25000);
+       await Tasks();
+     resolve()
+    })
+  })
+}
+
+
+function Tasks() {
+  return new Promise((resolve) =>{
+   let taskurl =  {
+      url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=coin&rewardVideoPkg=${Pkg}&_=`+new Date().getTime()+`&sys=ios&rewardVideoDrawKey=&source=0&appid=0&bid=0&chestTid=0&signAim=0&date=`,
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
+      }
+   $.get(taskurl, async(error, response, data) => {
+    try {
+     let do_task = JSON.parse(data)
+        await $.wait(20000);
+        // $.log(data+'\n')
+     if (do_task.errno == 0){
+         $.desc += taskName + "获得收益"+ do_task.data.coin +"\n"
+         $.log("  获得收益: +"+do_task.data.coin+'\n  ')
+     }  else if (do_task.errno == 19001){
+        $.desc += taskName + "  "+ do_task.data.originData.msg + "\n"
+      }else if (do_task.errno == 11004){
+        $.desc += taskName + "  "+ do_task.errmsg + "\n"
+        $.log(taskName + "  "+ do_task.errmsg)
+      }
+    } catch(e){
+        $.logErr(e, data);
+      } finally {
+        resolve()
+      }
+    })
+  })
+}
+
+function get_search() {
+  return new Promise((resolve) =>{
+   let geturl =  {
+      url: `https://mbd.baidu.com/searchbox?action=feed&cmd=${cmd}&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
+      headers: {Cookie:cookieval,'User-Agent': UA}
+      }
+   $.get(geturl, async(error, resp, data) => {
+     let get_search = JSON.parse(data)
+          //$.log(data+'\n')
+    try{
+     if (get_search.errno == 0 ) {
+     for ( item in get_search.data[`${cmd}`].itemlist.items){
+        searchId = get_search.data[`${cmd}`].itemlist.items[item].id
+        searchname = get_search.data[`${cmd}`].itemlist.items[item].data.title
+         $.log(" 阅读任务: "+searchname+ "\n  任务ID: "+searchId)
+         await searchBox(searchId)
+         await $.wait(30000)
+        }
+         //$.desc += taskName + do_search.data[`${cmd}`].tips +"\n"
+     }  else {
+       // $.desc += taskName + "  "+ do_search.data[`${cmd}`].tips + "\n"
+      }
+      } catch(e){
+        $.logErr(e, data);
+      } finally {
+        resolve()
+      }
+   })
+  })
+}
+
+function searchBox(id) {
+  return new Promise((resolve) =>{
+   let searchurl =  {
+      url: `https://mbd.baidu.com/searchbox?action=feed&cmd=197&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
+      headers: {Cookie:cookieval,'User-Agent': UA},
+      body: `data={"origin_nid":"${id}","taskid":"${tid}"}`
+      }
+   $.post(searchurl, async(error, resp, data) => {
+     let do_search = JSON.parse(data)
+          //$.log(data+'\n')
+     if (do_search.errno == 0 && do_search.data['197'].istip == 1) {
+        $.log("  获得收益: " +do_search.data[`197`].tips+'\n')
+         //$.desc +=  do_search.data[`197`].tips +"\n"
+     }  else {
+        $.log("\n")
+      }
+    resolve()
+   })
   })
 }
 //缩减开宝箱时间
@@ -299,105 +397,6 @@ function activeBox2() {
     })
   })
 }
-function activeBox() {
-  return new Promise((resolve, reject) =>{
-   let actboxurl =  {
-      url: `https://haokan.baidu.com/activity/tasks/active?productid=2&id=${tid}`,
-      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
-      }
-   $.get(actboxurl, async(error, response, data) => {
-     //let act_box = JSON.parse(data)
-     //$.log('actbox: ' + data)
-       await $.wait(25000);
-       await Tasks();
-     resolve()
-    })
-  })
-}
-
-
-function Tasks() {
-  return new Promise((resolve) =>{
-   let taskurl =  {
-      url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=coin&rewardVideoPkg=${Pkg}&_=`+new Date().getTime()+`&sys=ios&rewardVideoDrawKey=&source=0&appid=0&bid=0&chestTid=0&signAim=0&date=`,
-      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
-      }
-   $.get(taskurl, async(error, response, data) => {
-    try {
-     let do_task = JSON.parse(data)
-        await $.wait(20000);
-         //$.log(data+'\n')
-     if (do_task.errno == 0){
-         $.desc += taskName + "获得收益"+ do_task.data.coin +"\n"
-         $.log("  获得收益: +"+do_task.data.coin+'\n  ')
-     }  else if (do_task.errno == 19001){
-        $.desc += taskName + "  "+ do_task.data.originData.msg + "\n"
-      }else if (do_task.errno == 11004){
-        $.desc += taskName + "  "+ do_task.errmsg + "\n"
-      }
-    } catch(e){
-        $.logErr(e, data);
-      } finally {
-        resolve()
-      }
-    })
-  })
-}
-
-function get_search() {
-  return new Promise((resolve) =>{
-   let geturl =  {
-      url: `https://mbd.baidu.com/searchbox?action=feed&cmd=${cmd}&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
-      headers: {Cookie:cookieval,'User-Agent': UA}
-      }
-   $.get(geturl, async(error, resp, data) => {
-     let get_search = JSON.parse(data)
-          //$.log(data+'\n')
-    try{
-     if (get_search.errno == 0 ) {
-     for ( item in get_search.data[`${cmd}`].itemlist.items){
-        searchId = get_search.data[`${cmd}`].itemlist.items[item].id
-        searchname = get_search.data[`${cmd}`].itemlist.items[item].data.title
-         $.log(" 阅读任务: "+searchname+ "\n  任务ID: "+searchId)
-         await searchBox(searchId)
-         await $.wait(30000)
-        }
-         //$.desc += taskName + do_search.data[`${cmd}`].tips +"\n"
-     }  else {
-       // $.desc += taskName + "  "+ do_search.data[`${cmd}`].tips + "\n"
-      }
-      } catch(e){
-        $.logErr(e, data);
-      } finally {
-        resolve()
-      }
-   })
-  })
-}
-
-
-
-function searchBox(id) {
-  return new Promise((resolve) =>{
-   let searchurl =  {
-      url: `https://mbd.baidu.com/searchbox?action=feed&cmd=197&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
-      headers: {Cookie:cookieval,'User-Agent': UA},
-      body: `data={"origin_nid":"${id}","taskid":"${tid}"}`
-      }
-   $.post(searchurl, async(error, resp, data) => {
-     let do_search = JSON.parse(data)
-          //$.log(data+'\n')
-     if (do_search.errno == 0 && do_search.data['197'].istip == 1) {
-        $.log("  获得收益: " +do_search.data[`197`].tips+'\n')
-         //$.desc +=  do_search.data[`197`].tips +"\n"
-     }  else {
-        $.log("\n")
-      }
-    resolve()
-   })
-  })
-}
-
 function doubleBox() {
   return new Promise((resolve, reject) =>{
    let douboxurl =  {
