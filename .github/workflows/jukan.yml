@@ -23,12 +23,10 @@ jobs:
           node-version: 12.x
       - name: npm install
         run: |
-          cd ~/Scripts
           npm install
       - name: '运行 【聚看点】'
         if: env.JUKAN_BODY
         run: |
-          cd ~/Scripts
           node Task/jukan.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
