@@ -1,7 +1,7 @@
 /*
 聚看点签到任务，不支持Actions跑阅读任务，其他任务可运行
 打开'我的'获取Cookie
-更新时间: 2021-01-03 12:03
+更新时间: 2021-01-03 17:13
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
 可自动提现，提现需填写微信真实姓名，设置提现金额，默认30，此设置可以boxjs内完成，也可本地配置
@@ -97,7 +97,7 @@ if (typeof $request !== 'undefined') {
      await artTotal() 
 }  
    if ((150-artcount) == 0&&(50-videocount) ==0){
-     $.msg($.name+" 昵称:"+userName, $.sub, $.desc+"\n<今日阅读任务已完成>",{'media-url': calendarpic })
+     $.msg($.name+" 昵称:"+userName, $.sub, $.desc+"<今日阅读任务已完成>",{'media-url': calendarpic })
      }
      $.log("\n"+ $.name+"账号"+$.index+" : "+userName+ "  本次运行任务已结束\n~~~~~~~~~~~~~~~~~~\n")
    }
@@ -411,10 +411,10 @@ function artTotal() {
      try{
       artcount = data.match(/(今日奖励次数\((\d+)次\))/g)[0].match(/\d+/)
       videocount = data.match(/(今日奖励次数\((\d+)次\))/g)[1].match(/\d+/)
-      artcoin = data.match(/\d+金币/g)[6]
-      videocoin =  data.match(/\d+金币/g)[7]
-      readtotal = data.match(/\d+金币/g)[8]
-      sharetotal = data.match(/\d+金币/g)[9]
+      artcoin = data.match(/\d+金币/g)[5]
+      videocoin =  data.match(/\d+金币/g)[6]
+      readtotal = data.match(/\d+金币/g)[7]
+      sharetotal = data.match(/\d+金币/g)[8]
       $.desc += "【今日阅读统计】\n  文章: " +Number(artcount) + "次 收益: "+artcoin+"\n  视频: " +Number(videocount)  + "次 收益: "+videocoin+"\n"
       $.desc += "【昨日阅读统计】\n  自阅收益: " +readtotal +"  分享收益: "+sharetotal +"\n"
       $.log( "当前阅读次数"+artcount+"次，视频次数"+videocount+"次\n")
@@ -574,6 +574,7 @@ function BoxProfit(boxtype) {
      let do_box = JSON.parse(data)
      if (do_box.ret == "ok"&&do_box.profit>0){
           $.log("计时宝箱获得收益: +"+do_box.profit)
+          $.desc += "【计时宝箱】+"+do_box.profit+"金币"
           position = do_box.advertPopup.position
           await Stimulate(position)
          // $.log(position)
