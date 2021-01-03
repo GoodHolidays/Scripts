@@ -12,7 +12,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/weibo.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/weibo.png", "https://raw.githubusercontent.com/Orz-3/task/master/weibo.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/weibo.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js"
     },
     {
       "id": "youth",
@@ -37,7 +37,7 @@
        ],
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/youth.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", "https://raw.githubusercontent.com/Orz-3/task/master/youth.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/youth.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js"
     },
     {
       "id": "youthGain",
@@ -46,7 +46,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/youth_gain.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", "https://raw.githubusercontent.com/Orz-3/task/master/youth.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/youth_gain.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js"
     },
     {
       "id": "dianshijia",
@@ -72,7 +72,7 @@
       }],
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/dianshijia.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/dianshijia.png", "https://raw.githubusercontent.com/Orz-3/task/master/dianshijia.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/dianshijia.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/dianshijia.js"
     },
     {
       "id": "kuaishou",
@@ -81,7 +81,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/kuaishou.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/kuaishou.png", "https://raw.githubusercontent.com/Orz-3/task/master/kuaishou.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/kuaishou.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js"
     },
     {
       "id": "sinanews",
@@ -90,7 +90,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/sinanews.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/sinanews.png", "https://raw.githubusercontent.com/Orz-3/task/master/sinanews.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/sinanews.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js"
     },
     {
       "id": "NOWLIVE",
@@ -99,7 +99,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/NOWLIVE.js",
       "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/NOWLIVE_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/NOWLIVE.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/NOWLIVE.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/NOWLIVE.js"
     },
     {
       "id": "chinatelecomEnquiry",
@@ -117,7 +117,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/telecomInfinity.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/telecominfinty.png", "https://raw.githubusercontent.com/Orz-3/task/master/telecominfinty.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/telecomInfinity.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js"
     },
     {
       "id": "jddj",
@@ -141,7 +141,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js",
       "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/tvpreview.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/tvpreview.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js"
     },
     {
       "id": "moji",
@@ -200,7 +200,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/moji.js",
       "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/moji.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/moji.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js"
     },
     {
       "id": "jukan",
@@ -209,22 +209,15 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js",
        "settings": [
-         {
-          "id": "jukan_out",
-          "name": "自动提现",
-          "val": false,
-          "type": "boolean",
-          "desc": "自动提现开关，请填入提现金额及微信绑定实名，默认关闭"
-         },
-         {
+        {
           "id": "jukan_cash",
           "name": "提现金额",
           "val": "",
           "type": "number",
           "placeholder": "默认30 (点击以展开说明)",
           "desc": "仅允许填入数字，所选金额可见聚看点APP"
-         },
-         {
+        },
+        {
           "id": "jukan_name",
           "name": "微信真实姓名",
           "val": "",
@@ -232,7 +225,7 @@
           "placeholder": "填入微信真实姓名"
         }],
       "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/jukan.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/jukan.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js"
     },
     {
       "id": "mydigit",
@@ -241,7 +234,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/mydigit.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/mydigit.png", "https://raw.githubusercontent.com/Orz-3/task/master/mydigit.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/mydigit.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js"
     },
     {
       "id": "txnews",
@@ -268,7 +261,7 @@
       ],
        "repo": "https://github.com/Sunert/Scripts/blob/master/Task/txnews.js",
        "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/txnews.png", "https://raw.githubusercontent.com/Orz-3/task/master/txnews.png"],
-       "script": "https://github.com/Sunert/Scripts/raw/master/Task/txnews.js"
+       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js"
     },
     {
       "id": "jingxi",
@@ -277,7 +270,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jingxi.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/jingxi.png", "https://raw.githubusercontent.com/Orz-3/task/master/jingxi.png"],
-       "script": "https://github.com/Sunert/Scripts/raw/master/Task/jingxi.js"
+       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jingxi.js"
     },
     {
       "id": "translate",
@@ -293,7 +286,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/translate.png", "https://raw.githubusercontent.com/Orz-3/task/master/translate.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/translate.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js"
     },
     {
       "id": "exchange rate",
@@ -325,7 +318,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/exchangeRate.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/exchangerate.png", "https://raw.githubusercontent.com/Orz-3/task/master/exchangerate.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/exchangeRate.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js"
     },
     {
       "id": "trainquery",
@@ -379,8 +372,8 @@
          ],
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/trainquery.js",
-      "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/12306.png", "https://raw.githubusercontent.com/Orz-3/task/master/12306.png"],
-      "script": "https://github.com/Sunert/Scripts/raw/master/Task/trainquery.js"
+      "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/12306.png“, ”https://raw.githubusercontent.com/Orz-3/task/master/12306.png“],
+      ”script“: ”https://raw.githubusercontent.com/Sunert/Scripts/master/Task/trainquery.js“
     }
   ]
 }
