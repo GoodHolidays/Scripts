@@ -180,7 +180,7 @@ else if(tasks[x].data.countDown[tid].countDown ==0){
            } else if(taskArr[y].type == 'watch'){
             // $.log(tasklists.+'\n')
              cmd = tid==346 ? 100:184
-             //await get_search()
+             await get_search()
            };
           }
          }
@@ -349,7 +349,7 @@ function chestTime() {
   return new Promise((resolve, reject) =>{
    let timeurl =  {
       url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=chestTime&rewardVideoPkg=${Pkg}`,
-      headers: {Cookie:cookieval,'User-Agent': UA,Referer: `https://eopa.baidu.com/page/pagekey-qWYNoPr0?type=1&tid=695&productid=2&chesttid=669&chestname=chestTime`}
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
       }
    $.get(timeurl, (error, response, data) => {
      $.log(data)
@@ -401,7 +401,7 @@ function doubleBox() {
   return new Promise((resolve, reject) =>{
    let douboxurl =  {
       url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=chestDouble&rewardVideoPkg=${Pkg}`,
-      headers: {Cookie:cookieval,'User-Agent': UA,Referer: `Referer: https://eopa.baidu.com/page/pagekey-ASKWNd8W?productid=2&type=1&tid=346`}
+      headers: {Cookie:cookieval,'User-Agent': UA,Referer:RefererUrl}
       }
    $.get(douboxurl, (error, response, data) => {
      let get_doubox = JSON.parse(data)
