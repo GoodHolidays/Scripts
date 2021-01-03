@@ -23,8 +23,7 @@ jobs:
       TXNEWS_VIDEO: ${{ secrets.TXNEWS_VIDEO }}
     steps:
       - name: Checkout
-        run: |
-          git clone https://github.com/Sunert/Scripts.git ~/Scripts
+        uses: actions/checkout@v2
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
