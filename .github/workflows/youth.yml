@@ -29,12 +29,10 @@ jobs:
       - name: npm install
         if: env.YOUTH_HEADER
         run: |
-          cd ~/Scripts
           npm install
       - name: '运行 【中青看点】'
         if: env.YOUTH_HEADER
         run: |
-          cd ~/Scripts
           node Task/youth.js
         env:
           YOUTH_NOTIFY_CONTROL: ${{ secrets.YOUTH_NOTIFY_CONTROL }}
