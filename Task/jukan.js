@@ -1,7 +1,7 @@
 /*
 聚看点签到任务，不支持Actions跑阅读任务，其他任务可运行
 打开'我的'获取Cookie
-更新时间: 2021-01-03 10:32
+更新时间: 2021-01-03 12:03
 https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body jukan.js
 
 可自动提现，提现需填写微信真实姓名，设置提现金额，默认30，此设置可以boxjs内完成，也可本地配置
@@ -365,7 +365,7 @@ function Withdraw() {
       headers: {Cookie:cookieval,'User-Agent':UA}, body: `type=wx&sum=${sumcash}&mobile=&pid=0`
       }
    $.post(drawurl, async(error, resp, data) => {
-       $.log("提现"+drawcash+"元\n"+data)
+       $.log("提现"+drawcash+"元"+data+"\n")
        $.desc += "提现"+drawcash+"元  "+data+"\n"
        resolve()
     })
@@ -485,9 +485,11 @@ function readTask(artid,arttype) {
       }
    $.post(rewurl, async(error, resp, data) => {
      if(resp.statusCode ==200){
-        $.log("   请等待30s\n")
+     for(s=0;s<2;++s){
+        $.log(`   开始第${s+1}次阅读，请等待30s\n`)
          await $.wait(30000) 
          await finishTask(artid,arttype)
+       }
        } else {
         $.log("阅读失败: "+data)
       }
