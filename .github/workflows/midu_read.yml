@@ -24,12 +24,10 @@ jobs:
           node-version: 12.x
       - name: npm install
         run: |
-          cd ~/Scripts
           npm install
       - name: '运行 【米读自动阅读】'
         if: env.MIDU_TOKEN
         run: |
-          cd ~/Scripts
           node Task/midu_Read.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
