@@ -22,12 +22,10 @@ jobs:
           node-version: 12.x
       - name: npm install
         run: |
-          cd ~/Scripts
           npm install
       - name: 运行 【快手视频签到】
         if: env.KS_TOKEN
         run: |
-          cd ~/Scripts
           node Task/kuaishou.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY || github.event.client_payload.PUSH_KEY }}
