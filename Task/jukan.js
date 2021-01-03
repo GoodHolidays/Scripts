@@ -76,7 +76,7 @@ if (typeof $request !== 'undefined') {
       await getsign();
       await stimulate();
       await TimeBox();
-    await userinfo();
+      await userinfo();
       await LuckDrawLevel();
    for(boxtype of [1,2]){
       await $.wait(1000);
@@ -327,7 +327,7 @@ function TimeBox() {
      //$.log(data+"\n")
      let _timebox = JSON.parse(data)
      if (_timebox.ret == "ok"){
-       $.log("定时宝箱开启成功，获得收益+"+_timebox.profit + "下次需"+_timebox.next_time+"分钟")
+       //$.log("定时宝箱开启成功，获得收益+"+_timebox.profit + "  下次需"+_timebox.next_time+"分钟")
        await $.wait(2000)
        await  Stimulate(_timebox.advertPopup.position)
          }  else {
@@ -427,10 +427,10 @@ function artTotal() {
      try{
       artcount = data.match(/(今日奖励次数\((\d+)次\))/g)[0].match(/\d+/)
       videocount = data.match(/(今日奖励次数\((\d+)次\))/g)[1].match(/\d+/)
-      artcoin = data.match(/\d+金币/g)[5]
-      videocoin =  data.match(/\d+金币/g)[6]
-      readtotal = data.match(/\d+金币/g)[7]
-      sharetotal = data.match(/\d+金币/g)[8]
+      artcoin = data.match(/gold"\>\+(\d+金币)/)[1]
+      videocoin =  data.match(/\d+金币/g)[7]
+      readtotal = data.match(/gold1"\>\+(\d+金币)/)[1]
+      sharetotal = data.match(/\d+金币/g)[9]
       $.desc += "【今日阅读统计】\n  文章: " +Number(artcount) + "次 收益: "+artcoin+"\n  视频: " +Number(videocount)  + "次 收益: "+videocoin+"\n"
       $.desc += "【昨日阅读统计】\n  自阅收益: " +readtotal +"  分享收益: "+sharetotal +"\n"
       $.log( "当前阅读次数"+artcount+"次，视频次数"+videocount+"次\n")
@@ -590,7 +590,7 @@ function BoxProfit(boxtype) {
      let do_box = JSON.parse(data)
      if (do_box.ret == "ok"&&do_box.profit>0){
           $.log("计时宝箱获得收益: +"+do_box.profit)
-          $.desc += "【计时宝箱】+"+do_box.profit+"金币"
+          //$.desc += "【计时宝箱】+"+do_box.profit+"金币\n"
           position = do_box.advertPopup.position
           await Stimulate(position)
          // $.log(position)
