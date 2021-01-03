@@ -209,15 +209,22 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js",
        "settings": [
-        {
+         {
+          "id": "jukan_out",
+          "name": "自动提现",
+          "val": false,
+          "type": "boolean",
+          "desc": "自动提现开关，请填入提现金额及微信绑定实名，默认关闭"
+         },
+         {
           "id": "jukan_cash",
           "name": "提现金额",
           "val": "",
           "type": "number",
           "placeholder": "默认30 (点击以展开说明)",
           "desc": "仅允许填入数字，所选金额可见聚看点APP"
-        },
-        {
+         },
+         {
           "id": "jukan_name",
           "name": "微信真实姓名",
           "val": "",
