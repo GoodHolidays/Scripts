@@ -209,6 +209,13 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jukan.js",
        "settings": [
+       {
+          "id": "jukan_out",
+          "name": "自动提现",
+          "val": false,
+          "type": "boolean",
+          "desc": "自动提现开关，请填入提现金额及微信绑定实名，默认关闭"
+         },
         {
           "id": "jukan_cash",
           "name": "提现金额",
@@ -270,7 +277,7 @@
       "author": "@sunert",
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/jingxi.js",
       "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/jingxi.png", "https://raw.githubusercontent.com/Orz-3/task/master/jingxi.png"],
-       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jingxi.js"
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jingxi.js"
     },
     {
       "id": "translate",
