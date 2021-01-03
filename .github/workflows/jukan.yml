@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     env:
-        JUKAN_COOKIE: ${{ secrets.JUKAN_COOKIE }}
         JUKAN_BODY: ${{ secrets.JUKAN_BODY }}
         TZ: Asia/shanghai
     steps:
@@ -28,7 +27,7 @@ jobs:
           cd ~/Scripts
           npm install
       - name: '运行 【聚看点】'
-        if: env.JUKAN_COOKIE
+        if: env.JUKAN_BODY
         run: |
           cd ~/Scripts
           node Task/jukan.js
