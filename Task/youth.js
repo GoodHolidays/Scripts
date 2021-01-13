@@ -158,7 +158,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await signInfo();
   await friendsign();
 if($.time('HH')>12){
-  await punchCard()
+  //await punchCard()
 };
 if ($.isNode()&& $.time('HH')>20&&$.time('HH')<22){
   await endCard();
