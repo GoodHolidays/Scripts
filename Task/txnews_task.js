@@ -60,13 +60,13 @@ let RdArr = [], VdArr = [];
       body = "event=article_read"
       $.index = i + 1;
     for(p=0;p<3;p++){
-   console.log(`-------------------------\n\n开始腾讯新闻${$.index}第${p+1}次阅读`)
+   console.log(`-------------------------\n\n开始腾讯新闻第${$.index}次阅读`)
       await AutoRead();
-      console.log(`请等待30s后继续阅读${$.index}第${p+2}次任务`)
-      await $.wait(30000);
+      console.log(`请等待5s后继续阅读第${$.index+1}次任务`)
+      await $.wait(5000);
       }
     }
-   console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index}*3)次，阅读金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index})次，阅读金币详情见App，阅读任务全部结束`)
   }
    if(VdArr!==[]){
    $.log(VdArr)
@@ -81,8 +81,8 @@ let RdArr = [], VdArr = [];
       console.log(`请等待32s后继续视频${$.vdindex}第${k+2}次任务`)
       await $.wait(32000);
       }
+  console.log(`-------------------------\n\n共完成视频任务(${$.vdindex}*3)次，视频金币详情见App，视频任务全部结束`)
     }
-   console.log(`-------------------------\n\n共完成视频任务(${$.vdindex}*3)次，视频金币详情见App，任务全部结束`)
 }
 })()
   .catch((e) => $.logErr(e))
