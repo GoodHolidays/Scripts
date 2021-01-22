@@ -77,7 +77,6 @@ let RdArr = [], VdArr = [];
       console.log(`请等待5s后继续视频第$.vdindex次任务`)
       await $.wait(5000);
       }
-    }
     console.log(`-------------------------\n\n共完成视频任务(${$.vdindex})次，视频金币详情见App，视频任务全部结束`)
 }
 })()
