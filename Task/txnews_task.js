@@ -1,11 +1,10 @@
 /*
-更新时间: 2020-12-06 15:46
-赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢
+更新时间: 2021-01-22 22:46
+
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
-请自行抓包，刷视频即，可获得更多包数据，抓包地址为"http://ali2.a.yximgs.com/ksc1/xxxxxx.kpg"，在Github Actions中的Secrets新建name为'KUAISHOUMV'的一个值，拷贝抓包的请求体到下面Value的文本框中，本脚本不包含任何推送通知
-
-多个请求时用'#'号或者换行隔开" ‼️
+获取secrects方法和腾讯新闻签到任务相同，TX_CK即腾讯新闻Cookie，TX_READ即sy_signurl_txnews阅读任务地址，TX_VIDEO即video_txnews视频地址;其中TX_CK只能填一个账号secrects，其他链接地址可用#或换行隔开，多账号任务链接可共用阅读和视频地址
+拷贝抓包的请求体到下面Value的文本框中，本脚本不包含任何推送通知
 
 */
 
@@ -54,35 +53,32 @@ let RdArr = [], VdArr = [];
     return;
   }
      if(RdArr){
+     console.log("共"+RdArr.length+"次阅读任务")
   for (let i = 0; i < RdArr.length; i++) {
-    console.log("共"+RdArr.length+"次阅读任务")
       TaskUrl = RdArr[i];
       body = "event=article_read"
       $.index = i + 1;
-    for(p=0;p<3;p++){
    console.log(`-------------------------\n\n开始腾讯新闻第${$.index}次阅读`)
       await AutoRead();
       console.log(`请等待5s后继续阅读第${$.index+1}次任务`)
       await $.wait(5000);
-      }
     }
    console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index})次，阅读金币详情见App，阅读任务全部结束`)
   }
-   if(VdArr!==[]){
-   $.log(VdArr)
+   if(VdArr){
+   console.log("共"+VdArr.length+"次视频任务")
     for (var j = 0; j < VdArr.length; j++) {
-    console.log("共"+VdArr.length+"次阅读任务")
+    
       TaskUrl = VdArr[j];
       body = "event=video_read"
       $.vdindex = j + 1;
-    for(k=0;k<3;k++){
-    console.log(`-------------------------\n\n开始腾讯新闻${$.vdindex}第${k+1}次看视频`)
+    console.log(`-------------------------\n\n开始腾讯新闻第${$.vdindex}次看视频`)
       await AutoRead();
-      console.log(`请等待32s后继续视频${$.vdindex}第${k+2}次任务`)
-      await $.wait(32000);
+      console.log(`请等待5s后继续视频第$.vdindex次任务`)
+      await $.wait(5000);
       }
-  console.log(`-------------------------\n\n共完成视频任务(${$.vdindex}*3)次，视频金币详情见App，视频任务全部结束`)
     }
+    console.log(`-------------------------\n\n共完成视频任务(${$.vdindex})次，视频金币详情见App，视频任务全部结束`)
 }
 })()
   .catch((e) => $.logErr(e))
