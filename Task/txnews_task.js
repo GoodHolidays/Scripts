@@ -11,7 +11,7 @@ Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk030
 
 const $ = new Env("腾讯新闻阅读")
 
-let RdUrl = [], VdUrl = [];
+let RdArr = [], Arr = [];
   if (process.env.TX_READ && process.env.TX_READ.indexOf('#') > -1) {
   RdUrl = process.env.TX_READ.split('#');
   console.log(`您选择的是用"#"隔开\n`)
