@@ -59,25 +59,29 @@ let RdArr = [], VdArr = [];
       TaskUrl = RdArr[i];
       body = "event=article_read"
       $.index = i + 1;
-    console.log(`-------------------------\n\n开始腾讯新闻第${$.index}次阅读`)
+    for(p=0;p<3;p++){
+   console.log(`-------------------------\n\n开始腾讯新闻${$.index}第${p}次阅读`)
       await AutoRead();
       await $.wait(10000);
-      console.log(`\n  请等待10s后继续视频${$.index}第${i+1}次任务`)
+      console.log(`\n  请等待10s后继续视频${$.index}第${p+1}次任务`)
+      }
     }
-   console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index})次，阅读金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index}*3)次，阅读金币详情见App，任务全部结束`)
   }
    if(VdArr){
-    for (let j = 0; j < VdArr.length; j++) {
+    for (var j = 0; j < VdArr.length; j++) {
     console.log("共"+VdArr.length+"次阅读任务")
-      TaskUrl = RdArr[i];
+      TaskUrl = VdArr[j];
       body = "event=video_read"
       $.index = j + 1;
-    console.log(`-------------------------\n\n开始腾讯新闻第${$.index}次阅读`)
+    for(k=0;k<3;k++){
+    console.log(`-------------------------\n\n开始腾讯新闻${$.index}第${k}次看视频`)
       await AutoRead();
       await $.wait(10000);
-      console.log(`\n  请等待10s后继续视频${$.index}第${j+1}次任务`)
+      console.log(`\n  请等待10s后继续视频${$.index}第${k+1}次任务`)
+      }
     }
-   console.log(`-------------------------\n\n共完成视频任务(${$.index})次，视频金币详情见App，任务全部结束`)
+   console.log(`-------------------------\n\n共完成视频任务(${$.index}*3)次，视频金币详情见App，任务全部结束`)
 }
 })()
   .catch((e) => $.logErr(e))
