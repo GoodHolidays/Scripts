@@ -27,7 +27,7 @@ jobs:
         run: |
           npm install
       - name: '运行 【腾讯新闻自动阅读一】'
-        if: secrets.TX_CK
+        if: env.TX_CK
         run: |
           node Task/txnews_task.js
         env:
