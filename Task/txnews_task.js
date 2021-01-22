@@ -69,6 +69,7 @@ let RdArr = [], VdArr = [];
    console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index}*3)次，阅读金币详情见App，任务全部结束`)
   }
    if(VdArr){
+   $.log(VdArr)
     for (var j = 0; j < VdArr.length; j++) {
     console.log("共"+VdArr.length+"次阅读任务")
       TaskUrl = VdArr[j];
