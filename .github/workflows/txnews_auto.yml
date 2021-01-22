@@ -26,7 +26,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【腾讯新闻自动阅读一】'
+      - name: '运行 【腾讯新闻自动阅读账号一】'
         if: env.TX_CK
         run: |
           node Task/txnews_task.js
@@ -35,7 +35,7 @@ jobs:
           TX_READ: ${{ secrets.TX_READ }}
           TX_VIDEO: ${{ secrets.TX_VIDEO }}
           
-      - name: '运行 【腾讯新闻自动阅读二】'
+      - name: '运行 【腾讯新闻自动阅读账号二】'
         if: env.TX_CK2
         run: |
           node Task/txnews_task.js
