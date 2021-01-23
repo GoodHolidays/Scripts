@@ -1,9 +1,9 @@
 /*
-更新时间: 2021-01-22 22:46
+更新时间: 2021-01-23 07:46
 
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
-获取secrects方法和腾讯新闻签到任务相同，TX_CK即腾讯新闻Cookie，TX_READ即sy_signurl_txnews阅读任务地址，TX_VIDEO即video_txnews视频地址;其中TX_CK只能填一个账号secrects，其他链接地址可用#或换行隔开，多账号任务链接可共用阅读和视频地址
+获取secrects方法和腾讯新闻签到任务相同，TX_CK即腾讯新闻Cookie，TX_READ即sy_signurl_txnews阅读任务地址，TX_VIDEO即video_txnews视频地址;其中TX_CK只能填一个账号secrects，其他链接地址可用#或换行隔开，多账号任务链接不可共用阅读和视频地址‼️
 拷贝抓包的请求体到下面Value的文本框中，本脚本不包含任何推送通知
 
 */
@@ -74,8 +74,8 @@ let RdArr = [], VdArr = [];
       $.vdindex = j + 1;
     console.log(`-------------------------\n\n开始腾讯新闻第${$.vdindex}次看视频`)
       await AutoRead();
-      console.log(`请等待5s后继续视频第$.vdindex次任务`)
-      await $.wait(5000);
+      console.log(`请等待10s后继续视频第${$.vdindex+1}次任务`)
+      await $.wait(/10000);
       }
     console.log(`-------------------------\n\n共完成视频任务(${$.vdindex})次，视频金币详情见App，视频任务全部结束`)
 }
