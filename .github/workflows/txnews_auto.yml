@@ -46,7 +46,7 @@ jobs:
           TX_READ: ${{ secrets.TX_READ2 }}
           TX_VIDEO: ${{ secrets.TX_VIDEO2 }}
        
-       - name: '运行 【腾讯新闻自动阅读账号三】'
+      - name: '运行 【腾讯新闻自动阅读账号三】'
         if: env.TX_CK3
         run: |
           node Task/txnews_task.js
