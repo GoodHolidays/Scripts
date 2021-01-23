@@ -75,7 +75,7 @@ let RdArr = [], VdArr = [];
     console.log(`-------------------------\n\n开始腾讯新闻第${$.vdindex}次看视频`)
       await AutoRead();
       console.log(`请等待10s后继续视频第${$.vdindex+1}次任务`)
-      await $.wait(/10000);
+      await $.wait(10000);
       }
     console.log(`-------------------------\n\n共完成视频任务(${$.vdindex})次，视频金币详情见App，视频任务全部结束`)
 }
