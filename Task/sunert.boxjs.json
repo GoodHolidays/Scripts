@@ -16,7 +16,7 @@
     {
         "id": "youth",
         "name": "中青看点",
-        "keys": ["youthheader_zq", "read_zq", "red_zq", "readtime_zq"],
+        "keys": ["youthheader_zq", "read_zq", "red_zq", "readtime_zq", "cashurl_zq","cashbody_zq"],
         "author": "@sunert",
         "settings": [{
             "id": "notifytimes",
@@ -31,7 +31,27 @@
             "val": false,
             "type": "boolean",
             "desc": "调试日志开关，默认关闭"
-        }],
+        },
+        {
+            "id": "zqcash",
+            "name": "提现金额",
+            "val": "30",
+            "type": "radios",
+            "desc": "自动提现金额需和获取提现请求保持一致",
+            "items": [{
+                "key": "10",
+                "label": "10元"
+            },
+            {
+                "key": "30",
+                "label": "30元"
+            },
+            {
+                "key": "100",
+                "label": "100元"
+            }]
+        }
+        ],
         "repo": "https://github.com/Sunert/Scripts/blob/master/Task/youth.js",
         "icons": ["https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", "https://raw.githubusercontent.com/Orz-3/task/master/youth.png"],
         "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js"
