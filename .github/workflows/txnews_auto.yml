@@ -15,6 +15,8 @@ jobs:
     env:
         TX_CK: ${{ secrets.TX_CK }}
         TX_CK2: ${{ secrets.TX_CK2 }}
+        TX_CK3: ${{ secrets.TX_CK3 }}
+        TX_CK4: ${{ secrets.TX_CK4 }}
         TZ: Asia/shanghai
     steps:
       - name: Checkout
@@ -41,7 +43,23 @@ jobs:
           node Task/txnews_task.js
         env:
           TX_CK: ${{ secrets.TX_CK2 }}
-          TX_READ: ${{ secrets.TX_READ }}
-          TX_VIDEO: ${{ secrets.TX_VIDEO }}
-          
+          TX_READ: ${{ secrets.TX_READ2 }}
+          TX_VIDEO: ${{ secrets.TX_VIDEO2 }}
+       
+       - name: '运行 【腾讯新闻自动阅读账号三】'
+        if: env.TX_CK3
+        run: |
+          node Task/txnews_task.js
+        env:
+          TX_CK: ${{ secrets.TX_CK3 }}
+          TX_READ: ${{ secrets.TX_READ3 }}
+          TX_VIDEO: ${{ secrets.TX_VIDEO3 }}
    
+      - name: '运行 【腾讯新闻自动阅读账号四】'
+        if: env.TX_CK4
+        run: |
+          node Task/txnews_task.js
+        env:
+          TX_CK: ${{ secrets.TX_CK4 }}
+          TX_READ: ${{ secrets.TX_READ4 }}
+          TX_VIDEO: ${{ secrets.TX_VIDEO4 }}
