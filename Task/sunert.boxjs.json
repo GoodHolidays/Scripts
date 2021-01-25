@@ -292,7 +292,7 @@
                 "key": "100",
                 "label": "100元"
             }]
-        }
+        },
         "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/baiduspeed_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/baiduspeed.png"],
         "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baiduspeed.js"
     },
