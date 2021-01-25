@@ -261,6 +261,42 @@
         "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js"
     },
     {
+        "id": "baidu",
+        "name": "百度极速任务",
+        "keys": ["chavy_cookie_tieba","CookieTB"],
+        "author": "@sunert",
+        "repo": "https://github.com/Sunert/Scripts/blob/master/Task/baiduspeed.js",
+        "settings": [{
+            "id": "cash_baidu",
+            "name": "提现金额",
+            "val": "30",
+            "type": "radios",
+            "desc": "自动提现金额",
+            "items": [{
+                "key": "5",
+                "label": "5元"
+            },
+            {
+                "key": "30",
+                "label": "30元"
+            },
+            {
+                "key": "30",
+                "label": "30元"
+            },
+            {
+                "key": "50",
+                "label": "50元"
+            },
+            {
+                "key": "100",
+                "label": "100元"
+            }]
+        }
+        "icons": ["https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/baiduspeed_mini.png", "https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/ICON/baiduspeed.png"],
+        "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baiduspeed.js"
+    },
+    {
         "id": "txnews",
         "name": "腾讯新闻",
         "keys": ["sy_signurl_txnews", "sy_cookie_txnews", "video_txnews"],
