@@ -1,7 +1,7 @@
 /*
 百度极速版签到任务
 
-本脚本默认使用chavyleung大佬和Nobyda的贴吧ck，获取方法请看大佬仓库说明
+本脚本默认使用chavyleung大佬和Nobyda的贴吧ck，获取方法请看大佬仓库说明，内置自动提现，提现金额默认30元
 
 ~~~~~~~~~~~~~~~~
 
@@ -9,9 +9,9 @@
 const $ = new Env('百度极速版')
 
 let CookieArr = [];
-let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.0.10 (Baidu; P2 14.2)`
-const withcash = $.getdata("cash_baidu")||30
-
+let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.1.10 (Baidu; P2 14.2)`;
+const withcash = $.getdata("cash_baidu")||30;
+let tip = 0,totaltips=0;
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
   StartBody = process.env.BAIDU_COOKIE.split('&');
@@ -242,13 +242,14 @@ async function getConfigs() {
                 await get_pkg()
             } else if (taskType == 'watch') {
                     tips = daily.tips; 
-                    totaltips = daily.total_count
-                    $.log(taskName + tips+"总计"+totaltips+"次") 
-              if (tid == 4) {
-                    await get_search("100")
-                } else {
+                    count = daily.total_count
+                    $.log("\n"+ taskName + tips+"总计"+count+"次"); 
+                 if(daily.taskStatus==0){
                     await get_search("184")
-                }
+                 }
+                 if(daily.taskStatus==1){
+                   $.log(taskName+ "任务已完成")
+                 }
             }
         }
     }
@@ -268,8 +269,8 @@ function firstbox() {
         let bdurl = {
             url: 'https://mbrowser.baidu.com/lite/gold/receive?service=bdbox',
             headers: {
-                Cookie: cookieval,
-                'User-Agent': UA
+                "Cookie": cookieval,
+                "User-Agent": UA
             },
             body: 'task_type=-1&task_id=-1'
         }
@@ -371,40 +372,44 @@ function Tasks() {
 function get_search(cmd) {
     return new Promise((resolve) =>{
         let geturl = {
-            url: `https://mbd.baidu.com/searchbox?action=feed&cmd=${cmd}&network=1_0&osbranch=i3&osname=baiduboxapp&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2&ua=1242_2208_iphone_7.0.0.11_0`,
+            url: `https://mbd.baidu.com/searchbox?action=feed&cmd=${cmd}&network=1_0&osbranch=i3&osname=baiduboxapp&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2&ua=1242_2208_iphone_5.0.0.11_0&fv=12.1.0.0`,
             headers: {
                 Cookie: cookieval,
                 'User-Agent': UA
             }
         }
         $.get(geturl, async(error, resp, data) =>{
-            let get_search = JSON.parse(data)
            // $.log(data+'\n')
             try {
+             let get_search = JSON.parse(data)
                 if (get_search.errno == 0) {
-                  let tip = 0
                     for (items of get_search.data[`${cmd}`].itemlist.items) {
                         searchId = items.id,
                         searchname = items.data.title;
-                      
-                   if(items.data.mode=="video"){
-                        $.log("\n 观看视频: " + searchname + "\n 任务ID:  " + searchId + "\n\n  请等待30s获取收益");
-                        await $.wait(30000)
+                        author = items.data.author
+                   if(items.data.mode=="video"||items.data.type=="video"){
+                        $.log("\n 观看视频: " + searchname + "  —————— "+author +"\n 任务ID:  " + searchId);
                       }
                   if(items.data.mode=="text"){
-                        $.log("\n 阅读文章: " + searchname + "\n 任务ID:  " + searchId + "\n\n  请等待32s获取收益");
-                        await $.wait(32000)
+                        $.log("\n 阅读短文: " + searchname + "\n 任务ID:  " + searchId +"  —————— "+items.data.tag ? items.data.tag:"");
                       }
                   if(items.data.mode=="ad"){
-                        $.log("\n 广告: " + searchname + "\n 任务ID:  " + searchId + "\n\n  请等待15s获取收益");
-                        await $.wait(15000)
+                        $.log("\n 打开广告: " + author+": "+searchname + "\n 任务ID:  " + searchId);
                       }
-                        await searchBox(searchId);
-                    }
-                   $.desc += taskName + "获得收益"+ tip +"\n"
+                        if( Number(tip) > 3){
+                       $.log("\n\n  请等待30s获取收益")
+                        await $.wait(30000)
+                      } else {
+                        $.log("   金币小于3时，加速运行")
+                        await $.wait(5000)
+                      }
+                       await searchBox(searchId);
+                       totaltips += tip
+                     }
+                   $.desc += taskName + "获得收益"+ totaltips + tips + "\n"
               }
-            } catch(e) {
-                $.logErr(e, data);
+            } catch(error) {
+                $.logErr(error+data);
             } finally {
                 resolve()
             }
@@ -415,27 +420,27 @@ function get_search(cmd) {
 function searchBox(id) {
     return new Promise((resolve) =>{
         let searchurl = {
-            url: `https://mbd.baidu.com/searchbox?action=feed&cmd=197&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_7.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA
-            },
-            body: `data = {"origin_nid": "${id}","taskid": "${tid}"}`
+            url: `https://mbd.baidu.com/searchbox?action=feed&cmd=197&imgtype=webp&network=1_0&osbranch=i3&osname=baiduboxapp&ua=1242_2208_iphone_5.0.0.11_0&uid=A49D6DBEA0E8C89406AD1484C84D9134FCF6C8758FHLNHLAJSR&ut=iPhone10%2C1_14.2`,
+            headers: {"Cookie":cookieval,'User-Agent': UA},
+            body: `data={"origin_nid":"${id}","taskid":"${tid}"}`
         };
         $.post(searchurl, async(error, resp, data) =>{
+    //$.log(error + resp.statusCode+"  "+data)
          try{
             let do_search = JSON.parse(data)
             if (do_search.errno == 0 && do_search.data['197'].istip == 1) {
-                $.log("  获得收益: " + do_search.data[`197`].tips + '\n'); 
-                tip += do_search.data[`197`].tips 
+                $.log("   获得收益: " + do_search.data[`197`].tips); 
+                tip = Number(do_search.data[`197`].righttips)
+                //totaltips += Number(tip)
                  await $.wait(2000)
             } else if (do_search.data[`197`].tips == "") {
                 //$.log("  获得收益: " + do_search.data[`197`].istip + '\n')
+                 //tip += do_search.data[`197`].righttips 
             } else {
             $.log("获得收益失败")
             }
             }catch(e) {
-                $.logErr(e, data);
+                $.logErr(e+data);
             } finally {
                 resolve()
             }
@@ -464,7 +469,7 @@ function chestTime() {
          $.log("开宝箱任务ID:"+taskid+ get_chest.data.originData.msg)
          }  
        } catch(e){
-        $.logErr(e, data);
+        $.logErr(e+data);
       } finally {
         resolve()
       }
