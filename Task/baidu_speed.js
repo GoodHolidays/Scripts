@@ -102,7 +102,13 @@ function userInfo() {
                     chargemoney = data.match(/charge_money":"(\d+\.\d+)/)[1],
                     waitingcoin = data.match(/waiting_coin":(\d+)/)[1],
                     availablecoin = data.match(/available_coin":(\d+)/)[1],
-                    invitecode = data.match(/invite_code":"(\w+)/)[1]
+                    invitecode = data.match(/invite_code":"(\w+)/)[1],
+                    coinenabled = data.match(/coin_enabled":(\d+)/)[1]
+                    rate = data.match(/exchange_rate":(\d+)/)[1]
+               if (coinenabled > 100){
+                    coinnum = parseInt(coinenabled/100)*100
+                 await coinexChange()
+                  }
                 }
                  $.sub= "昵称:"+username+" 现金:"+ chargemoney+" 金币:"+availablecoin
                 $.log("获取用户信息成功，昵称: "+username+ " 现金:"+chargemoney+"元");
@@ -158,6 +164,31 @@ function invite() {
         })
     })
 }
+
+function coinexChange() {
+    return new Promise((resolve, reject) =>{
+        let Changeurl = {
+            url: `https://haokan.baidu.com/activity/api/coinexchange?coinnum=${coinnum}&autolock=1&productid=2&ugVersion=5.1.1.10`,
+            headers: {
+                Cookie: cookieval,
+                'User-Agent': UA
+            }
+        }
+        $.get(Changeurl, (error, resp, data) =>{
+             let exchange = JSON.parse(data)
+               $.log(data)
+             if (exchange.errno == 0) {
+                $.log("兑换成功，"+ exchange.data.message)
+                $.msg($.name, "金币兑换成功，"+ exchange.data.message)
+            }
+            resolve()
+        })
+    })
+}
+
+
+
+
 function TaskCenter() {
   return new Promise((resolve, reject) =>{
     let rewurl = {
