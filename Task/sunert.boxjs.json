@@ -30,7 +30,8 @@
                 "red_zq", 
                 "readtime_zq", 
                 "cashurl_zq", 
-                "cashbody_zq"
+                "cashbody_zq",
+                "zqcash"
             ], 
             "author": "@sunert", 
             "settings": [
@@ -358,9 +359,10 @@
             "id": "baidu", 
             "name": "百度极速任务", 
             "keys": [
+                "baidu_nick",
                 "chavy_cookie_tieba", 
                 "CookieTB",
-                "baidu_nick"
+                "cash_baidu"
             ], 
             "author": "@sunert", 
             "repo": "https://github.com/Sunert/Scripts/blob/master/Task/baiduspeed.js", 
