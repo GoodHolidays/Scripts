@@ -59,6 +59,10 @@ if ($.isNode()) {
       withcash = cashArr[i]
       $.index = i + 1;
       await userInfo();
+      if(isblack){
+         $.msg($.name +" 账号"+username+"已黑号", "您的金币和余额已被冻结，请联系客服处理");
+         return;
+      }
       await $.wait(1000)
       await firstbox();
       await TaskCenter()
@@ -94,7 +98,7 @@ function getsign() {
                 $.sub = `签到失败❌`,
                 $.desc = `说明: ` + get_sign.msg,
                 $.msg($.name, $.sub, $.desc);
-                $.done()
+                return
             }
             resolve()
         })
@@ -120,6 +124,7 @@ function userInfo() {
                     invitecode = data.match(/invite_code":"(\w+)/)[1],
                     coinenabled = data.match(/coin_enabled":(\d+)/)[1]
                     rate = data.match(/exchange_rate":(\d+)/)[1]
+                    isblack = data.match(/is_black":(\w+)/)[1]
                if (coinenabled > 100){
                     coinnum = parseInt(coinenabled/100)*100
                    await coinexChange()
