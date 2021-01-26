@@ -75,7 +75,7 @@ if ($.isNode()) {
       }
       await $.wait(2000)
       await firstbox();
-      //await TaskCenter()
+      await TaskCenter()
       await showmsg()
      //await drawPrize();
   }
