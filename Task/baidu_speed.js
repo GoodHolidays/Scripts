@@ -61,7 +61,7 @@ if ($.isNode()) {
       await userInfo();
       if(isblack){
          $.msg($.name +" 账号"+username+"已黑号", "您的金币和余额已被冻结，请联系客服处理");
-         return;
+         break;
       }
       await $.wait(1000)
       await firstbox();
