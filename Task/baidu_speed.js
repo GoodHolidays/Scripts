@@ -3,6 +3,8 @@
 
 本脚本默认使用chavyleung大佬和Nobyda的贴吧ck，获取方法请看大佬仓库说明，内置自动提现，提现金额默认30元，当当前时间为早上6点且达到提现金额时仅运行提现任务，提现金额小于设置金额时继续运行其他任务。
 
+支持BoxJs多账号，需手动填写，用&或者换行隔开
+
 ~~~~~~~~~~~~~~~~
 
 */
@@ -10,6 +12,7 @@ const $ = new Env('百度极速版')
 let CookieArr = [],cashArr=[];
 let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.1.10 (Baidu; P2 14.2)`;
 const notify = $.isNode() ? require('./sendNotify') : '';
+const baiducks = $.getdata(`cookie_baidu`);
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
   BDCookie = process.env.BAIDU_COOKIE.split('&');
@@ -17,7 +20,7 @@ if ($.isNode()) {
  else if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('\n') > -1) {
   BDCookie = process.env.BAIDU_COOKIE.split('\n');
   } else {
-  BDCookie = process.env.BAIDU_COOKIE.split()
+  BDCookie = process.env.BAIDU_COOKIE
   };
   if (process.env.BAIDU_CASH && process.env.BAIDU_CASH.indexOf('&') > -1) {
   BDCASH = process.env.BAIDU_CASH.split('&');
@@ -31,23 +34,29 @@ if ($.isNode()) {
         if (BDCookie[item]) {
           CookieArr.push(BDCookie[item])
         } 
-    })
+    });
   Object.keys(BDCASH).forEach((item) => {
         if (BDCASH[item]) {
           cashArr.push(BDCASH[item])
         } 
     })
-
+} else if(baiducks && baiducks.indexOf('&')>-1){
+     BDCookie = baiducks.split("&")
+     Object.keys(BDCookie).forEach((item) => {
+     if (BDCookie[item]) {
+          CookieArr.push(BDCookie[item])
+        } 
+    })
 } else {
-    CookieArr.push($.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`))
+    CookieArr.push($.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`));
     cashArr.push($.getdata("cash_baidu")||30)
 }
+
 if ($.isNode()) {
       //console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
      console.log(`您共提供${CookieArr.length}个百度账号 Cookie`)
 }
-
 !(async() => {
   if (!CookieArr[0]) {
     console.log($.name, '【提示】请把百度Cookie填入Github 的 Secrets 中，请以&或者换行隔开')
@@ -59,13 +68,13 @@ if ($.isNode()) {
       withcash = cashArr[i]
       $.index = i + 1;
       await userInfo();
-      if(isblack){
+      if(isblack=="true"){
          $.msg($.name +" 账号"+username+"已黑号", "您的金币和余额已被冻结，请联系客服处理");
-         break;
+         continue;
       }
       await $.wait(1000)
       await firstbox();
-      await TaskCenter()
+      //await TaskCenter()
       await showmsg()
      //await drawPrize();
   }
@@ -98,7 +107,7 @@ function getsign() {
                 $.sub = `签到失败❌`,
                 $.desc = `说明: ` + get_sign.msg,
                 $.msg($.name, $.sub, $.desc);
-                return
+                $.done()
             }
             resolve()
         })
