@@ -279,8 +279,8 @@ async function getConfigs() {
         taskType = arr.type;
         if (arr.taskStatus == "1") {
           $.log(taskName + " tid:" + tid + " 已完成");
-          $.desc += taskName + "✅ 已完成\n"
-continue
+          $.desc += taskName + "✅ 已完成\n";
+          continue
         } else if (taskType == 'openApp') {
           RefererUrl = arr.adLink;
          $.log(taskName)
