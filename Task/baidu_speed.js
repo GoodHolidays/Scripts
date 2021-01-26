@@ -13,6 +13,8 @@ let CookieArr = [],cashArr=[];
 let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.1.10 (Baidu; P2 14.2)`;
 const notify = $.isNode() ? require('./sendNotify') : '';
 const baiducks = $.getdata(`cookie_baidu`);
+const taskON = $.getdata(`task_baidu`)||"true"//除提现和兑换外其他任务开关
+
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
   BDCookie = process.env.BAIDU_COOKIE.split('&');
@@ -67,15 +69,17 @@ if ($.isNode()) {
       cookieval = CookieArr[i];
       withcash = cashArr[i]
       $.index = i + 1;
-      await $.wait(2000)
       await userInfo();
       if(isblack=="true"){
          $.msg($.name +" 账号"+username+"已黑号", "您的金币和余额已被冻结，请联系客服处理");
          continue;
       }
-      await $.wait(2000)
+      await $.wait(1000)
+   if( taskON =="true"){
+      $.desc = "";
       await firstbox();
       await TaskCenter()
+    }
       await showmsg()
      //await drawPrize();
   }
@@ -219,9 +223,6 @@ function coinexChange() {
         })
     })
 }
-
-
-
 
 function TaskCenter() {
   return new Promise((resolve, reject) =>{
@@ -584,6 +585,7 @@ function doubleBox() {
 }
 
 function showmsg() {
+
      $.msg($.name,$.sub,$.desc)
 
 }
