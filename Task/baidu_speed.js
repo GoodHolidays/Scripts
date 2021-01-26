@@ -94,7 +94,7 @@ function getsign() {
                 $.sub = `签到失败❌`,
                 $.desc = `说明: ` + get_sign.msg,
                 $.msg($.name, $.sub, $.desc);
-                return
+                $.done()
             }
             resolve()
         })
