@@ -1,5 +1,5 @@
 /*
-百度极速版签到任务，使用脚本有黑号风险，请知悉‼️
+百度极速版签到任务，使用脚本有黑号严重，请谨慎使用‼️
 
 赞赏:百度极速邀请码`RW9ZSW 点击链接立得红包，最高100元！https://dwz.cn/Oilv4CJ1`,农妇山泉 -> 有点咸，万分感谢
 
@@ -311,7 +311,6 @@ async function getConfigs() {
       RefererUrl = tasks[x].data.unOpenHeadBoxDialog.btn[0].iosAdUrl
       await activeBox()
 }
-return
     if (tasks[x].data.gameheader.coinInfo.coinStatus == 2) {
       $.desc += "【头部宝箱】✅ 总计金币" + tasks[x].data.gameheader.coinInfo.coinCount + "\n";
       $.log($.desc)
