@@ -236,7 +236,7 @@ function TaskCenter() {
     $.get(rewurl, async(error, resp, data) =>{
       try {
         let get_tasks = JSON.parse(data);
-        $.log("========== 任务开始 ==========\n");
+        $.log("      🛎 ========== 任务开始 ========== 🛎     "); 
         tasks = get_tasks.data.comps;
         for (x in tasks) {
           taskid = tasks[x].taskId;
@@ -246,7 +246,7 @@ function TaskCenter() {
               signs = tasks[x].data.checkin_list
               if (tasks[x].data.current_date == signs[z].date) {
                 if (signs[z].is_checkin == 0) {
-                  await getsign()
+                  //await getsign()
                 } else {
                   $.desc = "【签到结果】✅ 明日+" + signs[Number(z) + 1].coin_reward + "金币\n";
                   $.log($.desc)
@@ -269,27 +269,29 @@ function TaskCenter() {
 async function getConfigs() {
   if (tasks[x].name == "taskList") {
     maxTitle = tasks[x].data.title;
-    $.log("去" + maxTitle + "\n");
+    $.log("\n去" + maxTitle);
     if (maxTitle == "玩游戏赚现金") {
-      $.log(JSON.stringify(tasks[x].data))
+      //$.log(JSON.stringify(tasks[x].data))
     } else {
       for (arr of tasks[x].data.tasklist) {
         taskName = "【" + arr.title + "】";
         tid = arr.id;
         taskType = arr.type;
         if (arr.taskStatus == "1") {
-          $.log(taskName + " tid:" + tid + " 已完成");
+          $.log(taskName + " 已完成");
           $.desc += taskName + "✅ 已完成\n";
-          continue
         } else if (taskType == 'openApp') {
           RefererUrl = arr.adLink;
-         $.log(taskName)
-         // $.log(JSON.stringify(arr))
-          await activeBox(tid,RefererUrl)
+          $.log("\n           "+taskName+" 类型: "+arr.type_name+"       ")
+        if( tid =="815"){
+          RefererUrl="https://haokan.baidu.com/activity/goldcoin/?productid=2&pd=2&tab=guide"
+         }
+         //$.log(JSON.stringify(arr))
+             await activeBox()
         } else if (taskType == 'watch') {
-          tips = arr.tips;
-          count = arr.total_count;
-          $.log(taskName + tips + "总计" + count + "次");
+             tips = arr.tips;
+             count = arr.total_count;
+             $.log("\n        "+taskName + tips + "总计" + count + "次      ");
           if (arr.taskStatus == 0) {
             await $.wait(2000);
             await get_search("184")
@@ -303,6 +305,13 @@ async function getConfigs() {
     //$.log(tasks[x].data.recommendCompName)
   }
   if (id == "1068") {
+    if (tasks[x].data.unOpenHeadBoxDialog.isShowBusiness == true ){
+      tid = "817"
+      taskName = "【"+tasks[x].data.unOpenHeadBoxDialog.btn[0].btnText+"】"
+      RefererUrl = tasks[x].data.unOpenHeadBoxDialog.btn[0].iosAdUrl
+      await activeBox()
+}
+return
     if (tasks[x].data.gameheader.coinInfo.coinStatus == 2) {
       $.desc += "【头部宝箱】✅ 总计金币" + tasks[x].data.gameheader.coinInfo.coinCount + "\n";
       $.log($.desc)
@@ -322,12 +331,12 @@ async function getConfigs() {
             if (jingangType == 2) {
                 if (tasks[x].data.jingang.countDown[tid].countDown == 0) {
                     await $.wait(1000);
-                    await activeBox(tid);
+                    $.log("\n             "+taskName+"       ");
+                    await activeBox();
                 } else {
-                    $.log(taskName+ " 请等待" +Number(tasks[x].data.jingang.countDown[tid].countDown / 60).toFixed(2) + "分钟")
+                    $.log("\n"+taskName+ " 请等待" +Number(tasks[x].data.jingang.countDown[tid].countDown / 60).toFixed(2) + "分钟")
                 }
           }
-  
      }
   }
 }
@@ -359,7 +368,7 @@ function firstbox() {
   })
 }
 
-function activeBox(tid) {
+function activeBox() {
   return new Promise((resolve, reject) =>{
     let actboxurl = {
       url: `https://haokan.baidu.com/activity/tasks/active?productid=2&id=${tid}`,
@@ -374,7 +383,7 @@ function activeBox(tid) {
        if ((tid == 587 || tid == 590) && act_box.errno == 0) {
         await get_pkg()
       } else if (act_box.data.code == "EquipmentComplete") {
-        $.log(taskName + act_box.data.data)
+        $.log("          "+ act_box.data.data)
       } else {
         //$.log(data);
         await get_pkg()
@@ -469,20 +478,20 @@ function get_search(cmd) {
             if (items.data.mode == "video" || items.data.type == "video") {
               $.log(" 观看视频: " + searchname + "  —————— " + author);
             }
-            if (items.data.mode == "text") {
+            else if (items.data.mode == "text") {
               $.log(" 阅读短文: " + searchname + "\n " + "  —————— " + items.data.tag ? items.data.tag: "");
             }
-            if (items.data.mode == "ad") {
+            else if (items.data.mode == "ad") {
               $.log(" 打开广告: " + author + ": " + searchname);
             }
             if (typeof coin == "undefined") {
               $.log(" 请等待，30s后获取收益\n");
               await $.wait(30000);  
-              await searchBox(searchId);
+              await searchBox(searchId)
             } else if (coin == 0) {
               $.log(" 请等待5s获取收益\n");
               await $.wait(5000);
-              await searchBox(searchId);
+              await searchBox(searchId)
               coin = "undefined";
             } else if (coin == 3) {
               $.log(" 金币为3时，跳出运行\n");
@@ -492,7 +501,7 @@ function get_search(cmd) {
             } else {
               $.log(" 请等待，30s后获取收益\n");
               await $.wait(30000);
-              await searchBox(searchId);
+              await searchBox(searchId)
             }
             //totalcoin += coin
             //$.log(totalcoin)
@@ -528,7 +537,7 @@ function searchBox(id) {
                 coin = 0;
                 $.log(" 对不起，本次没有收益🥺\n"); 
             } else {
-            $.log("获得收益失败")
+            $.log("获得收益失败，"+do_search.data[`197`].tips)
             }
             }catch(e) {
                 $.logErr(e+data);
