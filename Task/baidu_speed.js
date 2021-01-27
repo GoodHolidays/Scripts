@@ -82,7 +82,7 @@ if ($.isNode()) {
         await firstbox();
         await TaskCenter()
       }
-      await showmsg()
+      //await showmsg()
       //await drawPrize();
     }
   }
@@ -111,7 +111,7 @@ function getsign() {
                 $.sub = `签到失败❌`,
                 $.desc = `说明: ` + get_sign.msg,
                 $.msg($.name, $.sub, $.desc);
-                $.done()
+                //$.done()
             }
             resolve()
         })
@@ -384,6 +384,7 @@ function activeBox() {
       }
     }
     $.get(actboxurl, async(error, resp, data)=>{
+    try{
       let act_box = JSON.parse(data);
        if ((tid == 587 || tid == 590) && act_box.errno == 0) {
         await get_pkg()
@@ -391,13 +392,17 @@ function activeBox() {
         $.desc+= "【taskName】"+ act_box.msg;
         $.log(act_box.msg+"，请检查Cookie是否包含BAIDUID");
         return
-      } else if (act_box.data.code == "EquipmentComplete") {
+      } else if (typeof act_box.data != "undefined"&&act_box.data.code == "EquipmentComplete") {
         $.log("          "+ act_box.data.data)
       } else {
         //$.log(formatJson(data))
         await get_pkg()
       }
-      resolve()
+      } catch(e) {
+        $.logErr(e, data);
+      } finally {
+        resolve()
+      }
     })
   })
 }
@@ -457,7 +462,7 @@ function finishTask() {
           $.log(taskName + "  " + do_task.errmsg)
         }
       } catch(e) {
-        $.logErr(e, data);
+        $.logErr(e+data);
       } finally {
         resolve()
       }
