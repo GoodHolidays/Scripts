@@ -246,7 +246,7 @@ function TaskCenter() {
               signs = tasks[x].data.checkin_list
               if (tasks[x].data.current_date == signs[z].date) {
                 if (signs[z].is_checkin == 0) {
-                  //await getsign()
+                  await getsign()
                 } else {
                   $.desc = "【签到结果】✅ 明日+" + signs[Number(z) + 1].coin_reward + "金币\n";
                   $.log($.desc)
