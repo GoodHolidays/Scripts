@@ -308,7 +308,8 @@ async function getConfigs() {
     if (tasks[x].data.unOpenHeadBoxDialog.isShowBusiness == true ){
       tid = "817"
       taskName = "【"+tasks[x].data.unOpenHeadBoxDialog.btn[0].btnText+"】"
-      RefererUrl = tasks[x].data.unOpenHeadBoxDialog.btn[0].iosAdUrl
+      RefererUrl = tasks[x].data.unOpenHeadBoxDialog.btn[0].iosAdUrl,
+      $.log("\n              "+taskName+"        ")
       await activeBox()
 }
     if (tasks[x].data.gameheader.coinInfo.coinStatus == 2) {
