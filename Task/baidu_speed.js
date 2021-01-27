@@ -130,7 +130,7 @@ function userInfo() {
         $.get(infourl, async(error, resp, data) => {
             try {
                 if (resp.statusCode == 200) {
-                    username = data.match(/user_name":"(\w+)/)[1],
+                    username = data.match(/user_name":"([\u4e00-\u9fa5_a-zA-Z0-9\s]+)/)[1],
                     chargemoney = data.match(/charge_money":"(\d+\.\d+)/)[1],
                     waitingcoin = data.match(/waiting_coin":(\d+)/)[1],
                     availablecoin = data.match(/available_coin":(\d+)/)[1],
