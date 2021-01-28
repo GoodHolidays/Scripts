@@ -290,6 +290,7 @@ function signInfo() {
       await withDraw()
       }
                 nick = `账号: ${signinfo.data.user.nickname}`;
+                $.setdata(nick,"zq_nick")
                 detail = `${signresult}(今天+${signinfo.data.sign_score}青豆) 已连签${signday}天\n<本次收益>：\n`;
             if(signday==7){
               await SevCont();
