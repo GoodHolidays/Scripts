@@ -1,7 +1,6 @@
+[toc]
 
  #  <center> 中青看点使用说明 </center>
-
-[toc]
 
 ### IOS配置教程
  ```
