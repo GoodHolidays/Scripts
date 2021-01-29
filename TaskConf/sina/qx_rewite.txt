@@ -1,0 +1,15 @@
+hostname = newsapi.sina.cn, api.weibo.cn, pay.sc.weibo.com, lite.sina.cn
+
+https:\/\/newsapi\.sina\.cn\/\?resource=hbpage&newsId=HB-1-sina_gold_center url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+https:\/\/newsapi\.sina\.cn\/\?resource=userpoint\/signIn url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+https:\/\/api\.weibo\.cn\/\d\/page\/\w+\?gsid url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+
+https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\? url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+
+https?:\/\/lite\.sina\.cn\/\?resource=hbpage&newsId=HB-1-sina_gold_center - script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+https?:\/\/lite\.sina\.cn\/\?resource=userpoint\/signIn - script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+
