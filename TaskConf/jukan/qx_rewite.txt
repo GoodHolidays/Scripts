@@ -1,0 +1,3 @@
+hostname = www.xiaodouzhuan.cn
+
+https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js
