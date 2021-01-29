@@ -1,0 +1,3 @@
+hostname = api.inews.qq.com
+
+https:\/\/api\.inews\.qq\.com\/event\/v1\/user\/event\/report\? url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js
