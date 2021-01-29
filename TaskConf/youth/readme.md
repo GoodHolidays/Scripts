@@ -75,7 +75,7 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body http
 
 </details>
 
- <h3 style="text-align:right"> [回到仓库主页](https://github.com/Sunert/Scripts) </h3>
+ [回到仓库主页](/Sunert/Scripts)
  
 
 
