@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-01-29 20:00
+更新时间: 2021-01-23 12:00
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 
@@ -73,8 +73,8 @@ let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖�
 const YOUTH_HOST = "https://kd.youth.cn/WebApi/";
 const notify = $.isNode() ? require('./sendNotify') : '';
 const withdrawcash = $.getdata('zqcash')||30 //提现金额
-const withdrawUrl =$.getdata('cashurl_zq')
-const withdrawBody =$.getdata('cashbody_zq')
+let withdrawUrl =$.getdata('cashurl_zq')
+let withdrawBody =$.getdata('cashbody_zq')
 
 let logs = $.getdata('zqlogs')||false, rotaryscore=0,doublerotary=0,signresult; 
 let cookiesArr = [], signheaderVal = '',
@@ -282,12 +282,12 @@ function signInfo() {
         }
         $.post(infourl, async(error, response, data) => {
             signinfo = JSON.parse(data);
-//$.log(formatJson(data))
+          //$.log(formatJson(data))
             if (signinfo.status == 1) {
               cash = signinfo.data.user.money
               signday = signinfo.data.sign_day
                 subTitle = `【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元`;
-                if( parseInt(cash) >= withdrawcash && withdrawBody !== ""){
+                if( parseInt(cash) >= withdrawcash && !withdrawBody == "false"){
                 await withDraw()
                }
                 nick = `账号: ${signinfo.data.user.nickname}`;
