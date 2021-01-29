@@ -75,7 +75,7 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body http
 
 </details>
 
- >>> [回到上一页](/TaskConf/)
+ >>> [回到上一页](/)
  
 
 
