@@ -1,0 +1,9 @@
+# 增加lxk0301大佬多ck脚本
+
+hostname = daojia.jd.com, draw.jdfcloud.com, wq.jd.com
+
+https:\/\/daojia\.jd\.com\/client\?_jdrandom=\d{13}&functionId=%2Fsignin url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js
+
+https:\/\/draw\.jdfcloud\.com\/\/api\/bean\/square\/silverBean\/task\/get\? url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js
+
+https:\/\/wq\.jd\.com\/user_new\/info\/GetJDUserInfoUnion url script-request-header https://gitee.com/lxk0301/jd_scripts/raw/master/JD_extra_cookie.js  
