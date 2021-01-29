@@ -27,7 +27,7 @@
             "addons": "https://raw.githubusercontent.com/Sunert/sunert_scripts/main/task/jd/qx_rewite.txt, tag=jd_rewite, update-interval=-1, opt-parser=false, enabled=true"
         }, 
         {
-            "config": "7 10 * * * hhttps://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url= https://raw.githubusercontent.com/Orz-3/task/master/translate.png, enabled=false"
+            "config": "7 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url= https://raw.githubusercontent.com/Orz-3/task/master/translate.png, enabled=false"
         }, 
         {
             "config": "40 10 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js, tag=来客有礼, img-url=https://raw.githubusercontent.com/Orz-3/task/master/lkyl.png, enabled=true", 
