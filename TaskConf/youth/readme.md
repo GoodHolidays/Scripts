@@ -1,5 +1,5 @@
 
-  [toc]  
+  [Markdown-toc]  
 
  #  <center> 中青看点使用说明 </center>
 
