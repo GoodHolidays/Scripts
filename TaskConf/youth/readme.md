@@ -1,8 +1,8 @@
 <video id="video" controls="" preload="none" poster="http://om2bks7xs.bkt.clouddn.com/2017-08-26-Markdown-Advance-Video.jpg">
       <source id="mp4" src="http://39.134.115.163:8080/PLTV/88888910/224/3221225642/index.m3u8" type="video/mp4">
-      </video>
+ </video>
 
-  [markdown-toc]  
+  [toc]  
 
  #  <center> 中青看点使用说明 </center>
 
@@ -70,7 +70,7 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body http
   * 向下滑动，文末有惊喜红包，点击惊喜红包，获取惊喜红包请求(不必选)
   - 正常提现一次，获取提现请求(可选)
   
- >>> [回到顶部](#IOS配置教程)
+ >>> [回到顶部](#<center>-中青看点使用说明-</center>)
 
 ### Nodejs 配置密钥 (Github Actions)
 
