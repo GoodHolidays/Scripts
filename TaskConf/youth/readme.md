@@ -42,7 +42,8 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.
 * 本地重写配置
 ```
 [task_local]
-0 9 * * * youth.js
+0 9 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/youth.js
+
 [rewrite_local]
 https:\/\/\w+\.youth\.cn\/TaskCenter\/(sign|getSign) url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
 https?:\/\/ios\.baertt\.com\/v5\/article\/complete url script-request-body youth.js
