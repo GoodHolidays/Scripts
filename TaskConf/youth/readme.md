@@ -10,7 +10,7 @@
 [MITM]
 hostname = *.youth.cn, ios.baertt.com 
  ```
- **Surge:**
+#### Surge:
  
  ```
 [Script]
@@ -21,7 +21,7 @@ hostname = *.youth.cn, ios.baertt.com
 中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
 中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
 ```
- **Loon:**
+####  Loon:
  
  ```
 [Script]
@@ -32,15 +32,15 @@ http-request https:\/\/ios\.baertt\.com\/v5\/article\/red_packet script-path=htt
 http-request https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
 http-request https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
 ```
-**Quantumult X:**
-
-
-* [远程重写配置](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/youth/qx_rewite.txt)
+#### Quantumult X:
+   * [远程重写配置](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/youth/qx_rewite.txt)
+   
 ```
 [rewrite_remote]
 https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.txt
 ```
-* 本地重写配置
+   * 本地重写配置
+   
 ```
 [rewrite_local]
 https:\/\/\w+\.youth\.cn\/TaskCenter\/(sign|getSign) url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
@@ -49,7 +49,8 @@ https:\/\/ios\.baertt\.com\/v5\/article\/red_packet url script-request-body http
 https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json url script-request-body youth.js
 https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
 ```
-* 本地任务配置
+   * 本地任务配置
+   
 ```
 [task_local]
 1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
