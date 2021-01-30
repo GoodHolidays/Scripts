@@ -34,7 +34,7 @@ http-request https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json script-path=htt
 **Quantumult X:**
 
 
-[重写配置链接](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/youth/qx_rewite.txt)
+> [重写配置链接](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/youth/qx_rewite.txt)
 ```
 [rewrite_remote]
 https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.txt
