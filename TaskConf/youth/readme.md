@@ -3,9 +3,9 @@
 
  #  <center> 中青看点使用说明 </center>
 
- [跳转至底部](#注意事项)
+ [跳转至底部](#四、注意事项)
 
-### IOS配置教程
+### 一、IOS配置教程
  ```
 [MITM]
 hostname = *.youth.cn, ios.baertt.com 
@@ -61,15 +61,15 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body http
 [task_local]
 1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
 ```
-###  获取Cookie方法
+###  二、获取Cookie方法
   * 打开极速版APP，进去个人中心，或者签到一次，提示获取Cookie
   - 浏览一篇短文，等待倒计时结束，提示获取阅读请求及阅读时长
   * 向下滑动，文末有惊喜红包，点击惊喜红包，获取惊喜红包请求(不必选)
   - 正常提现一次，获取提现请求(可选)
   
- >>> [回到顶部](#IOS配置教程)
+ >>> [回到顶部](#一、IOS配置教程)
 
-### Nodejs 配置密钥 (Github Actions)
+### 三、Nodejs 配置密钥
 
 <details>
 
@@ -95,7 +95,7 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body http
 
  >>> [回到上一页](..)
  
-### 注意事项:
+### 四、注意事项
  > __提现金额需该请求一致，只更改提现金额无效，默认30元__
 
 
