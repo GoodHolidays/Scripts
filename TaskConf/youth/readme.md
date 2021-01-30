@@ -41,9 +41,6 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.
 ```
 * 本地重写配置
 ```
-[task_local]
-0 9 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/youth.js
-
 [rewrite_local]
 https:\/\/\w+\.youth\.cn\/TaskCenter\/(sign|getSign) url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
 https?:\/\/ios\.baertt\.com\/v5\/article\/complete url script-request-body youth.js
@@ -51,7 +48,11 @@ https:\/\/ios\.baertt\.com\/v5\/article\/red_packet url script-request-body http
 https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json url script-request-body youth.js
 https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
 ```
-
+* 本地任务配置
+```
+[task_local]
+1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
+```
 ###  获取Cookie方法
   * 打开极速版APP，进去个人中心，或者签到一次，提示获取Cookie
   - 浏览一篇短文，等待倒计时结束，提示获取阅读请求及阅读时长
