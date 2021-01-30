@@ -2,7 +2,7 @@
   >> [toc]  
  #  <center> 中青看点使用说明 </center>
 
- [跳转至Actions配置](#Nodejs 配置密钥)
+[跳转至Actions配置](#Nodejs 配置密钥)
 
 ### IOS配置教程
  ```
@@ -78,8 +78,6 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body http
 
  >>> [回到上一页](..)
  
-
-
 ### 注意事项:
  > __提现金额需该请求一致，只更改提现金额无效，默认30元__
 
