@@ -21,6 +21,12 @@ hostname = *.youth.cn, ios.baertt.com
 中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
 中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
 ```
+#### Shadowrocket(Cron配置): 
+
+```
+[Script]
+中青看点 = type=cron,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js,cronexpr="1 */6 * * *",timeout=20,enable=true
+```
 ####  Loon:
  
  ```
