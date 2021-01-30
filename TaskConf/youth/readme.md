@@ -2,6 +2,8 @@
   >> [toc]  
  #  <center> 中青看点使用说明 </center>
 
+>>> [跳转至Actions配置](#Nodejs 配置密钥)
+
 ### IOS配置教程
  ```
 [MITM]
