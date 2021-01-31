@@ -71,8 +71,11 @@ if ($.isNode()) {
       cookieval = CookieArr[i];
       withcash = cashArr[i];
       $.index = i + 1;
+      let username = null,
+          chargemoney = 0,
+          availablecoin = 0;
       await userInfo();
-      if (isblack == "true") {
+     if (isblack == true) {
         $.msg($.name + " 账号" + username + "已黑号", "您的金币和余额已被冻结，请联系客服处理");
         continue;
       }
@@ -119,52 +122,67 @@ function getsign() {
 }
 
 function userInfo() {
-    return new Promise((resolve, reject) => {
-     setTimeout(() =>{
-       let infourl = {
-            url: `https://haokan.baidu.com/activity/h5/income?productid=2&from=1005640h&network=1_0&osname=baiduboxapp`,
-           headers: {
-             Cookie: cookieval,
-             'User-Agent': UA
-           }
-        };
-        $.get(infourl, async(error, resp, data) => {
-            try {
-                if (resp.statusCode == 200) {
-                    username = "null";
-                 if(data.match(/user_name\":\"([\w+\\]+)/)){
-                    username = unescape(data.match(/user_name\":\"([\w+\\]+)/)[1].replace(/\\/g, "%"))
-               }
-                    chargemoney = data.match(/charge_money":"(\d+\.\d+)/)[1],
-                    waitingcoin = data.match(/waiting_coin":(\d+)/)[1],
-                    availablecoin = data.match(/available_coin":(\d+)/)[1],
-                    invitecode = data.match(/invite_code":"(\w+)/)[1],
-                    coinenabled = data.match(/coin_enabled":(\d+)/)[1]
-                    rate = data.match(/exchange_rate":(\d+)/)[1]
-                    isblack = data.match(/is_black":(\w+)/)[1]
-               if (coinenabled > 100){
-                    coinnum = parseInt(coinenabled/100)*100
-                   await coinexChange()
+  return new Promise((resolve, reject) =>{
+    setTimeout(() =>{
+      let infourl = {
+        url: `https://haokan.baidu.com/activity/h5/income?productid=2&from=1005640h&network=1_0&osname=baiduboxapp`,
+        headers: {
+          Cookie: cookieval,
+          'User-Agent': UA
+        }
+      };
+      $.get(infourl, async(error, resp, data) =>{
+        try {
+          if (resp.statusCode == 200) {
+            username = "null";
+            json = data.match(/window\.PAGE_DATA = (.+)/)[1];
+            //$.log(formatJson(json.comps))
+            json = JSON.parse(formatJson(json));
+            if (json.isLogin == true) {
+              isblack = json.is_black
+              for (users of json.comps) {
+                if (users.id == "1038") {
+                  username = users.data.user_name ? users.data.user_name: null;
+                  if (username) {
+                    $.setdata(username, "baidu_nick")
+                  };
+                  userinfo = users.data.user_info;
+                  waitingcoin = userinfo.waiting_coin;
+                  availablecoin = userinfo.available_coin;
+                  coinenabled = userinfo.enabled_coin;
+                  if (coinenabled > 100) {
+                    coinnum = parseInt(coinenabled / 100) * 100;
+                    await coinexChange()
                   }
-                }
-                 $.sub = " 昵称:"+username+" 现金:"+ chargemoney+"元 金币:"+availablecoin;
-                 $.log("\n********** 昵称:"+username+ " 现金:"+chargemoney+"元 **********\n");
-             $.setdata(username,"baidu_nick")
-                if (Number(chargemoney) >= Number(withcash) && $.time("HH") == "06") {
-                   await withDraw(withcash)
-                if ($.isNode()) {
-                  await notify.sendNotify($.name+" 成功提现"+withcash+"元\n"+$.sub)
+                } 
+              if (users.id == "62") {
+                  chargemoney = users.data.charge_money;
+                  exchangemoney = users.data.exchange_money 
+                  cointoday = users.data.coin_today
                  }
-                   $.done()
-                }
-            } catch(error) {
-                $.msg($.name, "获取用户信息失败"),
-                $.log("用户信息详情页错误\n" + error)
-            }
-            resolve()
-        })
-      },1000)
-   })
+               }
+                  $.sub = " 昵称:" + username + " 现金:" + chargemoney + "元 金币:" + availablecoin;
+                  $.log("\n********** 昵称:" + username + " 现金:" + chargemoney + "元 **********\n");
+                  if (Number(chargemoney) >= Number(withcash) && $.time("HH") == "06") {
+                    await withDraw(withcash);
+                    if ($.isNode()) {
+                      await notify.sendNotify($.name + " 成功提现" + withcash + "元\n" + $.sub)
+                    }
+                    $.done()
+                  }
+              }
+          } else if(json.isLogin == "false"){
+           $.msg($.name,"您的账号未登录，或者Cookie已失效")
+         }
+        } catch(error) {
+          $.msg($.name, "获取用户信息失败",请更换Cookie),
+          $.log("用户信息详情页错误\n" + error + "\n" + formatJson(data.match(/window\.PAGE_DATA = (.+)/)).replace(new RegExp("\\\\\"", "gm"), "\""))
+        }
+        resolve()
+      })
+    },
+    1000)
+  })
 }
 
 function withDraw(cash) {
