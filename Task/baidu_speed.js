@@ -176,7 +176,7 @@ function userInfo() {
            $.msg($.name,"您的账号未登录，或者Cookie已失效")
          }
         } catch(error) {
-          $.msg($.name, "获取用户信息失败",请更换Cookie),
+          $.msg($.name, "获取用户信息失败","请更换Cookie")
           $.log("用户信息详情页错误\n" + error + "\n" + formatJson(data.match(/window\.PAGE_DATA = (.+)/)).replace(new RegExp("\\\\\"", "gm"), "\""))
         }
         resolve()
