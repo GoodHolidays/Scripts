@@ -107,7 +107,7 @@ function getsign() {
         $.post(signurl, async(error, response, data) =>{
             let get_sign = JSON.parse(data);
             if (get_sign.errno == 0) {
-                $.desc = get_sign.data.tips+` 收益: $ {get_sign.data.bonus.coin}💰\n`;
+                $.desc = get_sign.data.tips+` 收益: ${get_sign.data.bonus.coin}💰\n`;
                 $.log($.desc+"\n"+data);
                 await invite()
             } else {
@@ -408,7 +408,7 @@ function activeBox() {
         await get_pkg()
       } else if (act_box.errno == 1){
         $.desc+= "【taskName】"+ act_box.msg;
-        $.log(act_box.msg+"，请检查Cookie是否包含BAIDUID");
+        $.log(act_box.msg+"，请检查Cookie是否包含BAIDUCUID");
         return
       } else if (typeof act_box.data != "undefined"&&act_box.data.code == "EquipmentComplete") {
         $.log("          "+ act_box.data.data)
