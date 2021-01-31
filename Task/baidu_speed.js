@@ -337,7 +337,7 @@ async function getConfigs() {
       await activeBox()
 }
     if (tasks[x].data.gameheader.coinInfo.coinStatus == 2) {
-      $.desc += "【头部宝箱】✅ 总计金币" + tasks[x].data.gameheader.coinInfo.coinCount + "\n";
+      $.desc += "\n【头部宝箱】✅ 总计金币" + tasks[x].data.gameheader.coinInfo.coinCount + "\n";
       $.log($.desc)
     } else {
       for (headerbox of tasks[x].data.gameheader.progressList) {
