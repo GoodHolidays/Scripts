@@ -1,69 +1,7 @@
 /*
-更新时间: 2021-01-23 12:00
+更新时间: 2021-01-31 19:00
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
-
-获取Cookie方法:
-1.将下方[rewrite_local]和[MITM]地址复制的相应的区域
-下，运行时间自行配置
-2. 获取Cookie方法，可随时更新
- ① 进入app，进入任务中心或者签到一次,即可获取Cookie. 
- ② 阅读一篇文章，获取阅读请求body，
- ③ 同时获取阅读时长，
- ④ 在阅读文章最下面有个惊喜红包，点击获取惊喜红包请求
- ⑤ 正常提现一次，获取提现请求，提现金额需该请求一致，只更改提现金额无效，默认30元
-3.增加转盘抽奖通知间隔，为了照顾新用户，前三次会有通知，以后默认每50次转盘抽奖通知一次，可自行修改❗️ 转盘完成后通知会一直开启
-4.非专业人士制作，欢迎各位大佬提出宝贵意见和指导
-5.增加每日打卡，打卡时间每日5:00-8:00❗️，请不要忘记设置运行时间，共4条Cookie，请全部获取，获取请注释
-6. 支持Github Actions多账号运行，填写'YOUTH_HEADER'值多账号时用'#'号隔开，其余值均用'&'分割  ‼️，当转盘次数为50或者100并且余额大于10元时推送通知
-
-~~~~~~~~~~~~~~~~
-Surge 4.0 :
-[Script]
-中青看点 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js,script-update-interval=0
-
-中青看点 = type=http-request,pattern=https:\/\/\w+\.youth\.cn\/TaskCenter\/(sign|getSign),script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
-
-中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/article\/complete,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-
-中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/article\/red_packet,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-
-中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-
-中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-
-~~~~~~~~~~~~~~~~
-Loon 2.1.0+
-[Script]
-# 本地脚本
-cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, enabled=true, tag=中青看点
-
-http-request https:\/\/\w+\.youth\.cn\/TaskCenter\/(sign|getSign) script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
-http-request https:\/\/ios\.baertt\.com\/v5\/article\/complete script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-http-request https:\/\/ios\.baertt\.com\/v5\/article\/red_packet script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-http-request https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-http-request https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-
------------------
-QX 1.0. 7+ :
-[task_local]
-0 9 * * * youth.js
-
-[rewrite_local]
-https:\/\/\w+\.youth\.cn\/TaskCenter\/(sign|getSign) url script-request-header youth.js
-
-https?:\/\/ios\.baertt\.com\/v5\/article\/complete url script-request-body youth.js
-
-https:\/\/ios\.baertt\.com\/v5\/article\/red_packet url script-request-body youth.js
-
-https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json url script-request-body youth.js
-
-https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\.json url script-request-body youth.js
-
-~~~~~~~~~~~~~~~~
-[MITM]
-hostname = *.youth.cn, ios.baertt.com 
-~~~~~~~~~~~~~~~~
 
 */
 
@@ -240,7 +178,7 @@ else if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/articl
     $.log(`${$.name} 获取惊喜红包: 成功,redpbodyVal: ${redpbodyVal}`)
     $.msg($.name, `获取惊喜红包请求: 成功🎉`, ``)
   }
-else if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/withdraw\.json/)) {
+else if ($request && $request.method != `OPTIONS`&& $request.url.match(/\/withdraw\d?\.json/)) {
    const withdrawVal = $request.body
    const withdrawUrl = $request.url
     if (withdrawVal)        $.setdata(withdrawVal, 'cashbody_zq')
