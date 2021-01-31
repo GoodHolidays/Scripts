@@ -1,4 +1,5 @@
 /*
+更新时间:2021-01-31 11:00
 百度极速版签到任务，使用脚本有黑号严重，请谨慎使用‼️
 
 赞赏:百度极速邀请码`RW9ZSW 点击链接立得红包，最高100元！https://dwz.cn/Oilv4CJ1`,农妇山泉 -> 有点咸，万分感谢
@@ -302,19 +303,19 @@ async function getConfigs() {
         tid = arr.id;
         taskType = arr.type;
         if (arr.taskStatus == "1") {
-          $.log(taskName + " 已完成");
+          $.log(taskName + " 已完成\n");
           $.desc += taskName + "✅ 已完成\n";
         } else if (taskType == 'openApp') {
           RefererUrl = arr.adLink;
-          $.log("\n           "+taskName+" 类型: "+arr.type_name+"       ")
+          $.log("\n"+taskName+" 类型: "+arr.type_name+"       ")
         if( tid =="815"){
-          RefererUrl="https://haokan.baidu.com/activity/goldcoin/?productid=2&pd=2&tab=guide"
+          RefererUrl="https://eopa.baidu.com/page/pagekey-ASKWNd8W?productid=2&type=1&tid=815"
          }
-             await activeBox()
+         await activeBox()
         } else if (taskType == 'watch') {
              tips = arr.tips;
              count = arr.total_count;
-             $.log("\n        "+taskName + tips + "总计" + count + "次      ");
+             $.log("\n"+taskName + tips + "总计" + count + "次      ");
           if (arr.taskStatus == 0) {
             await $.wait(2000);
             await get_search("184")
@@ -332,7 +333,7 @@ async function getConfigs() {
       tid = "817"
       taskName = "【"+tasks[x].data.unOpenHeadBoxDialog.btn[0].btnText+"】"
       RefererUrl = tasks[x].data.unOpenHeadBoxDialog.btn[0].iosAdUrl
-      $.log("\n              "+taskName+"        ")
+      $.log("\n"+taskName+"  ")
       await activeBox()
 }
     if (tasks[x].data.gameheader.coinInfo.coinStatus == 2) {
@@ -354,7 +355,7 @@ async function getConfigs() {
             if (jingangType == 2) {
                 if (tasks[x].data.jingang.countDown[tid].countDown == 0) {
                     await $.wait(1000);
-                    $.log("\n             "+taskName+"       ");
+                    $.log("\n"+taskName+"       ");
                     await activeBox();
                 } else {
                     $.log("\n"+taskName+ " 请等待" +Number(tasks[x].data.jingang.countDown[tid].countDown / 60).toFixed(2) + "分钟")
@@ -384,7 +385,7 @@ function firstbox() {
       } else if (get_first.err_no == 10079) {
         $.desc += "【首页宝箱】✅ " + get_first.tip + '\n'
       } else if (get_first.err_no == 10060) {
-        $.log("首页宝箱开启失败"+get_first.tip)
+        $.log("首页宝箱开启失败"+get_first.tip+"\n")
       }
       resolve()
     })
@@ -407,11 +408,11 @@ function activeBox() {
        if ((tid == 587 || tid == 590) && act_box.errno == 0) {
         await get_pkg()
       } else if (act_box.errno == 1){
-        $.desc+= "【taskName】"+ act_box.msg;
-        $.log(act_box.msg+"，请检查Cookie是否包含BAIDUCUID");
+        $.desc+= "【taskName】"+ act_box.msg+"\n";
+        $.log(act_box.msg+"，请检查Cookie是否包含BAIDUCUID;\n");
         return
-      } else if (typeof act_box.data != "undefined"&&act_box.data.code == "EquipmentComplete") {
-        $.log("          "+ act_box.data.data)
+      } else if (data.indexOf("EquipmentComplete") >-1) {
+        $.log(act_box.data.data+"\n")
       } else {
         //$.log(formatJson(data))
         await get_pkg()
@@ -424,7 +425,6 @@ function activeBox() {
     })
   })
 }
-
 
 //视频
 function get_pkg() {
