@@ -190,7 +190,7 @@ function prize() {
  };
 
  $.get(prizeurl, async(err, resp, data) => {
-     //console.log('票价信息: 响应码: ' +resp.statusCode+" \n"+ data+'\n');
+     console.log('票价信息: 响应码: ' +resp.statusCode+" \n"+ data+'\n');
    try{
       if (data == -1){
        $.msg('列车查询失败‼️', '该'+traincode+'次列车车票暂停发售或者查询失败,请重试', err);
@@ -223,8 +223,9 @@ function mapSeat(seat) {
    "A1": ["硬座", info[29]],
    "A2": ["软座", info[24]],
    "A3": ["硬卧", info[28]],
-   "AJ": ["硬卧", info[28]],
+   "AJ": ["二等卧", info[28]],
    "A4": ["软卧", info[23]],
+   "AI": ["二等卧", info[23]],
    "A6": ["豪华软卧", info[21]],
    "A9": ["商务座", info[32]],
    "P":  ["特等座", info[32]],
