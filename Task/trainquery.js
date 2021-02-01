@@ -87,12 +87,15 @@ if (nowDate > leftdate ){
 
 // 获取车次列表
 function trainscheck() {
- return new Promise((resolve, reject) =>{
-   const myRequest = {
-    url: `https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date=${leftdate}&leftTicketDTO.from_station=${statno}&leftTicketDTO.to_station=${tostat}&purpose_codes=${purpose}`,
-    method: 'GET',
-    headers: {'Cookie' : 'JSESSIONID=1B1CEADF1B9F831C25E71D7F2D996294'}
-};
+
+  return new Promise((resolve, reject) =>{
+    const myRequest = {
+      url: `https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date=${leftdate}&leftTicketDTO.from_station=${statno}&leftTicketDTO.to_station=${tostat}&purpose_codes=${purpose}`,
+      headers:{
+        Cookie: 'JSESSIONID=E3CCA5C6ECC49AFFE24D4FE48C8A8949;',
+       'Referer': 'https://kyfw.12306.cn/otn/leftTicket/init'
+        }
+    };
  $.get(myRequest, (err, resp, data) => {
   //console.log('余票信息' + "\n\n" + data);
   let ress = JSON.parse(data)
