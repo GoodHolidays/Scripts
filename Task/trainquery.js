@@ -87,7 +87,7 @@ function timecheck() {
     if (nowDate > leftdate) {
         lastday = $.time("yyyy-MM") + "-" + new Date($.time("yyyy"), $.time("MM"), 0).getDate();
         if (leftdate < lastday) {
-            leftdate = $.time("yyyy-MM") + "-" + `${parseInt($.time("dd")) + 1}`.padStart(2, "0") + "(日期已改为明天)";
+            leftdate = $.time("yyyy-MM") + "-" + `${parseInt($.time("dd")) + 1}`.padStart(2, "0") ;
             $.log("设置出行日期已过，将自动把出行日期改为明天")
         }
     }
@@ -133,8 +133,16 @@ function trainscheck() {
         if (K <= ress.data.result.length) {
           info = ress.data.result[K - 1].split("|");
           //console.log(info)
-          traincode = info[3],
+
+          traincode = info[3];
           //列车车次
+       if( info.indexOf("列车停运")>-1){
+        $.msg( $.name, traincode+"车次于"+leftdate+"已停运","请选择其他车次")
+          $done()
+        };
+     if( info.indexOf("IS_TIME_NOT_BUY")>-1){
+        $.log("您选的"+traincode+"车次出行日期不在购买时间段，请选择其他车次或者调整出行日期")
+        }
           trainno = info[2],
           //列车编码
           fromstationno = info[16],
@@ -174,10 +182,15 @@ function trainscheck() {
 function prize() {
   return new Promise((resolve, reject) =>{
     const prizeurl = {
-      url: `https://kyfw.12306.cn/otn/leftTicket/queryTicketPrice?train_no=${trainno}&from_station_no=${fromstationno}&to_station_no=${tostationno}&seat_types=${seattypes}&train_date=${leftdate}`
+      url: `https://kyfw.12306.cn/otn/leftTicket/queryTicketPrice?train_no=${trainno}&from_station_no=${fromstationno}&to_station_no=${tostationno}&seat_types=${seattypes}&train_date=${leftdate}`,
+      headers:{
+        Cookie: 'JSESSIONID=E3CCA5C6ECC49AFFE24D4FE48C8A8949;',
+       'Referer': 'https://kyfw.12306.cn/otn/leftTicket/init'
+        }
  };
+
  $.get(prizeurl, async(err, resp, data) => {
-      //console.log('票价信息: 响应码: ' +resp.statusCode+" \n"+ data+'\n');
+     //console.log('票价信息: 响应码: ' +resp.statusCode+" \n"+ data+'\n');
    try{
       if (data == -1){
        $.msg('列车查询失败‼️', '该'+traincode+'次列车车票暂停发售或者查询失败,请重试', err);
@@ -214,7 +227,7 @@ function mapSeat(seat) {
    "A4": ["软卧", info[23]],
    "A6": ["豪华软卧", info[21]],
    "A9": ["商务座", info[32]],
-   "P":  ["特等座", info[32]],
+   //"P":  ["特等座", info[]],
    "F":  ["动卧", info[33]],
    "WZ": ["无座", info[26]]
  }
