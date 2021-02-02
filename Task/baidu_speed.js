@@ -37,9 +37,7 @@ if ($.isNode()) {
   } else {
   BDCASH = process.env.BAIDU_CASH.split()
   }
-   if (process.env.BAIDU_TASK) {
-  taskON = process.env.BAIDU_TASK;
-  }
+
   Object.keys(BDCookie).forEach((item) => {
         if (BDCookie[item]) {
           CookieArr.push(BDCookie[item])
@@ -50,6 +48,9 @@ if ($.isNode()) {
           cashArr.push(BDCASH[item])
         } 
     })
+  if (process.env.BAIDU_TASK) {
+  taskON = process.env.BAIDU_TASK
+  }
 } else if(baiducks && baiducks.indexOf('&')>-1){
      BDCookie = baiducks.split("&")
      Object.keys(BDCookie).forEach((item) => {
@@ -86,6 +87,7 @@ if ($.isNode()) {
         continue;
       }
       await $.wait(1000);
+      
       if (taskON == "true") {
         $.desc = "";
         await firstbox();
