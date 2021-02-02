@@ -10,7 +10,6 @@ http-response ^https?:\/\/webapi\.115\.com\/user\/check_sign.*$ script-path=http
 ^http:\/\/115\.com\/\?ct=sign$ http://115.com/lx?taskdg=1 header
 4.快速创建下载任务的快捷指令: https://www.icloud.com/shortcuts/31e3a877cec340a48192aa081e25c05e
 */
-
 var body = $response.body;
 if ($request.url.indexOf('/user/check_sign') != -1) {
     let json = JSON.parse(body);
