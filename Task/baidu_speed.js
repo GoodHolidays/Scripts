@@ -25,7 +25,7 @@ if ($.isNode()) {
  else if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('\n') > -1) {
   BDCookie = process.env.BAIDU_COOKIE.split('\n');
   } else {
-  BDCookie = process.env.BAIDU_COOKIE
+  BDCookie = process.env.BAIDU_COOKIE.split()
   };
   if (process.env.BAIDU_CASH && process.env.BAIDU_CASH.indexOf('&') > -1) {
   BDCASH = process.env.BAIDU_CASH.split('&');
@@ -33,7 +33,7 @@ if ($.isNode()) {
  else if (process.env.BAIDU_CASH && process.env.BAIDU_CASH.indexOf('\n') > -1) {
   BDCASH = process.env.BAIDU_CASH.split('\n');
   } else {
-  BDCASH = process.env.BAIDU_CASH
+  BDCASH = process.env.BAIDU_CASH.split()
   }
   Object.keys(BDCookie).forEach((item) => {
         if (BDCookie[item]) {
