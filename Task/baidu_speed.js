@@ -48,9 +48,6 @@ if ($.isNode()) {
           cashArr.push(BDCASH[item])
         } 
     })
-  if (process.env.BAIDU_TASK) {
-  taskON = process.env.BAIDU_TASK
-  }
 } else if(baiducks && baiducks.indexOf('&')>-1){
      BDCookie = baiducks.split("&")
      Object.keys(BDCookie).forEach((item) => {
@@ -87,7 +84,11 @@ if ($.isNode()) {
         continue;
       }
       await $.wait(1000);
-      
+      if ($.isNode()) {
+        if (process.env.BAIDU_TASK) {
+  taskON = process.env.BAIDU_TASK
+       }
+      }
       if (taskON == "true") {
         $.desc = "";
         await firstbox();
@@ -140,7 +141,6 @@ function userInfo() {
         }
       };
       $.get(infourl, async(error, resp, data) =>{
-        try {
           if (resp.statusCode == 200) {
             username = "null";
             json = data.match(/window\.PAGE_DATA = (.+)/)[1];
@@ -182,10 +182,6 @@ function userInfo() {
           } else if(json.isLogin == "false"){
            $.msg($.name,"您的账号未登录，或者Cookie已失效")
          }
-        } catch(error) {
-          $.msg($.name, "获取用户信息失败","请更换Cookie")
-          $.log("用户信息详情页错误\n" + error + "\n" + formatJson(data.match(/window\.PAGE_DATA = (.+)/)).replace(new RegExp("\\\\\"", "gm"), "\""))
-        }
         resolve()
       })
     },
