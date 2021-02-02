@@ -143,12 +143,12 @@ function userInfo() {
       $.get(infourl, async(error, resp, data) =>{
           if (resp.statusCode == 200) {
             username = "null";
-            json = data.match(/window\.PAGE_DATA = (.+)/)[1];
-            $.log(formatJson(json.comps))
-            json = JSON.parse(formatJson(json));
-            if (json.isLogin == true) {
+            jsons = data.match(/window\.PAGE_DATA = (.+)/)[1];
+            $.log(formatJson(jsons.comps))
+            jsons = JSON.parse(formatJson(jsons));
+            if (jsons.isLogin == true) {
               isblack = json.is_black
-              for (users of json.comps) {
+              for (users of jsons.comps) {
                 if (users.id == "1038") {
                   username = users.data.user_name ? users.data.user_name: null;
                   if (username) {
@@ -179,7 +179,7 @@ function userInfo() {
                     $.done()
                   }
               }
-          } else if(json.isLogin == "false"){
+          } else if(jsons.isLogin == "false"){
            $.msg($.name,"您的账号未登录，或者Cookie已失效")
          }
         resolve()
