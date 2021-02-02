@@ -1,5 +1,5 @@
 /*
-更新时间:2021-01-31 11:00
+更新时间:2021-02-02 19:50
 百度极速版签到任务，使用脚本有黑号严重，请谨慎使用‼️
 
 赞赏:百度极速邀请码`RW9ZSW 点击链接立得红包，最高100元！https://dwz.cn/Oilv4CJ1`,农妇山泉 -> 有点咸，万分感谢
@@ -141,48 +141,33 @@ function userInfo() {
         }
       };
       $.get(infourl, async(error, resp, data) =>{
-        try {
-          if (resp.statusCode == 200) {
-            username = "null";
-            jsons = data.match(/window\.PAGE_DATA = (.+)/)[1];
-            $.log(jsons)
-            json = JSON.parse(jsons);
-            if (json.isLogin == true) {
-              isblack = json.is_black
-              for (users of json.comps) {
-                if (users.id == "1038") {
-                  username = users.data.user_name ? users.data.user_name: null;
-                  if (username) {
-                    $.setdata(username, "baidu_nick")
-                  };
-                  userinfo = users.data.user_info;
-                  waitingcoin = userinfo.waiting_coin;
-                  availablecoin = userinfo.available_coin;
-                  coinenabled = userinfo.enabled_coin;
-                  if (coinenabled > 100) {
+  try {
+      if (resp.statusCode == 200) {
+                  username = "null";
+                 if(data.match(/user_name\":\"([\w+\\]+)/)){
+                    username = unescape(data.match(/user_name\":\"([\w+\\]+)/)[1].replace(/\\/g, "%"))
+                 }
+                    chargemoney = data.match(/charge_money":"(\d+\.\d+)/)[1],
+                    waitingcoin = data.match(/waiting_coin":(\d+)/)[1],
+                    availablecoin = data.match(/available_coin":(\d+)/)[1],
+                    invitecode = data.match(/invite_code":"(\w+)/)[1],
+                    coinenabled = data.match(/coin_enabled":(\d+)/)[1]
+                    if (coinenabled > 100) {
                     coinnum = parseInt(coinenabled / 100) * 100;
                     await coinexChange()
                   }
-                } 
-              if (users.id == "62") {
-                  chargemoney = users.data.charge_money;
-                  exchangemoney = users.data.exchange_money 
-                  cointoday = users.data.coin_today
-                 }
+                    //rate = data.match(/exchange_rate":(\d+)/)[1]
+                    isblack = data.match(/is_black":(\w+)/)[1]
                }
                   $.sub = " 昵称:" + username + " 现金:" + chargemoney + "元 金币:" + availablecoin;
                   $.log("\n********** 昵称:" + username + " 现金:" + chargemoney + "元 **********\n");
-                  if (Number(chargemoney) >= Number(withcash) && $.time("HH") == "06") {
+                  if (parseInt(chargemoney) >= Number(withcash) && $.time("HH") == "06") {
                     await withDraw(withcash);
                     if ($.isNode()) {
                       await notify.sendNotify($.name + " 成功提现" + withcash + "元\n" + $.sub)
                     }
                     $.done()
-                  }
               }
-          } else if(json.isLogin == "false"){
-           $.msg($.name,"您的账号未登录，或者Cookie已失效")
-         }
         } catch(error) {
           $.msg($.name, "获取用户信息失败","请更换Cookie")
           $.log("用户信息详情页错误\n" + error + "\n" + formatJson(data.match(/window\.PAGE_DATA = (.+)/)).replace(new RegExp("\\\\\"", "gm"), "\""))
@@ -516,10 +501,10 @@ function get_search(cmd) {
             searchname = items.data.title;
             author = items.data.author
             if (items.data.mode == "video" || items.data.type == "video") {
-              $.log(" 观看视频: " + searchname + "  —————— " + author);
+              $.log(" 观看视频: " + searchname + "  ------------ " + author);
             }
             else if (items.data.mode == "text") {
-              $.log(" 阅读短文: " + searchname + "\n " + "  —————— " + items.data.tag ? items.data.tag: "");
+              $.log(" 阅读短文: " + searchname + "\n " + "  ------------ " + items.data.tag ? items.data.tag: "");
             }
             else if (items.data.mode == "ad") {
               $.log(" 打开广告: " + author + ": " + searchname);
