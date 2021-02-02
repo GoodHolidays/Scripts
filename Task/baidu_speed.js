@@ -141,15 +141,15 @@ function userInfo() {
         }
       };
       $.get(infourl, async(error, resp, data) =>{
+        try {
           if (resp.statusCode == 200) {
             username = "null";
-            jsons = data.match(/window\.PAGE_DATA = (.+)/)[1];
-            $.log(jsons+"😃")
-            $.log(formatJson(jsons.comps))
-            jsons = JSON.parse(formatJson(jsons));
-            if (jsons.isLogin == true) {
+            json = data.match(/window\.PAGE_DATA = (.+)/)[1];
+            $.log(JSON.parse(json))
+            json = JSON.parse(json);
+            if (json.isLogin == true) {
               isblack = json.is_black
-              for (users of jsons.comps) {
+              for (users of json.comps) {
                 if (users.id == "1038") {
                   username = users.data.user_name ? users.data.user_name: null;
                   if (username) {
@@ -180,9 +180,13 @@ function userInfo() {
                     $.done()
                   }
               }
-          } else if(jsons.isLogin == "false"){
+          } else if(json.isLogin == "false"){
            $.msg($.name,"您的账号未登录，或者Cookie已失效")
          }
+        } catch(error) {
+          $.msg($.name, "获取用户信息失败","请更换Cookie")
+          $.log("用户信息详情页错误\n" + error + "\n" + formatJson(data.match(/window\.PAGE_DATA = (.+)/)).replace(new RegExp("\\\\\"", "gm"), "\""))
+        }
         resolve()
       })
     },
