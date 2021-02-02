@@ -6,6 +6,8 @@
 
 本脚本默认使用chavyleung大佬和Nobyda的贴吧ck，获取方法请看大佬仓库说明，内置自动提现，提现金额默认30元，当当前时间为早上6点且达到提现金额时仅运行提现任务，提现金额小于设置金额时继续运行其他任务。
 
+增加百度任务开关，Actions中Secrets为BAIDU_TASK，值填true或者false
+
 支持BoxJs多账号，需手动填写，用&或者换行隔开
 
 ~~~~~~~~~~~~~~~~
@@ -34,6 +36,9 @@ if ($.isNode()) {
   BDCASH = process.env.BAIDU_CASH.split('\n');
   } else {
   BDCASH = process.env.BAIDU_CASH.split()
+  }
+   if (process.env.BAIDU_TASK) {
+  taskON = process.env.BAIDU_TASK;
   }
   Object.keys(BDCookie).forEach((item) => {
         if (BDCookie[item]) {
@@ -137,7 +142,7 @@ function userInfo() {
           if (resp.statusCode == 200) {
             username = "null";
             json = data.match(/window\.PAGE_DATA = (.+)/)[1];
-            //$.log(formatJson(json.comps))
+            $.log(formatJson(json.comps))
             json = JSON.parse(formatJson(json));
             if (json.isLogin == true) {
               isblack = json.is_black
