@@ -1,6 +1,5 @@
 # 已禁用阅读任务，其他可行
 name: 聚看点
-
 on:
   workflow_dispatch:
   schedule:
