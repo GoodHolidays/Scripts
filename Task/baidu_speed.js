@@ -18,7 +18,7 @@ let CookieArr = [],cashArr=[];
 let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.1.10 (Baidu; P2 14.2)`;
 const notify = $.isNode() ? require('./sendNotify') : '';
 const baiducks = $.getdata(`cookie_baidu`);
-const taskON = $.getdata(`task_baidu`)||"true"//除提现和兑换外其他任务开关;
+let taskON = $.getdata(`task_baidu`)||"true"//除提现和兑换外其他任务开关;
 let isblack = "false";
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
@@ -86,9 +86,9 @@ if ($.isNode()) {
       await $.wait(1000);
       if ($.isNode()) {
         if (process.env.BAIDU_TASK) {
-  taskON = process.env.BAIDU_TASK
+         taskON = process.env.BAIDU_TASK
        }
-      }
+      } 
       if (taskON == "true") {
         $.desc = "";
         await firstbox();
@@ -144,9 +144,9 @@ function userInfo() {
         try {
           if (resp.statusCode == 200) {
             username = "null";
-            json = data.match(/window\.PAGE_DATA = (.+)/)[1];
-            $.log(JSON.parse(json))
-            json = JSON.parse(json);
+            jsons = data.match(/window\.PAGE_DATA = (.+)/)[1];
+            $.log(jsons)
+            json = JSON.parse(jsons);
             if (json.isLogin == true) {
               isblack = json.is_black
               for (users of json.comps) {
