@@ -137,7 +137,7 @@ function userInfo() {
           if (resp.statusCode == 200) {
             username = "null";
             json = data.match(/window\.PAGE_DATA = (.+)/)[1];
-            //$.log(formatJson(json.comps))
+            $.log(formatJson(json.comps))
             json = JSON.parse(formatJson(json));
             if (json.isLogin == true) {
               isblack = json.is_black
