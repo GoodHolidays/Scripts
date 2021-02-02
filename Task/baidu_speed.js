@@ -144,6 +144,7 @@ function userInfo() {
           if (resp.statusCode == 200) {
             username = "null";
             jsons = data.match(/window\.PAGE_DATA = (.+)/)[1];
+            $.log(jsons+"😃")
             $.log(formatJson(jsons.comps))
             jsons = JSON.parse(formatJson(jsons));
             if (jsons.isLogin == true) {
