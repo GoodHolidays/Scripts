@@ -172,6 +172,7 @@ function doCard() {
      let result = JSON.parse(data)
       if (result.status ==10000){
        nickname = "昵称: "+result.data.user.nickname
+       $.setdata(nickname,'wb_nick')
        signday = result.data.signin.title.split('<')[0]
        docard = `【每日打卡】 ✅ `+ signday+'天 积分总计: '+result.data.user.energy
        }
