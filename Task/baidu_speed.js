@@ -148,6 +148,7 @@ function userInfo() {
                     username = unescape(data.match(/user_name\":\"([\w+\\]+)/)[1].replace(/\\/g, "%"))
                  }
                     chargemoney = data.match(/charge_money":"(\d+\.\d+)/)[1],
+                    enabledmoney = data.match(/enabled_money":(\d+)/)[1],
                     waitingcoin = data.match(/waiting_coin":(\d+)/)[1],
                     availablecoin = data.match(/available_coin":(\d+)/)[1],
                     invitecode = data.match(/invite_code":"(\w+)/)[1],
@@ -161,7 +162,7 @@ function userInfo() {
                }
                   $.sub = " 昵称:" + username + " 现金:" + chargemoney + "元 金币:" + availablecoin;
                   $.log("\n********** 昵称:" + username + " 现金:" + chargemoney + "元 **********\n");
-                  if (parseInt(chargemoney) >= Number(withcash) && $.time("HH") == "06") {
+                  if (enabledmoney>500&&parseInt(enabledmoney/100) >= Number(withcash) && $.time("HH") == "06") {
                     await withDraw(withcash);
                     if ($.isNode()) {
                       await notify.sendNotify($.name + " 成功提现" + withcash + "元\n" + $.sub)
