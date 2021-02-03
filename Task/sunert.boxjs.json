@@ -159,21 +159,6 @@
     {
       "author" : "@sunert",
       "keys" : [
-        "now_qq",
-        "nowqq_cookie"
-      ],
-      "repo" : "https:\/\/github.com\/Sunert\/Scripts\/blob\/master\/Task\/NOWLIVE.js",
-      "id" : "NOWLIVE",
-      "script" : "https:\/\/raw.githubusercontent.com\/Sunert\/Scripts\/master\/Task\/NOWLIVE.js",
-      "name" : "NOW直播",
-      "icons" : [
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/NOWLIVE_mini.png",
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/NOWLIVE.png"
-      ]
-    },
-    {
-      "author" : "@sunert",
-      "keys" : [
         "china_telecom_authToken_10000",
         "china_telecom_cookie"
       ],
@@ -459,21 +444,6 @@
       "icons" : [
         "https:\/\/raw.githubusercontent.com\/Orz-3\/mini\/master\/txnews.png",
         "https:\/\/raw.githubusercontent.com\/Orz-3\/task\/master\/txnews.png"
-      ]
-    },
-    {
-      "author" : "@sunert",
-      "keys" : [
-        "CookieJD",
-        "CookieJD2"
-      ],
-      "repo" : "https:\/\/github.com\/Sunert\/Scripts\/blob\/master\/Task\/jingxi.js",
-      "id" : "jingxi",
-      "script" : "https:\/\/raw.githubusercontent.com\/Sunert\/Scripts\/master\/Task\/jingxi.js",
-      "name" : "京喜",
-      "icons" : [
-        "https:\/\/raw.githubusercontent.com\/Orz-3\/mini\/master\/jingxi.png",
-        "https:\/\/raw.githubusercontent.com\/Orz-3\/task\/master\/jingxi.png"
       ]
     },
     {

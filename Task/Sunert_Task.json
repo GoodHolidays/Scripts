@@ -15,6 +15,9 @@
             "config": "4 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js, tag=实时货币换算, img-url=https://raw.githubusercontent.com/Orz-3/task/master/exchangerate.png, enabled=false"
         }, 
         {
+            "config": "7 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url= https://raw.githubusercontent.com/Orz-3/task/master/translate.png, enabled=false"
+        }, 
+        {
             "config": "0 0 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js, tag=中国电信套餐, img-url=https://raw.githubusercontent.com/Orz-3/task/master/telecominfinty.png, enabled=true", 
             "addons": "https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/dianxin/qx_rewite.txt, tag=dianxin_rewite, update-interval=-1, opt-parser=false, enabled=true"
         }, 
@@ -25,9 +28,6 @@
         {
             "config": "30 10 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js, tag=京东到家, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jddj.png, enabled=true", 
             "addons": "https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/jd/qx_rewite.txt, tag=jd_rewite, update-interval=-1, opt-parser=false, enabled=true"
-        }, 
-        {
-            "config": "7 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url= https://raw.githubusercontent.com/Orz-3/task/master/translate.png, enabled=false"
         }, 
         {
             "config": "40 10 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js, tag=来客有礼, img-url=https://raw.githubusercontent.com/Orz-3/task/master/lkyl.png, enabled=true", 
