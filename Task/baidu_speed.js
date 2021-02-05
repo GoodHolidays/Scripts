@@ -310,7 +310,7 @@ async function getConfigs() {
              tips = arr.tips;
              count = arr.total_count;
              $.log("\n"+taskName + tips + "总计" + count + "次      ");
-          if (arr.taskStatus == 0&&signs[z].is_checkin!=0) {
+          if (arr.taskStatus == 0&&$.desc.indexOf("【签到结果】✅")>-1) {
             await $.wait(2000);
             await get_search("184")
           }
