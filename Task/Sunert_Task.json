@@ -66,11 +66,11 @@
             "addons": "https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/digit_home/qx_rewite.txt, tag=mydigit_rewite, update-interval=-1, opt-parser=false, enabled=true"
         }, 
         {
-            "config": "*/10 */3 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js, tag=聚看点, img-url=https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/icon/jukan.png, enabled=true", 
+            "config": "*/10 */3 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js, tag=聚看点, img-url=https://raw.githubusercontent.com/Sunert/ProxyConfig/master/QuantumultX/Rules/Images/icon/jukan.png, enabled=true", 
             "addons": "https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/jukan/qx_rewite.txt, tag=jkd_rewite, update-interval=-1, opt-parser=false, enabled=true"
         }, 
         {
-            "config": "*/30 * * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baidu_speed.js, tag=百度极速版, img-url=https://github.com/Sunert/ProxyConfig/raw/master/QuantumultX/Rules/Images/icon/baiduspeed.png, enabled=true"
+            "config": "*/30 * * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baidu_speed.js, tag=百度极速版, img-url=https://raw.githubusercontent.com/Sunert/ProxyConfig/master/QuantumultX/Rules/Images/icon/baiduspeed.png, enabled=true"
         }
     ]
 }

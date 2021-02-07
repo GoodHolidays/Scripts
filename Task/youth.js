@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-07 22:30
+更新时间: 2021-02-08 00:20
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md
@@ -9,6 +9,7 @@
 let s = 1000 //各数据接口延迟
 const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
+const YOUTH_HOST = "https://kd.youth.cn/WebApi/";
 const notify = $.isNode() ? require('./sendNotify') : '';
 const withdrawcash = $.getdata('zqcash')||30 //提现金额
 let withdrawUrl =$.getdata('cashurl_zq')
@@ -177,6 +178,7 @@ function TaskCenter() {
            if (dailys.id == "10" && dailys.status == "0") {
               $.log(dailys.title + "未完成，去做任务");
           for (x=0;x<5;x++){
+              $.log("等待5s执行第"+(x+1)+"次")
               await $.wait(5000);
               await recordAdVideo(dailys.reward_action)
              }
@@ -212,7 +214,7 @@ function getAction(acttype) {
 
 function getsign() {
     return new Promise((resolve, reject) =>{
-        $.post(kdHost('TaskCenter/sign'), (error, resp, data) =>{
+        $.post(kdHost('WebApi/NewTaskIos/sign'), (error, resp, data) =>{
             signres = JSON.parse(data);
             //$.log(formatJson(data));
             if (signres.status == 2) {
@@ -229,7 +231,7 @@ function getsign() {
       
 function userInfo() {
     return new Promise((resolve, reject) => {
-        $.post(kdHost('TaskCenter/getSign'), async(error, resp, data) => {
+        $.post(kdHost('WebApi/NewTaskIos/getSign'), async(error, resp, data) => {
             signinfo = JSON.parse(data);
           //$.log(formatJson(data))
             if (signinfo.status == 1) {
@@ -304,11 +306,11 @@ function openbox() {
       let boxres = JSON.parse(data);
       if (boxres.code == 1) {
         boxretime = boxres.data.time;
-        detail += `【开启宝箱】 + ${boxres.data.score}青豆，${boxres.data.time / 60}分钟后再次奖励\n`;
+        detail += `【时段宝箱】 + ${boxres.data.score}青豆，${boxres.data.time / 60}分钟后再次奖励\n`;
         await boxshare();
       } else {
-        //detail += `【开启宝箱】${boxres.msg}\n`;
-        $.log(`开启宝箱: ${boxres.msg}`)
+        //detail += `【时段宝箱】${boxres.msg}\n`;
+        $.log(`时段宝箱: ${boxres.msg}`)
       }
       resolve()
     })
@@ -538,9 +540,9 @@ function rotaryCheck() {
 function runRotary(index) {
     return new Promise((resolve, reject) => {
         const rotarbody = cookie + '&num=' + index;
-         time = new Date().getTime();
+        const time = new Date().getTime();
         const url = {
-            url: `https://kd.youth.cn/WebApi/RotaryTable/chestReward?_=${time}`,
+            url: `${YOUTH_HOST}RotaryTable/chestReward?_=${time}`,
               headers:{
                  'Referer':'https://kd.youth.cn/html/rotaryTable/index.html?'+cookie
                },
