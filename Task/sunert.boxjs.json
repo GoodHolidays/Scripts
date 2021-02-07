@@ -213,8 +213,8 @@
       ],
       "name" : "电视预告",
       "icons" : [
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/tvpreview_mini.png",
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/tvpreview.png"
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/tvpreview_mini.png",
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/tvpreview.png"
       ]
     },
     {
@@ -284,8 +284,8 @@
       ],
       "name" : "墨迹天气",
       "icons" : [
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/moji_mini.png",
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/moji.png"
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/moji_mini.png",
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/moji.png"
       ]
     },
     {
@@ -343,8 +343,8 @@
       ],
       "name" : "聚看点",
       "icons" : [
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/jukan_mini.png",
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/jukan.png"
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/jukan_mini.png",
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/jukan.png"
       ]
     },
     {
@@ -408,8 +408,8 @@
       ],
       "name" : "百度极速任务",
       "icons" : [
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/baiduspeed_mini.png",
-        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/ICON\/baiduspeed.png"
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/baiduspeed_mini.png",
+        "https:\/\/github.com\/Sunert\/ProxyConfig\/raw\/master\/QuantumultX\/Rules\/Images\/icon\/baiduspeed.png"
       ]
     },
     {
