@@ -155,7 +155,6 @@ function getsign() {
        if ($.isNode()) {
          await notify.sendNotify($.name, wbsign)
            }
-         return
         }
      resolve()
     })
