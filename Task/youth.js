@@ -439,8 +439,9 @@ function comApp() {
 function readArticle() {
     return new Promise((resolve, reject) => {
         $.post(batHost('article/complete.json',articlebodyVal), (error, response, data) => {
+        try{
            readres = JSON.parse(data);
-     if (typeof readres.items.read_score === 'number'&&readres.items.read_score!=0)  {
+     if (data.indexOf('read_score')>-1&&readres.items.read_score!=0)  {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
              $.log(`阅读奖励 +${readres.items.read_score}个青豆\n`)
             } 
@@ -448,8 +449,12 @@ function readArticle() {
               //detail += `【阅读奖励】看太久了，换1篇试试\n`;
               //$.log(readres.items.max_notice)
            }
-            resolve()
-        })
+         } catch(e) {
+          $.logErr(e+resp);
+        } finally {
+          resolve()
+        }
+      })
     })
 }
 //惊喜红包
