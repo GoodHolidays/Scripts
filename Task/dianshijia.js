@@ -123,7 +123,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
   await cash();       // 现金
   await cashlist();   // 现金列表
   await coinlist();   // 金币列表
-  if ($.isNode() && drawalCode == '0') {
+  if ($.isNode() && process.env.DSJ_NOTIFY_CONTROL&& drawalCode == '0') {
        await notify.sendNotify($.name, subTitle+'\n'+ detail)
      }
     }

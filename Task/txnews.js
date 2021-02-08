@@ -120,7 +120,7 @@ if (isGetCookie) {
       await getTotal();
       await StepsTotal();
       await showmsg();
-    if ($.isNode()){
+    if ($.isNode()&&process.env.TXNEWS_NOTIFY_CONTROL){
        if (readnum%notifyInterval==0&&cashtotal > 2){
      await notify.sendNotify($.name,subTile+'\n'+detail)
         }
