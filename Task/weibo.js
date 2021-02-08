@@ -122,7 +122,7 @@ if ($.isNode()) {
 function GetCookie() {
 if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/\d\/[a-z]+\/\w+\?gsid/)) {
   const signurlVal = $request.url
-  const token = signurlVal.match(/(gsid=[_a-zA-Z0-9-]+).+(s=\w+$)/)$1$3
+  const token = signurlVal.match(/(gsid=[_a-zA-Z0-9-]+).+(&s=\w+)/)
    $.log(`token:${token}`)
   if (token) $.setdata(token, 'sy_token_wb')
   $.msg($.name, `获取微博签到Cookie: 成功`, ``)
