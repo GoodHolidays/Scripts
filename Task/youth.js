@@ -73,7 +73,6 @@ let cookieArr = [], cookie = '',
     });
     console.log(` ============您共提供${cookieArr.length}个中青账号 =============\n`);
     console.log(` ============脚本执行 - 北京时间 (UTC + 8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`);
-     $.log(`${cookieArr[0]}`)
      } else if(!$.isNode()){
 cookieArr.push($.getdata('youthheader_zq'));
     redpArr.push($.getdata('red_zq'));
