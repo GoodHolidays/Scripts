@@ -102,7 +102,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
     await userInfo();
     await kdHost();
     await friendsign();
-    await comApp();
     await TaskCenter() 
     await openbox();
     await getAdVideo();
@@ -213,7 +212,7 @@ function getAction(acttype) {
 
 function getsign() {
     return new Promise((resolve, reject) =>{
-        $.post(kdHost('WebApi/NewTaskIos/sign'), (error, resp, data) =>{
+        $.post(kdHost('WebApi/NewTaskIos/sign'), async(error, resp, data) =>{
             signres = JSON.parse(data);
             //$.log(formatJson(data));
             if (signres.status == 2) {
@@ -221,7 +220,8 @@ function getsign() {
                 $.msg($.name, sub, "");
                 return;
             } else if (signres.status == 1) {
-                detail = `【签到结果】成功 🎉 青豆: +${signres.score}，明日青豆: +${signres.nextScore}\n`
+                detail = `【签到结果】成功 🎉 青豆: +${signres.score}，明日青豆: +${signres.nextScore}\n`;
+                await comApp();
             } 
             resolve()
         })
