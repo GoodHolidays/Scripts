@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-08 00:20
+更新时间: 2021-02-08 08:20
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md
@@ -306,7 +306,7 @@ function openbox() {
       let boxres = JSON.parse(data);
       if (boxres.code == 1) {
         boxretime = boxres.data.time;
-        detail += `【时段宝箱】 + ${boxres.data.score}青豆，${boxres.data.time / 60}分钟后再次奖励\n`;
+        detail += `【时段宝箱】 +${boxres.data.score}青豆，${boxres.data.time / 60}分钟后再次奖励\n`;
         await boxshare();
       } else {
         //detail += `【时段宝箱】${boxres.msg}\n`;
