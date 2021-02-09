@@ -1,0 +1,57 @@
+#!name=Task - By Sunert
+#!desc=该模块适用于定时签到:集成Sunert签到脚本。建议本地安装以便自定义修改签到时间。
+#!system=ios
+
+# GitHub主页(https://github.com/Sunert/Scripts)
+# TG聊天群 (https://t.me/EveryLucky)
+# 定时脚本
+
+[Script]
+# 定时脚本
+
+# > 电视节目预告
+电视节目预告 = type=cron,cronexp=0 0 8 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js,script-update-interval=0
+
+# > 12306余票及列车时刻表查询
+12306 = type=cron,cronexp=0 0 8 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/trainquery.js
+
+# > 实时货币换算
+实时汇率 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js,script-update-interval=0
+
+# > 中国电信套餐
+中国电信套餐 = type=cron,cronexp=50 4 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
+
+# > 腾讯新闻 
+腾讯新闻 = type=cron,cronexp=35 */7 */2 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js,script-update-interval=0
+
+# > 京东到家
+京东到家 = type=cron,cronexp=25 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js,script-update-interval=0
+
+# > 微信小程序-来客有礼 
+# 来客有礼 = type=cron,cronexp=30 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js,script-update-interval=0
+
+# > 电视家
+电视家 = type=cron,cronexp=0 0 7,12,22 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/dianshijia.js,script-update-interval=0
+
+# > 快手极速版 
+快手极速版 = type=cron,cronexp=40 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js,script-update-interval=0
+
+# > 微博签到 & 微博钱包 
+微博(钱包) = type=cron,cronexp=35 2 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
+
+# > 新浪新闻
+新浪新闻 = type=cron,cronexp=0 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+# > 中青看点极速版 
+中青看点极速版 = type=cron,cronexp=35 */5 */3 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js,script-update-interval=0
+
+# > 数码之家
+数码之家 = type=cron,cronexp=0 7 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js,script-update-interval=0
+
+# > 聚看点
+聚看点 = type=cron,cronexp=0 */30 * * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js,script-update-interval=0
+
+# > 谷歌翻译
+谷歌翻译 = type=cron,cronexp=0 5 10 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js,script-update-interval=0
+
+

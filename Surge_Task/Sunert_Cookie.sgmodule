@@ -1,0 +1,64 @@
+#!name=Task Cookie - By Sunert
+#!desc=该模块适用于获取任务Cookie，仅集成Sunert签到任务Cookie。您可以在使用后手动将其禁用，以免产生不必要的MITM.。
+#!system=ios
+
+# GitHub主页(https://github.com/Sunert/Scripts)
+# TG聊天群 (https://t.me/EveryLucky)
+# 定时脚本
+
+[Script]
+# 定时脚本Cookie
+
+# 数码之家 Cookie.
+数码之家 = type=http-request,pattern=https:\/\/www\.mydigit\.cn\/plugin\.php\?id=k_misign:sign&operation=qiandao,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/mydigit.js
+
+# 中青看点
+中青看点 = type=http-request,pattern=https:\/\/kd\.youth\.cn\/WebApi\/NewTaskIos\/getTaskList,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
+
+中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/article\/complete,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
+
+中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/article\/red_packet,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
+
+中青看点 = type=http-request,pattern=https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
+
+
+# 腾讯新闻
+腾讯新闻 = type=http-request,pattern=https:\/\/api\.inews\.qq\.com\/event\/v1\/user\/event\/report\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, requires-body=true
+
+# 新浪新闻
+新浪新闻 = type=http-request,pattern=https:\/\/newsapi\.sina\.cn\/\?resource=hbpage&newsId=HB-1-sina_gold_center,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+新浪新闻 = type=http-request,pattern=https:\/\/newsapi\.sina\.cn\/\?resource=userpoint\/signIn,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js
+
+# 新浪微博
+微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/page\/\w+\?gsid,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+
+# 微博钱包签到
+钱包签到 = type=http-request,pattern=https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+
+# 快手极速版
+快手极速版 = type=http-request,pattern=https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+
+# 来客有礼
+来客有礼 = type=http-request,pattern=https:\/\/draw\.jdfcloud\.com\/\/api\/bean\/square\/silverBean\/task\/get\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js
+
+# 电视家
+电视家签到 = type=http-request,pattern=http:\/\/act\.gaoqingdianshi\.com\/\/api\/v4\/sign\/signin,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/dianshijia.js
+
+电视家兑换 = type=http-request,pattern=http:\/\/api\.gaoqingdianshi\.com\/api\/v2\/cash\/withdrawal,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/dianshijia.js
+
+# 电信套餐查询
+电信套餐查询 = script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,type=http-request,pattern=https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do
+
+# 聚看点
+中青看点 = type=https:\/\/www\.xiaodouzhuan\.cn\/jkd\/newMobileMenu\/infoMe\.action,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js, requires-body=true
+
+
+[MITM]
+hostname = %APPEND% www.mydigit.cn, kd.youth.cn, ios.baertt.com, api.inews.qq.com, newsapi.sina.cn, api.weibo.cn, pay.sc.weibo.com, nebula.kuaishou.com, draw.jdfcloud.com, e.189.cn, www.xiaodouzhuan.cn
+
+
+
+
+
+
