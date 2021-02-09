@@ -236,7 +236,8 @@ function userInfo() {
             if (signinfo.status == 1) {
                 cash = signinfo.data.user.money;
                 signday = signinfo.data.sign_day;
-                subTitle = `【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元`;
+                totalscore = signinfo.data.user.score
+                subTitle = `【收益总计】${totalscore}青豆  现金约${cash}元`;
                 nick = `账号: ${signinfo.data.user.nickname}`;
                 $.setdata(nick,"zq_nick")
                 if(parseInt(cash) >= withdrawcash && !withdrawBody == false){
@@ -618,7 +619,7 @@ async function showmsg() {
          $.msg($.name+"  "+nick+" "+rotarynum,subTitle,detail)//任务全部完成且通知间隔不为0时通知;
         } 
      else {
-       console.log(`【收益总计】${signinfo.data.user.score}青豆  现金约${cash}元\n`+ detail)
+       console.log(`【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
    }
 }
 
