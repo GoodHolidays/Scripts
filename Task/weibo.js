@@ -120,7 +120,7 @@ if ($.isNode()) {
 
 
 function GetCookie() {
-if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/\d\/[a-z]+\/\w+\?gsid/)) {
+if ($request && $request.method != 'OPTIONS' && $request.url.match(/\d/user/show/.+(gsid=)/)) {
   const signurlVal = $request.url
   const token = signurlVal.match(/(gsid=[_a-zA-Z0-9-]+).+(&s=\w+)/)
    $.log(`token:${token}`)
