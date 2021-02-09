@@ -284,7 +284,7 @@ function withDraw() {
 
 function SevCont() {
     return new Promise((resolve, reject) =>{
-        $.post(kdHost('PunchCard/luckdraw?'), async(error, resp, data) =>{
+        $.post(kdHost('WebApi/PunchCard/luckdraw?'), async(error, resp, data) =>{
             let sevres = JSON.parse(data); 
             if (sevres.code == 1) {
                 detail += `【七日签到】 + ${sevres.data.score}青豆\n`
