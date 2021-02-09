@@ -1,0 +1,8 @@
+[Script]
+
+cron ”04 00 * * *“ script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, enabled=true, tag=腾讯新闻
+
+http-request https:\/\/api\.inews\.qq\.com\/event\/v1\/user\/event\/report\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, requires-body=true, enabled=true, tag=腾讯新闻
+
+[MITM]
+hostname = api.inews.qq.com

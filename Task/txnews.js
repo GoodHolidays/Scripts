@@ -2,47 +2,7 @@
 /*
 更新时间: 2021-1-23 09:50
 
-腾讯新闻签到修改版，可以自动阅读文章获取红包，该活动为瓜分百万现金挑战赛，针对幸运用户参与
-
-获取Cookie方法:
-1.把以下配置复制到响应配置下
-2.打开腾讯新闻app，阅读几篇文章，倒计时结束后即可获取阅读Cookie;
-3.看一次推荐视频获取视频地址
-4.可能腾讯有某些限制，有些号码无法领取红包，手动阅读几篇，能领取红包，一般情况下都是正常的，
-5.此脚本根据阅读篇数开启通知，默认阅读50篇通知一次，此版本和另一版本相同
-版本更新日志:
-1.01 修复无法自动获取视频红包，修改通知为阅读篇数间隔，即阅读篇数除以间隔余0时通知，或者自定义常开或常关，
-1.02 支持boxjs配置，增加通知跳转链接https://news.qq.com/FERD/cjRedDown.htm，需手动领取此红包
----------------------
-Surge 4.0
-[Script]
-腾讯新闻 = type=cron,cronexp=0 8 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js,script-update-interval=0
-
-腾讯新闻 = type=http-request,pattern=https:\/\/api\.inews\.qq\.com\/event\/v1\/user\/event\/report\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, requires-body=true
-
-~~~~~~~~~~~~~~~~~~~~~
-Loon 2.1.0+
-[Script]
-# 本地脚本
-cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, enabled=true, tag=腾讯新闻
-
-http-request https:\/\/api\.inews\.qq\.com\/event\/v1\/user\/event\/report\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, requires-body=true
-
------------------
-
-QX 1.0.7+ :
- [task_local]
-0 9 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js, tag=腾讯新闻
- [rewrite_local]
-https:\/\/api\.inews\.qq\.com\/event\/v1\/user\/event\/report\? url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews.js
-
-~~~~~~~~~~~~~~~~~~
- [MITM]
-hostname = api.inews.qq.com
-
----------------------------
-
-Cookie获取后，请注释掉Cookie地址。
+腾讯新闻签到修改版，可以自动阅读文章获取红包，该活动为瓜分百万现金挑战赛，针对幸运用户参与，本脚本已不能自动打开红包，需每天要打开腾讯新闻app一次，请须知
 
 */
 const $ = new Env('腾讯新闻');
@@ -143,7 +103,7 @@ function GetCookie() {
     $.msg($.name, `获取Cookie: 成功🎉`, ``)
   }
   if ($request &&$request.body.indexOf("video_read")> -1) {
-    const videoVal =  $request.url
+    const videoVal = $request.url
     $.log(`videoVal:${videoVal}`)
     if (videoVal) $.setdata(videoVal,  'video_txnews')
     $.msg($.name, `获取视频地址: 成功🎉`, ``)

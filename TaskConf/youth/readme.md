@@ -46,11 +46,11 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/youth/loon.plug
  ```
 [Script]
 cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, enabled=true, tag=中青看点
-http-request https:\/\/kd\.youth\.cn\/WebApi\/NewTaskIos\/getTaskList script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
-http-request https:\/\/ios\.baertt\.com\/v5\/article\/complete script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-http-request https:\/\/ios\.baertt\.com\/v5\/article\/red_packet script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-http-request https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
-http-request https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true
+http-request https:\/\/kd\.youth\.cn\/WebApi\/NewTaskIos\/getTaskList script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, enabled=true, tag=中青看点
+http-request https:\/\/ios\.baertt\.com\/v5\/article\/complete script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true, enabled=true, tag=中青看点
+http-request https:\/\/ios\.baertt\.com\/v5\/article\/red_packet script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true, enabled=true, tag=中青看点
+http-request https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true, enabled=true, tag=中青看点
+http-request https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, requires-body=true, enabled=true, tag=中青看点
 ```
 #### Quantumult X:
    * [远程重写配置](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/youth/qx_rewite.txt)
@@ -73,7 +73,7 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json url script-request-body h
    
 ```
 [task_local]
-1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
+1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, enabled=true, tag=中青看点
 ```
 ###  获取Cookie方法
   * 打开极速版APP，进去个人中心，或者签到一次，提示获取Cookie

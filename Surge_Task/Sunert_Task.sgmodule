@@ -54,4 +54,6 @@
 # > 谷歌翻译
 谷歌翻译 = type=cron,cronexp=0 5 10 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js,script-update-interval=0
 
+# > 墨迹天气
+墨迹天气 = type=cron,cronexp=0 5 10 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js,script-update-interval=0
 
