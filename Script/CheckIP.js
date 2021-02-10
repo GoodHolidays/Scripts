@@ -26,6 +26,22 @@
    }
  }
  */
+function ENWORD(par) {
+  par = par.replace(/[\.\_\-\d]+/g," ")
+  let myRequest = {
+        url: "http://translate.google.cn/translate_a/single?client=gtx&sl=auto&tl=zh-CN&dt=t&q=" + encodeURI(par),
+        method: "GET"
+    };
+$task.fetch(myRequest).then(response => {
+  //console.log($response.body)
+        data = response.body
+        par = data.split(/[\"]+/g)[1];
+        console.log(par);
+        return par;
+     }, reason =>{
+        return par;
+   })
+}
  function ISP_ValidCheck(para) { 
    if(para=="Microsoft Azure Cloud (eastasia)"){
    return "微软云服务"
@@ -77,13 +93,13 @@
    return "中西部"
    }
    else if(regionName=="臺灣省 or 台灣省"){
-   return city0
+   return "台湾省"
    } 
    else if(regionName=="Moscow"){
    return "莫斯科"
    } 
    else if(regionName=="新加坡"){
-   return city0
+   return "新加坡"
    } 
    else if(regionName=="Tuen Mun"){
    return "屯门"
@@ -116,12 +132,24 @@
    {
    return "东京"
    }
+   else if(regionName=="Taichung")
+   {
+   return "台中"
+   }
    else 
    {
    return regionName
    }
  }
  function Org_ValidCheck(para) { 
+   if(para.indexOf("Networks Limited")>-1){
+    para = para.replace("Networks Limited","网络技术有限公司")
+    return para
+   }
+   if(para.indexOf("AWS")>-1){
+    para = para.replace("AWS","亚马逊云服务")
+    return para
+   }
    if(para=="Microsoft Azure Cloud (eastasia)"){
    return "微软云服务"
    } 
