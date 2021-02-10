@@ -15,11 +15,11 @@
 */
 const $ = new Env('百度极速版')
 let CookieArr = [],cashArr=[];
-let UA = `Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 info baiduboxapp/5.1.1.10 (Baidu; P2 14.2)`;
 const notify = $.isNode() ? require('./sendNotify') : '';
 const baiducks = $.getdata(`cookie_baidu`);
 let taskON = $.getdata(`task_baidu`)||"true"//除提现和兑换外其他任务开关;
 let isblack = "false";
+let UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 matrixstyle/0 info baiduboxapp/5.1.6.10 (Baidu; P2 14.2)'
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
   BDCookie = process.env.BAIDU_COOKIE.split('&');
@@ -48,6 +48,9 @@ if ($.isNode()) {
           cashArr.push(BDCASH[item])
         } 
     })
+    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`);
+     console.log(`您共提供${CookieArr.length}个百度账号 Cookie`)
+     
 } else if(baiducks && baiducks.indexOf('&')>-1){
      BDCookie = baiducks.split("&")
      Object.keys(BDCookie).forEach((item) => {
@@ -56,15 +59,10 @@ if ($.isNode()) {
         } 
     })
 } else {
-    CookieArr.push($.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`));
+CookieArr.push($.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`));
     cashArr.push($.getdata("cash_baidu")||30)
 }
 
-if ($.isNode()) {
-      //console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-      console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
-     console.log(`您共提供${CookieArr.length}个百度账号 Cookie`)
-}
 !(async() =>{
   if (!CookieArr[0]) {
     console.log($.name, '【提示】请把百度Cookie填入Github 的 Secrets 中，请以&或者换行隔开');
@@ -75,14 +73,7 @@ if ($.isNode()) {
       cookieval = CookieArr[i];
       withcash = cashArr[i];
       $.index = i + 1;
-      let username = null,
-          chargemoney = 0,
-          availablecoin = 0;
       await userInfo();
-     if (isblack == true) {
-        $.msg($.name + " 账号" + username + "已黑号", "您的金币和余额已被冻结，请联系客服处理");
-        continue;
-      }
       await $.wait(1000);
       if ($.isNode()) {
         if (process.env.BAIDU_TASK) {
@@ -92,28 +83,29 @@ if ($.isNode()) {
       if (taskON == "true") {
         $.desc = "";
         await firstbox();
-        await TaskCenter()
+        await TaskCenter();
       }
-      //await showmsg()
-      //await drawPrize();
     }
   }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-
+  
+function confApi(api, body, RefererUrl) {
+    return {
+       url: 'https://haokan.baidu.com/activity/'+api,
+       headers:{
+           'Cookie': cookieval,
+           'User-Agent': UA,
+           'Referer': RefererUrl
+       },
+       body:body
+    }
+}
 //签到
 function getsign() {
     return new Promise((resolve, reject) =>{
-        let signurl = {
-            url: `https://haokan.baidu.com/activity/acusercheckin/update`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA
-            },
-            body: 'productid=2&ugus=9766888061'
-        }
-        $.post(signurl, async(error, response, data) =>{
+        $.post(confApi('acusercheckin/update','productid=2&ugus=9766888061'), async(error, resp, data) =>{
             let get_sign = JSON.parse(data);
             if (get_sign.errno == 0) {
                 $.desc = get_sign.data.tips+` 收益: ${get_sign.data.bonus.coin}💰\n`;
@@ -130,77 +122,23 @@ function getsign() {
     })
 }
 
-function userInfo() {
-  return new Promise((resolve, reject) =>{
-    setTimeout(() =>{
-      let infourl = {
-        url: `https://haokan.baidu.com/activity/h5/income?productid=2&from=1005640h&network=1_0&osname=baiduboxapp`,
-        headers: {
-          Cookie: cookieval,
-          'User-Agent': UA
-        }
-      };
-      $.get(infourl, async(error, resp, data) =>{
-  try {
-      if (resp.statusCode == 200) {
-                  username = "null";
-                 if(data.match(/user_name\":\"([\w+\\]+)/)){
-                    username = unescape(data.match(/user_name\":\"([\w+\\]+)/)[1].replace(/\\/g, "%"))
-                 }
-                    chargemoney = data.match(/charge_money":"(\d+\.\d+)/)[1],
-                    enabledmoney = data.match(/enabled_money":(\d+)/)[1],
-                    waitingcoin = data.match(/waiting_coin":(\d+)/)[1],
-                    availablecoin = data.match(/available_coin":(\d+)/)[1],
-                    invitecode = data.match(/invite_code":"(\w+)/)[1],
-                    coinenabled = data.match(/coin_enabled":(\d+)/)[1]
-                    if (coinenabled > 100) {
-                    coinnum = parseInt(coinenabled / 100) * 100;
-                    await coinexChange()
-                  }
-                    //rate = data.match(/exchange_rate":(\d+)/)[1]
-                    isblack = data.match(/is_black":(\w+)/)[1]
-               }
-                  $.sub = " 昵称:" + username + " 现金:" + chargemoney + "元 金币:" + availablecoin;
-                  $.log("\n********** 昵称:" + username + " 现金:" + chargemoney + "元 **********\n");
-                  if (enabledmoney>500&&parseInt(enabledmoney/100) >= Number(withcash) && $.time("HH") == "06") {
-                    await withDraw(withcash);
-                    if ($.isNode()) {
-                      await notify.sendNotify($.name + " 成功提现" + withcash + "元\n" + $.sub)
-                    }
-                    $.done()
-              }
-        } catch(error) {
-          $.msg($.name, "获取用户信息失败","请更换Cookie")
-          $.log("用户信息详情页错误\n" + error + "\n" + formatJson(data.match(/window\.PAGE_DATA = (.+)/)).replace(new RegExp("\\\\\"", "gm"), "\""))
-        }
-        resolve()
-      })
-    },
-    1000)
-  })
-}
-
 function withDraw(cash) {
-    return new Promise((resolve, reject) =>{
-        let cashurl = {
-            url: `https://haokan.baidu.com/activity/acuserwithdraw/confirm?productid=2&amount=${cash*100}&trade_type=1`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA
-            }
+  return new Promise((resolve, reject) =>{
+    $.get(confApi(`acuserwithdraw/confirm?productid=2&amount=${cash*100}&trade_type=1`), async(error, resp, data) =>{
+      let get_cash = JSON.parse(data);
+      if (get_cash.errno == 0) {
+        $.sub = ' 提现成功: 到账 ' + get_cash.data.money + "元 ";
+        $.msg($.name, $.sub);
+        if ($.isNode()) {
+          await notify.sendNotify($.name + " 成功提现" + withcash + "元\n" + $.sub)
         }
-        $.get(cashurl, (error, response, data) =>{
-            let get_cash = JSON.parse(data);
-            if (get_cash.errno == 0) {
-                $.sub = ' 提现成功: 到账 ' + get_cash.data.money + "元 ",
-                $.msg($.name, $.sub)
-            } else {
-                $.log(data + "\n " + get_cash.msg),
-                $.msg($.name, get_cash.msg)
-            }
-            resolve()
-        })
+      } else {
+        $.log(data + "\n " + get_cash.msg);
+        $.msg($.name, get_cash.msg)
+      }
+      resolve()
     })
+  })
 }
 
 
@@ -221,16 +159,41 @@ function invite() {
     })
 }
 
+function userInfo() {
+  return new Promise((resolve, reject) =>{
+    $.post(confApi('api/tenure/osname=baiduboxapp','sign=a329b14e561e5f42d466d568623cd972&time=1612958577&productid=2'), async(error, resp, data) =>{
+      try {
+        let get_pay = JSON.parse(data);
+        //$.log("获取收益信息:"+data +'\n')
+        if (get_pay.errno == 0) {
+          availablecoin = get_pay.data.available_coin,
+          enabledcoin = get_pay.data.enabled_coin,
+          enabledmoney = get_pay.data.enabled_money,
+          yesterdaycoin = get_pay.data.yesterday_coin,
+          username = $.getdata('baidu_nick') ? $.getdata('baidu_nick') : null;
+          $.sub = " 昵称:" + username + " 现金:" + enabledmoney + "元 金币:" + availablecoin;
+          $.log("\n********** 昵称:" + username + " 现金:" + enabledmoney + "元 **********\n");
+          if (parseInt(enabledmoney) >= Number(withcash) && $.time("HH") == "06") {
+            await withDraw(withcash);
+            $.done()
+          };
+          if (enabledcoin > 100) {
+            coinnum = parseInt(enabledcoin / 100) * 100;
+            await coinexChange()
+          }
+        }
+      } catch(e) {
+        $.log("获取用户信息失败" + e)
+      } finally {
+        resolve()
+      }
+    })
+  })
+}
+
 function coinexChange() {
     return new Promise((resolve, reject) =>{
-        let Changeurl = {
-            url: `https://haokan.baidu.com/activity/api/coinexchange?coinnum=${coinnum}&autolock=1&productid=2&ugVersion=5.1.1.10`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA
-            }
-        }
-        $.get(Changeurl, (error, resp, data) =>{
+        $.get(confApi(`api/coinexchange?coinnum=${coinnum}&autolock=1&productid=2&ugVersion=5.1.6.10`), (error, resp, data) =>{
              let exchange = JSON.parse(data)
                //$.log(data)
              if (exchange.errno == 0) {
@@ -244,20 +207,23 @@ function coinexChange() {
 
 function TaskCenter() {
   return new Promise((resolve, reject) =>{
-    let rewurl = {
-      url: `https://haokan.baidu.com/activity/h5/vaultnew?productid=2&fromcsr=1&system=ios&_format=json`,
-      headers: {
-        Cookie: cookieval,
-        'User-Agent': UA
-      }
-    }
-    $.get(rewurl, async(error, resp, data) =>{
+    $.get(confApi('h5/vaultnew?productid=2&fromcsr=1&system=ios&_format=json'), async(error, resp, data) =>{
        //console.log(formatJson(data))
       try {
         let get_tasks = JSON.parse(data);
+       if(get_tasks.data.uname!=""){
+        username = get_tasks.data.uname;
+        $.setdata(username,'baidu_nick')
+        }
+       isblack = get_tasks.data.is_black
+
         $.log("      🛎 ========== 任务开始 ========== 🛎     "); 
         tasks = get_tasks.data.comps;
         for (x in tasks) {
+        if (isblack == true) {
+        $.msg($.name + " 账号" + username + "已黑号", "您的金币和余额已被冻结，请联系客服处理");
+        break;
+       }
           taskid = tasks[x].taskId;
           id = tasks[x].id;
           if (tasks[x].name == "signIn") {
