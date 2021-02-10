@@ -6,7 +6,7 @@ name: 中青自动阅读
 on:
   workflow_dispatch:
   schedule:
-     - cron: '6 1-12/2 * * *'
+     - cron: '*/15 1-12/2 * * *'
   watch:
     types: started
 jobs:
@@ -35,6 +35,7 @@ jobs:
           node Task/Youth_Read.js
         env:
           YOUTH_READ: ${{ secrets.YOUTH_READ }}
+          YOUTH_TIME: ${{ secrets.YOUTH_TIME }}
 
       - name: '运行 【中青看点自动阅读二】'
         if: env.YOUTH_READ2
@@ -42,6 +43,7 @@ jobs:
           node Task/Youth_Read.js
         env:
           YOUTH_READ: ${{ secrets.YOUTH_READ2 }}
+          YOUTH_TIME: ${{ secrets.YOUTH_TIME2 }}
           
       - name: '运行 【中青看点自动阅读三】'
         if: env.YOUTH_READ3
@@ -49,6 +51,7 @@ jobs:
           node Task/Youth_Read.js
         env:
           YOUTH_READ: ${{ secrets.YOUTH_READ3 }}
+          YOUTH_TIME: ${{ secrets.YOUTH_TIME3 }}
           
       - name: '运行 【中青看点自动阅读四】'
         if: env.YOUTH_READ4
@@ -56,3 +59,4 @@ jobs:
           node Task/Youth_Read.js
         env:
           YOUTH_READ: ${{ secrets.YOUTH_READ4 }}
+          YOUTH_TIME: ${{ secrets.YOUTH_TIME4 }}

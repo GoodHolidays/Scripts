@@ -1,18 +1,25 @@
 /*
 更新时间: 2021-02-10 14:25
 
-本脚本仅适用于微博每日签到，支持Actions多账号运行  
+本脚本仅适用于微博每日签到，支持多账号运行  
 
+
+获取ck: https:\/\/api\.weibo\.cn\/\d\/users\/show url script-request-header weibo.js
 */
 
 const $ = new Env('新浪微博')
 const notify = $.isNode() ? require('./sendNotify') : '';
-let tokenArr = [],payArr = [],paybag;
+let tokenArr = [];
+let wbtoken = $.getdata('sy_token_wb')
 
 if (isGetCookie = typeof $request !==`undefined`) {
    GetCookie();
    $.done()
 } 
+
+if(!$.isNode()&&wbtoken.indexOf("#")==-1){
+    tokenArr.push(wbtoken)
+}  else {
 if ($.isNode()) {
   if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('#') > -1) {
    wbtoken = process.env.WB_TOKEN.split('#');
@@ -22,33 +29,18 @@ if ($.isNode()) {
    wbtoken = process.env.WB_TOKEN.split('\n');
    console.log(`您选择的是用换行隔开\n`)
   } else {
-   wbtoken = process.env.WB_TOKEN.split()
+   wbtoken = [process.env.WB_TOKEN]
   };
-  if (process.env.WB_PAY && process.env.WB_PAY.indexOf('#') > -1) {
-   wbPay = process.env.WB_PAY.split('#');
-  }
-  else if (process.env.WB_PAY && process.env.WB_PAY.split('\n').length > 0) {
-   wbPay = process.env.WB_PAY.split('\n');
-  } else  {
-   wbPay = process.env.WB_PAY.split()
-  };
+    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
+} else if (!$.isNode()&&wbtoken.indexOf("#")>-1) {
+   wbtoken = wbtoken.split("#")
+}
   Object.keys(wbtoken).forEach((item) => {
         if (wbtoken[item]) {
           tokenArr.push(wbtoken[item])
         }
     });
-    Object.keys(wbPay).forEach((item) => {
-        if (wbPay[item]) {
-          payArr.push(wbPay[item])
-        }
-    });
-    console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
- } else {
-    tokenArr.push($.getdata('sy_token_wb'))
-    payArr.push($.getdata('sy_payheader_wb'))
 }
- 
 !(async () => {
   if (!tokenArr[0]) {
     $.msg($.name, '【提示】请先获取新浪微博一cookie')
@@ -58,17 +50,12 @@ if ($.isNode()) {
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       token = tokenArr[i];
-      payheaderVal = payArr[i];
       $.index = i + 1;
       console.log(`\n开始【微博签到${$.index}】`)
       await getsign();
       await doCard();
-    if (payheaderVal !== undefined){
       await paysign()
-    } else {
-      paybag = `【钱包签到】❌ 未获取Cooiekie`
-    };
-    await showmsg()
+      await showmsg()
    }
   }
 })()
@@ -77,25 +64,32 @@ if ($.isNode()) {
 
 
 function GetCookie() {
-if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=")>-1) {
-  const signurlVal = $request.url
-  const token = signurlVal.replace(/(.+)(gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)/,'$2$4')
-   $.log(`token:${token}`)
-  if (token) $.setdata(token, 'sy_token_wb')
-  $.msg($.name, `获取微博签到Cookie: 成功`, ``)
-} else if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/home\/welfare\/signin\/do\?_=[1-9]+/)) {
-  const payheaderVal = JSON.stringify($request.headers)
-  if (payheaderVal) $.setdata(payheaderVal,  'sy_payheader_wb')
-  $.msg($.name, `获取微博钱包Cookie: 成功`, ``)}
+  if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=") > -1) {
+    const signurlVal = $request.url;
+    let token = signurlVal.replace(/(.+)(uid=\d+)(.+)(&gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)/,'$2$4$6'),
+    uid = token.match(/uid=\d+/);
+    if (wbtoken) {
+      if (wbtoken.indexOf(uid) > -1) {
+        $.log("此账号Cookie已存在，本次跳过")
+      } else if (wbtoken.indexOf(uid) == -1) {
+        tokens = wbtoken + "#" + token;
+        $.setdata(tokens, 'sy_token_wb');
+        $.log(`tokens: ${tokens}`)
+      }
+    } else {
+      $.setdata(token, 'sy_token_wb');
+      $.log(`tokens: ${token}`)
+    }
+    $.msg($.name, `获取微博签到Cookie: 成功`, ``)
+  }
 }
-
 //微博签到
 function getsign() {
   return new Promise((resolve, reject) =>{
    let signurl =  {
-      url: `https://api.weibo.cn/2/checkin/add?from=10B2093010&c=iphone&${token}`,
-      headers: {"User-Agent": `Weibo/46902 (iPhone; iOS 14; Scale/3.00)`}}
-     $.post(signurl, async(error, resp, data) => {
+      url: `https://api.weibo.cn/2/checkin/add?from=10B2193010&c=iphone&${token}`,
+      headers: {"User-Agent": `Weibo/52021 (iPhone; iOS 14.5; Scale/3.00)`}}
+     $.get(signurl, async(error, resp, data) => {
      let result = JSON.parse(data)
      if (result.status == 10000){
          wbsign = `【微博签到】✅ 连续签到${result.data.continuous}天，收益: ${result.data.desc}💰\n`  
@@ -121,13 +115,18 @@ function getsign() {
 function doCard() {
   return new Promise((resolve, reject) =>{
    let doCardurl =  {
-      url: `https://api.weibo.cn/2/!/ug/king_act_home?from=10B2093010&c=iphone&${token}`,
-      headers: {"User-Agent": `Weibo/46902 (iPhone; iOS 14; Scale/3.00)`}}
+      url: `https://api.weibo.cn/2/!/ug/king_act_home?from=10B2193010&c=iphone&${token}`,
+      headers: {"User-Agent": `Weibo/52021 (iPhone; iOS 14.5; Scale/3.00)`}}
   $.get(doCardurl, (error, resp, data) => {
+//$.log(data)
      let result = JSON.parse(data)
       if (result.status ==10000){
        nickname = "昵称: "+result.data.user.nickname
+     if(tokenArr.length==1){
        $.setdata(nickname,'wb_nick')
+     } else {
+      $.setdata(tokenArr.length+"合一(多账号)",'wb_nick')
+     }
        signday = result.data.signin.title.split('<')[0]
        docard = `【每日打卡】 ✅ `+ signday+'天 积分总计: '+result.data.user.energy
        }
@@ -142,7 +141,15 @@ function doCard() {
 // 钱包签到
 function paysign() {
  return new Promise((resolve, reject) =>{
-   $.post({url: `https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do?_=${$.startTime+10}`,headers: JSON.parse(payheaderVal)
+   $.post({
+      url: `https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do?_=${$.startTime+10}&${token}`,
+      headers:{
+        'Accept-Encoding': 'gzip, deflate',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Host': 'pay.sc.weibo.com',
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Weibo (iPhone10,1__weibo__11.2.1__iphone__os14.5)'
+       }
      }, (error, resp, data) => {
      let result = JSON.parse(data)
      if (result.status == 1){
@@ -152,7 +159,7 @@ function paysign() {
           paybag = `【微博钱包】 🔁\n`
          }
       else {
-         paybag = `【钱包签到】❌ Cookie失效`+'\n'
+          paybag = `【钱包签到】❌ Cookie失效`+'\n'
         }
        resolve()
      })

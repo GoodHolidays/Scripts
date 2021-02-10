@@ -41,6 +41,10 @@ let ReadArr = [], YouthBody = "",readscore = 0;
       console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`)
     }
       await AutoRead();
+      if (process.env.YOUTH_TIME){
+        timebodyVal = process.env.YOUTH_TIME;
+        await readTime()
+    };
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore}个青豆，阅读请求全部结束`)
 })()
@@ -76,6 +80,31 @@ function AutoRead() {
               console.log(readres.items.max_notice)
             }
           resolve()
+        })
+    })
+}
+
+function batHost(api, body) {
+    return {
+        url: 'https://ios.baertt.com/v5/'+api,
+        headers: {
+            'User-Agent': 'KDApp/2.0.0 (iPhone; iOS 14.5; Scale/3.00)',
+            'Host': 'ios.baertt.com',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body
+    }
+}
+
+function readTime() {
+    return new Promise((resolve, reject) => {
+        $.post(batHost('user/stay.json',timebodyVal), (error, resp, data) => {
+            let timeres = JSON.parse(data)
+            if (timeres.error_code == 0) {
+                readtimes = timeres.time / 60
+              $.log(`阅读时长共计` + Math.floor(readtimes) + `分钟`)
+            }
+            resolve()
         })
     })
 }
