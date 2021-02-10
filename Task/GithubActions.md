@@ -24,7 +24,6 @@
 | WB_TOKEN | <span style="font-size:18; color:#0000ff">微博 </span> | #或换行 | 必须 | 请求地址: "https://api.weibo.cn/xxx?gsid="， <br>签到token: gsid=xxx |
 | WB_PAY | 同上 | #或换行 | 必须 | 请求地址:"https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do"， <br> 提现请求头 |
 |  |  |  | - |  |
-| JD_COOKIE | <span style="font-size:18; color:#0000ff">京喜 jingxi.yml</span> | &或换行| 必须 | 京东cookie,多个账号的cookie使用`&`隔开或者换行。具体获取参考[浏览器获取京东cookie教程](https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie.md) 或者 [插件获取京东cookie教程](https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie2.md) |
 
 <br>
 

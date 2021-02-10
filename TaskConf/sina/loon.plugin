@@ -1,0 +1,11 @@
+# 仅新浪微博配置，不包含新浪新闻
+
+[Script]
+cron "4 0 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
+
+http-request https:\/\/api\.weibo\.cn\/\d\/user\/show script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
+
+http-request https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
+
+[MITM]
+hostname = api.weibo.cn, pay.sc.weibo.com

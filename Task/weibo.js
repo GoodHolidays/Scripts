@@ -1,51 +1,8 @@
 /*
-更新时间: 2020-10-13 21:25
+更新时间: 2021-02-10 14:25
 
 本脚本仅适用于微博每日签到，支持Actions多账号运行  
-获取Cookie方法:
-1.将下方[rewrite_local]和[MITM]地址复制的相应的区域下
-2.打开微博App，刷微博视频，获取Cookie，获取后请注释或禁用Cookie
-3.打开微博钱包点击签到，获取Cookie，
-4.钱包签到时获取Cookie,已经签到无法获取
-5.非专业人士制作，欢迎各位大佬提出宝贵意见和指导
 
-by Macsuny
-~~~~~~~~~~~~~~~~
-Surge 4.0 :
-[Script]
-weibo.js = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
-
-# 获取微博 Cookie.
-weibo.js = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/user\/show\/,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-# 微博钱包签到Cookie
-weibo.js = type=http-request,pattern=https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\?,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-
-~~~~~~~~~~~~~~~~
-Loon 2.1.0+
-[Script]
-# 本地脚本
-cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
-
-http-request https:\/\/api\.weibo\.cn\/\d\/user\/show\/ script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-
-http-request https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-
------------------
-
-QX 1.0.6+ :
-[task_local]
-0 9 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-
-[rewrite_local]
-https:\/\/api\.weibo\.cn\/\d\/user\/show\/ url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-
-# 钱包签到Cookie
-https:\/\/pay\.sc\.weibo\.com\/aj\/mobile\/home\/welfare\/signin\/do\? url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
-
-~~~~~~~~~~~~~~~~
-[MITM]
-hostname = api.weibo.cn, pay.sc.weibo.com
-~~~~~~~~~~~~~~~~
 */
 
 const $ = new Env('新浪微博')
@@ -122,7 +79,7 @@ if ($.isNode()) {
 function GetCookie() {
 if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=")>-1) {
   const signurlVal = $request.url
-  const token = signurlVal.match(/(gsid=[_a-zA-Z0-9-]+).+(&s=\w+)/)
+  const token = signurlVal.replace(/(.+)(gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)/,'$2$4')
    $.log(`token:${token}`)
   if (token) $.setdata(token, 'sy_token_wb')
   $.msg($.name, `获取微博签到Cookie: 成功`, ``)
@@ -136,9 +93,9 @@ if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=")>-1
 function getsign() {
   return new Promise((resolve, reject) =>{
    let signurl =  {
-      url: `https://api.weibo.cn/2/checkin/add?${token}`,
+      url: `https://api.weibo.cn/2/checkin/add?from=10B2093010&c=iphone&${token}`,
       headers: {"User-Agent": `Weibo/46902 (iPhone; iOS 14; Scale/3.00)`}}
-     $.post(signurl, async(error, response, data) => {
+     $.post(signurl, async(error, resp, data) => {
      let result = JSON.parse(data)
      if (result.status == 10000){
          wbsign = `【微博签到】✅ 连续签到${result.data.continuous}天，收益: ${result.data.desc}💰\n`  
@@ -164,9 +121,9 @@ function getsign() {
 function doCard() {
   return new Promise((resolve, reject) =>{
    let doCardurl =  {
-      url: `https://api.weibo.cn/2/!/ug/king_act_home?${token}`,
+      url: `https://api.weibo.cn/2/!/ug/king_act_home?from=10B2093010&c=iphone&${token}`,
       headers: {"User-Agent": `Weibo/46902 (iPhone; iOS 14; Scale/3.00)`}}
-  $.get(doCardurl, (error, response, data) => {
+  $.get(doCardurl, (error, resp, data) => {
      let result = JSON.parse(data)
       if (result.status ==10000){
        nickname = "昵称: "+result.data.user.nickname
@@ -186,7 +143,7 @@ function doCard() {
 function paysign() {
  return new Promise((resolve, reject) =>{
    $.post({url: `https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do?_=${$.startTime+10}`,headers: JSON.parse(payheaderVal)
-     }, (error, response, data) => {
+     }, (error, resp, data) => {
      let result = JSON.parse(data)
      if (result.status == 1){
           paybag = `【微博钱包】 ✅ +`+ result.score+' 分\n'
