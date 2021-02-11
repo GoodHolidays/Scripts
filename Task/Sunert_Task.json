@@ -15,7 +15,7 @@
             "config": "4 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js, tag=实时货币换算, img-url=https://raw.githubusercontent.com/Orz-3/task/master/exchangerate.png, enabled=false"
         }, 
         {
-            "config": "7 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url= https://raw.githubusercontent.com/Orz-3/task/master/translate.png, enabled=false"
+            "config": "7 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url=https://raw.githubusercontent.com/Orz-3/task/master/translate.png, enabled=false"
         }, 
         {
             "config": "0 0 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js, tag=中国电信套餐, img-url=https://raw.githubusercontent.com/Orz-3/task/master/telecominfinty.png, enabled=true", 
