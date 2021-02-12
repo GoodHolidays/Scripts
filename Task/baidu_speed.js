@@ -250,6 +250,7 @@ function TaskCenter() {
         $.logErr(e, data);
       } finally {
         $.msg($.name, $.sub, $.desc)
+        resolve()
       }
     })
   })
