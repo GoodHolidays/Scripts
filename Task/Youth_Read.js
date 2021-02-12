@@ -12,6 +12,7 @@ Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk030
 const $ = new Env("中青看点")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], YouthBody = "",readscore = 0;
+var lastClick = Date.now()-60000;
   if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('&') > -1) {
   YouthBody = process.env.YOUTH_READ.split('&');
   console.log(`您选择的是用"&"隔开\n`)
@@ -43,7 +44,7 @@ let ReadArr = [], YouthBody = "",readscore = 0;
     };
       if (process.env.YOUTH_TIME){
         timebodyVal = process.env.YOUTH_TIME;
-      if((new Date().getTime()-$.startTime)&60000==0){
+      if(Date.now() - lastClick >=60000){
         await readTime()
       }
     };
