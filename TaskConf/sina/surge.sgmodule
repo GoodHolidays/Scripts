@@ -6,7 +6,7 @@
 微博&钱包签到 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
 
 # 获取微博 Cookie.
-微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/user\/show,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
 
 [MITM]
