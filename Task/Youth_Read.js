@@ -38,9 +38,9 @@ let ReadArr = [], YouthBody = "",readscore = 0;
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
       $.index = i + 1;
-      console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`)
-    }
+      console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
       await AutoRead();
+    };
       if (process.env.YOUTH_TIME){
         timebodyVal = process.env.YOUTH_TIME;
         await readTime()
