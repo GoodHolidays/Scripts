@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-08 18:00
+更新时间: 2021-02-12 16:00
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md
@@ -9,12 +9,11 @@
 let s = 1000 //各数据接口延迟
 const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
-const YOUTH_HOST = "https://kd.youth.cn/WebApi/";
 const notify = $.isNode() ? require('./sendNotify') : '';
+const ONCard = $.getdata('zqcard')||"false" //早起打卡开关
 const withdrawcash = $.getdata('zqcash')||30 //提现金额
 let withdrawUrl =$.getdata('cashurl_zq')
 let withdrawBody =$.getdata('cashbody_zq')
-
 let rotaryscore=0,doublerotary=0; 
 let cookieArr = [], cookie = '',
     readArr = [], articlebodyVal ='',
@@ -161,8 +160,9 @@ function TaskCenter() {
   return new Promise((resolve, reject) =>{
     $.post(kdHost('WebApi/NewTaskIos/getTaskList?'), async(error, resp, data) =>{
       try {
-        taskres = JSON.parse(data)
-        //$.log(formatJson(data))
+        taskres = JSON.parse(data);
+        //$.log(JSON.stringify(taskres,null,2))
+        //return
         if (taskres.status == 1) {
           for (dailys of taskres.list.daily) {
             if (dailys.status == "1" && dailys.action != "") {
@@ -170,19 +170,25 @@ function TaskCenter() {
               await $.wait(600);
               await getAction(dailys.reward_action)
             } else if (dailys.status == "2" && dailys.action != "") {
-              await $.wait(600);
               $.log(dailys.title + "，" + dailys.but + "，已领取青豆" + dailys.score)
             };
-           if (dailys.id == "10" && dailys.status == "0") {
-              $.log(dailys.title + "未完成，去做任务");
-          for (x=0;x<5;x++){
-              $.log("等待5s执行第"+(x+1)+"次")
-              await $.wait(5000);
-              await recordAdVideo(dailys.reward_action)
-             }
-              if (record.status == 0) {
-               await getAction(dailys.reward_action);
+            if (dailys.title == "打卡赚钱" && ONCard == "true") {
+              if (dailys.status == "0") {
+                await punchCard()
+              } else if (dailys.status == "1" && $.time("HH") == "05") {
+                await endCard()
+              }
             }
+            if (dailys.id == "10" && dailys.status == "0") {
+              $.log(dailys.title + "未完成，去做任务");
+              for (x = 0; x < 5; x++) {
+                $.log("等待5s执行第" + (x + 1) + "次");
+                await $.wait(5000);
+                await recordAdVideo(dailys.reward_action)
+              }
+              if (record.status == 0) {
+                await getAction(dailys.reward_action);
+              }
             }
           }
         }
@@ -282,6 +288,68 @@ function withDraw() {
         })
     })
 }
+
+
+function punchCard() {
+    return new Promise((resolve, reject) => {
+        $.post(kdHost('WebApi/PunchCard/signUp'), (error, response, data) => {
+            punchcardstart = JSON.parse(data);
+            if (punchcardstart.code == 1) {
+                detail += `【打卡报名】打卡报名${punchcardstart.msg} ✅ \n`;
+                $.log("每日报名打卡成功，报名时间:"+`${$.time('MM-dd HH:mm')}`)
+            }
+          else {
+            //detail += `【打卡报名】${punchcardstart.msg}\n`
+          // $.log(punchcardstart.msg)
+          }
+         resolve();
+       })
+    })
+}
+
+//结束打卡
+function endCard() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            $.post(kdHost('WebApi/PunchCard/doCard?'),async(error, response, data) => {
+                punchcardend = JSON.parse(data)
+                if (punchcardend.code == 1) {
+                    detail += `【早起打卡】${punchcardend.data.card_time}${punchcardend.msg}✅\n`;
+                   $.log("早起打卡成功，打卡时间:"+`${punchcardend.data.card_time}`);
+                   await $.wait(1000);
+                   await Cardshare();
+                } else if (punchcardend.code == 0) {
+                    // TODO .不在打卡时间范围内
+                    //detail += `【早起打卡】${punchcardend.msg}\n`
+                //   $.log("不在打卡时间范围内")
+                }
+                resolve()
+            })
+        },s)
+    })
+}
+//打卡分享
+function Cardshare() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/PunchCard/shareStart?'), (error, response, data) =>{
+      sharestart = JSON.parse(data);
+      //detail += `【打卡分享】${sharestart.msg}\n`
+      if (sharestart.code == 1) {
+        $.post(kdHost('WebApi/PunchCard/shareEnd?'), (error, response, data) =>{
+          shareres = JSON.parse(data);
+          if (shareres.code == 1) {
+            detail += ` + ${shareres.data.score}青豆\n`
+          } else {
+            //detail += `【打卡分享】${shareres.msg}\n`
+            //$.log(`${shareres.msg}`)
+          }
+          resolve()
+        })
+      }
+    })
+  })
+}
+
 
 function SevCont() {
     return new Promise((resolve, reject) =>{
@@ -547,7 +615,7 @@ function runRotary(index) {
         const rotarbody = cookie + '&num=' + index;
         const time = new Date().getTime();
         const url = {
-            url: `${YOUTH_HOST}RotaryTable/chestReward?_=${time}`,
+            url: `https://kd.youth.cn/WebApi/RotaryTable/chestReward?_=${time}`,
               headers:{
                  'Referer':'https://kd.youth.cn/html/rotaryTable/index.html?'+cookie
                },

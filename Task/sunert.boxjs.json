@@ -30,12 +30,20 @@
         "readtime_zq",
         "cashurl_zq",
         "cashbody_zq",
-        "zqcash"
+        "zqcash",
+        "zqcard"
       ],
       "repo" : "https://github.com/Sunert/Scripts/blob/master/Task/youth.js",
       "id" : "youth",
       "script" : "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js",
       "settings" : [
+        {
+          "id" : "zqcard",
+          "val" : "false",
+          "name" : "打卡赚钱",
+          "type" : "boolean",
+          "desc" : "每日打卡报名及早起打卡"
+        },
         {
           "id" : "notifytimes",
           "val" : "",
