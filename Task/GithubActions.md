@@ -2,7 +2,7 @@
 
 | Name | 脚本相关YML | Value分割符 | 必须 / 可选 | 注意事项及样式(其中"xxx"代表任意字符) |
 | :-------: | :------: | :-------: | ------ | ------- |
-| YOUTH_HEADER | <span style="font-size:18; color:#0000ff"> 中青看点 youth.yml </span> |  #  | 必须 | 请求地址:  "https://kd.youth.cn/TaskCenter/getSign"，  <br>中青签到请求头: { xxx } |
+| YOUTH_HEADER | <span style="font-size:18; color:#0000ff"> 中青看点 youth.yml </span> |  #  | 必须 | 请求地址:  "https://kd.youth.cn/WebApi/NewTaskIos/getTaskList"，  <br>中青签到请求头引用: uid=xxx&cookie_id=xxx&cookie=xxx|
 | YOUTH_ARTBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/complete"， <br>阅读请求体: p=xxx |
 | YOUTH_REDBODY | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/article/red_packet"， <br>惊喜红包请求体: p=xxx |
 | YOUTH_TIME | 同上 | & | 必须 | 请求地址: "https://ios.baertt.com/v5/user/app_stay.json"，  <br>阅读时长请求体: p=xxx |
@@ -21,8 +21,7 @@
 | DSJ_DRAWAL | 同上 | #或换行 | 必须 | 请求地址: "http://api.gaoqingdianshi.com/api/v2/cash/withdrawal"， <br>即提现请求地址 |
 | DSJ_NOTIFY_CONTROL | 同上 | true/false | 可选 | 电视家通知开关 <br>默认不推送 |
 |  |  |  | - |  |
-| WB_TOKEN | <span style="font-size:18; color:#0000ff">微博 </span> | #或换行 | 必须 | 请求地址: "https://api.weibo.cn/xxx?gsid="， <br>签到token: gsid=xxx |
-| WB_PAY | 同上 | #或换行 | 必须 | 请求地址:"https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do"， <br> 提现请求头 |
+| WB_TOKEN | <span style="font-size:18; color:#0000ff">微博 </span> | #或换行 | 必须 | 请求地址: "https://api.weibo.cn/xxx?gsid="， <br>签到token: uid=xxx&gsid=xxx&s=xxx |
 |  |  |  | - |  |
 
 <br>
