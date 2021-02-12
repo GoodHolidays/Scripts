@@ -54,14 +54,7 @@ let ReadArr = [], YouthBody = "",readscore = 0;
 
 function AutoRead() {
     return new Promise((resolve, reject) => {
-       let url = {
-            url: `https://ios.baertt.com/v5/article/complete.json`,
-            headers: {
-            'User-Agent': 'KDApp/1.7.8 (iPhone; iOS 14.0; Scale/3.00)'
-            },
-            body: articlebody
-        };
-        $.post(url, async(error, response, data) => {
+        $.post(batHost('article/complete.json',articlebody), async(error, response, data) => {
            let readres = JSON.parse(data);
              //console.log(data)
            if (readres.error_code == '0' && typeof readres.items.read_score === 'number') {
