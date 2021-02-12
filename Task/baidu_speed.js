@@ -1,5 +1,5 @@
 /*
-更新时间:2021-02-02 19:50
+更新时间:2021-02-12 22:50
 百度极速版签到任务，使用脚本有黑号严重，请谨慎使用‼️
 
 赞赏:百度极速邀请码`RW9ZSW 点击链接立得红包，最高100元！https://dwz.cn/Oilv4CJ1`,农妇山泉 -> 有点咸，万分感谢
@@ -16,10 +16,18 @@
 const $ = new Env('百度极速版')
 let CookieArr = [],cashArr=[];
 const notify = $.isNode() ? require('./sendNotify') : '';
-const baiducks = $.getdata(`cookie_baidu`);
+const baiducks = $.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`);
+let baiducash = $.getdata(`cash_baidu`);
+
 let taskON = $.getdata(`task_baidu`)||"true"//除提现和兑换外其他任务开关;
 let isblack = "false";
 let UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.24.0 matrixstyle/0 info baiduboxapp/5.1.6.10 (Baidu; P2 14.2)'
+
+
+if(!$.isNode()&&baiducks && baiducks.indexOf('&')==-1){
+  CookieArr.push(baiducks);
+    cashArr.push($.getdata("cash_baidu")||30)
+} else {
 if ($.isNode()) {
   if (process.env.BAIDU_COOKIE && process.env.BAIDU_COOKIE.indexOf('&') > -1) {
   BDCookie = process.env.BAIDU_COOKIE.split('&');
@@ -35,8 +43,13 @@ if ($.isNode()) {
  else if (process.env.BAIDU_CASH && process.env.BAIDU_CASH.indexOf('\n') > -1) {
   BDCASH = process.env.BAIDU_CASH.split('\n');
   } else {
-  BDCASH = process.env.BAIDU_CASH.split()
+  BDCASH = [process.env.BAIDU_CASH]
   }
+   console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`);
+} else if (!$.isNode()&&baiducks && baiducks.indexOf('&')>-1){
+  BDCookie = baiducks.split("&")
+  BDCASH = [baiducash]
+}
 
   Object.keys(BDCookie).forEach((item) => {
         if (BDCookie[item]) {
@@ -48,20 +61,8 @@ if ($.isNode()) {
           cashArr.push(BDCASH[item])
         } 
     })
-    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`);
-     console.log(`您共提供${CookieArr.length}个百度账号 Cookie`)
-     
-} else if(baiducks && baiducks.indexOf('&')>-1){
-     BDCookie = baiducks.split("&")
-     Object.keys(BDCookie).forEach((item) => {
-     if (BDCookie[item]) {
-          CookieArr.push(BDCookie[item])
-        } 
-    })
-} else {
-CookieArr.push($.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`));
-    cashArr.push($.getdata("cash_baidu")||30)
-}
+    console.log(`您共提供${CookieArr.length}个百度账号 Cookie`)
+ }
 
 !(async() =>{
   if (!CookieArr[0]) {
@@ -169,8 +170,12 @@ function userInfo() {
           availablecoin = get_pay.data.available_coin,
           enabledcoin = get_pay.data.enabled_coin,
           enabledmoney = get_pay.data.enabled_money,
-          yesterdaycoin = get_pay.data.yesterday_coin,
+          yesterdaycoin = get_pay.data.yesterday_coin;
+       if(CookieArr.length==1){
           username = $.getdata('baidu_nick') ? $.getdata('baidu_nick') : null;
+         } else {
+          username = "账号"+ $.index
+         }
           $.sub = " 昵称:" + username + " 现金:" + enabledmoney + "元 金币:" + availablecoin;
           $.log("\n********** 昵称:" + username + " 现金:" + enabledmoney + "元 **********\n");
           if (parseInt(enabledmoney) >= Number(withcash) && $.time("HH") == "06") {
@@ -210,7 +215,7 @@ function TaskCenter() {
     $.get(confApi('h5/vaultnew?productid=2&fromcsr=1&system=ios&_format=json'), async(error, resp, data) =>{
       try {
         let get_tasks = JSON.parse(data);
-       if(get_tasks.data.uname!=""){
+       if(get_tasks.data.uname!=""&&CookieArr.length==1){
         username = get_tasks.data.uname;
         $.setdata(username,'baidu_nick')
         }
@@ -534,79 +539,6 @@ function searchBox(id) {
             } finally {
                 resolve(coin)
             }
-        })
-    })
-}
-//缩减开宝箱时间
-function chestTime() {
-    return new Promise((resolve, reject) =>{
-        let timeurl = {
-            url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=chestTime&rewardVideoPkg=${Pkg}`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA,
-                Referer: RefererUrl
-            }
-        }
-        $.get(timeurl, (error, resp, data) =>{
-            //$.log(data) 
-          try {
-                let get_chest = JSON.parse(data); 
-                if (get_chest.errno == 11006) {
-                    $.log("开宝箱任务" + get_chest.errmsg)
-                } else if (get_chest.errno == 0) {
-                    $.log("开宝箱时间缩减" + get_chest.data.awardTime / 60 + "分钟")
-                } else if (get_chest.errno == 19001 && get_chest.data.originData.errno == 10074) {
-                    //$.desc += get_chest.data.originData.msg
-                    $.log("开宝箱任务ID:" + taskid + get_chest.data.originData.msg)
-                }
-            } catch(e) {
-                $.logErr(e + data);
-            } finally {
-                resolve()
-            }
-        })
-    })
-}
-
-//头部宝箱
-function headerBox() {
-    return new Promise((resolve, reject) =>{
-        let headerboxurl = {
-            url: `https://haokan.baidu.com/activity/acuserchest/openheader?productid=2&fromcsr=1`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA
-            }
-        }
-        $.get(headerboxurl, async(error, response, data) =>{
-            let hed_box = JSON.parse(data)
-            //$.log('headerbox: ' + data)
-            if (hed_box.errno == 0) {
-                $.desc += '【头部宝箱】: 总计金币' + hed_box.data.gameheader.coinInfo.coinCount
-            } else {
-                $.log('【头部宝箱】❎'+hed_box.msg)
-            }
-            resolve()
-        })
-    })
-}
-function doubleBox() {
-    return new Promise((resolve, reject) =>{
-        let douboxurl = {
-            url: `https://eopa.baidu.com/api/task/1/task/${taskid}/complete?rewardType=chestDouble&rewardVideoPkg=${Pkg}`,
-            headers: {
-                Cookie: cookieval,
-                'User-Agent': UA,
-                Referer: RefererUrl
-            }
-        }
-        $.get(douboxurl, (error, response, data) =>{
-            let get_doubox = JSON.parse(data);
-            if (get_doubox.errno == 0) {
-                $.desc += '开宝箱获得双倍收益: +' + get_doubox.data.awardCoin
-            }
-            resolve()
         })
     })
 }
