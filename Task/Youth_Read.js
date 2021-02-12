@@ -43,7 +43,9 @@ let ReadArr = [], YouthBody = "",readscore = 0;
     };
       if (process.env.YOUTH_TIME){
         timebodyVal = process.env.YOUTH_TIME;
+      if((new Date().getTime()-$.startTime)&60000==0){
         await readTime()
+      }
     };
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore}个青豆，阅读请求全部结束`)
