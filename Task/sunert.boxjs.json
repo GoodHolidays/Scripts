@@ -23,10 +23,9 @@
     {
       "author" : "@sunert",
       "keys" : [
-        "zq_nick",
+        "zq_nick",  
         "youthheader_zq",
         "read_zq",
-        "red_zq",
         "readtime_zq",
         "cashurl_zq",
         "cashbody_zq",
