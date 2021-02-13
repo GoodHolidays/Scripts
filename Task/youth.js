@@ -175,7 +175,7 @@ function TaskCenter() {
             if (dailys.title == "打卡赚钱" && ONCard == "true") {
               if (dailys.status == "0") {
                 await punchCard()
-              } else if (dailys.status == "1" && $.time("HH") == "05") {
+              } else if (dailys.status == "1" && $.time("HH") == "05"||$.time("HH") == "13") {
                 await endCard()
               }
             }
