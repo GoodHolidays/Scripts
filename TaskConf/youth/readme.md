@@ -73,10 +73,10 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json url script-request-body h
 1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, enabled=true, tag=中青看点
 ```
 ###  获取Cookie方法
-  * 打开极速版APP，进去个人中心，或者签到一次，提示获取Cookie
+  * 打开极速版APP，进去个人中心，提示获取Cookie
   - 浏览一篇短文，等待倒计时结束，提示获取阅读请求
-  * 多阅读几篇短文，随机获取阅读时长请求
-  - 正常提现一次，获取提现请求(可选)
+  * 多阅读几篇短文，随机获取阅读时长请求(至少1分钟左右)
+  - 正常提现一次，获取提现请求(可选，AC无添加)
   
  >>> [回到顶部](#IOS配置教程)
 
@@ -106,8 +106,9 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json url script-request-body h
  >>> [回到上一页](..)
  
 ### 注意事项:
- > __提现金额需该请求一致，只更改提现金额无效，默认30元__
-
+ - __提现金额需该请求一致，只更改提现金额无效，默认30元__
+ 
+ * __惊喜红包已下架，现所有请求均采用IOS新版APP任务__
 
 
 
