@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-13 22:00
+更新时间: 2021-02-14 08:25
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行
@@ -158,11 +158,8 @@ function TaskCenter() {
               $.log(dailys.title + "，" + dailys.but + "，已领取青豆" + dailys.score)
               detail += `【${dailys.title}】✅  ${dailys.score}青豆\n`
             };
-            if (dailys.title == "打卡赚钱" && ONCard == "true") {
-           //$.log(JSON.stringify(dailys))
-              if (dailys.status == "0"&&$.time("HH") > "22") {
-                await CardStatus()
-              } 
+            if (dailys.title=="打卡赚钱"&&dailys.status == "0"&&ONCard == "true") {
+             await CardStatus()
             }
             if (dailys.id == "7" && dailys.status == "0") {
               await readTime();
@@ -193,7 +190,6 @@ function getAction(acttype) {
    return new Promise((resolve, reject) =>{
         $.get(kdHost(`WebApi/NewTaskIos/sendTwentyScore?action=${acttype}`), (error, resp, data) =>{
             let actres = JSON.parse(data);
-            //$.log(formatJson(data));
             if (actres.status == 1) {
                 $.log("获得青豆" + actres.score)
             } else if (actres.status == 0) {
@@ -208,7 +204,6 @@ function getsign() {
     return new Promise((resolve, reject) =>{
         $.post(kdHost('WebApi/NewTaskIos/sign'), async(error, resp, data) =>{
             signres = JSON.parse(data);
-            //$.log(formatJson(data));
             if (signres.status == 2) {
                 sub = `签到失败，Cookie已失效‼️`;
                 $.msg($.name, sub, "");
@@ -226,7 +221,6 @@ function userInfo() {
     return new Promise((resolve, reject) => {
         $.post(kdHost('WebApi/NewTaskIos/getSign'), async(error, resp, data) => {
             signinfo = JSON.parse(data);
-          //$.log(formatJson(data))
             if (signinfo.status == 1) {
                 cash = signinfo.data.user.money;
                 signday = signinfo.data.sign_day;
@@ -263,7 +257,7 @@ function withDraw() {
             },
             body: withdrawBody,
         }
-        $.post(url, (error, response, data) => {
+        $.post(url, (error, resp, data) => {
             withDrawres = JSON.parse(data)
             if (withDrawres.error_code == 0) {
               detail += `【自动提现】提现${withdrawcash}元成功\n`
@@ -277,48 +271,48 @@ function withDraw() {
     })
 }
 
-
-
 function CardStatus() {
-    return new Promise((resolve, reject) => {
-       $.get(kdHost('WebApi/PunchCard/getMainData?&'+cookie), async(error, response, data) => {
-            punchcard = JSON.parse(data);
-            if (punchcard.code == 1&&punchcard.data.user.status ==0) {
-              await punchCard()
-            } else if(punchcard.code == 1&&punchcard.data.user.status ==1){
-          $.log("每日打卡已报名，请设置早晨5点运行打卡")
-              detail += `【打卡报名】🔔 已报名 待明早5点打卡\n`
-          if($.time("HH")=="05"){
-             await endCard()
-            }
-          }
-         resolve();
-       })
+  return new Promise((resolve, reject) =>{
+    $.get(kdHost('WebApi/PunchCard/getMainData?&' + cookie), async(error, resp, data) =>{
+      punchcard = JSON.parse(data);
+      if (punchcard.code == 1) {
+        if (punchcard.data.user.status == 0 && $.time("HH") > "22") {
+          await punchCard()
+        } else if (punchcard.data.user.status == 1) {
+          $.log("每日打卡已报名，请设置早晨5点运行打卡");
+          detail += `【打卡报名】🔔已报名待明早5点打卡\n`
+        } else if (punchcard.data.user.status == 3) {
+          $.log("打卡时间已到，去打卡");
+          await endCard()
+        }
+      } else if (punchcard.code == 0) {
+        $.log("打卡申请失败" + data)
+      }
+      resolve();
     })
+  })
 }
 
 function punchCard() {
-    return new Promise((resolve, reject) => {
-        $.post(kdHost('WebApi/PunchCard/signUp'), (error, response, data) => {
-            punchcardstart = JSON.parse(data);
-            if (punchcardstart.code == 1) {
-                detail += `【打卡报名】打卡报名${punchcardstart.msg} ✅ \n`;
-                $.log("每日报名打卡成功，报名时间:"+`${$.time('MM-dd HH:mm')}`)
-            }
-          else {
-            detail += `【打卡报名】🔔${punchcardstart.msg}\n`
-          // $.log(punchcardstart.msg)
-          }
-         resolve();
-       })
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/PunchCard/signUp'), (error, response, data) =>{
+      punchcardstart = JSON.parse(data);
+      if (punchcardstart.code == 1) {
+        detail += `【打卡报名】打卡报名${punchcardstart.msg}✅\n`;
+        $.log("每日报名打卡成功，报名时间:" + `${$.time('MM-dd HH:mm')}`)
+      } else {
+        detail += `【打卡报名】🔔${punchcardstart.msg}\n`
+        // $.log(punchcardstart.msg)
+      }
+      resolve();
     })
+  })
 }
 
 //结束打卡
 function endCard() {
   return new Promise((resolve, reject) =>{
-    setTimeout(() =>{
-      $.post(kdHost('WebApi/PunchCard/doCard?'), async(error, response, data) =>{
+      $.post(kdHost('WebApi/PunchCard/doCard?'), async(error, resp, data) =>{
         punchcardend = JSON.parse(data);
         if (punchcardend.code == 1) {
           detail += `【早起打卡】${punchcardend.data.card_time}${punchcardend.msg}✅\n`;
@@ -332,20 +326,21 @@ function endCard() {
         }
         resolve()
       })
-    },s)
   })
 }
 //打卡分享
 function Cardshare() {
   return new Promise((resolve, reject) =>{
-    $.post(kdHost('WebApi/PunchCard/shareStart?'), (error, response, data) =>{
+    $.post(kdHost('WebApi/PunchCard/shareStart?'), async(error, resp, data) =>{
       sharestart = JSON.parse(data);
       //detail += `【打卡分享】${sharestart.msg}\n`
       if (sharestart.code == 1) {
+        $.log("等待2s，去打卡分享")
+        await $.wait(2000);
         $.post(kdHost('WebApi/PunchCard/shareEnd?'), (error, response, data) =>{
           shareres = JSON.parse(data);
           if (shareres.code == 1) {
-            detail += ` + ${shareres.data.score}青豆\n`
+            detail += ` +${shareres.data.score}青豆\n`
           } else {
             //detail += `【打卡分享】${shareres.msg}\n`
             //$.log(`${shareres.msg}`)
@@ -443,7 +438,7 @@ function getAdVideo() {
     $.post(kdHost('taskCenter/getAdVideoReward','type=taskCenter'), (error, resp, data) =>{
       let adVideores = JSON.parse(data);
       if (adVideores.status == 1) {
-        detail += `【观看视频】 + ${adVideores.score}个青豆\n`;
+        detail += `【观看视频】 +${adVideores.score}个青豆\n`;
         $.log("观看视频广告" + adVideores.num + "次 +" + adVideores.score + "青豆")
       }
       resolve()
