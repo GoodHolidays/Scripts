@@ -8,7 +8,7 @@
 ### IOS配置教程
  ```
 [MITM]
-hostname = api.weibo.cn
+hostname = api.weibo.cn, m.weibo.cn
  ```
 #### Surge:
 * [模块地址](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/surge.sgmodule)
@@ -24,6 +24,7 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/surge.sgmo
 
 # 获取微博 Cookie.
 微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+微博签到 = type=http-request,pattern=https:\/\/m\.weibo\.cn\/c\/checkin\/getcashdetail,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 ```
 #### Shadowrocket(Cron配置): 
 
@@ -45,6 +46,7 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/loon.plugi
 cron "4 0 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
 
 http-request https:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
+http-request https:\/\/m\.weibo\.cn\/c\/checkin\/getcashdetail script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
 ```
 #### Quantumult X:
    * [远程重写配置](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/txnews/qx_rewite.txt)
@@ -58,6 +60,7 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.
 ```
 [rewrite_local]
 https:\/\/api\.weibo\.cn\/\d\/users\/show url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+https:\/\/m\.weibo\.cn\/c\/checkin\/getcashdetail url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 ```
    * 本地任务配置
    

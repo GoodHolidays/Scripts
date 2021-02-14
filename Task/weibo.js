@@ -10,7 +10,9 @@
 const $ = new Env('新浪微博')
 const notify = $.isNode() ? require('./sendNotify') : '';
 let tokenArr = [];
-let wbtoken = $.getdata('sy_token_wb')
+let wbtoken = $.getdata('sy_token_wb');
+let cookies = $.getdata('wb_cookie');
+let signcash = "", cookieArr=[];
 
 if (isGetCookie = typeof $request !==`undefined`) {
    GetCookie();
@@ -18,7 +20,8 @@ if (isGetCookie = typeof $request !==`undefined`) {
 } 
 
 if(!$.isNode()&&wbtoken.indexOf("#")==-1){
-    tokenArr.push(wbtoken)
+    tokenArr.push(wbtoken);
+    cookieArr.push(cookies)
 }  else {
 if ($.isNode()) {
   if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('#') > -1) {
@@ -33,11 +36,17 @@ if ($.isNode()) {
   };
     console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
 } else if (!$.isNode()&&wbtoken.indexOf("#")>-1) {
-   wbtoken = wbtoken.split("#")
+   wbtoken = wbtoken.split("#");
+   cookies = cookies.split("#")
 }
   Object.keys(wbtoken).forEach((item) => {
         if (wbtoken[item]) {
           tokenArr.push(wbtoken[item])
+        }
+    });
+   Object.keys(cookies).forEach((item) => {
+        if (cookies[item]) {
+          cookieArr.push(cookies[item])
         }
     });
 }
@@ -50,6 +59,7 @@ if ($.isNode()) {
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       token = tokenArr[i];
+      cookie = cookieArr[i]
       $.index = i + 1;
       console.log(`\n开始【微博签到${$.index}】`)
      if(token.indexOf("from")==-1){
@@ -85,6 +95,23 @@ function GetCookie() {
     }
     $.msg($.name, `获取微博签到Cookie: 成功`, ``)
   }
+else if ($request && $request.method != 'OPTIONS' && $request.headers.Cookie.indexOf("SUB=") > -1) {
+    const cookieval = $request.url;
+    if (cookies) {
+      if (cookies.indexOf(cookieval) > -1) {
+        $.log("此账号Cookie已存在，本次跳过")
+      } else if (cookies.indexOf(cookieval) == -1) {
+        tokens = cookies + "#" + cookieval;
+        $.setdata(tokens, 'wb_cookie');
+        $.log(`cookie: ${tokens}`);
+        $.msg($.name, `获取微博用户Cookie: 成功`, ``)
+      }
+    } else {
+      $.setdata(cookieval, 'wb_cookie');
+      $.log(`cookies: ${cookieval}`);
+      $.msg($.name, `获取微博用户Cookie: 成功`, ``)
+    }
+  }
 }
 //微博签到
 function getsign() {
@@ -98,12 +125,14 @@ function getsign() {
          wbsign = `【微博签到】✅ 连续签到${result.data.continuous}天，收益: ${result.data.desc}💰\n`  
          }  
      else if (result.errno == 30000){
-         wbsign = `【每日签到】 🔁  `
+         wbsign = `【每日签到】 🔁 已签到\n`
+         if(cookie){
+         await getcash()
+        }
        }
      else if (result.status == 90005){
          wbsign = `【每日签到】‼️`+ result.msg + '\n'
-       }
-     else {
+       } else {
          wbsign = `【每日签到】 ❌ 签到失败`+result.errmsg
          $.msg($.name, wbsign, ``)
        if ($.isNode()) {
@@ -114,6 +143,25 @@ function getsign() {
     })
   })
 }
+
+function getcash() {
+ return new Promise((resolve, reject) =>{
+   let url =  {
+      url: `https://m.weibo.cn/c/checkin/getcashdetail`,
+      headers: {"User-Agent": `Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Weibo (iPhone10,2__weibo__11.2.1__iphone__os14.5)`,
+      Cookie: cookie
+     }
+   }
+   $.get(url, async(error, resp, data) => {
+      let cashres = JSON.parse(data)
+      if(cashres.apiCode==10000){
+        signcash = " " + cashres.data.header[0].title+cashres.data.header[0].value+"元"
+      }
+      resolve()
+     })
+  })
+}
+
 
 function doCard() {
   return new Promise((resolve, reject) =>{
@@ -144,33 +192,53 @@ function doCard() {
 // 钱包签到
 function paysign() {
  return new Promise((resolve, reject) =>{
-   $.post({
-      url: `https://pay.sc.weibo.com/aj/mobile/home/welfare/signin/do?_=${$.startTime+10}&${token}`,
-      headers:{
-        'Accept-Encoding': 'gzip, deflate',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Host': 'pay.sc.weibo.com',
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Weibo (iPhone10,1__weibo__11.2.1__iphone__os14.5)'
-       }
-     }, (error, resp, data) => {
+   $.post(payApi('aj/mobile/home/welfare/signin/do?_='+$.startTime+10), async(error, resp, data) => {
      let result = JSON.parse(data)
      if (result.status == 1){
           paybag = `【微博钱包】 ✅ +`+ result.score+' 分\n'
          }  
      else if (result.status == '2'){
-          paybag = `【微博钱包】 🔁\n`
+          paybag = `【微博钱包】 🔁 `
+          await payinfo()
          }
       else {
           paybag = `【钱包签到】❌ Cookie失效`+'\n'
         }
        resolve()
+
      })
   })
 }
+
+function payApi(api) {
+ return {
+  url: 'https://pay.sc.weibo.com/'+api,
+  headers:{
+        'Accept-Encoding': 'gzip, deflate',
+        'Connection': 'keep-alive',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Host': 'pay.sc.weibo.com',
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Weibo (iPhone10,1__weibo__11.2.1__iphone__os14.5)'
+       },
+      body: token+'&lang=zh_CN&wm=3333_2001'
+   }
+}
+
+function payinfo() {
+ return new Promise((resolve, reject) =>{
+   $.post(payApi('api/client/sdk/app/balance'), (error, resp, data) => {
+     let paynum = JSON.parse(data)
+     if (paynum.code == 100000){
+          paybag += '现金:'+ paynum.data.balance+' 元\n'
+         }  
+       resolve()
+     })
+  })
+}
+
 async function showmsg() {
  if (paybag) {
-    $.msg($.name, nickname, wbsign+paybag+docard);
+    $.msg($.name, nickname+(signcash?signcash:""), wbsign+paybag+docard);
   if ($.isNode()) {
        await notify.sendNotify($.name, nickname+'\n'+ wbsign+paybag+docard)
      }

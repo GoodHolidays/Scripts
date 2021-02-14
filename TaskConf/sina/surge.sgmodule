@@ -8,6 +8,7 @@
 # 获取微博 Cookie.
 微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
+微博签到 = type=http-request,pattern=https:\/\/m\.weibo\.cn\/c\/checkin\/getcashdetail,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
 
 [MITM]
-hostname = %APPEND% api.weibo.cn
+hostname = %APPEND% api.weibo.cn, m.weibo.cn
