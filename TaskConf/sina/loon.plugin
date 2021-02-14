@@ -5,7 +5,7 @@ cron "4 0 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/ma
 
 http-request https:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
 
-http-request https:\/\/m\.weibo\.cn\/c\/checkin\/getcashdetail script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
+http-request https:\/\/m\.weibo\.cn\/c\/checkin\/ug\/v2\/signin\/module\?module script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
 
 
 [MITM]

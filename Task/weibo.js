@@ -88,12 +88,13 @@ function GetCookie() {
         tokens = wbtoken + "#" + token;
         $.setdata(tokens, 'sy_token_wb');
         $.log(`tokens: ${tokens}`)
+        $.msg($.name, `获取微博签到Cookie: 成功`, ``)
       }
     } else {
       $.setdata(token, 'sy_token_wb');
       $.log(`tokens: ${token}`)
+      $.msg($.name, `获取微博签到Cookie: 成功`, ``)
     }
-    $.msg($.name, `获取微博签到Cookie: 成功`, ``)
   }
 else if ($request && $request.method != 'OPTIONS' && $request.headers.Cookie.indexOf("SUB=") > -1) {
     const cookieval = $request.headers.Cookie.match(/SUB=[\w\-]+/);
