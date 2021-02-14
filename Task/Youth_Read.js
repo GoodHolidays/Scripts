@@ -38,13 +38,13 @@ var lastClick = Date.now()-60000;
   for (let i = 0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
-      $.index = i + 1;
-      console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
+       $.index = i + 1;
+    console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
       await AutoRead();
     };
       if (process.env.YOUTH_TIME){
         timebodyVal = process.env.YOUTH_TIME;
-      if(Date.now() - lastClick >=60000){
+      if($.index%2==0){
         await readTime()
       }
     };
