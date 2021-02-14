@@ -44,6 +44,13 @@
           "desc" : "每日打卡报名及早起打卡"
         },
         {
+          "id" : "zqtime",
+          "val" : "05",
+          "name" : "打卡时间",
+          "type" : "number",
+          "desc" : "每日早起打卡时间"
+        },
+        {
           "id" : "notifytimes",
           "val" : "",
           "name" : "通知频率 (点击查看设置说明)",
@@ -88,6 +95,21 @@
       "id" : "youthGain",
       "script" : "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js",
       "name" : "中青浏览赚",
+      "icons" : [
+        "https://raw.githubusercontent.com/Orz-3/mini/master/youth.png",
+        "https://raw.githubusercontent.com/Orz-3/task/master/youth.png"
+      ]
+    },
+    {
+      "author" : "@sunert",
+      "keys" : [
+        "youth_autoread",
+        "autotime_zq"
+      ],
+      "repo" : "https://github.com/Sunert/Scripts/blob/master/Task/Youth_Read.js",
+      "id" : "youthRead",
+      "script" : "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/Youth_Read.js",
+      "name" : "中青自动阅读",
       "icons" : [
         "https://raw.githubusercontent.com/Orz-3/mini/master/youth.png",
         "https://raw.githubusercontent.com/Orz-3/task/master/youth.png"
