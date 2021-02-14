@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-10 14:25
+更新时间: 2021-02-14 20:20
 
 本脚本仅适用于微博每日签到，支持多账号运行  
 
@@ -52,6 +52,9 @@ if ($.isNode()) {
       token = tokenArr[i];
       $.index = i + 1;
       console.log(`\n开始【微博签到${$.index}】`)
+     if(token.indexOf("from")==-1){
+       token += "from=10B2193010&"  
+     }
       await getsign();
       await doCard();
       await paysign()
@@ -66,7 +69,7 @@ if ($.isNode()) {
 function GetCookie() {
   if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=") > -1) {
     const signurlVal = $request.url;
-    let token = signurlVal.replace(/(.+)(uid=\d+)(.+)(&gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)/,'$2$4$6'),
+    let token = signurlVal.replace(/(.+)(from=\w+)(.+)(&uid=\d+)(.+)(&gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)/,'$2$4$6$8'),
     uid = token.match(/uid=\d+/);
     if (wbtoken) {
       if (wbtoken.indexOf(uid) > -1) {
@@ -87,7 +90,7 @@ function GetCookie() {
 function getsign() {
   return new Promise((resolve, reject) =>{
    let signurl =  {
-      url: `https://api.weibo.cn/2/checkin/add?from=10B2193010&c=iphone&${token}`,
+      url: `https://api.weibo.cn/2/checkin/add?c=iphone&${token}`,
       headers: {"User-Agent": `Weibo/52021 (iPhone; iOS 14.5; Scale/3.00)`}}
      $.get(signurl, async(error, resp, data) => {
      let result = JSON.parse(data)
@@ -115,7 +118,7 @@ function getsign() {
 function doCard() {
   return new Promise((resolve, reject) =>{
    let doCardurl =  {
-      url: `https://api.weibo.cn/2/!/ug/king_act_home?from=10B2193010&c=iphone&${token}`,
+      url: `https://api.weibo.cn/2/!/ug/king_act_home?c=iphone&${token}`,
       headers: {"User-Agent": `Weibo/52021 (iPhone; iOS 14.5; Scale/3.00)`}}
   $.get(doCardurl, (error, resp, data) => {
 //$.log(data)
