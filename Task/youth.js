@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-14 08:25
+更新时间: 2021-02-14 09:20
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行
@@ -12,14 +12,22 @@ let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖�
 const notify = $.isNode() ? require('./sendNotify') : '';
 const ONCard = $.getdata('zqcard')||"false" //早起打卡开关
 const withdrawcash = $.getdata('zqcash')||30 //提现金额
-let withdrawUrl =$.getdata('cashurl_zq')
-let withdrawBody =$.getdata('cashbody_zq')
+let withdrawUrl = $.getdata('cashurl_zq');
+let withdrawBody = $.getdata('cashbody_zq');
+let cookieYouth = $.getdata('youthheader_zq');
+let ARTBODYs = $.getdata('read_zq');
+let READTIME = $.getdata('readtime_zq');
 let rotaryscore=0,doublerotary=0; 
 
 let cookieArr = [], cookie = '',
     readArr = [], articlebodyVal ='',
     timeArr = [], timebodyVal = '',
     detail = ``, subTitle = ``;
+if(!$.isNode()&&cookieYouth.indexOf("#") ==-1){
+ cookieArr.push($.getdata('youthheader_zq'));
+    readArr.push($.getdata('read_zq'));
+    timeArr.push($.getdata('readtime_zq'))
+} else {
     if($.isNode()){
     if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.indexOf('#') > -1) {
         cookieYouth = process.env.YOUTH_HEADER.split('#');
@@ -41,8 +49,13 @@ let cookieArr = [], cookie = '',
         READTIME = process.env.YOUTH_TIME.split('\n');
     } else {
         READTIME = [process.env.YOUTH_TIME]
-    };
-
+    }
+    console.log(` ============脚本执行 - 北京时间 (UTC + 8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`);
+ } else if(!$.isNode()&&cookieYouth.indexOf("#")>-1){
+   cookieYouth = cookieYouth.split("#")
+   ARTBODYs = ARTBODYs.split("&")
+   READTIME = READTIME.split("&")
+};
     Object.keys(cookieYouth).forEach((item) =>{
         if (cookieYouth[item]) {
         cookieArr.push(cookieYouth[item])
@@ -58,12 +71,7 @@ let cookieArr = [], cookie = '',
             timeArr.push(READTIME[item])
         }
     });
-    console.log(` ============您共提供${cookieArr.length}个中青账号 =============\n`);
-    console.log(` ============脚本执行 - 北京时间 (UTC + 8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`);
-     } else if(!$.isNode()){
-cookieArr.push($.getdata('youthheader_zq'));
-    readArr.push($.getdata('read_zq'));
-    timeArr.push($.getdata('readtime_zq'))
+ console.log(` ============= 您共提供${cookieArr.length}个中青账号 =============`);
 }
 if (isGetCookie = typeof $request !== 'undefined') {
    GetCookie();
@@ -81,10 +89,10 @@ if (isGetCookie = typeof $request !== 'undefined') {
       articlebodyVal = readArr[i];
       timebodyVal = timeArr[i];
       $.index = i + 1;
-      console.log(`-------------------------\n\n开始【中青看点${$.index}】`)
     };
     myuid = cookie.match(/uid=\d+/);
     await userInfo();
+    $.log(`\n********** ${nick} 现金收益: ${cash}元 ********\n`);
     await kdHost();
     await friendsign();
     await TaskCenter() 
@@ -227,7 +235,11 @@ function userInfo() {
                 totalscore = signinfo.data.user.score
                 subTitle = `【收益总计】${totalscore}青豆  现金约${cash}元`;
                 nick = `账号: ${signinfo.data.user.nickname}`;
+               if(cookieArr.length ==1){
                 $.setdata(nick,"zq_nick")
+               } else {
+                $.setdata("账号"+cookieArr.length+"合一","zq_nick")
+               }
                 if(parseInt(cash) >= withdrawcash && !withdrawBody == false){
                 await withDraw()
                };
@@ -514,7 +526,7 @@ function readArticle() {
            readres = JSON.parse(data);
      if (data.indexOf('read_score')>-1&&readres.items.read_score!=0)  {
               detail += `【阅读奖励】+${readres.items.read_score}个青豆\n`;
-             $.log(`阅读奖励 +${readres.items.read_score}个青豆\n`)
+              $.log(`阅读奖励 +${readres.items.read_score}个青豆`)
             } 
     else if (readres.items.max_notice == '看太久了，换1篇试试') {
               //detail += `【阅读奖励】看太久了，换1篇试试\n`;
