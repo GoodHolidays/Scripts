@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-14 14:00
+更新时间: 2021-02-14 16:50
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行
@@ -17,6 +17,7 @@ let withdrawBody = $.getdata('cashbody_zq');
 let cookieYouth = $.getdata('youthheader_zq');
 let ARTBODYs = $.getdata('read_zq');
 let READTIME = $.getdata('readtime_zq');
+let cardTime = $.getdata('zqtime')||"05";//打卡时间
 let rotaryscore=0,doublerotary=0; 
 
 let cookieArr = [], cookie = '',
@@ -291,9 +292,9 @@ function CardStatus() {
         if (punchcard.data.user.status == 0 && $.time("HH") > "22") {
           await punchCard()
         } else if (punchcard.data.user.status == 1) {
-          $.log("每日打卡已报名，请设置早晨5点运行打卡");
-          detail += `【打卡报名】🔔已报名待明早5点打卡\n`
-        } else if (punchcard.data.user.status == 3) {
+           $.log("每日打卡已报名，请每天早晨"+cardTime+"点运行打卡");
+          detail += `【打卡报名】🔔 待明早${cardTime}点打卡\n`
+        } else if (punchcard.data.user.status == 3&&$.time("HH")==cardTime) {
           $.log("打卡时间已到，去打卡");
           await endCard()
         }
