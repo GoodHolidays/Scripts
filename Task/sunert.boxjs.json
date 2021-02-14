@@ -9,6 +9,7 @@
       "author" : "@sunert",
       "keys" : [
         "sy_token_wb",
+        "wb_cookie",
         "wb_nick"
       ],
       "repo" : "https://github.com/Sunert/Scripts/blob/master/Task/weibo.js",
