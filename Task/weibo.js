@@ -96,7 +96,7 @@ function GetCookie() {
     $.msg($.name, `获取微博签到Cookie: 成功`, ``)
   }
 else if ($request && $request.method != 'OPTIONS' && $request.headers.Cookie.indexOf("SUB=") > -1) {
-    const cookieval = $$request.headers.Cookie.match(/SUB=[\w\-]+/);
+    const cookieval = $request.headers.Cookie.match(/SUB=[\w\-]+/);
     if (cookies) {
       if (cookies.indexOf(cookieval) > -1) {
         $.log("此账号Cookie已存在，本次跳过")
