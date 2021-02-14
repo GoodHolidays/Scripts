@@ -7,15 +7,15 @@
 
 ### 一、本仓库重写配置集
   * Surge
-    * [Cookie]()
-    * [任务模块]()
+    * [Cookie](https://raw.githubusercontent.com/Sunert/Profiles/master/Surge/Modules/Sunert_Cookie.sgmodule)
+    * [任务模块](https://raw.githubusercontent.com/Sunert/Profiles/master/Surge/Modules/Sunert_Task.sgmodule)
       <br> </br>
   * Loon
-    * [Cookie]()
-    * [任务模块]()
+    * [Cookie](https://raw.githubusercontent.com/Sunert/Profiles/master/Loon/Sunet_Cookie.plugin)
+    * [任务插件](https://raw.githubusercontent.com/Sunert/Profiles/master/Loon/Sunert_Task.plugin)
       <br> </br>
   * Quantumult X
-    * [Cookie]()
+    * [Cookie](https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rewrite/Sunert_Cookie.conf)
     * [任务仓库](https://raw.githubusercontent.com/Sunert/Scripts/master/Task/Sunert_Task.json)
     
 ### 二、[Boxjs订阅](https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sunert.boxjs.json)
@@ -36,11 +36,11 @@ https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sunert.boxjs.json
         <br> </br>
  * 百度极速
     * [任务配置](https://github.com/Sunert/Scripts/tree/master/TaskConf/baidu)
-    * [脚本地址](https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baiduspeed.js) 
+    * [脚本地址](https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baidu_speed.js) 
         <br> </br>
  * 聚看点
     * [任务配置](https://github.com/Sunert/Scripts/tree/master/TaskConf/jukan)
-    * [脚本地址](https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jkd.js) 
+    * [脚本地址](https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jukan.js) 
         <br> </br>
  * 电视家
     * [任务配置](https://github.com/Sunert/Scripts/tree/master/TaskConf/dianshijia)
