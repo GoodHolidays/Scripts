@@ -31,12 +31,12 @@ const cnToenUrl = {url: "http://translate.google.cn/translate_a/single?client=gt
 const enTocnUrl = {url: "http://translate.google.cn/translate_a/single?client=gtx&sl=auto&tl=zh-CN&dt=t&q="+setword};
 
 !(async() => {
-if (/[^a-zA-Z.,]+$/.test(ENword)){
+if (/[a-zA-Z.,]+$/.test(ENword)){
   await ENWORD()
 }
-if (/[^\u4e00-\u9fa5]+$/.test(ENword))
+if (/[\u4e00-\u9fa5]+$/.test(ENword))
   {
-  await ENWORD()
+  await CNWORD()
   }
 })()
     .catch((e) => $.logErr(e))
