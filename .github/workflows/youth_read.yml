@@ -58,5 +58,5 @@ jobs:
         run: |
           node Task/Youth_Read.js
         env:
-          YOUTH_READ: ${{ secrets.YOUTH_AREAD4 }}
+          YOUTH_READ: ${{ secrets.YOUTH_READ4 }}
           YOUTH_ATIME: ${{ secrets.YOUTH_ATIME4 }}
