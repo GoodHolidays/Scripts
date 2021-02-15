@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-14 15:59
+更新时间: 2021-02-15 10:29
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -58,14 +58,6 @@ if(!$.isNode()&&!YouthBody==true){
     console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
       await AutoRead();
     };
-    if($.index%2==0){
-      if ($.isNode()&&process.env.YOUTH_ATIME){
-        timebodyVal = process.env.YOUTH_ATIME;
-      } else {
-       timebodyVal = $.getdata('autotime_zq');
-      }
-       await readTime()
-    };
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore}个青豆，阅读请求全部结束`)
 })()
@@ -74,28 +66,33 @@ if(!$.isNode()&&!YouthBody==true){
 
 
 function AutoRead() {
-    return new Promise((resolve, reject) => {
-        $.post(batHost('article/complete.json',articlebody), async(error, response, data) => {
-           let readres = JSON.parse(data);
-             //console.log(data)
-           if (readres.error_code == '0' && data.indexOf("read_score")>-1 && readres.items.read_score > 0) {
-              console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
-              readscore += readres.items.read_score;
-              await $.wait(30000);
-            }
-            else if(readres.error_code == '0' && data.indexOf("read_score")>-1 && readres.items.read_score == 0) {
-              console.log(`\n本次阅读获得${readres.items.score}个青豆，即将开始下次阅读\n`)
-              await $.wait(5000);
-            }
-            else if (readres.success == false){
-              console.log(`第${$.index}次阅读请求有误，请删除此请求`)
-            }
-            else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {     
-              console.log(readres.items.max_notice)
-            }
-          resolve()
-        })
+  return new Promise((resolve, reject) =>{
+    $.post(batHost('article/complete.json', articlebody), async(error, response, data) =>{
+      let readres = JSON.parse(data);
+      //console.log(data)
+      if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
+        console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
+        readscore += readres.items.read_score;
+        if ($.index % 2 == 0) {
+          if ($.isNode() && process.env.YOUTH_ATIME) {
+            timebodyVal = process.env.YOUTH_ATIME;
+          } else {
+            timebodyVal = $.getdata('autotime_zq');
+          }
+          await readTime()
+        };
+        await $.wait(30000);
+      } else if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score == 0) {
+        console.log(`\n本次阅读获得0个青豆，等待2s即将开始下次阅读\n`);
+        await $.wait(2000);
+      } else if (readres.success == false) {
+        console.log(`第${$.index}次阅读请求有误，请删除此请求`)
+      } else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
+        console.log(readres.items.max_notice)
+      }
+      resolve()
     })
+  })
 }
 
 function batHost(api, body) {
