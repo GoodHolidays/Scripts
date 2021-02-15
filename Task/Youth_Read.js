@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-15 16:29
+更新时间: 2021-02-15 16:40
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -11,7 +11,7 @@ Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk030
 const $ = new Env("中青看点阅读")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], timebodyVal ="";
-let YouthBody = $.getdata('youth_autoread');
+let YouthBody = $.getdata('youth_autoread')||$.getdata("zqgetbody_body");
 let artsnum = 0, videosnum = 0;
 let videoscore = 0,readscore = 0;
 if (isGetbody = typeof $request !==`undefined`) {
@@ -39,8 +39,6 @@ if(!$.isNode()&&!YouthBody==true){
 
   } else if (!$.isNode() && YouthBody.indexOf("&") > -1) {
     YouthBody = YouthBody.split("&")
-  } else if (!$.isNode() && $.getdata("zqgetbody_body").indexOf("&") > -1) {
-    YouthBody = $.getdata("zqgetbody_body").split("&")
   };
   Object.keys(YouthBody).forEach((item) =>{
     if (YouthBody[item]) {
