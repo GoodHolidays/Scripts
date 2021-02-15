@@ -10,9 +10,10 @@ Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk030
 
 const $ = new Env("中青看点阅读")
 //const notify = $.isNode() ? require('./sendNotify') : '';
-let ReadArr = [], readscore = 0;
+let ReadArr = [], timebodyVal ="";
 let YouthBody = $.getdata('youth_autoread');
-
+let artsnum = 0, videosnum = 0;
+let videoscore = 0,readscore = 0;
 if (isGetbody = typeof $request !==`undefined`) {
    Getbody();
    $done()
@@ -60,7 +61,8 @@ if(!$.isNode()&&!YouthBody==true){
       await AutoRead();
     };
  }
-   console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore}个青豆，阅读请求全部结束`)
+   $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n")
+   console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -73,7 +75,15 @@ function AutoRead() {
       console.log(JSON.stringify(readres,null,2))
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
         console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
-        readscore += readres.items.read_score;
+        if(data.indexOf("ctype")>-1){
+         if(readres.items.ctype==0){
+          artsnum += 1
+          readscore += readres.items.read_score;
+         } else if(readres.items.ctype==3){
+          videosnum += 1
+          videoscore += readres.items.read_score;
+         } 
+        }
         if ($.index % 2 == 0) {
           if ($.isNode() && process.env.YOUTH_ATIME) {
             timebodyVal = process.env.YOUTH_ATIME;
