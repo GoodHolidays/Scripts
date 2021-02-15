@@ -78,14 +78,14 @@ function AutoRead() {
         $.post(batHost('article/complete.json',articlebody), async(error, response, data) => {
            let readres = JSON.parse(data);
              //console.log(data)
-           if (readres.error_code == '0' && typeof readres.items.read_score === 'number') {
+           if (readres.error_code == '0' && data.indexOf("read_score")>-1 && readres.items.read_score > 0) {
               console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
               readscore += readres.items.read_score;
               await $.wait(30000);
             }
-            else if (readres.error_code == '0' && typeof readres.items.score === 'number') {
+            else if(readres.error_code == '0' && data.indexOf("read_score")>-1 && readres.items.read_score == 0) {
               console.log(`\n本次阅读获得${readres.items.score}个青豆，即将开始下次阅读\n`)
-              readscore += readres.items.score
+              await $.wait(5000);
             }
             else if (readres.success == false){
               console.log(`第${$.index}次阅读请求有误，请删除此请求`)
