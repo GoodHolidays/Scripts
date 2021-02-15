@@ -44,6 +44,7 @@ if(!$.isNode()&&!YouthBody==true){
       ReadArr.push(YouthBody[item])
     }
   })
+  $.log("\n  共"+ReadArr.length+"次阅读请求\n")
 }
       
  !(async () => {
