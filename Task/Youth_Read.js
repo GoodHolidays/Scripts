@@ -34,7 +34,7 @@ if(!$.isNode()&&!YouthBody==true){
     } else {
       YouthBody = [process.env.YOUTH_READ]
     }
-    console.log(` ============ 脚本执行 - 北京时间 (UTC + 8)：${new Date(Data.now() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`)
+    console.log(` ============ 脚本执行 - 北京时间 (UTC + 8)：${new Date(Date.now() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`)
 
   } else if (!$.isNode() && YouthBody.indexOf("&") > -1) {
     YouthBody = YouthBody.split("&")
