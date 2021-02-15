@@ -251,7 +251,7 @@ async function showmsg() {
  if (paybag) {
     $.msg($.name, nickname+(signcash?signcash:""), wbsign+paybag+docard);
   if ($.isNode()) {
-       await notify.sendNotify($.name, nickname+'\n'+ wbsign+paybag+docard)
+       await notify.sendNotify($.name, nickname+(signcash?signcash:"")+'\n'+ wbsign+paybag+docard)
      }
    }
 }
