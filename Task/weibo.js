@@ -24,7 +24,6 @@ if(!$.isNode()&&wbtoken.indexOf("#")==-1){
     cookieArr.push(cookies)
 }  else {
 if ($.isNode()) {
-  let cookies = [];
   if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('#') > -1) {
    wbtoken = process.env.WB_TOKEN.split('#');
    console.log(`您选择的是用"#"隔开\n`)
