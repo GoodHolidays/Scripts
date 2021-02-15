@@ -26,23 +26,23 @@ if(!$.isNode()&&wbtoken.indexOf("#")==-1){
 if ($.isNode()) {
   if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('#') > -1) {
    wbtoken = process.env.WB_TOKEN.split('#');
-   console.log(`您选择的是用"#"隔开\n`)
+   console.log(`WB_TOKEN您选择的是用"#"隔开\n`)
   }
   else if (process.env.WB_TOKEN && process.env.WB_TOKEN.indexOf('\n') > -1) {
    wbtoken = process.env.WB_TOKEN.split('\n');
-   console.log(`您选择的是用换行隔开\n`)
+   console.log(`WB_TOKEN您选择的是用换行隔开\n`)
   } else {
    wbtoken = [process.env.WB_TOKEN]
   };
     if (process.env.WB_COOKIE && process.env.WB_COOKIE.indexOf('#') > -1) {
    cookies = process.env.WB_COOKIE.split('#');
-   console.log(`您选择的是用"#"隔开\n`)
+   console.log(`WB_COOKIE您选择的是用"#"隔开\n`)
   }
   else if (process.env.WB_COOKIE && process.env.WB_COOKIE.indexOf('\n') > -1) {
    cookies = process.env.WB_COOKIE.split('\n');
-   console.log(`您选择的是用换行隔开\n`)
+   console.log(`WB_COOKIE您选择的是用换行隔开\n`)
   } else {
-   cookies = [process.env.COOKIE]
+   cookies = [process.env.WB_COOKIE]
   };
     console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
 } else if (!$.isNode()&&wbtoken.indexOf("#")>-1) {
