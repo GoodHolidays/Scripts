@@ -82,7 +82,11 @@ function AutoRead() {
           }
           await readTime()
         };
+        if($.index==ReadArr.length){
+        $.log($.index+"任务已全部完成，即将结束")
+        } else {
         await $.wait(30000);
+        }
       } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
         console.log(`\n本次阅读获得0个青豆，等待2s即将开始下次阅读\n`);
         await $.wait(2000);
