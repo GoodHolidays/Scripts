@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-14 16:50
+更新时间: 2021-02-15 19:50
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行
@@ -96,6 +96,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     $.log(`\n********** ${nick} 现金收益: ${cash}元 ********\n`);
     await kdHost();
     await friendsign();
+    await ExtraList();
     await TaskCenter() 
     await openbox();
     await getAdVideo();
@@ -562,6 +563,40 @@ function readTime() {
         })
     })
 }
+
+function ExtraList() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/ShareNew/bereadExtraList'), async(error, resp, data) =>{
+      extrares = JSON.parse(data);
+      if (extrares.status == 2) {
+        $.log("参数错误" + JSON.stringify(extrares));
+      } else if (extrares.status == 1 && extrares.data.taskList[0].status == 1) {
+        timestatus = extrares.data.taskList[0].status;
+        timetitle = extrares.data.taskList[0].name;
+        $.log(timetitle + "可领取，去领青豆");
+        await TimePacket();
+      }
+      resolve()
+    })
+  })
+}
+
+function TimePacket() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/TimePacket/getReward', cookie), (error, resp, data) =>{
+      let timeres = JSON.parse(data);
+      if (timeres.code == 1) {
+        $.log("获得" + timeres.data.score + "青豆");
+        detail += "【" + timetitle + "】获得" + timeres.data.score + "青豆\n"
+      } else if (timeres.code == 0) {
+        $.log(timeres.msg)
+      }
+      resolve()
+    })
+  })
+}
+
+
 
 //转盘任务
 function rotary() {
