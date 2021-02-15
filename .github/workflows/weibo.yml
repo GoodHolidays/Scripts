@@ -13,6 +13,7 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     env:
         WB_TOKEN: ${{ secrets.WB_TOKEN }}
+        WB_COOKIE: ${{ secrets.WB_COOKIE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
