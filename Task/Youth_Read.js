@@ -82,13 +82,14 @@ function AutoRead() {
           await readTime()
         };
         await $.wait(30000);
-      } else if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score == 0) {
+      } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
         console.log(`\n本次阅读获得0个青豆，等待2s即将开始下次阅读\n`);
         await $.wait(2000);
       } else if (readres.success == false) {
         console.log(`第${$.index}次阅读请求有误，请删除此请求`)
       } else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
         console.log(readres.items.max_notice)
+        await $.wait(2000);
       }
       resolve()
     })
