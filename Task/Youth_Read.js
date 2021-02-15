@@ -72,7 +72,7 @@ function AutoRead() {
   return new Promise((resolve, reject) =>{
     $.post(batHost('article/complete.json', articlebody), async(error, response, data) =>{
       let readres = JSON.parse(data);
-      console.log(JSON.stringify(readres,null,2))
+      // $.log(JSON.stringify(readres,null,2))
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
         console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
         if(data.indexOf("ctype")>-1){
