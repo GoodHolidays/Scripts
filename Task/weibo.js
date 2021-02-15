@@ -144,8 +144,8 @@ function getsign() {
      else if (result.status == 90005){
          wbsign = `【每日签到】‼️`+ result.msg + '\n'
        } else {
-         wbsign = `【每日签到】 ❌ 签到失败`+result.errmsg
-         $.msg($.name, wbsign, ``)
+         wbsign = `【每日签到】 ❌ 签到失败 `+result.errmsg;
+         $.msg($.name, wbsign, `请检查微博Token`)
        if ($.isNode()) {
          await notify.sendNotify($.name, wbsign)
            }
