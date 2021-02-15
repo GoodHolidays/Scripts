@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-15 10:29
+更新时间: 2021-02-15 12:29
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -44,7 +44,7 @@ if(!$.isNode()&&!YouthBody==true){
       ReadArr.push(YouthBody[item])
     }
   })
-  $.log("\n  共"+ReadArr.length+"次阅读请求\n")
+  $.log("\n  您共获取"+ReadArr.length+"次阅读请求，任务开始\n")
 }
       
  !(async () => {
@@ -70,7 +70,7 @@ function AutoRead() {
   return new Promise((resolve, reject) =>{
     $.post(batHost('article/complete.json', articlebody), async(error, response, data) =>{
       let readres = JSON.parse(data);
-      //console.log(data)
+      console.log(JSON.stringify(readres,null,2))
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
         console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
         readscore += readres.items.read_score;
@@ -83,7 +83,7 @@ function AutoRead() {
           await readTime()
         };
         if($.index==ReadArr.length){
-        $.log($.index+"任务已全部完成，即将结束")
+        $.log($.index+"次任务已全部完成，即将结束")
         } else {
         await $.wait(30000);
         }
@@ -136,28 +136,14 @@ function Getbody() {
         YouthBodys = YouthBody + "&" + bodyVal;
         $.setdata(YouthBodys, 'youth_autoread');
         $.log(`${$.name}获取阅读: 成功, YouthBodys: ${bodyVal}`);
+        bodys = YouthBodys.split("&")
+        $.msg($.name, "获取第"+bodys.length+"个阅读请求: 成功🎉", ``)
       }
     } else {
       $.setdata(bodyVal, 'youth_autoread');
       $.log(`${$.name}获取阅读: 成功, YouthBodys: ${bodyVal}`);
+      $.msg($.name, `获取第一个阅读请求: 成功🎉`, ``)
     }
-    $.msg($.name, `获取自动阅读请求: 成功🎉`, ``)
-  }
-  if ($request && $request.method != `OPTIONS` && $request.url.match(/\/article\/complete/)) {
-    bodyVal = $request.body;
-    if (YouthBody) {
-      if (YouthBody.indexOf(bodyVal) > -1) {
-        $.log("此阅读请求已存在，本次跳过")
-      } else if (YouthBody.indexOf(bodyVal) == -1) {
-        YouthBodys = YouthBody + "&" + bodyVal;
-        $.setdata(YouthBodys, 'youth_autoread');
-        $.log(`${$.name}获取阅读: 成功, YouthBodys: ${bodyVal}`);
-      }
-    } else {
-      $.setdata(bodyVal, 'youth_autoread');
-      $.log(`${$.name}获取阅读: 成功, YouthBodys: ${bodyVal}`);
-    }
-    $.msg($.name, `获取自动阅读请求: 成功🎉`, ``)
   } else if($request&&$request.method!=`OPTIONS`&&$request.url.match(/\/v5\/user\/stay/)){
       const timebodyVal=$request.body;
       if(timebodyVal)           $.setdata(timebodyVal,'autotime_zq');
