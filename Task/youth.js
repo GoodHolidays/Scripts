@@ -1,8 +1,9 @@
 /*
-更新时间: 2021-02-15 19:50
+更新时间: 2021-02-17 02:50
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
-食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行
+食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
+转发文章获得青豆不实，请无视
 
 */
 
@@ -94,7 +95,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
     myuid = cookie.match(/uid=\d+/);
     await userInfo();
     $.log(`\n********** ${nick} 现金收益: ${cash}元 ********\n`);
-    await kdHost();
     await friendsign();
     await ExtraList();
     await TaskCenter() 
@@ -167,14 +167,17 @@ function TaskCenter() {
             } else if (dailys.status == "2" && dailys.action != "") {
               $.log(dailys.title + "，" + dailys.but + "，已领取青豆" + dailys.score)
               detail += `【${dailys.title}】✅  ${dailys.score}青豆\n`
-            };
-            if (dailys.title=="打卡赚钱"&&dailys.status == "0"&&ONCard == "true") {
+            }
+            else if (dailys.title=="打卡赚钱"&&dailys.status == "0"&&ONCard == "true") {
              await CardStatus()
             }
-            if (dailys.id == "7" && dailys.status == "0") {
+            else if (dailys.id == "7" && dailys.status == "0") {
               await readTime();
              }
-            if (dailys.id == "10" && dailys.status == "0") {
+            else if (dailys.id == "4" && dailys.status == "0") {
+              await getArt();
+             }
+            else if (dailys.id == "10" && dailys.status == "0") {
               $.log(dailys.title + "未完成，去做任务");
               for (x = 0; x < 5; x++) {
                 $.log("等待5s执行第" + (x + 1) + "次");
@@ -227,6 +230,40 @@ function getsign() {
     })
 }
       
+function getArt() {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/ArticleTop/listsNewTag'), async(error, resp, data) =>{
+      artres = JSON.parse(data);
+      if (artres.status == 1) {
+        for (arts of artres.data.items) {
+          titlename = arts.title;
+          account = arts.account_id;
+          if (arts.status == "1") {
+            $.log("去转发文章");
+            $.log(titlename + " ----- " + arts.account_name);
+            await artshare(arts.id);
+            break;
+            //await $.wait(500)
+          }
+        }
+      }
+      resolve()
+    })
+  })
+}
+
+function artshare(artsid) {
+  return new Promise((resolve, reject) =>{
+    $.post(kdHost('WebApi/ShareNew/getShareArticleReward', cookie + "&" + "article_id=" + artsid), async(error, resp, data) =>{
+      shareres = JSON.parse(data);
+      if (shareres.status == 1) {
+        $.log("转发成功，共计转发" + shareres.data.items.share_num + "篇文章，获得青豆" + shareres.data.score)
+      }
+      resolve()
+    })
+  })
+}
+
 function userInfo() {
     return new Promise((resolve, reject) => {
         $.post(kdHost('WebApi/NewTaskIos/getSign'), async(error, resp, data) => {
