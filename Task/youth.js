@@ -676,7 +676,7 @@ function earningsInfo() {
     $.get(kdHost(`wap/user/balance?`+cookie), (error, response, data) =>{
       infores = JSON.parse(data);
       if (infores.status == 0) {
-        detail += ` <收益统计> ：\n`
+        detail += ` <收益统计>：\n`
         for (i = 0; i < infores.history[0].group.length; i++) {
           detail += '【' + infores.history[0].group[i].name + '】' + infores.history[0].group[i].money + '个青豆\n'
         }
