@@ -117,8 +117,8 @@ if (rotaryres.status == 0) {
 }
 
 if (rotaryres.status == 1) {
-  detail += `【转盘抽奖】+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`
-$.log(`转盘抽奖: 共计+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`)
+  detail += `【转盘抽奖】+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`;
+  $.log(`转盘抽奖: 共计+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次`)
 }
 if (rotaryres.status !== 0&&rotaryres.data.doubleNum !== 0){
   detail += `【转盘双倍】+${doublerotary}青豆 剩余${rotaryres.data.doubleNum}次\n`
@@ -641,7 +641,6 @@ function runRotary(index) {
         const rotarbody = cookie + '&num=' + index;
         $.post(kdHost(`WebApi/RotaryTable/chestReward?_=${Date.now()}&`,rotarbody), (error, resp, data) => {
         let rotaryresp = JSON.parse(data);
-          //$.log(formatJson(data));
             if (rotaryresp.status == 1) {
                 detail += `【转盘宝箱${index}】+${rotaryresp.data.score}个青豆\n`;
             }else{
