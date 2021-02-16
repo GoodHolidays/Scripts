@@ -8,7 +8,7 @@
 const $ = new Env('腾讯新闻');
 const notify = $.isNode() ? require('./sendNotify') : '';
 let notifyInterval =$.getdata('notifynum')||50; //阅读篇数间隔通知开为1，常关为0;
-const TX_HOST = 'https://api.inews.qq.com/activity/v1/'
+
 let SignArr = [],SignUrl = "";
     cookiesArr = [],CookieTxnews = "";
     VideoArr = [],SignUrl = "",order = "",
@@ -110,6 +110,22 @@ function GetCookie() {
   }
 }
 
+function Host(api, body) {
+  return {
+      url: 'https://api.inews.qq.com/activity/v1/'+api,
+      headers:{
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'zh-Hans-CN;q=1, en-CN;q=0.9, zh-Hant-CN;q=0.8',
+        'Connection': 'keep-alive',
+        'Cookie': cookieVal,
+        'Host': 'api.inews.qq.com',
+        'Referer': 'http://inews.qq.com/inews/iphone/',
+        'User-Agent': 'QQNews/6.4.10 (iPhone; iOS 14.2; Scale/3.00)'
+      },
+      body: body
+   }
+}
 
 //签到
 function getsign() {
@@ -136,7 +152,7 @@ function getsign() {
 
 function activity() {
   return new Promise((resolve, reject) => {
-      $.get({url:`${TX_HOST}user/activity/get?isJailbreak=0&${ID}`, headers: {Cookie:cookieVal}}, (error,response, data) =>{
+      $.get(Host('user/activity/get?isJailbreak=0&'+ID), (error,resp, data) =>{
         try{
             let obj = JSON.parse(data)
             actid = obj.data.activity.id
@@ -175,11 +191,7 @@ function toRead(urlVal,body) {
 //阅读文章统计
 function StepsTotal() {
   return new Promise((resolve, reject) => {
-      const StepsUrl = {
-        url: `${TX_HOST}activity/info/get?activity_id=${actid}&${ID}`,
-        headers: {Cookie: cookieVal}
-      }
-      $.get(StepsUrl, async(error, response, data) => {
+      $.get(Host('activity/info/get?activity_id='+actid+'&'+ID), async(error, resp, data) => {
         totalred = JSON.parse(data)
         totalcion = totalred.data.extends.today_total_coin
         if (totalred.ret == 0){
@@ -236,8 +248,8 @@ function StepsTotal() {
 function Redpack(red_body) {
   return new Promise((resolve, reject) => {
       const cashUrl = {
-        url: `${TX_HOST}activity/redpack/get?isJailbreak=0&mac=${token}`,
-        headers: {Cookie:cookieVal,"Content-Type": "application/x-www-form-urlencoded","User-Agent": "QQNews/6.3.91 (iPhone; iOS 14.2; Scale/3.00)","Referer": "http://inews.qq.com/inews/iphone/"},
+        url: `${TX_HOST}activity/redpack/get?isJailbreak=0&mac${token}`,
+        headers: {Cookie:cookieVal,"Content-Type": "application/x-www-form-urlencoded","User-Agent": "QQNews/6.4.10 (iPhone; iOS 14.2; Scale/3.00)","Referer": "http://inews.qq.com/inews/iphone/"},
         body: `redpack_type=${red_body}&activity_id=${actid}`
       }
       $.post(cashUrl, (error, response, data) => {
@@ -270,10 +282,7 @@ function Redpack(red_body) {
 //收益总计
 function getTotal() {
   return new Promise((resolve, reject) => {
-    const totalUrl = {
-      url: `${TX_HOST}usercenter/activity/list?isJailbreak=0`,
-      headers: {Cookie: cookieVal}};
-    $.post(totalUrl, function(error,response, data) {
+    $.post(Host('usercenter/activity/list?isJailbreak=0'), function(error,response, data) {
       if (error) {
         $.msg("获取收益信息失败‼️", "", error)
       } else {
