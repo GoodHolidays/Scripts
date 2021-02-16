@@ -80,7 +80,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
 };
 !(async () => {
   if (!cookieArr[0]) {
-    $.msg($.name, '【提示】请先获取中青看点一cookie')
+    $.msg($.name, '【提示】请先获取中青看点一cookie',"",{'open-url': "https://kandian.youth.cn/u/mhkjN"})
     return;
   }
 
