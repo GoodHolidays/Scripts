@@ -10,7 +10,7 @@
       "descs_html": [
       "<h4 align=\"center\">获取Cookie以及脚本配置请查看<a href=\"https://github.com/Sunert/Scripts/raw/master/TaskConf/sina/readme.md\">配置说明</a></h4>",
       "<br />",
-      "<p>其中"wb_nick"为账号昵称，无需另外获取，脚本运行可自动生成，"wb_cookie"为任务红包余额，获取后方可显示，可选，"sy_token_wb"为微博签到token，必选</p>"
+      "<p>其中wb_nick为账号昵称，无需另外获取，脚本运行可自动生成，wb_cookie为任务红包余额，获取后方可显示，可选，sy_token_wb为微博签到token，必选</p>"
     ],
       "keys" : [
         "sy_token_wb",
@@ -31,7 +31,7 @@
       "descs_html": [
       "<h4 align=\"center\">获取Cookie以及脚本配置请查看<a href=\"https://github.com/Sunert/Scripts/raw/master/TaskConf/youth/readme.md\">配置说明</a></h4>",
       "<br />",
-      "<p>其中"zq_nick"、"zqcash"和"zqcard"为昵称、提现金额和早起打卡开关，无需另外获取，相关项设置后自动生成，"cashurl_zq"和 "cashbody_zq"为提现请求，获取后方可自动提现，可选</p>"
+      "<p>其中zq_nick、zqcash和zqcard为昵称、提现金额和早起打卡开关，无需另外获取，相关项设置后自动生成，cashurl_zq和cashbody_zq为提现请求，获取后方可自动提现，可选</p>"
     ],
       "keys" : [
         "zq_nick",  
