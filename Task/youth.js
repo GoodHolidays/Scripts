@@ -103,14 +103,14 @@ if (isGetCookie = typeof $request !== 'undefined') {
     await gameVideo();
     await readArticle();
 for (k=0;k<5;k++){
-  await $.wait(1000);
+  await $.wait(2000);
   await rotary();
 
 if (rotaryres.status == 0) {
       rotarynum = ` 转盘${rotaryres.msg}🎉`;
       break
    } else if(rotaryres.status == 1){
-     console.log("等待1s进行开始转盘任务")
+     console.log("等待2s进行开始转盘任务")
      rotaryscore += rotaryres.data.score
      rotarytimes = rotaryres.data.remainTurn
   }
@@ -596,8 +596,6 @@ function TimePacket() {
   })
 }
 
-
-
 //转盘任务
 function rotary() {
   return new Promise((resolve, reject) =>{
@@ -696,7 +694,7 @@ async function showmsg() {
          $.msg($.name+"  "+nick+" "+rotarynum,subTitle,detail)//任务全部完成且通知间隔不为0时通知;
         } 
      else {
-       console.log(`【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
+       console.log(`\n【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
    }
 }
 
