@@ -53,7 +53,10 @@ if(!$.isNode()&&cookieYouth.indexOf("#") ==-1){
     } else {
         READTIME = [process.env.YOUTH_TIME]
     }
-    console.log(` ============脚本执行 - 北京时间 (UTC + 8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`);
+    timeZone =  new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(` ============脚本执行  bjTime =============\n`);
  } else if(!$.isNode()&&cookieYouth.indexOf("#")>-1){
    cookieYouth = cookieYouth.split("#")
    ARTBODYs = ARTBODYs.split("&")
