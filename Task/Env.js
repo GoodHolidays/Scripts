@@ -5,14 +5,14 @@ function Env(name, opts) {
     }
 
     send(opts, method = 'GET') {
-      opts = typeof opts === 'string' ? { url: opts } : opts
-      let sender = this.get
+      opts = typeof opts === 'string' ? { url: opts } : opts;
+      let sender = this.get;
       if (method === 'POST') {
         sender = this.post
       }
       return new Promise((resolve, reject) => {
         sender.call(this, opts, (err, resp, body) => {
-          if (err) reject(err)
+          if (err) reject(err);
           else resolve(resp)
         })
       })
@@ -65,8 +65,8 @@ function Env(name, opts) {
       }
     }
     getjson(key, defaultValue) {
-      let json = defaultValue
-      const val = this.getdata(key)
+      let json = defaultValue;
+      const val = this.getdata(key);
       if (val) {
         try {
           json = JSON.parse(this.getdata(key))
