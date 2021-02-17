@@ -43,8 +43,6 @@ if ($.isNode()) {
           DrawalArr.push(Drawals[item])
         }
     });
-    console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
  } else {
     tokenArr.push($.getdata('sy_signheader_dsj'))
     DrawalArr.push($.getdata('drawal_dsj'))
@@ -60,7 +58,11 @@ if (isGetCookie = typeof $request !== 'undefined') {
     $.msg($.name, '【提示】请先获取电视家一cookie')
     return;
   }
-    console.log(`------------- 共${tokenArr.length}个账号`)
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
+    console.log(`------------- 共${tokenArr.length}个账号`);
     if(new Date().getTimezoneOffset()/60 != '-8'&&$.time('HH')<'16'){
         time = new Date(new Date(new Date().toLocaleDateString()).getTime())/1000-28800
        console.log(time)

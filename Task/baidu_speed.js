@@ -45,7 +45,6 @@ if ($.isNode()) {
   } else {
   BDCASH = [process.env.BAIDU_CASH]
   }
-   console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`);
 } else if (!$.isNode()&&baiducks && baiducks.indexOf('&')>-1){
   BDCookie = baiducks.split("&")
   BDCASH = [baiducash]
@@ -69,6 +68,10 @@ if ($.isNode()) {
     console.log($.name, '【提示】请把百度Cookie填入Github 的 Secrets 中，请以&或者换行隔开');
     return
   };
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
   for (let i = 0; i < CookieArr.length; i++) {
     if (CookieArr[i]) {
       cookieval = CookieArr[i];

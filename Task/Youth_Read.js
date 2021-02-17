@@ -36,8 +36,6 @@ if(!$.isNode()&&!YouthBody==true){
     } else {
       YouthBody = [process.env.YOUTH_READ]
     }
-    console.log(` ============ 脚本执行 - 北京时间 (UTC + 8)：${new Date(Date.now() + 8 * 60 * 60 * 1000).toLocaleString()} =============\n`)
-
   } else if (!$.isNode() && YouthBody.indexOf("&") > -1) {
     YouthBody = YouthBody.split("&")
   };
@@ -46,6 +44,10 @@ if(!$.isNode()&&!YouthBody==true){
       ReadArr.push(YouthBody[item])
     }
   })
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
   $.log("\n  您共获取"+ReadArr.length+"次阅读请求，任务开始\n")
 }
       

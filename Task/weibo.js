@@ -44,7 +44,6 @@ if ($.isNode()) {
   } else {
    cookies = [process.env.WB_COOKIE]
   };
-    console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
 } else if (!$.isNode()&&wbtoken.indexOf("#")>-1) {
    wbtoken = wbtoken.split("#");
    cookies = cookies.split("#")
@@ -65,7 +64,11 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取新浪微博一cookie')
     return;
   }
-   console.log(`------------- 共${tokenArr.length}个账号\n`)
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
+    console.log(`------------- 共${tokenArr.length}个账号\n`)
   for (let i = 0; i < tokenArr.length; i++) {
     if (tokenArr[i]) {
       token = tokenArr[i];
