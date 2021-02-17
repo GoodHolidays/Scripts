@@ -18,6 +18,7 @@ jobs:
       YOUTH_READ2: ${{ secrets.YOUTH_READ2 }}
       YOUTH_READ3: ${{ secrets.YOUTH_READ3 }}
       YOUTH_READ4: ${{ secrets.YOUTH_READ4 }}
+      TZ: Asia/shanghai
     steps:
       - name: Checkout
         uses: actions/checkout@v1

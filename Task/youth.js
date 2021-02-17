@@ -96,6 +96,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     myuid = cookie.match(/uid=\d+/);
     await userInfo();
     $.log(`\n********** ${nick} 现金收益: ${cash}元 ********\n`);
+    $.log($.time("YYYY-MM-dd HH:mm"))
     await friendsign();
     await ExtraList();
     await TaskCenter() 
