@@ -62,6 +62,13 @@
           "desc" : "每日早起打卡时间"
         },
         {
+          "id" : "delay_rotary_zq",
+          "val" : "10",
+          "name" : "转盘时间间隔",
+          "type" : "number",
+          "desc" : "间隔时间设置，如1秒填1即可"
+        },
+        {
           "id" : "notifytimes",
           "val" : "",
           "name" : "通知频率 (点击查看设置说明)",
