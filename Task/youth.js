@@ -78,7 +78,7 @@ if(!$.isNode()&&cookieYouth.indexOf("#") ==-1){
     console.log(`\n === 脚本执行 ${bjTime} ===\n`);
     console.log(` =========== 您共提供${cookieArr.length}个中青账号 ==========`);
 }
-return
+
 if (isGetCookie = typeof $request !== 'undefined') {
    GetCookie();
    $.done()
@@ -88,7 +88,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
     $.msg($.name, '【提示】请先获取中青看点一cookie',"",{'open-url': "https://kandian.youth.cn/u/mhkjN"})
     return;
   }
-
   for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i]) {
       cookie = cookieArr[i];
