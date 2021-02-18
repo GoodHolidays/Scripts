@@ -1,6 +1,6 @@
 
 /*
-更新时间: 2021-02-17 00:50
+更新时间: 2021-02-18 11:15
 
 腾讯新闻签到修改版，可以自动阅读文章获取红包，该活动为瓜分百万现金挑战赛，针对幸运用户参与，本脚本已不能自动打开红包，需每天要打开腾讯新闻app一次，请须知
 
@@ -76,7 +76,6 @@ if (isGetCookie) {
       console.log(`-------------------------\n\n开始【腾讯新闻账号${$.index}】`)
       ID = signurlVal.match(/devid=[a-zA-Z0-9_-]+/g)[0]
       token = signurlVal.split("mac")[1]
-
       await getsign();
       await activity();
       await getTotal();
@@ -113,7 +112,7 @@ function GetCookie() {
   }
 }
 
-function Host(api, body) {
+function Host(api, body, taskurl) {
   return {
       url: 'https://api.inews.qq.com/activity/v1/'+api+'&isJailbreak=0&'+ID,
       headers:{
@@ -123,7 +122,9 @@ function Host(api, body) {
         'Connection': 'keep-alive',
         'Cookie': cookieVal,
         'Host': 'api.inews.qq.com',
-        'Referer': 'http://inews.qq.com/inews/iphone/',
+        'Referer': taskurl,
+        'store': '1',
+        'devid': ID,
         'User-Agent': 'QQNews/6.4.10 (iPhone; iOS 14.2; Scale/3.00)'
       },
       body: body
@@ -159,10 +160,11 @@ function activity() {
     $.get(Host('user/task/list?'), async(error, resp, data) =>{
       try {
         let taskres = JSON.parse(data);
-        //$.log(JSON.stringify(obj,null,2))
+        //$.log(JSON.stringify(taskres,null,2))
         if (taskres.ret == 0) {
           actid = taskres.data.award_notice.activity_id;
           $.log(`\n您的活动ID为: ` + actid + "\n\n********* 开始阅读任务 ********\n");
+           $.desc = ""
          for (tasks of taskres.data.list) {
             taskname = tasks.task_title,
             tasktype = tasks.task_type,
@@ -170,6 +172,7 @@ function activity() {
             ratepack = tasks.rate,
             totalpack = tasks.quota;
             eventnum = tasks.task_desc
+            taskurl = tasks.task_url
             $.log("去" + taskname + "\n");
             if (taskstatus == 3) {
               $.desc += "【" + taskname + "】✅ 已完成\n";
@@ -177,12 +180,12 @@ function activity() {
             } else {
               if (tasktype == "article") {
                 readnum = eventnum.match(/>(\d+)</)[1]
-                $.desc = "【" + taskname + "】 已领" + ratepack + "个红包 已阅"+readnum+"篇资讯\n";
+                //$.desc = "【" + taskname + "】 已领" + ratepack + "个红包 已阅"+readnum+"篇资讯\n";
                 await $.wait(3000);
                 await toRead(signurlVal, 'event=article_read')
               } else if (tasktype == "video") {
                 videonum = eventnum.match(/>(.+)<\/span>分钟/)[1]
-                $.desc += "【" + taskname + "】 已领" + ratepack + "个红包 已看"+videonum+"分钟\n";
+                //$.desc += "【" + taskname + "】 已领" + ratepack + "个红包 已看"+videonum+"分钟\n";
                 await $.wait(5000);
                 await toRead(videoVal, 'event=video_read')
               } else if(tasktype == "cooperation") {
@@ -262,10 +265,12 @@ function StepsTotal() {
           redtotal = awards.total,
           red_opened = awards.opened,
           task_num = awards.event_num,
+          //readtitle = awards.title.split("，")[0].replace(/[\u4e00-\u9fa5]/g,``)
+          title = awards.title.match(/\d+/)
           over_red = Number(redtotal - red_opened);
           if (taskType == "article") {
-            readnum = awards.event_num,
             read_res = over_red;
+            $.desc += "【阅读资讯】 已领" + awards.opened + "个红包 已看"+readnum+"篇/再读"+title+"篇\n";
             if (awards.openable !== 0) {
               $.log("可以打开" + awards.openable + "个阅读红包，去打开红包");
               await $.wait(1000);
@@ -274,7 +279,7 @@ function StepsTotal() {
           }
           if (taskType == "video") {
             video_res = over_red;
-            videonum = awards.event_num;
+            $.desc += "【观看视频】 已领" + awards.opened+ "个红包 已看"+videonum+"分钟/再读"+title+"分钟\n";
             if (awards.openable !== 0) {
               $.log("可以打开" + awards.openable + "个视频红包，去打开红包");
               await $.wait(1000);
@@ -292,7 +297,7 @@ function StepsTotal() {
 //阶梯红包到账
 function Redpack(red_body) {
   return new Promise((resolve, reject) =>{
-    $.post(Host('activity/redpack/get?mac' + token, `redpack_type=${red_body}&activity_id=${actid}`), (error, resp, data) =>{
+    $.post(Host('activity/redpack/get?', `redpack_type=${red_body}&activity_id=${actid}`), (error, resp, data) =>{
       let rcash = JSON.parse(data);
       try {
         if (rcash.data.award.length == 1) {
