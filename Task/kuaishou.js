@@ -1,10 +1,12 @@
 /*
-更新时间: 2020-12-20 15:30
+更新时间: 2021-02-18 14:15
 
-本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版
+本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版，支持正式版获取多Cookie
+
 正式版APP获取Cookie方法:
   1.将下方[rewrite_local]地址复制的相应的区域下,无需填写hostname;
   2.打开APP稍等几秒，即可获取Cookie.
+
 极速版获取方法，
   1.把URL的正则改为 https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\?，添加hostname = nebula.kuaishou.com;
   2.点击设置页面的"积分兑好礼"即可
@@ -22,7 +24,7 @@ Surge 4.0 :
 [Script]
 快手 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js,script-update-interval=0
 
-快手 = type=http-request,pattern=http:\/\/uploads2\.gifshow\.com\/rest\/n\/system\/speed,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+快手 = type=http-request,pattern=http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 ~~~~~~~~~~~~~~~~
 Loon 2.1.0+
@@ -30,7 +32,7 @@ Loon 2.1.0+
 # 本地脚本
 cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手
 
-http-request http:\/\/uploads2\.gifshow\.com\/rest\/n\/system\/speed script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+http-request http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 -----------------
 
@@ -40,7 +42,7 @@ QX 1.0.7+ :
 
 [rewrite_local]
 
-http:\/\/uploads2\.gifshow\.com\/rest\/n\/system\/speed url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 ~~~~~~~~~~~~~~~~
 
@@ -48,19 +50,25 @@ http:\/\/uploads2\.gifshow\.com\/rest\/n\/system\/speed url script-request-heade
 const logs = false   //日志开关
 const $ = new Env('快手视频')
 let cookieArr = [];
-if ($.isNode()) {
-  if (process.env.KS_TOKEN && process.env.KS_TOKEN.indexOf('&') > -1) {
-      ks_tokens = process.env.KS_TOKEN.split('&');
-  } else {
-      ks_tokens = process.env.KS_TOKEN.split()
-  };
-  Object.keys(ks_tokens).forEach((item) => {
-        if (ks_tokens[item]) {
-          cookieArr.push(ks_tokens[item])
-        }
-      })
+let ks_tokens = $.getdata('cookie_ks')
+
+if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
+  cookieArr.push(ks_tokens)
 } else {
-   cookieArr.push($.getdata('cookie_ks'))
+  if ($.isNode()) {
+    if (process.env.KS_TOKEN && process.env.KS_TOKEN.indexOf('&') > -1) {
+      ks_tokens = process.env.KS_TOKEN.split('&')
+    } else {
+      ks_tokens = [process.env.KS_TOKEN]
+    };
+  } else if (!$.isNode() && ks_tokens.indexOf('&') > -1) {
+    ks_tokens = ks_tokens.split('&')
+  }
+  Object.keys(ks_tokens).forEach((item) =>{
+    if (ks_tokens[item]) {
+      cookieArr.push(ks_tokens[item])
+    }
+  })
 }
 
 let isGetCookie = typeof $request !== 'undefined'
@@ -74,14 +82,16 @@ if (isGetCookie) {
       return
   }
   if ($.isNode()){
-      console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
-      console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}=============\n`)
+    timeZone = new Date().getTimezoneOffset() / 60;
+    timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    console.log(`\n === 脚本执行 ${bjTime} ===\n`);
   }
  for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i]) {
       cookieVal = cookieArr[i];
       $.index = i + 1;
-      console.log(`-------------------------\n\n开始【快手视频账号${$.index}】`)
+      console.log(`-------------------\n\n开始【快手视频账号${$.index}】`)
      await speedSign();
      await speedSignifo();
      await speedInfo();
@@ -106,7 +116,7 @@ function  officialSign() {
           body: '{"bizId": 29}'
    }
     $.post(signurl, (error, response, data) => {
-      if(logs)$.log(`${$.name}, data: ${data}`)
+      //$.log(`${$.name}, data: ${data}`)
       let officialSign_res = JSON.parse(data)
           offici_code = officialSign_res.result
       if(offici_code == 100111){
@@ -133,7 +143,7 @@ function officialSignifo() {
 		headers: {Cookie: cookieVal,
 'Content-Type': 'application/json;charset=utf-8'},}
     $.get(infourl, async(error, response, data) => {
-     if(logs)$.log(`${$.name}, data: ${data}`)
+    // $.log(`${$.name}, data: ${data}`)
       let _info = JSON.parse(data)
      if (_info.result == 1){ 
         offic_info = `收益: ${_info.data.accounts[0].displayBalance}积分  现金: ${_info.data.accounts[1].displayBalance}元\n`
@@ -144,19 +154,18 @@ function officialSignifo() {
 }
 function officialtaskCenter() {
    return new Promise((resolve, reject) => {
-    let reurl = {url:'https://activity.m.kuaishou.com/rest/wd/taskCenter/task/appStartup/reward',
+    let reurl = {url:'https://sf2021.kuaishou.com/rest/wd/sf2021/retain/dailyRedpack/receiveDailyRedPacket',
     headers: {Cookie: cookieVal,'Content-Type': 'application/json;charset=utf-8'},
     body: '{"bizId": 29}'
    }
 	$.post(reurl, (error, response, data) =>{
-	if(logs)$.log(`${$.name}, data: ${data}`)
+       //$.log(`${$.name}, data: ${data}`)
 	let result = JSON.parse(data) 
-	if (result.rewardSuccess == true) {
-         var rewards = result.reward.accounts
-        if (typeof result.reward.surpriseRewardCount !== undefined){
-           rewards += result.reward.surpriseRewardCount
-		} 
-         offic_reward = `获得收益: 💵${rewards}积分\n`
+	if (result.message == "success") {
+         var rewards = result.data.amount/100
+         offic_reward = `获得现金红包: 💵${rewards}积分\n`
+         } else {
+         $.log("温暖好运年签到红包，"+ result.message)
          }
         resolve()
 	  })
@@ -212,13 +221,27 @@ function speedInfo() {
 	if(logs)$.log(`${$.name}, data: ${data}`)
 	let result = JSON.parse(data) 
 	if (result.result == 1) {
-	     speed_rewards = `现金收益: 💵${result.data.allCash}元    金币收益: 💰${result.data.totalCoin}`
-	     await bdinvet()
+	     speed_rewards = `现金收益: 💵${result.data.allCash}元    金币收益: 💰${result.data.totalCoin}`;
+	     await bdinvet();
+          await vetInfo()
 		  } 
           resolve()
 	   })
     })
  }
+
+function vetInfo() {
+   return new Promise((resolve, reject) => {
+    let reurl = {url:'https://sf2021.kuaishou.com/rest/wd/sf2021/retain/assistance/friendAssist',
+    headers: {Cookie: cookieVal,
+'Content-Type': 'application/json;charset=utf-8'},body:'{"fid": "1928978411","shareObjectId":"5xjgr7a6ppa7ana"}'}
+	$.post(reurl, async(error, response, data) =>{
+	   //$.log(`${$.name}, data: ${data}`)
+          resolve()
+	   })
+    })
+ }
+
 
 function showmsg() {
  $.sub ="", $.desc = "";
@@ -233,18 +256,29 @@ $.msg($.name,$.sub,$.desc)
 }
 
 function GetCookie() {
-   var UA = $request.headers['User-Agent']
-   if ($request && $request.method != `OPTIONS`&&  UA.indexOf('ksNebula')>-1) {
-   const cookieVal = $request.headers['Cookie']
-    if (cookieVal)        $.setdata(cookieVal,'cookie_ks')
-    $.log(`${$.name} 获取Cookie: 成功,cookieVal: ${cookieVal}`)
-    $.msg($.name, `获取极速Cookie: 成功🎉`, ``)
-  } else if ($request && $request.method != `OPTIONS`&& UA.indexOf("ksNebula")==-1) {
-   const cookie = $request.headers['Cookie']
-    cookieVal = cookie.match(/token=[a-z0-9-]+/)[0]
-    if (cookieVal)        $.setdata(cookieVal,'cookie_ks')
-    $.log(`${$.name} 获取Cookie: 成功,cookieVal: ${cookieVal}`)
-    $.msg($.name, `获取正式Cookie: 成功🎉`, ``)
+  var UA = $request.headers['User-Agent']
+  if ($request && $request.method != `OPTIONS` && UA.indexOf('ksNebula') > -1) {
+    const cookieVal = $request.headers['Cookie']
+    if (cookieVal) $.setdata(cookieVal, 'cookie_ks');
+     $.log(`${$.name}获取Cookie: 成功, cookieVal: $ {cookieVal}`);
+     $.msg($.name, `获取极速Cookie: 成功🎉`, ``)
+  } else if ($request && $request.method != `OPTIONS` && UA.indexOf("ksNebula") == -1) {
+    const cookie = $request.headers['Cookie'] ;
+          cookieVal = cookie.match(/token=[_a-z0-9-]+/)[0]
+    if (ks_tokens) {
+      if (ks_tokens.indexOf(cookieVal) > -1) {
+        $.log("cookie重复，已跳过")
+      }
+      if (ks_tokens.indexOf(cookieVal) == -1) {
+        Cookies = ks_tokens + "&" + cookieVal;
+        $.setdata(Cookies, 'cookie_ks');
+        ck = Cookies.split("&");
+        $.msg($.name, "获取正式Cookie" + ck.length + ": 成功🎉", ``)
+      }
+    } else {
+      $.setdata(cookieVal, 'cookie_ks');
+      $.msg($.name, `获取正式Cookie: 成功🎉`, ``)
+    }
   }
 }
 function bdinvet() {
