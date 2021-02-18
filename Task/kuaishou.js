@@ -333,7 +333,7 @@ function GetCookie() {
      $.msg($.name, `获取极速Cookie: 成功🎉`, ``)
   } else if ($request && $request.method != `OPTIONS` && UA.indexOf("ksNebula") == -1) {
     const cookie = $request.headers['Cookie'] ;
-          cookieVal = cookie.replace(/(.+)(appver\=[0-9\.])(.+)(; client_key\=\w+)(.+)(; token=[0-9a-z-]+)(.+)(; userId=\d+)/,$2$4$6);
+          cookieVal = cookie.replace(/(.+)(appver\=[0-9\.])(.+)(; client_key\=\w+)(.+)(; token=[0-9a-z-]+)(.+)(; userId=\d+)/,'$2$4$6$8');
          uid= cookieVal.match(/userId=\d+/)
     if (ks_tokens) {
       if (ks_tokens.indexOf(uid) > -1) {
