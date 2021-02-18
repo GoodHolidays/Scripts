@@ -144,6 +144,7 @@ function formalCenter() {
                 } else if (tasks.schemeText == "去签到") {
                   $.log(taskName + tasks.schemeText + "\n");
                   await formalSign()
+                  continue
                 }
               } else if (Id == "1749" && status == 4) {
                 await openbox(tasktoken, eventId)
