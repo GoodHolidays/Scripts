@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-18 14:15
+更新时间: 2021-02-18 19:10
 
 本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版，支持正式版获取多Cookie
 
@@ -93,12 +93,13 @@ if (isGetCookie) {
       $.index = i + 1;
       console.log(`-------------------\n\n开始【快手视频账号${$.index}】`)
      await speedSign();
-     await speedSignifo();
+     await speedSigninfo();
      await speedInfo();
-     await officialSign();
+     await formalCenter();
+     await formalSign();
   if(offici_code !== 100119){
-     await officialSignifo();
-     await officialtaskCenter();
+     await formalinfo();
+     await formalAct();
    } 
      await showmsg()
    }
@@ -107,24 +108,92 @@ if (isGetCookie) {
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 }
-function  officialSign() {
+
+function formalHost(api,body){
+  return {
+     url: 'https://activity.m.kuaishou.com/rest/wd/taskCenter/'+api,
+     headers:{
+      'Host': 'activity.m.kuaishou.com',
+      'Cookie': cookieVal,
+      'Content-Type': 'application/json;charset=utf-8',
+      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/9.0.50.4936 CT/0 WebViewType/WK NetType/WIFI Yoda/2.3.7-rc5 TitleHT/44 StatusHT/20'
+    },
+     body: body
+  }
+}
+
+function formalCenter() {
+  return new Promise((resolve, reject) =>{
+    $.post(formalHost('lowActive/module/list', '{"bizId":29,"configId":1}'), async(error, resp, data) =>{
+      let central = JSON.parse(data);
+      try {
+        if (central.result == 1) {
+          for (lists of central.modules) {
+            Id = lists.moduleId,
+            moduleDesc = lists.moduleDesc;
+            $.log(moduleDesc + "\n");
+            for (tasks of lists.tasks) {
+              status = tasks.status,
+              bizId = tasks.bizId,
+              tasktoken = tasks.token,
+              eventId = tasks.eventId,
+              taskName = tasks.reward.rewardName;
+              if (Id == "1123") {
+                if (status == 5) {
+                  $.log(taskName + "  " + tasks.schemeText + "\n")
+                } else if (tasks.schemeText == "去签到") {
+                  $.log(taskName + tasks.schemeText + "\n");
+                  await formalSign()
+                }
+              } else if (Id == "1749" && status == 4) {
+                await openbox(tasktoken, eventId)
+              }
+            }
+          }
+        }
+      } catch(e) {
+        $.log("领取金币失败\n" + JSON.stringify(result, null, 2))
+      } finally {
+        resolve()
+      }
+    })
+  })
+}
+
+function openbox(tokens, eventId) {
+  return new Promise((resolve, reject) =>{
+    $.post(formalHost('task/report', `{"bizId": 29,"taskToken": "${tokens}","eventId": "${eventId}","eventValue": 1}`), (error, resp, data) =>{
+      let result = JSON.parse(data);
+      try {
+        //$.log(JSON.stringify(result,null,2))
+        if (result.result == 1) {
+          rewards = result.reward.rewardCount,
+          boxname = result.dialog.title,
+          $.desc += "【" + boxname + "】+" + rewards + " " + result.dialog.closeBubble;
+          $.log(boxname + "领取金币" + rewards + "，" + result.dialog.secondDesc)
+        } else {
+          $.log(boxname + result.error_msg)
+        }
+      } catch(e) {
+        $.log("领取金币失败\n" + JSON.stringify(result, null, 2))
+      } finally {
+        resolve()
+      }
+    })
+  })
+}
+
+function formalSign() {
    return new Promise((resolve, reject) => {
-	 let signurl = {
-		url: 'https://activity.m.kuaishou.com/rest/wd/taskCenter/task/signIn',
-	    headers: {Cookie: cookieVal,
-'Content-Type': 'application/json;charset=utf-8'},
-          body: '{"bizId": 29}'
-   }
-    $.post(signurl, (error, response, data) => {
-      //$.log(`${$.name}, data: ${data}`)
+    $.post(formalHost('task/signIn','{"bizId": 29}'), (error, response, data) => {
+ 
       let officialSign_res = JSON.parse(data)
           offici_code = officialSign_res.result
       if(offici_code == 100111){
          offic_sign = `签到结果: ${officialSign_res.error_msg}`;
-        // $.msg($.name,offic_sign,"")
          logs?$.log(`错误信息: ${officialSign_res.error_msg}`):"";
          resolve()
-        return
+         return
         } else if(offici_code == 100136){
          offic_sign = `签到结果: ${officialSign_res.error_msg}`
      if(logs)console.log(""+officialSign_res.error_msg)
@@ -136,7 +205,7 @@ function  officialSign() {
    })
  }
 
-function officialSignifo() {
+function formalinfo() {
    return new Promise((resolve, reject) => {
     infourl = {
 		url: 'https://zt.gifshow.com/rest/zt/encourage/account/summary/withKscoinTrial?kpn=KUAISHOU&subBiz=lowActiveUserTaskEncourage',
@@ -152,7 +221,7 @@ function officialSignifo() {
      })
   })
 }
-function officialtaskCenter() {
+function formalAct() {
    return new Promise((resolve, reject) => {
     let reurl = {url:'https://sf2021.kuaishou.com/rest/wd/sf2021/retain/dailyRedpack/receiveDailyRedPacket',
     headers: {Cookie: cookieVal,'Content-Type': 'application/json;charset=utf-8'},
@@ -195,7 +264,7 @@ function speedSign() {
       })
    })
  }
-function speedSignifo() {
+function speedSigninfo() {
    return new Promise((resolve, reject) => {
     earnurl = {
 		url: 'https://nebula.kuaishou.com/rest/n/nebula/sign/query',
@@ -264,7 +333,7 @@ function GetCookie() {
      $.msg($.name, `获取极速Cookie: 成功🎉`, ``)
   } else if ($request && $request.method != `OPTIONS` && UA.indexOf("ksNebula") == -1) {
     const cookie = $request.headers['Cookie'] ;
-          cookieVal = cookie.match(/token=[_a-z0-9-]+/)[0]
+          cookieVal = cookie.replace(/(.+)(appver\=[0-9\.])(.+)(; client_key\=\w+)(.+)(; token=[0-9a-z-]+)(.+)(; userId=\d+)/,$2$4$6);
     if (ks_tokens) {
       if (ks_tokens.indexOf(cookieVal) > -1) {
         $.log("cookie重复，已跳过")
@@ -273,11 +342,11 @@ function GetCookie() {
         Cookies = ks_tokens + "&" + cookieVal;
         $.setdata(Cookies, 'cookie_ks');
         ck = Cookies.split("&");
-        $.msg($.name, "获取正式Cookie" + ck.length + ": 成功🎉", ``)
+        $.msg($.name, "获取正式版Cookie" + ck.length + ": 成功🎉", ``)
       }
     } else {
       $.setdata(cookieVal, 'cookie_ks');
-      $.msg($.name, `获取正式Cookie: 成功🎉`, ``)
+      $.msg($.name, `获取正式版Cookie: 成功🎉`, ``)
     }
   }
 }
