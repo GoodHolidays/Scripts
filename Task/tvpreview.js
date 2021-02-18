@@ -67,9 +67,9 @@ function playTV() {
           endTime = playdata.et - parseInt(Date.now() / 1000);
           if (playdata.st == result.liveSt) {
             $.sub += " 剩余" + parseInt(endTime / 60) + "分钟"
-          }
-          if (i + 1 < result.program.length) {
+           if (i + 1 < result.program.length) {
             nextplay = "即将播出: " + result.program[i + 1].t + duration
+              }
           }
         }
         $.desc = nextplay + playlist;
