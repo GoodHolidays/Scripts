@@ -1,5 +1,5 @@
-hostname = nebula.kuaishou.com
+hostname = nebula.kuaishou.com, activity.m.kuaishou.com
 
-http:\/\/uploads\d\.gifshow\.com\/rest\/n\/system\/speed url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
+https:\/\/activity\.m\.kuaishou\.com\/rest\/wd\/taskCenter\/lowActive\/module\/list url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
 
 https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\? url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js
