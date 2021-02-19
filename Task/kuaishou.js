@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-18 20:20
+更新时间: 2021-02-19 12:50
 
 本脚本仅适用于快手双版本签到，注意正式版Cookie签到有时效性，但Cookie仍然可用于签到极速版，即正式版会掉签；极速版Cookie只能用于极速版，支持正式版获取多Cookie
 
@@ -52,6 +52,11 @@ const $ = new Env('快手视频')
 let cookieArr = [];
 let ks_tokens = $.getdata('cookie_ks')
 
+let isGetCookie = typeof $request !== 'undefined'
+if (isGetCookie) {
+   GetCookie();
+   $.done()
+} else {
 if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
   cookieArr.push(ks_tokens)
 } else {
@@ -70,23 +75,16 @@ if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
     }
   })
 }
-
-let isGetCookie = typeof $request !== 'undefined'
-if (isGetCookie) {
-   GetCookie();
-   $.done()
-} else {
 !(async() => {
  if(!cookieArr[0]){
       $.msg($.name, '【提示】🉐登录快手pp获取cookie',"", {"open-url": "https://live.kuaishou.com/fission/offkwai/index?cc=share_copylink&kpf=IPHONE&traceId=27&fid=1570609569&code=3429390431&shareMethod=token&kpn=KUAISHOU&subBiz=INVITE_CODE&shareId=1000517297081&shareToken=X-1oTjAy1OkMhgQk_AO&platform=copylink&shareMode=app&shareObjectId=3429390431"});
       return
   }
-  if ($.isNode()){
     timeZone = new Date().getTimezoneOffset() / 60;
     timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
-    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
+    bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'})
     console.log(`\n === 脚本执行 ${bjTime} ===\n`);
-  }
+    console.log(`\n === 共 ${cookieArr.length}个 账号 ===\n`)
  for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i]) {
       cookieVal = cookieArr[i];

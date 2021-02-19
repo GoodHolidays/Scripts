@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-15 00:20
+更新时间: 2021-02-19 12:30
 
 本脚本仅适用于微博每日签到，支持多账号运行  
 
@@ -17,8 +17,8 @@ let signcash = "", cookieArr=[];
 if (isGetCookie = typeof $request !==`undefined`) {
    GetCookie();
    $.done()
-} 
-
+} else{
+!(async () => {
 if(!$.isNode()&&wbtoken.indexOf("#")==-1){
     tokenArr.push(wbtoken);
     cookieArr.push(cookies)
@@ -59,7 +59,6 @@ if ($.isNode()) {
         }
     });
 }
-!(async () => {
   if (!tokenArr[0]) {
     $.msg($.name, '【提示】请先获取新浪微博一cookie')
     return;
@@ -87,7 +86,7 @@ if ($.isNode()) {
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
-
+}
 
 function GetCookie() {
   if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=") > -1) {
