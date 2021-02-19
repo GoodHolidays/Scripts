@@ -339,8 +339,7 @@ function GetCookie() {
     if (ks_tokens) {
       if (ks_tokens.indexOf(uid) > -1) {
         $.log("cookie重复，已跳过")
-      }
-      if (ks_tokens.indexOf(uid) == -1) {
+      } else if (ks_tokens.indexOf(uid) == -1) {
         Cookies = ks_tokens + "&" + cookieVal;
         $.setdata(Cookies, 'cookie_ks');
         ck = Cookies.split("&");
