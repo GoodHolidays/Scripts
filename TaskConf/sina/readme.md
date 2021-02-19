@@ -49,7 +49,7 @@ http-request https:\/\/api\.weibo\.cn\/\d\/users\/show script-path=https://raw.g
 http-request https:\/\/m\.weibo\.cn\/c\/checkin\/ug\/v2\/signin\/module\?module script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, enabled=true, tag=新浪微博
 ```
 #### Quantumult X:
-   * [远程重写配置](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/txnews/qx_rewite.txt)
+   * [远程重写配置](https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.txt)
    
 ```
 [rewrite_remote]

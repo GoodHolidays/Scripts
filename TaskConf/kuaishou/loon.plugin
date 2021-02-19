@@ -1,0 +1,10 @@
+
+[Script]
+cron "4 0 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手视频
+
+http-request https:\/\/activity\.m\.kuaishou\.com\/rest\/wd\/taskCenter\/\w+\/module\/list script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手视频正式版
+
+http-request https:\/\/nebula\.kuaishou\.com\/nebula\/task\/earning\? script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js, enabled=true, tag=快手视频极速版
+
+[MITM]
+hostname = nebula.kuaishou.com, activity.m.kuaishou.com
