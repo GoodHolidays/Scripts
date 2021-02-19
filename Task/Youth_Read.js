@@ -18,7 +18,7 @@ if (isGetbody = typeof $request !==`undefined`) {
    Getbody();
    $done()
 } 
-let lastIndex = $.getdata('zq_lastbody')
+let lastIndex = $.getdata('zqbody_index')
 if(!$.isNode()&&!YouthBody==true){
   $.log("您未获取阅读请求，请求阅读后获取")
   $.msg($.name, "您未获取阅读请求，请求阅读后获取","",{'open-url':"https://kandian.youth.cn/u/8S9DO"})
@@ -60,17 +60,19 @@ if(!$.isNode()&&!YouthBody==true){
 let indexLast = $.getdata('zqbody_index');
  $.begin = indexLast ? parseInt(indexLast,10) : 1;
  $.index = 0;
+ $.log( "上次运行到第"+$.begin+"次终止，本次从"+(parseInt($.begin)+1)+"次开始");
   for ( var i = indexLast ? indexLast:0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
        $.index =  $.index + 1;
-    console.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
-      await $.wait(1000);
-      await AutoRead();
+       $.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
+       await $.wait(10000);
+       await AutoRead();
     };
  }
    $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n")
-   console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`)
+   console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`);
+   $.msg($.name, `本次运行共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -106,10 +108,10 @@ function AutoRead() {
         if($.index==ReadArr.length){
         $.log($.index+"次任务已全部完成，即将结束")
         } else {
-        await $.wait(28000);
+        await $.wait(20000);
         }
       } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
-        console.log(`\n本次阅读获得0个青豆，等待1s即将开始下次阅读\n`);
+        console.log(`\n本次阅读获得0个青豆，等待10s即将开始下次阅读\n`);
       } else if (readres.success == false) {
         console.log(`第${$.index}次阅读请求有误，请删除此请求`)
       } else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
@@ -133,7 +135,7 @@ function batHost(api, body) {
 }
 
 function readTime() {
-    return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
         $.post(batHost('user/stay.json',timebodyVal), (error, resp, data) => {
             let timeres = JSON.parse(data)
             if (timeres.error_code == 0) {
