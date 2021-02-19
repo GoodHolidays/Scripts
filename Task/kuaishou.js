@@ -335,7 +335,7 @@ function GetCookie() {
   } else if ($request && $request.method != `OPTIONS` && UA.indexOf("ksNebula") == -1) {
     const cookie = $request.headers['Cookie'] ;
           cookieVal = cookie.replace(/(appver=[0-9\.]+)(.+)(; client_key=\w+)(.+)(; token=[0-9a-z-]+)(.+)(; userId=\d+)/,'$1$3$5$7');
-         uid= cookieVal.match(/userId=(\d+)/)[1];
+         uid= cookieVal.match(/userId=\d+/g);
     if (ks_tokens) {
       if (ks_tokens.indexOf(uid) > -1) {
         $.log("cookie重复，已跳过")
