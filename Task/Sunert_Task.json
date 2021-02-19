@@ -3,7 +3,7 @@
     "description": "https://github.com/Sunert/Scripts", 
     "task": [
         {
-            "config": "0 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js, tag=墨迹天气, img-url=https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/moji.png, enabled=true"
+            "config": "0 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js, tag=墨迹天气, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/moji.png, enabled=true"
         }, 
         {
             "config": "0 0 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, tag=节目预告, img-url=https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/tvpreview.png, enabled=true"
