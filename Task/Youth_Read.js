@@ -146,8 +146,8 @@ function readTime() {
 }
 
 function Getbody() {
-  if ($request && $request.method != `OPTIONS` && $request.url.match(/\/article\/complete/)) {
-    bodyVal = $request.body;
+  if ($request && $request.method != `OPTIONS` && $request.url.match(/\/article\/info\/get/)) {
+    bodyVal = $request.url.split("?")[1];
     if (YouthBody) {
       if (YouthBody.indexOf(bodyVal) > -1) {
         $.log("此阅读请求已存在，本次跳过")
