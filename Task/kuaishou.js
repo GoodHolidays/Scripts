@@ -143,8 +143,8 @@ function formalCenter() {
                   $.log(taskName + "  " + tasks.schemeText + "\n")
                 } else if (tasks.schemeText == "去签到") {
                   $.log(taskName + tasks.schemeText + "\n");
-                  await formalSign()
-                  continue
+                  await formalSign();
+                  break
                 }
               } else if (Id == "1749" && status == 4) {
                 await openbox(tasktoken, eventId)
@@ -292,7 +292,7 @@ function speedInfo() {
 	let result = JSON.parse(data) 
 	if (result.result == 1) {
 	     speed_rewards = `现金收益: 💵${result.data.allCash}元    金币收益: 💰${result.data.totalCoin}`;
-	     await bdinvet();
+	      await bdinvet();
           await vetInfo()
 		  } 
           resolve()
@@ -335,7 +335,7 @@ function GetCookie() {
   } else if ($request && $request.method != `OPTIONS` && UA.indexOf("ksNebula") == -1) {
     const cookie = $request.headers['Cookie'] ;
           cookieVal = cookie.replace(/(appver=[0-9\.]+)(.+)(; client_key=\w+)(.+)(; token=[0-9a-z-]+)(.+)(; userId=\d+)/,'$1$3$5$7');
-         uid= cookieVal.match(/userId=\d+/);
+         uid= cookieVal.match(/userId=(\d+)/)[1];
     if (ks_tokens) {
       if (ks_tokens.indexOf(uid) > -1) {
         $.log("cookie重复，已跳过")
