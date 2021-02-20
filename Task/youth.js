@@ -440,7 +440,7 @@ function int() {
          url:"https://kandian.youth.cn/user/mmsq?uid=46308484",
          headers:kdHost().headers
      }
-        $.post(url),(error, resp, data) =>{
+        $.post(url,(error, resp, data) =>{
             //$.log(resp)
             resolve()
         })
