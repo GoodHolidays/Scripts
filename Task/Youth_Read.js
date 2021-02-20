@@ -91,10 +91,10 @@ function AutoRead() {
         if(data.indexOf("ctype")>-1){
          if(readres.items.ctype==0){
           artsnum += 1
-          readscore += readres.items.read_score;
+          readscore += parseInt(readres.items.read_score);
          } else if(readres.items.ctype==3){
           videosnum += 1
-          videoscore += readres.items.read_score;
+          videoscore += parseInt(readres.items.read_score);
          } 
         }
         if ($.index % 2 == 0) {
