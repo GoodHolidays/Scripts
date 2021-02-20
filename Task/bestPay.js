@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-20 20:00
+更新时间: 2021-02-20 20:50
 https:\/\/czapp\.bestpay\.com\.cn\/payassistant-client\?method=queryPhoneBalance url script-request-body bestPay.js
 hostname = czapp.bestpay.com.cn
 翼支付打开权益专区，点击套餐详情，重进翼支付App时需重新获取请求，即重写配置不必禁用
@@ -7,7 +7,7 @@ hostname = czapp.bestpay.com.cn
 */
 const $ = new Env('翼支付电信套餐');
 const bodyVal = $.getdata('bestpay_tele');
-const queryTime = $.getdata('bestpay_bill')||parseInt($.time("yyyyMM")-1);
+const queryTime = $.getdata('bestpay_bill').replace("-","")||parseInt($.time("yyyyMM")-1);
 const cash = $.getdata('tele_balance')||"10";
 
 let isGetCookie = typeof $request !== 'undefined'
@@ -116,8 +116,8 @@ function queryBill() {
   return new Promise((resolve) =>{
     $.post(config('detailBillQueryNew', 'BILLCYCLE=' + queryTime), (error, resp, data) =>{
       let result = JSON.parse(data);
-      $.log("账单明细:")
-      $.desc += "账单明细:\n"
+      $.log(queryTime+"期账单明细:")
+      $.desc += queryTime+"期账单明细:\n"
       try {
         billDate = result.BILLINGCYCLE,
         userName = result.customerName,
