@@ -493,7 +493,8 @@
       "keys" : [
         "sy_signurl_txnews",
         "sy_cookie_txnews",
-        "video_txnews"
+        "video_txnews",
+        "txnews_id"
       ],
       "repo" : "https://github.com/Sunert/Scripts/blob/master/Task/txnews.js",
       "id" : "txnews",

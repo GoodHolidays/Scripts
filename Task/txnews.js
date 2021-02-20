@@ -163,6 +163,9 @@ function activity() {
         //$.log(JSON.stringify(taskres,null,2))
         if (taskres.ret == 0) {
           actid = taskres.data.award_notice.activity_id;
+        if(!actid){
+         actid = $.getdata('txnews_id')
+        }
           $.log(`\n您的活动ID为: ` + actid + "\n\n********* 开始阅读任务 ********\n");
            $.desc = ""
          for (tasks of taskres.data.list) {
@@ -211,8 +214,7 @@ function toRead(urlVal, body) {
       url: urlVal,
       headers: Host().headers,
       body: body
-    },
-    (error, resp, data) =>{
+    },(error, resp, data) =>{
       try {
         let obj = JSON.parse(data)
         //$.log(JSON.stringify(obj,null,2))
