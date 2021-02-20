@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-17 22:50
+更新时间: 2021-02-20 22:50
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
@@ -178,8 +178,8 @@ function TaskCenter() {
             else if (dailys.id == "7" && dailys.status == "0") {
               await readTime();
              }
-            else if (dailys.id == "4" && dailys.status == "0") {
-              await getArt();
+            else if (dailys.title == "新春额外赚" && dailys.status == "0") {
+              await Census();
              }
             else if (dailys.id == "10" && dailys.status == "0") {
               $.log(dailys.title + "未完成，去做任务");
@@ -228,7 +228,6 @@ function getsign() {
             } else if (signres.status == 1) {
                 detail = `【签到结果】成功 🎉 青豆: +${signres.score}，明日青豆: +${signres.nextScore}\n`;
                 await comApp();
-                // await Census()
             } 
             resolve()
         })
@@ -279,7 +278,6 @@ function userInfo() {
                 totalscore = signinfo.data.user.score
                 subTitle = `【收益总计】${totalscore}青豆  现金约${cash}元`;
                 nick = `账号: ${signinfo.data.user.nickname}`;
-                await Census();
                if(cookieArr.length ==1){
                 $.setdata(nick,"zq_nick")
                } else {
@@ -444,6 +442,7 @@ function openbox() {
         boxretime = boxres.data.time;
         detail += `【时段宝箱】 +${boxres.data.score}青豆，${boxres.data.time / 60}分钟后再次奖励\n`;
         await boxshare();
+        await getArt()
       } else {
         //detail += `【时段宝箱】${boxres.msg}\n`;
         $.log(`时段宝箱: ${boxres.msg}`)
