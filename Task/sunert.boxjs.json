@@ -220,10 +220,40 @@
           "desc" : "填入账单月份，可查最近六个月，本月账单下月可查"
         }
       ],
-      "name" : "电信套餐查询",
+      "name" : "天翼电信套餐查询",
       "icons" : [
         "https://raw.githubusercontent.com/Orz-3/mini/master/telecominfinty.png",
         "https://raw.githubusercontent.com/Orz-3/mini/master/Color/telecominfinty.png"
+      ]
+     },
+     {
+      "author" : "@sunert",
+      "keys" : [
+        "bestpay_tele"
+      ],
+      "repo" : "https://github.com/Sunert/Scripts/blob/master/Task/bestPay.js",
+      "id" : "bestpay",
+      "script" : "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/bestPay.js",
+      "settings" : [
+        {
+          "id" : "bestpay_bill",
+          "val" : "202008",
+          "name" : "查询月份",
+          "type" : "month",
+          "desc" : "账单查询时间"
+        },
+        {
+          "id" : "tele_balance",
+          "val" : "10",
+          "name" : "余额报警",
+          "type" : "number",
+          "desc" : "余额低于设置值时显示余额通知，设置0为不警示"
+        }
+      ],
+      "name" : "翼支付电信套餐查询",
+      "icons" : [
+        "https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/bestPay_mini.png",
+        "https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/bestPay.png"
       ]
     },
     {
@@ -454,8 +484,8 @@
       ],
       "name" : "百度极速任务",
       "icons" : [
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/baiduspeed_mini.png",
-        "https://github.com/Sunert/Profiles/raw/master/QuantumultX/Rules/Images/icon/baiduspeed.png"
+        "https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/baiduspeed_mini.png",
+        "https://raw.githubusercontent.com/Sunert/Profiles/master/QuantumultX/Rules/Images/icon/baiduspeed.png"
       ]
     },
     {
