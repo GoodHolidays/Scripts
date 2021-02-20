@@ -205,7 +205,7 @@ function TaskCenter() {
 
 function getAction(acttype) {
    return new Promise((resolve, reject) =>{
-        $.get(kdHost(`WebApi/NewTaskIos/sendTwentyScore?action=${acttype}`), (error, resp, data) =>{
+        $.get(kdHost('WebApi/NewTaskIos/sendTwentyScore?action='+acttype), (error, resp, data) =>{
             let actres = JSON.parse(data);
             if (actres.status == 1) {
                 $.log("获得青豆" + actres.score)
@@ -228,7 +228,7 @@ function getsign() {
             } else if (signres.status == 1) {
                 detail = `【签到结果】成功 🎉 青豆: +${signres.score}，明日青豆: +${signres.nextScore}\n`;
                 await comApp();
-                await Census()
+                // await Census()
             } 
             resolve()
         })
@@ -279,6 +279,7 @@ function userInfo() {
                 totalscore = signinfo.data.user.score
                 subTitle = `【收益总计】${totalscore}青豆  现金约${cash}元`;
                 nick = `账号: ${signinfo.data.user.nickname}`;
+                await Census();
                if(cookieArr.length ==1){
                 $.setdata(nick,"zq_nick")
                } else {
@@ -427,14 +428,7 @@ function SevCont() {
 }
 function Census() {
     return new Promise((resolve, reject) =>{
-       let url= {
-         url:"https://kd.youth.cn/user/inviteCensus2?jsonpcallback=jQuery20308548318424756004_1613745418308&uid=46308484&_="+Date.now(),
-         headers:{
-           'Cookie':cookie,
-           'Referer': 'https://kandian.youth.cn/user/mmsq/ee9d523f55d7f1e985384c5c4c22228f?uid=46308484&reward_sign=5REAvA90VGotgq4exRtrCoiDgQGGv9zp&avatar=http://res.youth.cn/avatar_202004_28_28o_5ea8469f50c0746308484h.jpg&is_new=0&title_mark=1'
-         }
-       }
-        $.post(url, async(error, resp, data) =>{
+        $.post(kdHost('u/wyRAM'),(error, resp, data) =>{
             //$.log(resp)
             resolve()
         })
