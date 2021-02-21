@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-19 12:30
+更新时间: 2021-02-21 22:30
 
 本脚本仅适用于微博每日签到，支持多账号运行  
 
@@ -109,14 +109,14 @@ function GetCookie() {
     }
   }
 else if ($request && $request.method != 'OPTIONS' && $request.headers.Cookie.indexOf("SUB=") > -1) {
-    const cookieval = $request.headers.Cookie.match(/SUB=[\w\-]+/);
+    const cookieval = $request.headers.Cookie.match(/SUB=[\w\-]+/)[0];
     if (cookies) {
       if (cookies.indexOf(cookieval) > -1) {
         $.log("此账号Cookie已存在，本次跳过")
       } else if (cookies.indexOf(cookieval) == -1) {
         cookie = cookies + "#" + cookieval;
         $.setdata(cookie, 'wb_cookie');
-        Cookies = cookie.split('#')
+        Cookies = cookie.split('#');
         $.log(`cookie: ${cookie}`);
         $.msg($.name, '获取微博用户'+Cookies.length+'Cookie: 成功', ``)
       }
