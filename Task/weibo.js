@@ -114,10 +114,11 @@ else if ($request && $request.method != 'OPTIONS' && $request.headers.Cookie.ind
       if (cookies.indexOf(cookieval) > -1) {
         $.log("此账号Cookie已存在，本次跳过")
       } else if (cookies.indexOf(cookieval) == -1) {
-        tokens = cookies + "#" + cookieval;
-        $.setdata(tokens, 'wb_cookie');
-        $.log(`cookie: ${tokens}`);
-        $.msg($.name, `获取微博用户Cookie: 成功`, ``)
+        cookie = cookies + "#" + cookieval;
+        $.setdata(cookie, 'wb_cookie');
+        Cookies = cookie.split('#')
+        $.log(`cookie: ${cookie}`);
+        $.msg($.name, '获取微博用户'+Cookies.length+'Cookie: 成功', ``)
       }
     } else {
       $.setdata(cookieval, 'wb_cookie');
