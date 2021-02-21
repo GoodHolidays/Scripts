@@ -82,7 +82,7 @@ function formalCenter() {
   return new Promise((resolve, reject) =>{
     $.post(formalHost('lowActive/module/list', '{"bizId":29,"configId":1}'), async(error, resp, data) =>{
       let central = JSON.parse(data);
-$.log("\n--------------------------------------------------------------------------------\n\n现在开始正式版任务")
+$.log("\n————————————————————\n\n现在开始正式版任务")
       try {
         if (central.result == 1) {
           for (lists of central.modules) {
@@ -314,10 +314,7 @@ function nebulaHost(api,body){
 }
 
 function showmsg() {
- $.sub ="", $.desc = "";
-
-    $.desc += `【正式版】:\n  `+offic_info+"  "+offic_sign +'\n'
-  
+    $.desc = `【正式版】:\n  `+offic_info+"\n "+offic_sign +'\n'
     $.desc += `【极速版】:\n  `+speed_rewards+"\n  "+speed_info
   
 $.msg($.name+"  昵称:"+nickname,$.sub,$.desc)
