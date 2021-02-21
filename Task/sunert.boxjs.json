@@ -176,6 +176,32 @@
       "keys" : [
         "cookie_ks"
       ],
+      "settings" : [
+        {
+          "id" : "cash_nebulaks",
+          "val" : "30",
+          "name" : "极速版提现",
+          "type" : "number",
+          "desc" : "极速版提现金额，默认30"
+        },
+        {
+          "id" : "cash_nebulaks",
+          "val" : "30",
+          "name" : "极速版提现",
+          "type" : "radios",
+          "items": [
+             {
+              "key" : "ALIPAY",
+              "label" : "支付宝"
+             },
+             {
+              "key" : "WECHAT",
+              "label" : "微信"
+             }
+          ]
+          "desc" : "极速版提现金额，默认30，前提是绑定支付方式"
+        },
+      ],
       "repo" : "https://github.com/Sunert/Scripts/blob/master/Task/kuaishou.js",
       "id" : "kuaishou",
       "script" : "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/kuaishou.js",
