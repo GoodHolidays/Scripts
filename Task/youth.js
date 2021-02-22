@@ -97,6 +97,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     };
     myuid = cookie.match(/uid=\d+/);
     await userInfo();
+    nick = nick?nick:null;
     $.log(`\n********** ${nick} 现金收益: ${cash}元 ********\n`);
     await friendsign();
     await ExtraList();
