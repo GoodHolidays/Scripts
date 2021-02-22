@@ -91,8 +91,8 @@ if ($.isNode()) {
 function GetCookie() {
   if ($request && $request.method != 'OPTIONS' && $request.url.indexOf("gsid=") > -1) {
     const signurlVal = $request.url;
-    let token = signurlVal.replace(/(.+)(from=\w+)(.+)(&uid=\d+)(.+)(&gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)/,'$2$4$6$8'),
-    uid = token.match(/uid=\d+/);
+    let token = signurlVal.replace(/(.+)(from=\w+)(.+)(&uid=\d+)(.+)(&gsid=[_a-zA-Z0-9-]+)(&.+)(&s=\w+)&?/,'$2$4$6$8'),
+    uid = token.match(/uid=\d+/)[0];
     if (wbtoken) {
       if (wbtoken.indexOf(uid) > -1) {
         $.log("此账号Cookie已存在，本次跳过")
