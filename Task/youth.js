@@ -437,7 +437,7 @@ function Census() {
 function int() {
     return new Promise((resolve, reject) =>{
      let url = {
-         url:"https://kandian.youth.cn/user/mmsq?uid=46308484",
+         url:"https://focus.youth.cn/v/oHi6Z/share?",
          headers:kdHost().headers
      }
         $.post(url,(error, resp, data) =>{
