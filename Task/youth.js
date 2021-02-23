@@ -10,7 +10,7 @@
 const $ = new Env("中青看点")
 
 const notify = $.isNode() ? require('./sendNotify') : '';
-const youthNode = $.isNode() ? require('./youth_env') : '';
+//const youthNode = $.isNode() ? require('./youth_env') : '';
 
 // 可设置部分
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
