@@ -1,14 +1,15 @@
 /*
 更新时间: 2021-02-21 10:15
-赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢
-本脚本仅适用于快手双版本签到，仅支持正式版获取多Cookie，建议使用正式版获取Cookie，点击视频页悬浮红包，或者进入设置，点击"积分兑好礼"即可
-
+赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢;
+本脚本仅适用于快手双版本签到，仅支持正式版获取多Cookie，建议使用正式版获取Cookie，点击视频页悬浮红包，或者进入设置，点击"积分兑好礼"即可;
+本脚本仅在签到成功时通知;
 兼容Nodejs,把获取的Cookie填入KS_TOKEN，多账号用"&"分开
 */
 
 const $ = new Env('快手视频')
 let cookieArr = [];
 let ks_tokens = $.getdata('cookie_ks');
+const notify = $.isNode() ? require('./sendNotify') : '';
 const nebulaCash = $.getdata('cash_nebulaks')||"10";
 const cashType = $.getdata('tpcash_nebula')||"ALIPAY";
 
@@ -56,8 +57,15 @@ if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
      await formalSign();
   if(offici_code !== 100119){
      await formalinfo();
-   } 
-     await showmsg()
+   }; 
+     $.desc = `【正式版】:\n  `+offic_info+"\n  "+offic_sign +'\n'
+     $.desc += `【极速版】:\n  `+speed_rewards+"\n  "+speed_info;
+    if(offici_code==1){
+     $.msg($.name+"  昵称:"+nickname,"",$.desc);
+     await notify.sendNotify($.name+ " " +nickname,$.desc)
+    } else {
+     $.log( "~~~~~~~~~~~~~~~~~\n 昵称:" +nickname+"\n"+ $.desc)  
+    }
    }
  }
 })()
@@ -82,7 +90,7 @@ function formalCenter() {
   return new Promise((resolve, reject) =>{
     $.post(formalHost('lowActive/module/list', '{"bizId":29,"configId":1}'), async(error, resp, data) =>{
       let central = JSON.parse(data);
-$.log("\n————————————————————\n\n现在开始正式版任务")
+$.log("\n----------------------------------------\n\n现在开始正式版任务")
       try {
         if (central.result == 1) {
           for (lists of central.modules) {
@@ -276,10 +284,9 @@ if(nebulaTask.extParam.todayIsSigned==false){
              await bdinvet();
             }
              $.log(nebulaTask.desc+"\n");
-             
            }
-         }
-		  } 
+           }
+		} 
           resolve()
 	   })
     })
@@ -311,13 +318,6 @@ function nebulaHost(api,body){
     },
      body: body
   }
-}
-
-function showmsg() {
-    $.desc = `【正式版】:\n  `+offic_info+"\n "+offic_sign +'\n'
-    $.desc += `【极速版】:\n  `+speed_rewards+"\n  "+speed_info
-  
-$.msg($.name+"  昵称:"+nickname,$.sub,$.desc)
 }
 
 function GetCookie() {
