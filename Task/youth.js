@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-23 23:45
+更新时间: 2021-02-23 23:55
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
@@ -59,18 +59,18 @@ if (isGetCookie = typeof $request !== 'undefined') {
         cookieYouth = [process.env.YOUTH_HEADER]
       };
       if (process.env.YOUTH_ARTBODY && process.env.YOUTH_ARTBODY.indexOf('&') > -1) {
-        ARTBODYs = process.env.YOUTH_ARTBODY.split('&');
+        artBody = process.env.YOUTH_ARTBODY.split('&');
       } else if (process.env.YOUTH_ARTBODY && process.env.YOUTH_ARTBODY.indexOf('\n') > -1) {
-        ARTBODYs = process.env.YOUTH_ARTBODY.split('\n');
+        artBody = process.env.YOUTH_ARTBODY.split('\n');
       } else {
-        ARTBODYs = [process.env.YOUTH_ARTBODY]
+        artBody = [process.env.YOUTH_ARTBODY]
       };
       if (process.env.YOUTH_TIME && process.env.YOUTH_TIME.indexOf('&') > -1) {
-        READTIME = process.env.YOUTH_TIME.split('&');
+        readTimes = process.env.YOUTH_TIME.split('&');
       } else if (process.env.YOUTH_TIME && process.env.YOUTH_TIME.indexOf('\n') > -1) {
-        READTIME = process.env.YOUTH_TIME.split('\n');
+        readTimes = process.env.YOUTH_TIME.split('\n');
       } else {
-        READTIME = [process.env.YOUTH_TIME]
+        readTimes = [process.env.YOUTH_TIME]
       }
     };
   Object.keys(cookieYouth).forEach((item) =>{
@@ -83,8 +83,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
         readArr.push(artBody[item])
       }
     });
-    Object.keys(readTime).forEach((item) =>{
-      if (readTime[item]) {
+    Object.keys(readTimes).forEach((item) =>{
+      if (readTimes[item]) {
         timeArr.push(readTime[item])
       }
     })
