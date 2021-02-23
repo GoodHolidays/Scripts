@@ -19,4 +19,3 @@
       } else {
         READTIME = [process.env.YOUTH_TIME]
       }
-    }
