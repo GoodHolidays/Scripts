@@ -427,7 +427,7 @@ function SevCont() {
 }
 function Census() {
     return new Promise((resolve, reject) =>{
-    $.post(kdHost('u/w4aFB'),async(error, resp, data) =>{
+    $.post(kdHost('u/w6j7s'),async(error, resp, data) =>{
             await $.wait(500);
             await int();
             resolve()
