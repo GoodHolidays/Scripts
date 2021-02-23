@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-23 23:20
+更新时间: 2021-02-23 23:45
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
@@ -72,7 +72,6 @@ if (isGetCookie = typeof $request !== 'undefined') {
       } else {
         READTIME = [process.env.YOUTH_TIME]
       }
-    }
     };
   Object.keys(cookieYouth).forEach((item) =>{
       if (cookieYouth[item]) {

@@ -73,7 +73,7 @@ https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json url script-request-body h
 1 */5 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js, enabled=true, tag=中青看点
 ```
 ###  获取Cookie方法
-  * 打开极速版APP，进去个人中心，提示获取Cookie
+  * 打开极速版APP，进去我的"任务中心"，提示获取Cookie
   - 打开一篇短文资讯，提示获取阅读请求
   * 多阅读几篇短文，随机获取阅读时长请求(至少1分钟左右，增加时长有关)
   - 正常提现一次，获取提现请求(可选，AC无添加)
