@@ -85,7 +85,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     });
     Object.keys(readTimes).forEach((item) =>{
       if (readTimes[item]) {
-        timeArr.push(readTime[item])
+        timeArr.push(readTimes[item])
       }
     })
   };
@@ -742,6 +742,7 @@ function earningsInfo() {
   })
 }
 async function showmsg() {
+console.log(`\n【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
   if ($.isNode() && rotaryres.status !== 0) {
       if (rotarytimes && (100 - rotarytimes) % 95 == 0 && cash >= 10) {
         await notify.sendNotify($.name + " " + nick, "您的余额约为" + cash + "元，已可以提现" + '\n' + `【收益总计】${signinfo.data.user.score}青豆现金约${cash}元\n${detail}`)
