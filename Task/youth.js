@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-23 23:55
+更新时间: 2021-02-24 13:30
 赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
 本脚本仅适用于中青看点极速版领取青豆
 食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
@@ -175,12 +175,12 @@ function userInfo() {
         };
         if (signinfo.data.is_sign == false) {
           await getsign();
+          if (signday == 6) {
+          await SevCont();
+         }
         } else if (signinfo.data.is_sign == true) {
           detail = `【签到结果】🔁 (今天+${signinfo.data.sign_score}青豆)已连签${signday}天\n<本次收益> ：\n`
         };
-        if (signday == 7) {
-          await SevCont();
-        }
       } else {
         $.log(signinfo.msg);
         return
@@ -199,34 +199,35 @@ function TaskCenter() {
         if (taskres.status == 1) {
           await friendsign();
           for (dailys of taskres.list.daily) {
+            button = dailys.but,
+            title = dailys.title,
+            dayid = dailys.id,
+            reward_act = dailys.reward_action;
             await $.wait(500);
-            if (dailys.status == "1" && dailys.action != "") {
+            $.log("去"+title)
+            if (dailys.status == "2") {
+              $.log(title + "，" + button + "，已领取青豆" + dailys.score)
+              detail += `【${title}】✅  ${dailys.score}青豆\n`
+            }
+            else if (dailys.status == "1" && dailys.action != "") {
               $.log(dailys.title + "已完成 ，去领取奖励青豆");
               await $.wait(600);
-              await getAction(dailys.reward_action)
-            } else if (dailys.status == "2" && dailys.action != "") {
-              $.log(dailys.title + "，" + dailys.but + "，已领取青豆" + dailys.score)
-              detail += `【${dailys.title}】✅  ${dailys.score}青豆\n`
-            }
-            else if (dailys.title=="打卡赚钱"&&dailys.status == "0"&&ONCard == "true") {
-             await CardStatus()
-            }
-            else if (dailys.id == "7" && dailys.status == "0") {
-              await readTime();
-             }
-            else if (dailys.title == "新春额外赚" && dailys.status == "0") {
+              await getAction(reward_act)
+            } else if (dailys.status == "0"){
+            if (title == "新春额外赚") {
               await Census();
-             }
-            else if (dailys.id == "10" && dailys.status == "0") {
-              $.log(dailys.title + "未完成，去做任务");
+            } else if (title=="打卡赚钱"&&ONCard == "true") {
+             await CardStatus()
+            } else if (dayid == "7") {
+              await readTime()
+            } else if (dayid == "10") {
+              $.log(title + "未完成，去做任务");
               for (x = 0; x < 5; x++) {
                 $.log("等待5s执行第" + (x + 1) + "次");
                 await $.wait(5000);
-                await recordAdVideo(dailys.reward_action)
+                await recordAdVideo(reward_act)
               }
-              if (record.status == 0) {
-                await getAction(dailys.reward_action);
-              }
+             }
             }
           }
         }
@@ -341,7 +342,7 @@ function CardStatus() {
           $.log("打卡时间已到，去打卡");
           await endCard()
         } else if (punchcard.data.user.status == 0) {
-          $.log("今日您未报名早起打卡");
+          $.log("今日您未报名早起打卡，报名时间统一设置成晚上23点");
         }
       } else if (punchcard.code == 0) {
         $.log("打卡申请失败" + data)
@@ -373,7 +374,7 @@ function endCard() {
       $.post(kdHost('WebApi/PunchCard/doCard?'), async(error, resp, data) =>{
         punchcardend = JSON.parse(data);
         if (punchcardend.code == 1) {
-          detail += `【早起打卡】${punchcardend.data.card_time}${punchcardend.msg}✅\n`;
+          detail += `【早起打卡】${punchcardend.data.card_time}${punchcardend.msg}✅ `;
           $.log("早起打卡成功，打卡时间:" + `${punchcardend.data.card_time}`);
           await $.wait(1000);
           await Cardshare();
@@ -391,14 +392,14 @@ function Cardshare() {
   return new Promise((resolve, reject) =>{
     $.post(kdHost('WebApi/PunchCard/shareStart?'), async(error, resp, data) =>{
       sharestart = JSON.parse(data);
-      //detail += `【打卡分享】${sharestart.msg}\n`
       if (sharestart.code == 1) {
         $.log("等待2s，去打卡分享")
         await $.wait(2000);
         $.post(kdHost('WebApi/PunchCard/shareEnd?'), (error, response, data) =>{
           shareres = JSON.parse(data);
           if (shareres.code == 1) {
-            detail += ` +${shareres.data.score}青豆\n`
+            detail += ` 打卡分享+${shareres.data.score}青豆\n`;
+            $.msg($.name,"", detail)
           } else {
             //detail += `【打卡分享】${shareres.msg}\n`
             //$.log(`${shareres.msg}`)

@@ -92,6 +92,7 @@ function GainStart() {
           let startres = JSON.parse(data);
           if(startres.success==false){
             $.log(startres.message)
+            
           } else if(startres.items.comtele_state ==0){
              $.log("任务开始，"+startres.items.banner_id+startres.message)
              await $.wait(10000);
