@@ -742,21 +742,17 @@ function earningsInfo() {
   })
 }
 async function showmsg() {
-console.log(`\n【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
-  if ($.isNode() && rotaryres.status !== 0) {
-      if (rotarytimes && (100 - rotarytimes) % 95 == 0 && cash >= 10) {
-        await notify.sendNotify($.name + " " + nick, "您的余额约为" + cash + "元，已可以提现" + '\n' + `【收益总计】${signinfo.data.user.score}青豆现金约${cash}元\n${detail}`)
-      }
+     if ($.isNode() && rotaryres.status !== 0&&rotarytimes && (100 - rotarytimes) % 95 == 0 && cash >= 10) {
+        await notify.sendNotify($.name + " " + nick, "您的余额约为" + cash + "元，已可以提现" + '\n' + subTitle+`\n${detail}`)
     } else if (rotaryres.status == 1 && rotarytimes >= 97) {
           $.msg($.name + " " + nick, subTitle, detail)  //默认前三次为通知
         }else if (rotaryres.status == 1 && rotarytimes % notifyInterval == 0) {
         $.msg($.name + " " + nick, subTitle, detail) //转盘次数/间隔整除时通知;
-        }else if (rotaryres.code == 10010 && notifyInterval != 0) {
-         //rotarynum = ` 转盘${rotaryres.msg}🎉`
-         $.msg($.name+"  "+nick+" "+rotarynum,subTitle,detail)//任务全部完成且通知间隔不为0时通知;
+        }else if (rotaryres.status == 1 && rotarytimes == "99") {
+         $.msg($.name+"  "+nick+" "+rotarynum,subTitle,detail)//转盘剩余1次时通知;
         } 
      else {
-       console.log(`\n【收益总计】${totalscore}青豆  现金约${cash}元\n`+ detail)
+       console.log('\n'+subTitle+'\n'+ detail)
    }
 }
 
