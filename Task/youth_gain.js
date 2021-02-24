@@ -116,7 +116,6 @@ function GainStart() {
         await GainEnd()
       } else if (comstate == 1) {
         $.log("任务:" + startres.items.banner_id + "已完成，本次跳过");
-        await $.wait(2000);
        }
       }
       resolve()
@@ -184,7 +183,6 @@ function lookEnd() {
   return new Promise((resolve, reject) =>{
     $.post(gainHost('Nameless/adlickend.json',lookbody), (error, resp, data) =>{
       let endres = JSON.parse(data);
-$.log(data)
       if (endres.success == true) {
         $.log("任务" + endres.items.banner_id +endres.message+ "，" +endres.items.desc)
         lookscore += parseInt(endres.items.score)
