@@ -124,6 +124,15 @@
         "youth_autoread", 
         "autotime_zq"
       ], 
+      "setting": [
+      {
+          "id": "youth_cut", 
+          "val": false, 
+          "name": "缩减请求", 
+          "type": "boolean", 
+          "desc": "自动删除收益为0或者错误的阅读请求，使用完后请立即关闭，避免清空阅读请求"
+        }
+      ],
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/Youth_Read.js", 
       "id": "youthRead", 
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/Youth_Read.js", 

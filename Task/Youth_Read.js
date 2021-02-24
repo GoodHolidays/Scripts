@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-16 15:00
+更新时间: 2021-02-24 16:20
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -12,6 +12,7 @@ const $ = new Env("中青看点阅读")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], timebodyVal ="";
 let YouthBody = $.getdata('youth_autoread')||$.getdata("zqgetbody_body");
+let smallzq = $.getdata('youth_cut')
 let artsnum = 0, videosnum = 0;
 let videoscore = 0,readscore = 0;
 if (isGetbody = typeof $request !==`undefined`) {
@@ -84,8 +85,9 @@ function AutoRead() {
       let readres = JSON.parse(data);
       // $.log(JSON.stringify(readres,null,2))
       $.begin=$.begin+1;
-      let res=$.begin%ReadArr.length
+      let res=$.begin%ReadArr.length;
       $.setdata(res+"", 'zqbody_index');
+      articbody = (articlebody==ReadArr[0])? articlebody:"&"+articlebody;
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
         console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
         if(data.indexOf("ctype")>-1){
@@ -111,9 +113,19 @@ function AutoRead() {
         await $.wait(20000);
         }
       } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
-        console.log(`\n本次阅读获得0个青豆，等待10s即将开始下次阅读\n`);
+        $.log(`\n本次阅读获得0个青豆，等待10s即将开始下次阅读\n`);
+        if(!!smallzq){
+        smreadbody = $.getdata('youth_autoread').replace(articbody,"")
+        $.setdata(smreadbody, 'youth_autoread')
+        $.log("已删除第"+($.begin-1)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
+       }
       } else if (readres.success == false) {
-        console.log(`第${$.index}次阅读请求有误，请删除此请求`)
+        console.log(`第${$.index}次阅读请求有误，请删除此请求`);
+       if(!!smallzq){
+        smreadbody = $.getdata('youth_autoread').replace(articbody,"");
+        $.setdata(smreadbody, 'youth_autoread');
+        $.log("已删除第"+($.begin-1)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
+       }
       } else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
         console.log(readres.items.max_notice)
       }
