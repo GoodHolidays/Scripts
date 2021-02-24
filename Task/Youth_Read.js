@@ -87,7 +87,6 @@ function AutoRead() {
       $.begin=$.begin+1;
       let res=$.begin%ReadArr.length;
       $.setdata(res+"", 'zqbody_index');
-      articbody = (articlebody==ReadArr[0])? articlebody:"&"+articlebody;
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
         console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
         if(data.indexOf("ctype")>-1){
@@ -115,14 +114,14 @@ function AutoRead() {
       } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
         $.log(`\n本次阅读获得0个青豆，等待10s即将开始下次阅读\n`);
         if(!!smallzq){
-        smreadbody = $.getdata('youth_autoread').replace(articbody,"")
+        smreadbody = $.getdata('youth_autoread').replace(articlebody+"&","")
         $.setdata(smreadbody, 'youth_autoread')
         $.log("已删除第"+($.begin-1)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
        }
       } else if (readres.success == false) {
         console.log(`第${$.index}次阅读请求有误，请删除此请求`);
        if(!!smallzq){
-        smreadbody = $.getdata('youth_autoread').replace(articbody,"");
+        smreadbody = $.getdata('youth_autoread').replace(articlebody+"&","");
         $.setdata(smreadbody, 'youth_autoread');
         $.log("已删除第"+($.begin-1)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
        }

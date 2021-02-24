@@ -105,8 +105,7 @@ function GainStart() {
     $.post(gainHost('task/browse_start.json',gainbody), async(error, resp, data) =>{
       let startres = JSON.parse(data);
       if (startres.success == false) {
-        gainbodys = gainbody==startArr[0]?gainbody:"&"+gainbody;
-        smbody = $.getdata('youth_start').replace(gainbodys,"");
+        smbody = $.getdata('youth_start').replace(gainbody+"&","");
         $.setdata(smbody,'youth_start');
         $.log(startres.message+"已自动删除")
       } else {
@@ -130,8 +129,7 @@ function lookStart() {
     $.post(gainHost('Nameless/adlickstart.json',lookbody), async(error, resp, data) =>{
        startlk = JSON.parse(data);
       if (startlk.success == false) {
-        seebodys = lookbodys==startArr[0]?lookbodys:"&"+lookbodys;
-        smbody = $.getdata('youth_start').replace(gainbodys,"");
+        smbody = $.getdata('youth_start').replace(lookbody+"&","");
         $.setdata(smbody,'youth_start');
         $.log(startlk.message+"已自动删除")
       } else {
