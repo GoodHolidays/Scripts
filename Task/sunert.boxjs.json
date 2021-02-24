@@ -124,7 +124,7 @@
         "youth_autoread", 
         "autotime_zq"
       ], 
-      "setting": [
+      "settings": [
       {
           "id": "youth_cut", 
           "val": false, 
