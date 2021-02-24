@@ -107,12 +107,12 @@
       "author": "@sunert", 
       "keys": [
         "youth_start", 
-        "youth_end"
+        "youth_look"
       ], 
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/youth_gain.js", 
       "id": "youthGain", 
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js", 
-      "name": "中青浏览赚", 
+      "name": "中青浏览赚&看看赚", 
       "icons": [
         "https://raw.githubusercontent.com/Orz-3/mini/master/youth.png", 
         "https://raw.githubusercontent.com/Orz-3/mini/master/Color/youth.png"
