@@ -76,7 +76,7 @@ if (!$.isNode() && !lookbodys.indexOf("&") == -1) {
       $.index = i + 1;
       $.log(`-------------------------\n\n开始中青看点浏览赚第${$.index}次任务`)
     }
-      //await GainStart();
+      await GainStart();
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次任务，共计获得${gainscore}个青豆，浏览赚任务全部结束`);
    //$.msg("中青看点浏览赚", `共完成${$.index}次任务`+`  共计获得${gainscore}个青豆`);
