@@ -172,8 +172,7 @@ function lookstatus() {
     $.post(gainHost('Nameless/bannerstatus.json',lookbody), (error, resp, data) =>{
       let endres = JSON.parse(data);
       if (endres.success == true) {
-        $.log("任务" + endres.items.banner_id +endres.message+ "，恭喜获得" + endres.items.score + "个青豆");
-        lookscore += parseInt(endres.items.score)
+        $.log("任务" + endres.items.banner_id +endres.message);
       } else {
         $.log(endres.message)
       }
@@ -186,7 +185,8 @@ function lookEnd() {
     $.post(gainHost('Nameless/adlickend.json',lookbody), (error, resp, data) =>{
       let endres = JSON.parse(data);
       if (endres.success == true) {
-        $.log("任务" + endres.items.banner_id +endres.message)
+        $.log("恭喜获得" + endres.items.score + "个青豆")
+        lookscore += parseInt(endres.items.score)
       } else {
         $.log(endres.message)
       }
