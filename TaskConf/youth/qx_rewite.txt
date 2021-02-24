@@ -8,4 +8,6 @@ https:\/\/ios\.baertt\.com\/v5\/user\/stay\.json url script-request-body https:/
 
 https:\/\/ios\.baertt\.com\/v5\/task\/browse_start\.json url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js
 
+https:\/\/ios\.baertt\.com\/v5\/Nameless\/adlickstart\.json url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js
+
 https:\/\/ios\.baertt\.com\/v5\/\w+\/withdraw\d?\.json url script-request-body https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
