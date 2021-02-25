@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-25 18:10
+更新时间: 2021-02-25 20:51
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -15,7 +15,7 @@ let YouthBody = $.getdata('youth_autoread')||$.getdata("zqgetbody_body");
 let smallzq = $.getdata('youth_cut')
 let artsnum = 0, videosnum = 0;
 let videoscore = 0,readscore = 0;
-let artArr = [];
+let artArr = [], delbody = 0;
 if (isGetbody = typeof $request !==`undefined`) {
    Getbody();
    $done()
@@ -46,12 +46,12 @@ if(!$.isNode()&&!YouthBody==true){
       ReadArr.push(YouthBody[item])
     }
   })
+}
     timeZone = new Date().getTimezoneOffset() / 60;
     timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
     bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
     console.log(`\n === 脚本执行 ${bjTime} ===\n`);
-  $.log("\n  您共获取"+ReadArr.length+"次阅读请求，任务开始\n")
-}
+  $.log("******** 您共获取"+ReadArr.length+"次阅读请求，任务开始 *******")
       
  !(async () => {
   if (!ReadArr[0]) {
@@ -63,13 +63,13 @@ let indexLast = $.getdata('zqbody_index');
  $.begin = indexLast ? parseInt(indexLast,10) : 1;
  $.index = 0;
   if($.begin+1<=ReadArr.length){
-    $.log( "上次运行到第"+$.begin+"次终止，本次从"+(parseInt($.begin)+1)+"次开始");
+    $.log( "\n上次运行到第"+$.begin+"次终止，本次从"+(parseInt($.begin)+1)+"次开始");
 } else {
   $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始")
-  indexLast = 0;
+  indexLast = 0, $.begin = 0
 }
    if(smallzq=="true"){
-    $.log("\n 请注意缩减请求开关已打开‼️\n 如不需要，请强制停止，然后关闭Boxjs缩减请求开关‼️\n")
+    $.log("     请注意缩减请求开关已打开‼️\n     如不需要    请强制停止\n     关闭Boxjs缩减请求开关")
   };
   for ( var i = indexLast ? indexLast:0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
@@ -79,8 +79,8 @@ let indexLast = $.getdata('zqbody_index');
         await bodyInfo();
     }
  };
-
-    $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n");
+   $.log("\n……………………………………………………………………\n\n本次共删除"+delbody+"个请求，剩余"+(ReadArr.length-delbody)+"个请求");
+   $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n");
    console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`);
    $.msg($.name, `本次运行共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆`)
 })()
@@ -103,9 +103,10 @@ function bodyInfo() {
         await $.wait(10000);
         await AutoRead();
       } else if (artArr.indexOf(acticid)>-1){
-        repeatbody = $.getdata('youth_autoread').replace(articlebody+"&","");
+        repeatbody = $.getdata('youth_autoread').replace("&"+articlebody,"");
         $.setdata(repeatbody, 'youth_autoread')
         $.log("文章ID:"+acticid+" 请求重复，已自动删除")
+        delbody += 1;
         await $.wait(1000)
       }
      }
@@ -123,7 +124,10 @@ function AutoRead() {
   return new Promise((resolve, reject) =>{
     $.post(batHost('article/complete.json', articlebody), async(error, response, data) =>{
       let readres = JSON.parse(data);
-      // $.log(JSON.stringify(readres,null,2))
+      //$.log(JSON.stringify(readres,null,2))
+      if(readres.items.complete==1){
+       $.log(readres.items.max_notice)
+     }else {
       $.begin=$.begin+1;
       let res=$.begin%ReadArr.length;
       $.setdata(res+"", 'zqbody_index');
@@ -153,21 +157,22 @@ function AutoRead() {
         }
       } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
         $.log(`\n本次阅读获得0个青豆，等待10s即将开始下次阅读\n`);
-        if(smallzq=="true"){
-        smreadbody = $.getdata('youth_autoread').replace(articlebody+"&","")
+        if(smallzq=="true"&&articlebody!==ReadArr[0]){
+        smreadbody = $.getdata('youth_autoread').replace("&"+articlebody,"")
         $.setdata(smreadbody, 'youth_autoread')
-        $.log("已删除第"+($.begin-1)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
+        $.log("已删除第"+($.begin)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
+        delbody += 1
        }
       } else if (readres.success == false) {
         console.log(`第${$.index}次阅读请求有误，请删除此请求`);
-       if(smallzq=="true"){
-        smreadbody = $.getdata('youth_autoread').replace(articlebody+"&","");
+       if(smallzq=="true"&&articlebody!==ReadArr[0]){
+        smreadbody = $.getdata('youth_autoread').replace("&"+articlebody,"");
         $.setdata(smreadbody, 'youth_autoread');
-        $.log("已删除第"+($.begin-1)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
+        $.log("已删除第"+($.begin)+"个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭");
+        delbody += 1
        }
-      } else if (readres.items.max_notice == '\u770b\u592a\u4e45\u4e86\uff0c\u63621\u7bc7\u8bd5\u8bd5') {
-        console.log(readres.items.max_notice)
-      }
+      } 
+    }
       resolve()
     })
   })
