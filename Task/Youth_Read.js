@@ -62,6 +62,9 @@ let indexLast = $.getdata('zqbody_index');
  $.begin = indexLast ? parseInt(indexLast,10) : 1;
  $.index = 0;
  $.log( "上次运行到第"+$.begin+"次终止，本次从"+(parseInt($.begin)+1)+"次开始");
+   if(smallzq){
+    $.log("\n 请注意缩减请求开关已打开‼️\n 如不需要，请强制停止，然后关闭Boxjs缩减请求开关‼️\n")
+  };
   for ( var i = indexLast ? indexLast:0; i < ReadArr.length; i++) {
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
