@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-25 13:20
+更新时间: 2021-02-25 16:10
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -15,6 +15,7 @@ let YouthBody = $.getdata('youth_autoread')||$.getdata("zqgetbody_body");
 let smallzq = $.getdata('youth_cut')
 let artsnum = 0, videosnum = 0;
 let videoscore = 0,readscore = 0;
+let artArr = [];
 if (isGetbody = typeof $request !==`undefined`) {
    Getbody();
    $done()
@@ -61,7 +62,12 @@ if(!$.isNode()&&!YouthBody==true){
 let indexLast = $.getdata('zqbody_index');
  $.begin = indexLast ? parseInt(indexLast,10) : 1;
  $.index = 0;
- $.log( "上次运行到第"+$.begin+"次终止，本次从"+(parseInt($.begin)+1)+"次开始");
+  if($.begin+1<=ReadArr.length){
+    $.log( "上次运行到第"+$.begin+"次终止，本次从"+(parseInt($.begin)+1)+"次开始");
+} else {
+  $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始")
+  indexLast = 0;
+}
    if(smallzq){
     $.log("\n 请注意缩减请求开关已打开‼️\n 如不需要，请强制停止，然后关闭Boxjs缩减请求开关‼️\n")
   };
@@ -69,17 +75,48 @@ let indexLast = $.getdata('zqbody_index');
     if (ReadArr[i]) {
       articlebody = ReadArr[i];
        $.index =  $.index + 1;
-       $.log(`-------------------------\n\n开始中青看点第${$.index}次阅读`);
-       await $.wait(10000);
-       await AutoRead();
-    };
- }
-   $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n")
+       $.log(`-------------------------\n开始中青看点第${$.index}次阅读\n`);
+        await bodyInfo();
+    }
+ };
+
+    $.log("本次共阅读"+artsnum+"次资讯，共获得"+readscore+"青豆\n观看"+videosnum+"次视频，获得"+videoscore+"青豆(不含0青豆次数)\n");
    console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`);
    $.msg($.name, `本次运行共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆`)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
+
+function bodyInfo() {
+ return new Promise((resolve, reject) =>{
+   $.get(batHost('article/info/get.json?'+articlebody), async(error, resp, data) =>{
+    let bodyobj = JSON.parse(data);
+  try{
+    if(bodyobj.error_code==0){
+      acticid = bodyobj.url.match(/\d+/)[0];
+      artdesc = bodyobj.description
+      author = bodyobj.account.name
+      ctype = bodyobj.ctype==0?"阅读资讯":"观看视频";
+      if( artArr.indexOf(acticid)==-1){
+        artArr.unshift(acticid);
+        $.log(ctype+": " +artdesc+"  ----- "+author+"\n")
+        await $.wait(10000);
+        await AutoRead();
+      } else if (artArr.indexOf(acticid)>-1){
+        repeatbody = $.getdata('youth_autoread').replace(articlebody+"&","");
+        $.setdata(repeatbody, 'youth_autoread')
+        $.log("文章ID:"+acticid+" 请求重复，已自动删除")
+        await $.wait(1000)
+      }
+     }
+    } catch(e){
+      $.log('获取文章请求失败'+e)
+    } finally {
+     resolve()
+    }
+  })
+ })
+}
 
 
 function AutoRead() {
@@ -91,7 +128,7 @@ function AutoRead() {
       let res=$.begin%ReadArr.length;
       $.setdata(res+"", 'zqbody_index');
       if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
-        console.log(`\n本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
+        console.log(`本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
         if(data.indexOf("ctype")>-1){
          if(readres.items.ctype==0){
           artsnum += 1

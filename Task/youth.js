@@ -214,9 +214,7 @@ function TaskCenter() {
               await $.wait(600);
               await getAction(reward_act)
             } else if (dailys.status == "0"){
-            if (title == "新春额外赚") {
-              await Census();
-            } else if (title=="打卡赚钱"&&ONCard == "true") {
+            if (title=="打卡赚钱"&&ONCard == "true") {
              await CardStatus()
             } else if (dayid == "7") {
               await readTime()
@@ -426,15 +424,6 @@ function SevCont() {
         })
     })
 }
-function Census() {
-    return new Promise((resolve, reject) =>{
-    $.post(kdHost('u/w6j7s'),async(error, resp, data) =>{
-            await $.wait(500);
-            await int();
-            resolve()
-        })
-    })
-}
 
 function int() {
     return new Promise((resolve, reject) =>{
@@ -457,7 +446,8 @@ function openbox() {
         boxretime = boxres.data.time;
         detail += '【时段宝箱】 +'+boxres.data.score+'青豆，'+boxres.data.time/60+'分钟后再次奖励\n';
         await boxshare();
-        await getArt()
+        await getArt();
+        await int()
       } else {
         $.log('时段宝箱:'+ boxres.msg)
       }
