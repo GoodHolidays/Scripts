@@ -223,23 +223,6 @@
     {
       "author": "@sunert", 
       "keys": [
-        "sy_signurl_snews", 
-        "sy_info_snews", 
-        "sy_ck_snews", 
-        "sy_infoheader_snews"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/sinanews.js", 
-      "id": "sinanews", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js", 
-      "name": "新浪新闻", 
-      "icons": [
-        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/sinanews.png", 
-        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/sinanews.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
         "china_telecom_authToken_10000", 
         "china_telecom_cookie"
       ], 
@@ -289,100 +272,6 @@
       "icons": [
         "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/lkyl.png", 
         "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/lkyl.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "c"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js", 
-      "id": "TVlist", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js", 
-      "settings": [
-        {
-          "id": "c", 
-          "val": "cctv8", 
-          "name": "电视台", 
-          "type": "text", 
-          "desc": "请填写小写英文台标，示例: 北京: btv1 | 湖南: hunan | 浙江: zhejiang 河南: henan| 江苏: jiangsu|广东: guangdong 更多电视台请参加电视家网络列表"
-        }
-      ], 
-      "name": "电视预告", 
-      "icons": [
-        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/tvpreview_mini.png", 
-        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/tvpreview.png"
-      ]
-    }, 
-    {
-      "author": "@sunert", 
-      "keys": [
-        "city", 
-        "citynum", 
-        "cut", 
-        "day_desc", 
-        "hour_desc", 
-        "index_desc"
-      ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/moji.js", 
-      "id": "moji", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js", 
-      "settings": [
-        {
-          "id": "city", 
-          "val": "北京", 
-          "name": "城市", 
-          "type": "text", 
-          "desc": "请填写中文地区"
-        }, 
-        {
-          "id": "citynum", 
-          "placeholder": "默认1 (点击以展开说明)", 
-          "val": "", 
-          "name": "城市序号", 
-          "type": "number", 
-          "desc": "选择地区，请填写日志内冒号前的数字序号"
-        }, 
-        {
-          "id": "cut", 
-          "val": false, 
-          "name": "精简日志模式", 
-          "type": "boolean", 
-          "desc": "显示详情描述，默认关闭日志"
-        }, 
-        {
-          "id": "day_desc", 
-          "val": true, 
-          "name": "每周天气", 
-          "type": "boolean", 
-          "desc": "每周天气接口，可显示6天天气情况"
-        }, 
-        {
-          "id": "hour_desc", 
-          "val": false, 
-          "name": "小时天气", 
-          "type": "boolean", 
-          "desc": "未来6小时天气情况"
-        }, 
-        {
-          "id": "forty_desc", 
-          "val": false, 
-          "name": "40天预告", 
-          "type": "boolean", 
-          "desc": "未来40天天气预告"
-        }, 
-        {
-          "id": "index_desc", 
-          "val": true, 
-          "name": "生活指数", 
-          "type": "boolean", 
-          "desc": "可显示生活指数情况"
-        }
-      ], 
-      "name": "墨迹天气", 
-      "icons": [
-        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/moji.png", 
-        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/moji.png"
       ]
     }, 
     {
@@ -568,37 +457,96 @@
     }, 
     {
       "author": "@sunert", 
-      "keys": [ ], 
-      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/exchangeRate.js", 
-      "id": "exchange rate", 
-      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js", 
+      "keys": [
+        "c"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js", 
+      "id": "TVlist", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js", 
       "settings": [
         {
-          "id": "froma", 
-          "val": "人民币", 
-          "name": "使用币", 
+          "id": "c", 
+          "val": "cctv8", 
+          "name": "电视台", 
           "type": "text", 
-          "desc": "填写中文币种,注意澳门元为澳门帕塔卡，香港元为港币，台湾为新台币"
-        }, 
-        {
-          "id": "toex", 
-          "val": "港币", 
-          "name": "兑换币", 
-          "type": "text", 
-          "desc": "填写中文币种,注意澳门元为澳门帕塔卡，香港元为港币，台湾为新台币"
-        }, 
-        {
-          "id": "numex", 
-          "val": "10", 
-          "name": "兑换金额", 
-          "type": "number", 
-          "desc": "填写数字"
+          "desc": "请填写小写英文台标，示例: 北京: btv1 | 湖南: hunan | 浙江: zhejiang 河南: henan| 江苏: jiangsu|广东: guangdong 更多电视台请参加电视家网络列表"
         }
       ], 
-      "name": "汇率换算", 
+      "name": "电视预告", 
       "icons": [
-        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/exchangerate.png", 
-        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/exchangerate.png"
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/tvpreview_mini.png", 
+        "https://cdn.jsdelivr.net/gh/Sunert/Profiles@master/QuantumultX/Rules/Images/icon/tvpreview.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
+        "city", 
+        "citynum", 
+        "cut", 
+        "day_desc", 
+        "hour_desc", 
+        "index_desc"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/moji.js", 
+      "id": "moji", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js", 
+      "settings": [
+        {
+          "id": "city", 
+          "val": "北京", 
+          "name": "城市", 
+          "type": "text", 
+          "desc": "请填写中文地区"
+        }, 
+        {
+          "id": "citynum", 
+          "placeholder": "默认1 (点击以展开说明)", 
+          "val": "", 
+          "name": "城市序号", 
+          "type": "number", 
+          "desc": "选择地区，请填写日志内冒号前的数字序号"
+        }, 
+        {
+          "id": "cut", 
+          "val": false, 
+          "name": "精简日志模式", 
+          "type": "boolean", 
+          "desc": "显示详情描述，默认关闭日志"
+        }, 
+        {
+          "id": "day_desc", 
+          "val": true, 
+          "name": "每周天气", 
+          "type": "boolean", 
+          "desc": "每周天气接口，可显示6天天气情况"
+        }, 
+        {
+          "id": "hour_desc", 
+          "val": false, 
+          "name": "小时天气", 
+          "type": "boolean", 
+          "desc": "未来6小时天气情况"
+        }, 
+        {
+          "id": "forty_desc", 
+          "val": false, 
+          "name": "40天预告", 
+          "type": "boolean", 
+          "desc": "未来40天天气预告"
+        }, 
+        {
+          "id": "index_desc", 
+          "val": true, 
+          "name": "生活指数", 
+          "type": "boolean", 
+          "desc": "可显示生活指数情况"
+        }
+      ], 
+      "name": "墨迹天气", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/moji.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/moji.png"
       ]
     }, 
     {

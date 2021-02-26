@@ -25,7 +25,7 @@ cron "04 00 * * *" script-path=https://raw.githubusercontent.com/Sunert/Scripts/
 var TEXT = 'CL Online network Technology Co.LTD' ; //翻译内容填入引号内
 
 const $ = new Env("谷歌翻译");
-let ENword = $.getdata('word') || TEXT,
+let ENword = $.getdata('word') || TEXT;
 let setword = encodeURI(ENword);
 const cnToenUrl = {
     url: "http://translate.google.cn/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=" + setword
@@ -48,7 +48,7 @@ const enTocnUrl = {
 function CNWORD() {
     return new Promise((resolve, reject) => {
         $.get(cnToenUrl, (err, resp, data) => {
-            console.log(data)
+            //console.log(data)
             try {
                 enres = data.split(/[\"]+/g)[1]
                 $.msg(`谷歌翻译  中译英`, `🇨🇳 中文原文 :   ` + ENword, `🇬🇧 翻译结果 :  ` + enres)

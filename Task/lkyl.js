@@ -51,9 +51,9 @@ if (isGetCookie) {
 } else {
     !(async() => {
         openid = opa.split('&')[0],
-            appid = opa.split('&')[1];
+        appid = opa.split('&')[1],
         Sign = signVal.split('&')[0],
-            token = signVal.split('&')[1];
+        token = signVal.split('&')[1];
         await info(); // 用户信息
         await total(); // 总计
         if (errorCode !== "L0001") {

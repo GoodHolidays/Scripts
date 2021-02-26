@@ -12,9 +12,6 @@
             "config": "0 0 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/trainquery.js, tag=12306火车时刻, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/12306.png, enabled=false"
         }, 
         {
-            "config": "4 0 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js, tag=实时货币换算, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/exchangerate.png, enabled=false"
-        }, 
-        {
             "config": "7 10 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/translate.js, tag=谷歌中英互译, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/translate.png, enabled=false"
         }, 
         {
@@ -43,10 +40,6 @@
         }, 
         {
             "config": "0 11 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js, tag=微博&钱包, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/weibo.png, enabled=true", 
-            "addons": "https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.txt, tag=sina_rewite, update-interval=-1, opt-parser=false, enabled=true"
-        }, 
-        {
-            "config": "10 11 8 * * * https://raw.githubusercontent.com/Sunert/Scripts/master/Task/sinanews.js, tag=新浪新闻, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/sinanews.png, enabled=true", 
             "addons": "https://raw.githubusercontent.com/Sunert/Scripts/master/TaskConf/sina/qx_rewite.txt, tag=sina_rewite, update-interval=-1, opt-parser=false, enabled=true"
         }, 
         {
