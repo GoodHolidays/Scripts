@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-25 00:30
+更新时间: 2021-02-26 11:30
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 中青看点浏览赚任务，手动完成任务，获取请求体，支持boxjs及Github Actions，多请求用"&"分开，点击任务，支持自动获取请求
@@ -26,13 +26,14 @@ if (isGetCookie = typeof $request !==`undefined`) {
    GetCookie();
    $.done()
 } 
-if (!$.isNode() && !startbodys&&!lookbodys) {
-  $.msg($.name, "您未获取任何请求，请先获取");
-  return
-} else if (!$.isNode() && !startbodys.indexOf("&") == -1) {
-  startArr.push(startbodys)
+if (!$.isNode() && !lookbodys) {
+  $.msg($.name, "您未获取看看赚请求，请先获取");
+} else if (!$.isNode() &&!startbodys) {
+  $.msg($.name, "您未获取浏览赚请求，请先获取");
 } 
-if (!$.isNode() && !lookbodys.indexOf("&") == -1) {
+ if (!$.isNode() && !startbodys.indexOf("&") == -1) {
+  startArr.push(startbodys)
+} else if (!$.isNode() && !lookbodys.indexOf("&") == -1) {
   lookArr.push(lookbodys)
 } else {
   if (!$.isNode() && !startbodys.indexOf("&") > -1) {
@@ -70,6 +71,7 @@ if (!$.isNode() && !lookbodys.indexOf("&") == -1) {
     console.log(`\n === 脚本执行 ${bjTime} ===\n`);
 !(async () => {
   $.log(`您共提供${startArr.length}次浏览赚任务`)
+if(startArr.length!==0){
   for (let i = 0; i < startArr.length; i++) {
     if (startArr[i]) {
       gainbody = startArr[i];
@@ -80,8 +82,9 @@ if (!$.isNode() && !lookbodys.indexOf("&") == -1) {
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次任务，共计获得${gainscore}个青豆，浏览赚任务全部结束`);
    //$.msg("中青看点浏览赚", `共完成${$.index}次任务`+`  共计获得${gainscore}个青豆`);
-   
+  }
    $.log(`\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n您共提供${lookArr.length}次看看赚任务\n`)
+if(lookArr.length!==0){
   for (let k = 0; k < lookArr.length; k++) {
     if (lookArr[k]) {
       lookbody = lookArr[k];
@@ -92,7 +95,7 @@ if (!$.isNode() && !lookbodys.indexOf("&") == -1) {
  }
    console.log(`-------------------------\n\n中青看点共完成${$.index}次任务，共计获得${lookscore}个青豆，看看赚任务全部结束`);
    $.msg("中青看点看看赚", '共完成'+(lookArr.length+startArr.length)+'次任务，共计获得'+parseInt(lookscore+gainscore)+'个青豆');
-   
+ }
    if ($.isNode()){
      //await notify.sendNotify($.name，`共完成${$.index}次任务，\n共计获得${gainscore}个青豆`
 }
