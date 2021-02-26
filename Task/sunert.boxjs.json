@@ -278,6 +278,22 @@
     {
       "author": "@sunert", 
       "keys": [
+        "token_lkyl",
+        "signature_lkyl",
+        "cookie_lkyl"
+      ], 
+      "repo": "https://github.com/Sunert/Scripts/blob/master/Task/lkyl.js", 
+      "id": "jddj", 
+      "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js", 
+      "name": "来客有礼", 
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/lkyl.png", 
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/lkyl.png"
+      ]
+    }, 
+    {
+      "author": "@sunert", 
+      "keys": [
         "c"
       ], 
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/tvpreview.js", 

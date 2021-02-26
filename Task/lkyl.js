@@ -102,11 +102,13 @@ function getsign() {
   return new Promise((resolve, reject) =>{
     $.post(Host('turncard/sign?petSign=true&turnTableId=131&source=HOME&','{"fp":"","eid":"86CFE351F55E0808B83745BEFC3FF26F5FF95FE8"}'), async(error, response, data) =>{
       let result = JSON.parse(data);
-      //$.log(JSON.stringify(result,null,2))
-      if (result.success == true) {
+      $.log(JSON.stringify(result,null,2))
+      if (result.errorCode===null) {
         signres = ' 签到成功🎉'
         $.desc = "签到收益:"+ result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n'
-      } else {
+      } else if (!result.errorCode) {
+        $.desc = "签到结果:"+ result.errorMessage+"\n"
+      }else {
         $.sub = `签到失败，Cookie 失效❌`
         $.desc = `说明: ${result.errorMessage}`
         $.msg($.name, $.sub, $.desc); return
