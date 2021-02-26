@@ -184,87 +184,92 @@ function parseData(detail, balance, info, bill) {
 }
 
 function notify(data, balance, exdata, bldata) {
- return new Promise((resolve) => {
-  let productname = "中国电信", voiceAmount = " ", voiceUsage = " ", voiceBalance = " ", msgUsage = "", msgBalance = "", msgAmount = "",usagedCommon,balanceCommon,totalCommon,message;
-  //console.log(data)  //套餐信息
- try {
-    var subtitle = ""
-    if (config.info) {
-        subtitle = "【手机】" + exdata.mobileShort + "  (" + exdata.province + "-" + exdata.city + ")"
-    } //手机号码
-    for (i = 0; i < data.items.length; i++) {
-        for (k = 0; k < data.items[i].items.length; k++) {
-            let item = data.items[i].items[k]
-            if (data.items[i].offerType == '11' || data.items[i].offerType == '21') {
-                productname = data.items[i].productOFFName
-            } else {
-                productname = data.items[0].productOFFName
-            }
-            message = "【套餐】" + productname; //主套餐名称
-            if (item.nameType == '401100' || item.nameType == '431100') {
-                msgUsage = item.usageAmount, 
-                msgAmount = item.ratableAmount, 
-                msgBalance = item.balanceAmount
-            }
-            if (msgUsage) {
-                msginfo = "【短信】已用: " + msgUsage + "条 剩余: " + msgBalance + "条 合计: " + msgAmount + "条",
-            message += "\n" + msginfo
-            }; //短信余量
-            let VoiceArr = data.items[i].items;
-            if (item.nameType == '131100') {
-             for ( Voiceiterm of VoiceArr)
-                    voiceAmount = Voiceiterm.ratableAmount, 
-                    voiceBalance = Voiceiterm.balanceAmount, 
-                    voiceUsage = Voiceiterm.usageAmount
-              }
-             voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟";
-             message += "\n" + voice; //语音
-    
-            if (item.nameType == "331101") {
-                usagedCommon = formatFlow(item.usageAmount / 1024),
-                balanceCommon = item.ratableResourcename,
-                totalCommon = data.items[i].productOFFName
-            } // 畅享套餐
-            else if (item.nameType == "331100") {
-                usagedCommon = formatFlow(item.usageAmount / 1024),
-                balanceCommon = formatFlow(item.balanceAmount / 1024),
-                totalCommon = formatFlow(item.ratableAmount / 1024)
-            }; //套餐流量
-            if (usagedCommon) {
-                flow = "【流量】已用: " + usagedCommon + "  剩余:" + balanceCommon + "  合计:" + totalCommon, 
-                message += "\n" + flow
-            }
-        }
-    }
-} catch(err) {
-    console.log("查询错误，错误原因:" + err + '\n套餐响应数据:' + JSON.stringify(data) + '\n请将以上数据机主姓名删除后反馈给作者')
-}; //以上为套餐用量
+    return new Promise((resolve) => {
+        let productname = "中国电信",
+            voiceAmount = " ",
+            voiceUsage = " ",
+            voiceBalance = " ",
+            msgUsage = "",
+            msgBalance = "",
+            msgAmount = "",
+            usagedCommon, balanceCommon, totalCommon, message;
+        //console.log(data)  //套餐信息
+        try {
+            var subtitle = ""
+            if (config.info) {
+                subtitle = "【手机】" + exdata.mobileShort + "  (" + exdata.province + "-" + exdata.city + ")"
+            } //手机号码
+            for (i = 0; i < data.items.length; i++) {
+                for (k = 0; k < data.items[i].items.length; k++) {
+                    let item = data.items[i].items[k]
+                    if (data.items[i].offerType == '11' || data.items[i].offerType == '21') {
+                        productname = data.items[i].productOFFName
+                    } else {
+                        productname = data.items[0].productOFFName
+                    }
+                    message = "【套餐】" + productname; //主套餐名称
+                    if (item.nameType == '401100' || item.nameType == '431100') {
+                        msgUsage = item.usageAmount,
+                            msgAmount = item.ratableAmount,
+                            msgBalance = item.balanceAmount
+                    }
+                    if (msgUsage) {
+                        msginfo = "【短信】已用: " + msgUsage + "条 剩余: " + msgBalance + "条 合计: " + msgAmount + "条",
+                            message += "\n" + msginfo
+                    }; //短信余量
+                    let VoiceArr = data.items[i].items;
+                    if (item.nameType == '131100') {
+                        for (Voiceiterm of VoiceArr)
+                            voiceAmount = Voiceiterm.ratableAmount,
+                            voiceBalance = Voiceiterm.balanceAmount,
+                            voiceUsage = Voiceiterm.usageAmount
+                    }
+                    voice = "【通话】已用: " + voiceUsage + "分钟 剩余: " + voiceBalance + "分钟 合计: " + voiceAmount + "分钟";
+                    message += "\n" + voice; //语音
 
-   //console.log(balance)  //话费余额
-           message += "\n" + "【话费】剩余: " + (parseInt(balance.totalBalanceAvailable) / 100).toFixed(2) + "元"; 
+                    if (item.nameType == "331101") {
+                        usagedCommon = formatFlow(item.usageAmount / 1024),
+                            balanceCommon = item.ratableResourcename,
+                            totalCommon = data.items[i].productOFFName
+                    } // 畅享套餐
+                    else if (item.nameType == "331100") {
+                        usagedCommon = formatFlow(item.usageAmount / 1024),
+                            balanceCommon = formatFlow(item.balanceAmount / 1024),
+                            totalCommon = formatFlow(item.ratableAmount / 1024)
+                    }; //套餐流量
+                    if (usagedCommon) {
+                        flow = "【流量】已用: " + usagedCommon + "  剩余:" + balanceCommon + "  合计:" + totalCommon,
+                            message += "\n" + flow
+                    }
+                }
+            }
+        } catch (err) {
+            console.log("查询错误，错误原因:" + err + '\n套餐响应数据:' + JSON.stringify(data) + '\n请将以上数据机主姓名删除后反馈给作者')
+        }; //以上为套餐用量
 
-   //console.log(bldata.items)  //账单信息
-try {
-  if (bldata != '无') {
-    message += ` ${M}月消费合计: ` + bldata.items[0].sumCharge / 100 + '元'
-  };
-  if (bldata == '无') {
-    message = message + "\n" + `【$ {
+        //console.log(balance)  //话费余额
+        message += "\n" + "【话费】剩余: " + (parseInt(balance.totalBalanceAvailable) / 100).toFixed(2) + "元";
+        //console.log(bldata.items)  //账单信息
+        try {
+            if (bldata != '无') {
+                message += ` ${M}月消费合计: ` + bldata.items[0].sumCharge / 100 + '元'
+            };
+            if (bldata == '无') {
+                message = message + "\n" + `【$ {
       M
     }月账单】` + bldata
-  } else if (typeof bldata.items[0].acctName != "undefined" && bldata.serviceResultCode == 0) {
-    billcharge = bldata.items[0].items; 
-    bills = `【${M}月话费账单】` + "\n   " + billcharge[1].chargetypeName + ':    ' + billcharge[1].charge / 100 + '元' + "\n   " + billcharge[2].chargetypeName + ':  ' + billcharge[2].charge / 100 + '元' + "\n   " + billcharge[0].chargetypeName + ':  ' + billcharge[0].charge / 100 + '元',
-    message = message + "\n" + bills
-  }; //账单明细
-  $.msg(config.name, subtitle, message)
-} catch(err) {
-    console.log("查询错误，错误原因:" + err + '\n账单响应数据:' + JSON.stringify(bldata) + '\n请将以上数据机主姓名删除后反馈给作者')
-    }
-    resolve("done")
-  })
+            } else if (typeof bldata.items[0].acctName != "undefined" && bldata.serviceResultCode == 0) {
+                billcharge = bldata.items[0].items;
+                bills = `【${M}月话费账单】` + "\n   " + billcharge[1].chargetypeName + ':    ' + billcharge[1].charge / 100 + '元' + "\n   " + billcharge[2].chargetypeName + ':  ' + billcharge[2].charge / 100 + '元' + "\n   " + billcharge[0].chargetypeName + ':  ' + billcharge[0].charge / 100 + '元',
+                    message = message + "\n" + bills
+            }; //账单明细
+            $.msg(config.name, subtitle, message)
+        } catch (err) {
+            console.log("查询错误，错误原因:" + err + '\n账单响应数据:' + JSON.stringify(bldata) + '\n请将以上数据机主姓名删除后反馈给作者')
+        }
+        resolve("done")
+    })
 }
-
 // MB 和 GB 自动转换
 function formatFlow(number) {
     if (number < 1024) {

@@ -15,343 +15,355 @@ let SignArr = [],SignUrl = "";
     detail = ``, subTitle = ``;
 let read_finish = "",video_finish="";
 if ($.isNode()) {
-  if (process.env.TXNEWS_COOKIE && process.env.TXNEWS_COOKIE.indexOf('&') > -1) {
-      CookieTxnews = process.env.TXNEWS_COOKIE.split('&');
-  } else {
-      CookieTxnews = process.env.TXNEWS_COOKIE.split()
-  };
-  if (process.env.TXNEWS_SIGN && process.env.TXNEWS_SIGN.indexOf('#') > -1) {
-  SignUrl = process.env.TXNEWS_SIGN.split('#');
-  } else {
-      SignUrl = process.env.TXNEWS_SIGN.split()
-  };
-  if (process.env.TXNEWS_VIDEO && process.env.TXNEWS_VIDEO.indexOf('#') > -1) {
-  VideoUrl = process.env.TXNEWS_VIDEO.split('#');
-  } else {
-      VideoUrl = process.env.TXNEWS_VIDEO.split()
-  };
+    if (process.env.TXNEWS_COOKIE && process.env.TXNEWS_COOKIE.indexOf('&') > -1) {
+        CookieTxnews = process.env.TXNEWS_COOKIE.split('&');
+    } else {
+        CookieTxnews = process.env.TXNEWS_COOKIE.split()
+    };
+    if (process.env.TXNEWS_SIGN && process.env.TXNEWS_SIGN.indexOf('#') > -1) {
+        SignUrl = process.env.TXNEWS_SIGN.split('#');
+    } else {
+        SignUrl = process.env.TXNEWS_SIGN.split()
+    };
+    if (process.env.TXNEWS_VIDEO && process.env.TXNEWS_VIDEO.indexOf('#') > -1) {
+        VideoUrl = process.env.TXNEWS_VIDEO.split('#');
+    } else {
+        VideoUrl = process.env.TXNEWS_VIDEO.split()
+    };
     Object.keys(CookieTxnews).forEach((item) => {
         if (CookieTxnews[item]) {
-          cookiesArr.push(CookieTxnews[item])
-        }
-      })
-    Object.keys(SignUrl).forEach((item) => {
-        if (SignUrl[item]) {
-          SignArr.push(SignUrl[item])
-        }
-      })
-    Object.keys(VideoUrl).forEach((item) => {
-        if (VideoUrl[item]) {
-          VideoArr.push(VideoUrl[item])
+            cookiesArr.push(CookieTxnews[item])
         }
     })
-  } else {
-      cookiesArr.push($.getdata('sy_cookie_txnews'));
-      SignArr.push($.getdata( 'sy_signurl_txnews'));
-      VideoArr.push($.getdata( 'video_txnews'))
-  }
+    Object.keys(SignUrl).forEach((item) => {
+        if (SignUrl[item]) {
+            SignArr.push(SignUrl[item])
+        }
+    })
+    Object.keys(VideoUrl).forEach((item) => {
+        if (VideoUrl[item]) {
+            VideoArr.push(VideoUrl[item])
+        }
+    })
+} else {
+    cookiesArr.push($.getdata('sy_cookie_txnews'));
+    SignArr.push($.getdata('sy_signurl_txnews'));
+    VideoArr.push($.getdata('video_txnews'))
+}
 
 let isGetCookie = typeof $request !== 'undefined'
 if (isGetCookie) {
-  GetCookie();
-  $.done()
-} 
-!(async () => {
- if(!cookiesArr[0]){
-      $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie',"qqnews://article_9500?tab=news_news&from=self", {"open-url": "qqnews://article_9500?tab=news_news&from=self"});
-      return
+    GetCookie();
+    $.done()
+}!(async() => {
+    if (!cookiesArr[0]) {
+        $.msg($.name, '【提示】🉐登录腾讯新闻app获取cookie', "qqnews://article_9500?tab=news_news&from=self", {
+            "open-url": "qqnews://article_9500?tab=news_news&from=self"
+        });
+        return
     }
-  if ($.isNode()){
-     timeZone = new Date().getTimezoneOffset() / 60;
-     timestamp = Date.now()+ (8+timeZone) * 60 * 60 * 1000;
-     bjTime = new Date(timestamp).toLocaleString('zh',{hour12:false,timeZoneName: 'long'});
-     console.log(`\n === 脚本执行 ${bjTime} ===\n`);
-     }
-  for (let i = 0; i < cookiesArr.length; i++) {
-    if (cookiesArr[i]) {
-      cookieVal = cookiesArr[i];
-      signurlVal = SignArr[i];
-      videoVal = VideoArr[i];
-      $.index = i + 1;
-      console.log(`-------------------------\n\n开始【腾讯新闻账号${$.index}】`)
-      ID = signurlVal.match(/devid=[a-zA-Z0-9_-]+/g)[0]
-      token = signurlVal.split("mac")[1]
-      await getsign();
-      await activity();
-      await getTotal();
-      await $.wait(1000);
-      await StepsTotal();
-      await showmsg();
-    if ($.isNode()&&process.env.TXNEWS_NOTIFY_CONTROL){
-       if (readnum%notifyInterval==0&&cashtotal > 2){
-     await notify.sendNotify($.name,subTile+'\n'+detail)
+    if ($.isNode()) {
+        timeZone = new Date().getTimezoneOffset() / 60;
+        timestamp = Date.now() + (8 + timeZone) * 60 * 60 * 1000;
+        bjTime = new Date(timestamp).toLocaleString('zh', {
+            hour12: false,
+            timeZoneName: 'long'
+        });
+        console.log(`\n === 脚本执行 ${bjTime} ===\n`);
+    }
+    for (let i = 0; i < cookiesArr.length; i++) {
+        if (cookiesArr[i]) {
+            cookieVal = cookiesArr[i];
+            signurlVal = SignArr[i];
+            videoVal = VideoArr[i];
+            $.index = i + 1;
+            console.log(`-------------------------\n\n开始【腾讯新闻账号${$.index}】`)
+            ID = signurlVal.match(/devid=[a-zA-Z0-9_-]+/g)[0]
+            token = signurlVal.split("mac")[1]
+            await getsign();
+            await activity();
+            await getTotal();
+            await $.wait(1000);
+            await StepsTotal();
+            await showmsg();
+            if ($.isNode() && process.env.TXNEWS_NOTIFY_CONTROL) {
+                if (readnum % notifyInterval == 0 && cashtotal > 2) {
+                    await notify.sendNotify($.name, subTile + '\n' + detail)
+                }
+            }
         }
-       }
-      }
     }
-  })()
-      .catch((e) => $.logErr(e))
-      .finally(() => $.done())
+})()
+.catch((e) => $.logErr(e))
+    .finally(() => $.done())
 
 
 function GetCookie() {
-  if ($request &&$request.body.indexOf("article_read")> -1) {
-    const signurlVal =  $request.url
-    const cookieVal = $request.headers['Cookie'];
-    $.log(`signurlVal:${signurlVal}`)
-    $.log(`cookieVal:${cookieVal}`)
-    if (signurlVal) $.setdata(signurlVal, 'sy_signurl_txnews')
-    if (cookieVal) $.setdata(cookieVal,  'sy_cookie_txnews')
-    $.msg($.name, `获取Cookie: 成功🎉`, ``)
-  }
-  if ($request &&$request.body.indexOf("video_read")> -1) {
-    const videoVal = $request.url
-    $.log(`videoVal:${videoVal}`)
-    if (videoVal) $.setdata(videoVal,  'video_txnews')
-    $.msg($.name, `获取视频地址: 成功🎉`, ``)
-  }
+    if ($request && $request.body.indexOf("article_read") > -1) {
+        const signurlVal = $request.url
+        const cookieVal = $request.headers['Cookie'];
+        $.log(`signurlVal:${signurlVal}`)
+        $.log(`cookieVal:${cookieVal}`)
+        if (signurlVal) $.setdata(signurlVal, 'sy_signurl_txnews')
+        if (cookieVal) $.setdata(cookieVal, 'sy_cookie_txnews')
+        $.msg($.name, `获取Cookie: 成功🎉`, ``)
+    }
+    if ($request && $request.body.indexOf("video_read") > -1) {
+        const videoVal = $request.url
+        $.log(`videoVal:${videoVal}`)
+        if (videoVal) $.setdata(videoVal, 'video_txnews')
+        $.msg($.name, `获取视频地址: 成功🎉`, ``)
+    }
 }
 
 function Host(api, body, taskurl) {
-  return {
-      url: 'https://api.inews.qq.com/activity/v1/'+api+'&isJailbreak=0&'+ID,
-      headers:{
-        'Accept': '*/*',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'zh-Hans-CN;q=1, en-CN;q=0.9, zh-Hant-CN;q=0.8',
-        'Connection': 'keep-alive',
-        'Cookie': cookieVal,
-        'Host': 'api.inews.qq.com',
-        'Referer': taskurl,
-        'store': '1',
-        'devid': ID,
-        'User-Agent': 'QQNews/6.4.10 (iPhone; iOS 14.2; Scale/3.00)'
-      },
-      body: body
-   }
+    return {
+        url: 'https://api.inews.qq.com/activity/v1/' + api + '&isJailbreak=0&' + ID,
+        headers: {
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Accept-Language': 'zh-Hans-CN;q=1, en-CN;q=0.9, zh-Hant-CN;q=0.8',
+            'Connection': 'keep-alive',
+            'Cookie': cookieVal,
+            'Host': 'api.inews.qq.com',
+            'Referer': taskurl,
+            'store': '1',
+            'devid': ID,
+            'User-Agent': 'QQNews/6.4.10 (iPhone; iOS 14.2; Scale/3.00)'
+        },
+        body: body
+    }
 }
 
 //签到
 function getsign() {
-  return new Promise((resolve, reject) => {
-    const signUrl = {
-      url: `https://api.inews.qq.com/task/v1/user/signin/add?`,headers: Host().headers
-    };
-    $.post(signUrl, (error, resp, data) => {
-      let obj = JSON.parse(data)
-// $.log(JSON.stringify(obj,null,2))
-      if (obj.info=="success"){
-        next = obj.data.next_points
-        tip =  obj.data.tip_soup||obj.data.share_tip
-        imgurl= obj.data.share_img
-        Dictum = tip.replace(/<br>/g,"")+" "+obj.data.author
-        signinfo =  '【签到信息】连续签到' + obj.data.signin_days+'天 '+'明日+'+ next +'金币 成功🎉\n'} else {
-        $.msg($.name, '签到失败，🉐登录腾讯新闻app获取cookie', "")
-        console.log('签到失败，🉐登录腾讯新闻app获取cookie'+data)
-        return
-      }
-      resolve()
+    return new Promise((resolve, reject) => {
+        const signUrl = {
+            url: `https://api.inews.qq.com/task/v1/user/signin/add?`,
+            headers: Host().headers
+        };
+        $.post(signUrl, (error, resp, data) => {
+            let obj = JSON.parse(data)
+                // $.log(JSON.stringify(obj,null,2))
+            if (obj.info == "success") {
+                next = obj.data.next_points
+                tip = obj.data.tip_soup || obj.data.share_tip
+                imgurl = obj.data.share_img
+                Dictum = tip.replace(/<br>/g, "") + " " + obj.data.author
+                signinfo = '【签到信息】连续签到' + obj.data.signin_days + '天 ' + '明日+' + next + '金币 成功🎉\n'
+            } else {
+                $.msg($.name, '签到失败，🉐登录腾讯新闻app获取cookie', "")
+                console.log('签到失败，🉐登录腾讯新闻app获取cookie' + data)
+                return
+            }
+            resolve()
+        })
     })
-  })
 }
 
 function activity() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('user/task/list?'), async(error, resp, data) =>{
-      try {
-        let taskres = JSON.parse(data);
-        //$.log(JSON.stringify(taskres,null,2))
-        if (taskres.ret == 0) {
-          actid = taskres.data.award_notice.activity_id;
-        if(!actid){
-         actid = $.getdata('txnews_id')
-        }
-          $.log(`\n您的活动ID为: ` + actid + "\n\n********* 开始阅读任务 ********\n");
-           $.desc = ""
-         for (tasks of taskres.data.list) {
-            taskname = tasks.task_title,
-            tasktype = tasks.task_type,
-            taskstatus = tasks.task_status,
-            ratepack = tasks.rate,
-            totalpack = tasks.quota;
-            eventnum = tasks.task_desc
-            taskurl = tasks.task_url
-            $.log("去" + taskname + "\n");
-            if (taskstatus == 3) {
-              $.desc += "【" + taskname + "】✅ 已完成\n";
-              $.log(taskname + "已完成")
-            } else {
-              if (tasktype == "article") {
-                readnum = eventnum.match(/>(\d+)</)[1]
-                //$.desc = "【" + taskname + "】 已领" + ratepack + "个红包 已阅"+readnum+"篇资讯\n";
-                await $.wait(3000);
-                await toRead(signurlVal, 'event=article_read')
-              } else if (tasktype == "video") {
-                videonum = eventnum.match(/>(.+)<\/span>分钟/)[1]
-                //$.desc += "【" + taskname + "】 已领" + ratepack + "个红包 已看"+videonum+"分钟\n";
-                await $.wait(5000);
-                await toRead(videoVal, 'event=video_read')
-              } else if(tasktype == "cooperation") {
-              await openapp(tasks.task_id)
-              }
+    return new Promise((resolve, reject) => {
+        $.get(Host('user/task/list?'), async(error, resp, data) => {
+            try {
+                let taskres = JSON.parse(data);
+                //$.log(JSON.stringify(taskres,null,2))
+                if (taskres.ret == 0) {
+                    actid = taskres.data.award_notice.activity_id;
+                    if (!actid) {
+                        actid = $.getdata('txnews_id')
+                    }
+                    $.log(`\n您的活动ID为: ` + actid + "\n\n********* 开始阅读任务 ********\n");
+                    $.desc = ""
+                    for (tasks of taskres.data.list) {
+                        taskname = tasks.task_title,
+                        tasktype = tasks.task_type,
+                        taskstatus = tasks.task_status,
+                        ratepack = tasks.rate,
+                        totalpack = tasks.quota,
+                        eventnum = tasks.task_desc,
+                        taskurl = tasks.task_url;
+                        $.log("去" + taskname + "\n");
+                        if (taskstatus == 3) {
+                            $.desc += "【" + taskname + "】✅ 已完成\n";
+                            $.log(taskname + "已完成")
+                        } else {
+                            if (tasktype == "article") {
+                                readnum = eventnum.match(/>(\d+)</)[1]
+                                    //$.desc = "【" + taskname + "】 已领" + ratepack + "个红包 已阅"+readnum+"篇资讯\n";
+                                await $.wait(3000);
+                                await toRead(signurlVal, 'event=article_read')
+                            } else if (tasktype == "video") {
+                                videonum = eventnum.match(/>(.+)<\/span>分钟/)[1]
+                                    //$.desc += "【" + taskname + "】 已领" + ratepack + "个红包 已看"+videonum+"分钟\n";
+                                await $.wait(5000);
+                                await toRead(videoVal, 'event=video_read')
+                            } else if (tasktype == "cooperation") {
+                                await openapp(tasks.task_id)
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                $.msg($.name, "获取活动ID失败，详情请看日志", "", "");
+                console.log("活动ID日志:" + data);
+                return
             }
-          }
-        }
-      } catch(error) {
-        $.msg($.name, "获取活动ID失败，详情请看日志", "", "");
-       console.log("活动ID日志:" + data);
-       return
-      }
-      resolve()
+            resolve()
+        })
     })
-  })
 }
 
 //阅读阶梯
 function toRead(urlVal, body) {
-  return new Promise((resolve, reject) =>{
-    $.post({
-      url: urlVal,
-      headers: Host().headers,
-      body: body
-    },(error, resp, data) =>{
-      try {
-        let obj = JSON.parse(data)
-        //$.log(JSON.stringify(obj,null,2))
-        if (obj.ret == 0) {
-          console.log("本次阅读成功，获取收益" + obj.data.countdown_timer.countdown_tips + "\n");
-        } else if (body.indexOf("article") > -1) {
-          console.log("本次阅读文章失败，" + obj.info + "\n");
-        } else if (body.indexOf("video") > -1) {
-          console.log("本次观看视频失败，" + obj.info + "\n");
-        }
-      } catch(error) {
-        console.log("本次阅读失败" + data + "\n")
-      }
-      resolve()
+    return new Promise((resolve, reject) => {
+        $.post({
+            url: urlVal,
+            headers: Host().headers,
+            body: body
+        }, (error, resp, data) => {
+            try {
+                let obj = JSON.parse(data)
+                    //$.log(JSON.stringify(obj,null,2))
+                if (obj.ret == 0) {
+                    console.log("本次阅读成功，获取收益" + obj.data.countdown_timer.countdown_tips + "\n");
+                } else if (body.indexOf("article") > -1) {
+                    console.log("本次阅读文章失败，" + obj.info + "\n");
+                } else if (body.indexOf("video") > -1) {
+                    console.log("本次观看视频失败，" + obj.info + "\n");
+                }
+            } catch (error) {
+                console.log("本次阅读失败" + data + "\n")
+            }
+            resolve()
+        })
     })
-  })
 }
 
 function openapp(taskid) {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('activity/do?activity_id='+taskid+'&'+ token), async(error, resp, data) =>{
-      try {
-        let obj = JSON.parse(data)
-        $.log(JSON.stringify(obj,null,2))
-        if (obj.ret == 0) {
-          $.log(taskname+"成功")
-         } else{
-          $.log(taskname+"失败，" + obj.info + "\n");
-        }
-      } catch(error) {
-        console.log("本次任务失败" + data + "\n")
-      }
-      resolve()
+    return new Promise((resolve, reject) => {
+        $.get(Host('activity/do?activity_id=' + taskid + '&' + token), async(error, resp, data) => {
+            try {
+                let obj = JSON.parse(data)
+                $.log(JSON.stringify(obj, null, 2))
+                if (obj.ret == 0) {
+                    $.log(taskname + "成功")
+                } else {
+                    $.log(taskname + "失败，" + obj.info + "\n");
+                }
+            } catch (error) {
+                console.log("本次任务失败" + data + "\n")
+            }
+            resolve()
+        })
     })
-  })
 }
 
 
 //阅读文章统计
 function StepsTotal() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('activity/info/get?activity_id=' + actid), async(error, resp, data) =>{
-      totalred = JSON.parse(data);
-      //$.log(JSON.stringify(totalred,null,2))
-      totalcion = totalred.data.extends.today_total_coin;
-      if (totalred.ret == 0) {
-        for (awards of totalred.data.award) {
-          taskType = awards.type,
-          red_get = awards.can_get,
-          redtotal = awards.total,
-          red_opened = awards.opened,
-          task_num = awards.event_num,
-          //readtitle = awards.title.split("，")[0].replace(/[\u4e00-\u9fa5]/g,``)
-          title = awards.title.match(/\d+/)
-          over_red = Number(redtotal - red_opened);
-          if (taskType == "article") {
-            read_res = over_red;
-            $.desc += "【阅读资讯】 已领" + awards.opened + "个红包 已看"+readnum+"篇/再读"+title+"篇\n";
-            if (awards.openable !== 0) {
-              $.log("可以打开" + awards.openable + "个阅读红包，去打开红包");
-              await $.wait(1000);
-              await Redpack(taskType)
+    return new Promise((resolve, reject) => {
+        $.get(Host('activity/info/get?activity_id=' + actid), async(error, resp, data) => {
+            totalred = JSON.parse(data);
+            //$.log(JSON.stringify(totalred,null,2))
+            totalcion = totalred.data.extends.today_total_coin;
+            if (totalred.ret == 0) {
+                for (awards of totalred.data.award) {
+                    taskType = awards.type,
+                        red_get = awards.can_get,
+                        redtotal = awards.total,
+                        red_opened = awards.opened,
+                        task_num = awards.event_num,
+                        //readtitle = awards.title.split("，")[0].replace(/[\u4e00-\u9fa5]/g,``)
+                        title = awards.title.match(/\d+/)
+                    over_red = Number(redtotal - red_opened);
+                    if (taskType == "article") {
+                        read_res = over_red;
+                        $.desc += "【阅读资讯】 已领" + awards.opened + "个红包 已看" + readnum + "篇/再读" + title + "篇\n";
+                        if (awards.openable !== 0) {
+                            $.log("可以打开" + awards.openable + "个阅读红包，去打开红包");
+                            await $.wait(1000);
+                            await Redpack(taskType)
+                        }
+                    }
+                    if (taskType == "video") {
+                        video_res = over_red;
+                        $.desc += "【观看视频】 已领" + awards.opened + "个红包 已看" + videonum + "分钟/再读" + title + "分钟\n";
+                        if (awards.openable !== 0) {
+                            $.log("可以打开" + awards.openable + "个视频红包，去打开红包");
+                            await $.wait(1000);
+                            await Redpack(taskType)
+                        }
+                    }
+                }
             }
-          }
-          if (taskType == "video") {
-            video_res = over_red;
-            $.desc += "【观看视频】 已领" + awards.opened+ "个红包 已看"+videonum+"分钟/再读"+title+"分钟\n";
-            if (awards.openable !== 0) {
-              $.log("可以打开" + awards.openable + "个视频红包，去打开红包");
-              await $.wait(1000);
-              await Redpack(taskType)
-            }
-          }
-        }
-      }
-      resolve()
+            resolve()
+        })
     })
-  })
 }
 
 
 //阶梯红包到账
 function Redpack(red_body) {
-  return new Promise((resolve, reject) =>{
-    $.post(Host('activity/redpack/get?', `redpack_type=${red_body}&activity_id=${actid}`), (error, resp, data) =>{
-      let rcash = JSON.parse(data);
-      try {
-        if (rcash.data.award.length == 1) {
-          redpacks = rcash.data.award.num / 100;
-          if (rcash.ret == 0 && redpacks > 0 && red_body == "article") {
-            redpackres = `【阅读红包】到账` + redpacks + `元🌷\n`;
-            $.log("阅读红包到账" + redpacks + "元\n")
-          } else if (rcash.ret == 0 && redpacks > 0 && red_body == "video") {
-            redpackres = `【视频红包】到账` + redpacks + `元🌷\n`;
-            $.log("视频红包到账" + redpacks + "元\n")
-          }
-        } else {
-          $.log(rcash.data.award.length + "个红包到账\n")
-        }
-      } catch(error) {
-        console.log("打开红包失败,响应数据: " + data);
-        $.msg($.name, "开红包失败，详情请看日志 ❌", error)
-      };
-      resolve()
+    return new Promise((resolve, reject) => {
+        $.post(Host('activity/redpack/get?', `redpack_type=${red_body}&activity_id=${actid}`), (error, resp, data) => {
+            let rcash = JSON.parse(data);
+            try {
+                if (rcash.data.award.length == 1) {
+                    redpacks = rcash.data.award.num / 100;
+                    if (rcash.ret == 0 && redpacks > 0 && red_body == "article") {
+                        redpackres = `【阅读红包】到账` + redpacks + `元🌷\n`;
+                        $.log("阅读红包到账" + redpacks + "元\n")
+                    } else if (rcash.ret == 0 && redpacks > 0 && red_body == "video") {
+                        redpackres = `【视频红包】到账` + redpacks + `元🌷\n`;
+                        $.log("视频红包到账" + redpacks + "元\n")
+                    }
+                } else {
+                    $.log(rcash.data.award.length + "个红包到账\n")
+                }
+            } catch (error) {
+                console.log("打开红包失败,响应数据: " + data);
+                $.msg($.name, "开红包失败，详情请看日志 ❌", error)
+            };
+            resolve()
+        })
     })
-  })
 }
 
 //收益总计
 function getTotal() {
-  return new Promise((resolve, reject) => {
-    $.post(Host('usercenter/activity/list?'), (error, resp, data) =>{
-      if (error) {
-        $.msg("获取收益信息失败‼️", "", error)
-      } else {
-        const Total_Earn = JSON.parse(data)
-        cashtotal = Total_Earn.data.wealth[1].title
-        $.sub = '【收益总计】'+ Total_Earn.data.wealth[0].title +'金币  '+"钱包: " + cashtotal+'元'
-     // $.log("钱包收益共计"+obj.data.wealth[1].title+"元")
-      }
-      resolve()
+    return new Promise((resolve, reject) => {
+        $.post(Host('usercenter/activity/list?'), (error, resp, data) => {
+            if (error) {
+                $.msg("获取收益信息失败‼️", "", error)
+            } else {
+                const Total_Earn = JSON.parse(data)
+                cashtotal = Total_Earn.data.wealth[1].title
+                $.sub = '【收益总计】' + Total_Earn.data.wealth[0].title + '金币  ' + "钱包: " + cashtotal + '元'
+                    // $.log("钱包收益共计"+obj.data.wealth[1].title+"元")
+            }
+            resolve()
+        })
     })
-  })
 }
 
 function showmsg() {
-  return new Promise((resolve, reject) => {
-      $.desc += '【每日一句】'+Dictum
-    if (readnum&&readnum%notifyInterval==0){
-      $.msg($.name, $.sub, $.desc,{ 'open-url': "https://news.qq.com/FERD/cjRedDown.htm", 'media-url': imgurl } )
-    } else if (read_res==0&&video_res==0){
-      $.msg($.name+` 今日任务已完成✅`,$.sub, $.desc,{ 'open-url': "https://news.qq.com/FERD/cjRedDown.htm", 'media-url': imgurl } )
-    } else {
-     console.log($.sub+'\n'+ $.desc)
-   }
-    resolve()
-  })
+    return new Promise((resolve, reject) => {
+        $.desc += '【每日一句】' + Dictum
+        if (readnum && readnum % notifyInterval == 0) {
+            $.msg($.name, $.sub, $.desc, {
+                'open-url': "https://news.qq.com/FERD/cjRedDown.htm",
+                'media-url': imgurl
+            })
+        } else if (read_res == 0 && video_res == 0) {
+            $.msg($.name + ` 今日任务已完成✅`, $.sub, $.desc, {
+                'open-url': "https://news.qq.com/FERD/cjRedDown.htm",
+                'media-url': imgurl
+            })
+        } else {
+            console.log($.sub + '\n' + $.desc)
+        }
+        resolve()
+    })
 }
 
 // prettier-ignore

@@ -44,62 +44,68 @@ let RdArr = [], VdArr = [];
       console.log(`============ 脚本执行-国际标准时间(UTC)：${new Date().toLocaleString()}  =============\n`)
       console.log(`============ 脚本执行-北京时间(UTC+8)：${new Date(new Date().getTime() + 8 * 60 * 60 * 1000).toLocaleString()}  =============\n`)
 
-!(async () => {
-  if (process.env.TX_CK){
-  Cookieval = process.env.TX_CK
-  }
-  if (!Cookieval && (!RdArr || !VdUrl)) {
-    console.log($.name, '【提示】请把腾讯Ck和任务链接填入Github 的 Secrets 中，请以#或者换行隔开')
-    return;
-  }
-     if(RdArr){
-     console.log("共"+RdArr.length+"次阅读任务")
-  for (let i = 0; i < RdArr.length; i++) {
-      TaskUrl = RdArr[i];
-      body = "event=article_read"
-      $.index = i + 1;
-   console.log(`-------------------------\n\n开始腾讯新闻第${$.index}次阅读`)
-      await AutoRead();
-      console.log(`请等待5s后继续阅读第${$.index+1}次任务`)
-      await $.wait(5000);
+!(async() => {
+    if (process.env.TX_CK) {
+        Cookieval = process.env.TX_CK
     }
-   console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index})次，阅读金币详情见App，阅读任务全部结束`)
-  }
-   if(VdArr){
-   console.log("共"+VdArr.length+"次视频任务")
-    for (var j = 0; j < VdArr.length; j++) {
-    
-      TaskUrl = VdArr[j];
-      body = "event=video_read"
-      $.vdindex = j + 1;
-    console.log(`-------------------------\n\n开始腾讯新闻第${$.vdindex}次看视频`)
-      await AutoRead();
-      console.log(`请等待10s后继续视频第${$.vdindex+1}次任务`)
-      await $.wait(10000);
-      }
-    console.log(`-------------------------\n\n共完成视频任务(${$.vdindex})次，视频金币详情见App，视频任务全部结束`)
-}
-})()
-  .catch((e) => $.logErr(e))
-  .finally(() => $.done())
+    if (!Cookieval && (!RdArr || !VdUrl)) {
+        console.log($.name, '【提示】请把腾讯Ck和任务链接填入Github 的 Secrets 中，请以#或者换行隔开')
+        return;
+    }
+    if (RdArr) {
+        console.log("共" + RdArr.length + "次阅读任务")
+        for (let i = 0; i < RdArr.length; i++) {
+            TaskUrl = RdArr[i];
+            body = "event=article_read"
+            $.index = i + 1;
+            console.log(`-------------------------\n\n开始腾讯新闻第${$.index}次阅读`)
+            await AutoRead();
+            console.log(`请等待5s后继续阅读第${$.index+1}次任务`)
+            await $.wait(5000);
+        }
+        console.log(`-------------------------\n\n腾讯新闻共完成阅读任务(${$.index})次，阅读金币详情见App，阅读任务全部结束`)
+    }
+    if (VdArr) {
+        console.log("共" + VdArr.length + "次视频任务")
+        for (var j = 0; j < VdArr.length; j++) {
 
-function AutoRead(){
-  return new Promise((resolve, reject) => {
-    $.post({url: TaskUrl, 
-        headers: {Cookie:Cookieval}, 
-        body: body},(error, resp, data)=> {
-        try{
-             let obj = JSON.parse(data)
-              if(obj.ret == 0){
-              console.log("本次阅读成功，获取收益" +obj.data.countdown_timer.countdown_tips+"\n")
-            } else if(body.indexOf("article")>-1){console.log("本次阅读文章失败，" +obj.info+"\n")
-             }else if(body.indexOf("video")>-1){console.log("本次观看视频失败，" +obj.info+"\n")
-             }
-            } catch(error){
-            console.log("本次阅读失败"+data+"\n")
-          }
-        resolve()
-       })
+            TaskUrl = VdArr[j];
+            body = "event=video_read"
+            $.vdindex = j + 1;
+            console.log(`-------------------------\n\n开始腾讯新闻第${$.vdindex}次看视频`)
+            await AutoRead();
+            console.log(`请等待10s后继续视频第${$.vdindex+1}次任务`)
+            await $.wait(10000);
+        }
+        console.log(`-------------------------\n\n共完成视频任务(${$.vdindex})次，视频金币详情见App，视频任务全部结束`)
+    }
+})()
+    .catch((e) => $.logErr(e))
+    .finally(() => $.done())
+
+function AutoRead() {
+    return new Promise((resolve, reject) => {
+        $.post({
+            url: TaskUrl,
+            headers: {
+                Cookie: Cookieval
+            },
+            body: body
+        }, (error, resp, data) => {
+            try {
+                let obj = JSON.parse(data)
+                if (obj.ret == 0) {
+                    console.log("本次阅读成功，获取收益" + obj.data.countdown_timer.countdown_tips + "\n")
+                } else if (body.indexOf("article") > -1) {
+                    console.log("本次阅读文章失败，" + obj.info + "\n")
+                } else if (body.indexOf("video") > -1) {
+                    console.log("本次观看视频失败，" + obj.info + "\n")
+                }
+            } catch (error) {
+                console.log("本次阅读失败" + data + "\n")
+            }
+            resolve()
+        })
     })
 }
 
