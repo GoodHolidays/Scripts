@@ -34,9 +34,7 @@ let cookieArr = [],
     readArr = [],
     articbody = '',
     timeArr = [],
-    timebody = '',
-    $.desc = ``,
-    $.sub = ``;
+    timebody = '';
 
 // 脚本部分
 if (isGetCookie = typeof $request !== 'undefined') {

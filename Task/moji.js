@@ -51,9 +51,9 @@ function fortyReport() {
         $.post(fortyurl, (error, response, data) => {
             try {
                 $.forty = JSON.parse(data)
-                realFeel = $.forty.condition.realFeel
-                forDay40 = $.forty.forecastDays.forecastDay40.fallTrendDesc[0] ? $.forty.forecastDays.forecastDay40.fallTrendDesc[0].desc : ""
-                temp40 = $.forty.forecastDays.forecastDay40.tempTrendDesc[0] ? $.forty.forecastDays.forecastDay40.tempTrendDesc[0].desc : ""
+                realFeel = $.forty.condition.realFeel,
+                forDay40 = $.forty.forecastDays.forecastDay40.fallTrendDesc[0] ? $.forty.forecastDays.forecastDay40.fallTrendDesc[0].desc : "",
+                temp40 = $.forty.forecastDays.forecastDay40.tempTrendDesc[0] ? $.forty.forecastDays.forecastDay40.tempTrendDesc[0].desc : "",
                 Festival = $.forty.forecastDays.forecastDay[1].festival
             } catch (e) {
                 $.logErr(e, resp);
@@ -100,8 +100,7 @@ function SearchCity() {
                     console.log(cityname + ': ' + cityids)
                 }
                 cityid = result.city_list[j - 1].cityId
-                cityType
-                    = result.city_list[j - 1].cityType
+                cityType = result.city_list[j - 1].cityType
                 cityname = result.city_list[j - 1].name
                 province = result.city_list[j - 1].pname
             } else {
@@ -206,11 +205,11 @@ function windSpeed(speed) {
 function HourlyReport() {
     const Hourlyweather = $.weather.data.hourly
     for (i = 0; i < 6; i++) {
-        hours = Hourlyweather[i].temperature.hour
-        hourweather = Hourlyweather[i].temperature.condition
-        hourly_Skycon = mapSkycon(hourweather) ? mapSkycon(hourweather)[0] : "   " + hourweather
-        hourWinds = Hourlyweather[i].wind.wind_desc.winddir + Hourlyweather[i].wind.wind_desc.value + Hourlyweather[i].wind.wind_desc.unit
-        hourtemps = Hourlyweather[i].temperature.temp.value + Hourlyweather[i].temperature.temp.unit
+        hours = Hourlyweather[i].temperature.hour,
+        hourweather = Hourlyweather[i].temperature.condition,
+        hourly_Skycon = mapSkycon(hourweather) ? mapSkycon(hourweather)[0] : "   " + hourweather,
+        hourWinds = Hourlyweather[i].wind.wind_desc.winddir + Hourlyweather[i].wind.wind_desc.value + Hourlyweather[i].wind.wind_desc.unit,
+        hourtemps = Hourlyweather[i].temperature.temp.value + Hourlyweather[i].temperature.temp.unit;
         if (hourlys == 'true' && i == 0) {
             $.desc += "   " + hours + ":00  " + hourly_Skycon + "  " + hourtemps + "  " + hourWinds + "\n"
         } else if (hourlys == 'true' && (hourweather != Hourlyweather[i - 1].temperature.condition || hourtemps != Hourlyweather[i - 1].temperature.temp.value + "℃")) {
