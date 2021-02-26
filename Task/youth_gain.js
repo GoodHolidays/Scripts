@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-26 11:30
+更新时间: 2021-02-26 11:32
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 中青看点浏览赚任务，手动完成任务，获取请求体，支持boxjs及Github Actions，多请求用"&"分开，点击任务，支持自动获取请求
@@ -131,8 +131,8 @@ function lookStart() {
     $.post(gainHost('Nameless/adlickstart.json',lookbody), async(error, resp, data) =>{
        startlk = JSON.parse(data);
       if (startlk.success == false) {
-        smbody = $.getdata('youth_start').replace(lookbody+"&","");
-        $.setdata(smbody,'youth_start');
+        smbody = $.getdata('youth_look').replace(lookbody+"&","");
+        $.setdata(smbody,'youth_look');
         $.log(startlk.message+"已自动删除")
       } else {
          comstate = startlk.items.comtele_state;
