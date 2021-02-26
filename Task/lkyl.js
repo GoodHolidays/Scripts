@@ -61,7 +61,7 @@ if (isGetCookie) {
     await status();   // 任务状态
     //await exChange(); // 银豆兑换
  }
-  $.msg($.name, $.sub, $.desc)
+  $.msg($.name+ " "+uesername, $.sub, $.desc)
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -101,7 +101,7 @@ function getsign() {
       //$.log(JSON.stringify(result,null,2))
       if (result.success == true) {
         signres = ' 签到成功🎉'
-        $.desc = result.data.topLine + ' ' + result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n'
+        $.desc = "签到收益:"+ result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n'
       } else {
         $.sub = `签到失败，Cookie 失效❌`
         $.desc = `说明: ${result.errorMessage}`
@@ -119,7 +119,6 @@ function info() {
         uesername = "昵称: "+userinfo.data.nickName
         $.log("\n********* "+uesername+ " *********\n")
         await getsign();
-        $.sub = uesername + signres
       }
         resolve()
     })
@@ -134,7 +133,7 @@ function total() {
        errorCode = result.errorCode;
       if (result.success == true) {
         SilverBean = result.data
-        $.desc += '收益总计：'+SilverBean+'银豆\n';
+         $.sub = '收益总计:'+SilverBean+'银豆 ';
          await beanList()
         } else if(errorCode == 'L0001'){
          $.desc += "任务已失效 "+result.errorMessage+"🆘"
@@ -148,9 +147,16 @@ function tasklist() {
     $.get(Host('lottery/home/v2?'), async(error, response, data) => {
     task = JSON.parse(data)
     //$.log(JSON.stringify(task,null,2))
-    if(task.errorCode ==null){
-       await lottery();
-   }
+     lotterystimes =0;
+
+  for (lotterys of task.data.homeActivities){
+     if(lotterys.participated==true){
+      title = lotterys.name
+      opentime = lotterys.openWayTag
+      $.log("已参与0元抽奖 "+ title+"\n开奖时间 "+opentime+"\n")
+      lotterystimes +=1
+     }
+    }
     resolve()
   })
  })
@@ -170,7 +176,9 @@ function beanList() {
           productPrice = exchangs[x].productPrice,
           leftStock = exchangs[x].leftStock;
           if (leftStock > 0 && SilverBean <= salePrice) {
-            $.log(exchangs[x - 1].salePrice + '银豆可兑换' + exchangs[x - 1].productPrice + "京豆");
+            excbean = exchangs[x - 1].salePrice + '银豆可兑换' + exchangs[x - 1].productPrice + "京豆"
+            $.sub+= excbean
+            $.log("您有"+ SilverBean+'银豆 '+excbean+'\n');
             if (jdbean == exchangs[x - 1].productPrice) {
               await exChange()
             }
@@ -201,7 +209,11 @@ function status() {
           lotteryed = dailyAmout-dailyFinish;
           $.log("已完成"+dailyFinish+"次，还有"+lotteryed+"次未完成")
          if(taskCode == "lottery"){
+           if( lotterystimes > lotteryed){
+            $.log("已参与"+lotterystimes+"次抽奖，等待开奖")
+         } else {
            await lottery()
+         }
          }else if(taskCode == "watch_video"){
            await video()
          }
@@ -266,10 +278,10 @@ function lottery() {
       totalSteps = lotteryres.data.totalSteps,
       uncomplete = totalSteps - doneSteps,
       rewardAmount = lotteryres.data.rewardAmount;
-      if (uncomplete > 0) {
+      if (uncomplete > 0 && lotterystimes<uncomplete) {
         for (tasks of task.data.homeActivities) {
           if (tasks.participated == false) {
-            for (j = 0; j < uncomplete; j++) {
+            for (j = 0; j < uncomplete-lotterystimes; j++) {
               lotteryId = tasks.activityId;
               await cycleLucky()
             }
