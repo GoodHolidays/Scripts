@@ -47,305 +47,308 @@ let cookieval = $.getdata('cookie_lkyl')
 
 let isGetCookie = typeof $request !== 'undefined'
 if (isGetCookie) {
-   GetCookie()
+    GetCookie()
 } else {
-!(async () => {
-  openid = opa.split('&')[0],
-  appid = opa.split('&')[1];
-  Sign = signVal.split('&')[0],
-  token = signVal.split('&')[1];
-  await info();     // 用户信息
-  await total();    // 总计
- if(errorCode !=="L0001"){
-    await tasklist(); // 任务列表
-    //await challenge();// 打卡挑战
-    await status();   // 任务状态
-    //await exChange(); // 银豆兑换
- }
-  $.msg($.name+ " "+uesername, $.sub, $.desc)
-})()
-  .catch((e) => $.logErr(e))
-  .finally(() => $.done())
-}
-function GetCookie() {
-if ($request && $request.method != 'OPTIONS') {
-  const opa = $request.headers['openId']+"&"+$request.headers['App-Id']
-  const signtoken = $request.headers['Lottery-Access-Signature']+'&'
-+$request.headers['LKYLToken']
-  const cookieVal = $request.headers['Cookie'];
-  if (opa) $.setdata(opa, 'token_lkyl');
-  if (signtoken) $.setdata(signtoken, 'signature_lkyl');
-  if (cookieVal) $.setdata(cookieVal, 'cookie_lkyl');
-    $.log(`opa:${opa}`),
-    $.log(`signtoken:${signtoken}`)
-    $.msg($.name, `获取Cookie: 成功🎉`, ``)
-  }
- $.done()
+    !(async() => {
+        openid = opa.split('&')[0],
+            appid = opa.split('&')[1];
+        Sign = signVal.split('&')[0],
+            token = signVal.split('&')[1];
+        await info(); // 用户信息
+        await total(); // 总计
+        if (errorCode !== "L0001") {
+            await tasklist(); // 任务列表
+            //await challenge();// 打卡挑战
+            await status(); // 任务状态
+            //await exChange(); // 银豆兑换
+        }
+        $.msg($.name + " " + uesername, $.sub, $.desc)
+    })()
+    .catch((e) => $.logErr(e))
+    .finally(() => $.done())
 }
 
-function Host(api,body) {
-  return {
-     url: "https://draw.jdfcloud.com//api/"+api+"openId="+openid+"&appId="+appid,
-     headers: {
-       'App-Id': appid,
-       'Content-Type': 'application/json',
-       'Host': 'draw.jdfcloud.com',
-       'Lottery-Access-Signature': Sign,
-       'openId': openid,
-       'LKYLToken': token,
-       'Cookie': cookieval
-     },
-     body: body
-   }
-}  
-function getsign() {
-  return new Promise((resolve, reject) =>{
-    $.post(Host('turncard/sign?petSign=true&turnTableId=131&source=HOME&','{"fp":"","eid":"86CFE351F55E0808B83745BEFC3FF26F5FF95FE8"}'), async(error, response, data) =>{
-      let result = JSON.parse(data);
-      $.log(JSON.stringify(result,null,2))
-      if (result.errorCode===null) {
-        signres = ' 签到成功🎉'
-        $.desc = "签到收益:"+ result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n'
-      } else if (!result.errorCode) {
-        $.desc = "签到结果:"+ result.errorMessage+"\n"
-      }else {
-        $.sub = `签到失败，Cookie 失效❌`
-        $.desc = `说明: ${result.errorMessage}\n`
-        $.msg($.name, $.sub, $.desc)
-      }
-      resolve()
-    })
-  })
+function GetCookie() {
+    if ($request && $request.method != 'OPTIONS') {
+        const opa = $request.headers['openId'] + "&" + $request.headers['App-Id']
+        const signtoken = $request.headers['Lottery-Access-Signature'] + '&' + $request.headers['LKYLToken']
+        const cookieVal = $request.headers['Cookie'];
+        if (opa) $.setdata(opa, 'token_lkyl');
+        if (signtoken) $.setdata(signtoken, 'signature_lkyl');
+        if (cookieVal) $.setdata(cookieVal, 'cookie_lkyl');
+        $.log(`opa:${opa}`),
+        $.log(`signtoken:${signtoken}`)
+        $.msg($.name, `获取Cookie: 成功🎉`, ``)
+    }
+    $.done()
 }
-function info() {
- return new Promise((resolve, reject) =>{
-  $.get(Host('user/user/detail?'),async(error, resp, data) => {
-     let userinfo = JSON.parse(data)  
-     if(userinfo.errorCode ==null){
-        uesername = "昵称: "+userinfo.data.nickName
-        $.log("\n********* "+uesername+ " *********\n")
-        await getsign();
-      }
-        resolve()
+
+function Host(api, body) {
+    return {
+        url: "https://draw.jdfcloud.com//api/" + api + "openId=" + openid + "&appId=" + appid,
+        headers: {
+            'App-Id': appid,
+            'Content-Type': 'application/json',
+            'Host': 'draw.jdfcloud.com',
+            'Lottery-Access-Signature': Sign,
+            'openId': openid,
+            'LKYLToken': token,
+            'Cookie': cookieval
+        },
+        body: body
+    }
+}
+
+function getsign() {
+    return new Promise((resolve, reject) => {
+        $.post(Host('turncard/sign?petSign=true&turnTableId=131&source=HOME&', '{"fp":"","eid":"86CFE351F55E0808B83745BEFC3FF26F5FF95FE8"}'), async(error, response, data) => {
+            let result = JSON.parse(data);
+            $.log(JSON.stringify(result, null, 2))
+            if (result.errorCode === null) {
+                $.desc = "签到收益:" + result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n'
+            } else if (!result.errorCode) {
+                $.desc = "签到结果:" + result.errorMessage + "\n"
+            } else {
+                $.sub = `签到失败，Cookie 失效❌`
+                $.desc = `说明: ${result.errorMessage}\n`;
+                //$.msg($.name, $.sub, $.desc)
+            }
+            resolve()
+        })
     })
- })
-}          
+}
+
+function info() {
+    return new Promise((resolve, reject) => {
+        $.get(Host('user/user/detail?'), async(error, resp, data) => {
+            let userinfo = JSON.parse(data)
+            if (userinfo.errorCode == null) {
+                uesername = "昵称: " + userinfo.data.nickName
+                $.log("\n********* " + uesername + " *********\n")
+                await getsign();
+            }
+            resolve()
+        })
+    })
+}
 
 function total() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('bean/square/silverBean/getUserBalance?'), async(error, resp, data) =>{
-      let result = JSON.parse(data);
-       //$.log(JSON.stringify(result,null,2));
-       errorCode = result.errorCode;
-      if (result.success == true) {
-        SilverBean = result.data
-         $.sub = '收益总计:'+SilverBean+'银豆 ';
-         await beanList()
-        } else if(errorCode == 'L0001'){
-         $.desc += "任务已失效 "+result.errorMessage+"🆘"
-        }
-        resolve()
+    return new Promise((resolve, reject) => {
+        $.get(Host('bean/square/silverBean/getUserBalance?'), async(error, resp, data) => {
+            let result = JSON.parse(data);
+            //$.log(JSON.stringify(result,null,2));
+            errorCode = result.errorCode;
+            if (result.success == true) {
+                SilverBean = result.data
+                $.sub = '收益总计:' + SilverBean + '银豆 ';
+                await beanList()
+            } else if (errorCode == 'L0001') {
+                $.desc += "任务已失效 " + result.errorMessage + "🆘"
+            }
+            resolve()
+        })
     })
-  })
 }
-function tasklist() {
-   return new Promise((resolve, reject) =>{
-    $.get(Host('lottery/home/v2?'), async(error, response, data) => {
-    task = JSON.parse(data)
-    //$.log(JSON.stringify(task,null,2))
-     lotterystimes =0;
 
-  for (lotterys of task.data.homeActivities){
-     if(lotterys.participated==true){
-      title = lotterys.name
-      opentime = lotterys.openWayTag
-      $.log("已参与0元抽奖 "+ title+"\n开奖时间 "+opentime+"\n")
-      lotterystimes +=1
-     }
-    }
-    resolve()
-  })
- })
+function tasklist() {
+    return new Promise((resolve, reject) => {
+        $.get(Host('lottery/home/v2?'), async(error, response, data) => {
+            task = JSON.parse(data)
+                //$.log(JSON.stringify(task,null,2))
+            lotterystimes = 0;
+            for (lotterys of task.data.homeActivities) {
+                if (lotterys.participated == true) {
+                    title = lotterys.name
+                    opentime = lotterys.openWayTag
+                    $.log("已参与0元抽奖 " + title + "\n开奖时间 " + opentime + "\n")
+                    lotterystimes += 1
+                }
+            }
+            resolve()
+        })
+    })
 }
 
 function beanList() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('bean/square/silverBean/getJdBeanList?'), async(error, resp, data) =>{
-      let obj = JSON.parse(data);
-      //$.log(JSON.stringify(obj,null,2))
-      exchangs = obj.datas;
-      if (SilverBean > exchangs[0].salePrice && SilverBean < exchangs[1].salePrice) {
-        $.log(SilverBean + '银豆，可' + exchangs[x].memo)
-      } else {
-        for (x in exchangs) {
-          salePrice = exchangs[x].salePrice,
-          productPrice = exchangs[x].productPrice,
-          leftStock = exchangs[x].leftStock;
-          if (leftStock > 0 && SilverBean <= salePrice) {
-            excbean = exchangs[x - 1].salePrice + '银豆可兑换' + exchangs[x - 1].productPrice + "京豆"
-            $.sub+= excbean
-            $.log("您有"+ SilverBean+'银豆 '+excbean+'\n');
-            if (jdbean == exchangs[x - 1].productPrice) {
-              await exChange()
+    return new Promise((resolve, reject) => {
+        $.get(Host('bean/square/silverBean/getJdBeanList?'), async(error, resp, data) => {
+            let obj = JSON.parse(data);
+            //$.log(JSON.stringify(obj,null,2))
+            exchangs = obj.datas;
+            if (SilverBean > exchangs[0].salePrice && SilverBean < exchangs[1].salePrice) {
+                $.log(SilverBean + '银豆，可' + exchangs[x].memo)
+            } else {
+                for (x in exchangs) {
+                    salePrice = exchangs[x].salePrice,
+                        productPrice = exchangs[x].productPrice,
+                        leftStock = exchangs[x].leftStock;
+                    if (leftStock > 0 && SilverBean <= salePrice) {
+                        excbean = exchangs[x - 1].salePrice + '银豆可兑换' + exchangs[x - 1].productPrice + "京豆"
+                        $.sub += excbean
+                        $.log("您有" + SilverBean + '银豆 ' + excbean + '\n');
+                        if (jdbean == exchangs[x - 1].productPrice) {
+                            await exChange()
+                        }
+                        break
+                    }
+                }
             }
-            break
-          }
-        }
-      }
-      resolve()
+            resolve()
+        })
     })
-  })
 }
 
 function status() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('bean/square/silverBean/task/get?'),async(error, resp, data) =>{
-      taskStatus = JSON.parse(data);
-   try{
-     $.log("去日常任务");
-    for (dailyTasks of taskStatus.data.dailyTasks){
-             //$.log(JSON.stringify(dailyTasks,null,2))
-         taskstatus = dailyTasks.status,
-         taskname = dailyTasks.taskName,
-         taskCode = dailyTasks.taskCode,
-         dailyAmout = dailyTasks.inviteAmount,
-         dailyFinish = dailyTasks.finishedCount;
-         $.log(" "+taskname);
-      if (taskstatus != 'received') {
-          lotteryed = dailyAmout-dailyFinish;
-          $.log("已完成"+dailyFinish+"次，还有"+lotteryed+"次未完成")
-         if(taskCode == "lottery"){
-           if( lotterystimes > lotteryed){
-            $.log("已参与"+lotterystimes+"次抽奖，等待开奖")
-         } else {
-           await lottery()
-         }
-         }else if(taskCode == "watch_video"){
-           await video()
-         }
-        if(lotteryed==0){
-           await Daily()  
-        }
-      } else if (taskstatus == 'received') {
-        $.desc += '【'+taskname+'】: ✅ ' +dailyTasks.taskReward +'银豆\n'
-        $.log(taskname+"任务已完成")
-      }
-    }    
-    $.log("\n去每周任务");
-    for (weeklyTasks of taskStatus.data.weeklyTasks){
-     //$.log(JSON.stringify(weeklyTasks,null,2))
-        taskstatus = weeklyTasks.status,
-         taskname = weeklyTasks.taskName,
-         taskCode = weeklyTasks.taskCode;
-         $.log("  "+taskname)
-      if (taskstatus != 'received') {
-         $.log("已完成"+weeklyTasks.finishedCount+"次，还有"+(weeklyTasks.inviteAmount-weeklyTasks.finishedCount)+"次未完成")
-         if (weeklyTasks.inviteAmount-weeklyTasks.finishedCount==0){
-           await weektask()
-         }
-      } else if (taskstatus == 'received') {
-        $.desc += '【'+taskname+'】: ✅ ' +weeklyTasks.taskReward +'银豆\n'
-        $.log(taskname+"任务已完成")
-      }
-    }
-    }catch(e){
-      $.log("获取任务失败"+e)
-     }
-      resolve()
+    return new Promise((resolve, reject) => {
+        $.get(Host('bean/square/silverBean/task/get?'), async(error, resp, data) => {
+            taskStatus = JSON.parse(data);
+            try {
+                $.log("去日常任务");
+                for (dailyTasks of taskStatus.data.dailyTasks) {
+                    //$.log(JSON.stringify(dailyTasks,null,2))
+                    taskstatus = dailyTasks.status,
+                        taskname = dailyTasks.taskName,
+                        taskCode = dailyTasks.taskCode,
+                        dailyAmout = dailyTasks.inviteAmount,
+                        dailyFinish = dailyTasks.finishedCount;
+                    $.log(" " + taskname);
+                    if (taskstatus != 'received') {
+                        lotteryed = dailyAmout - dailyFinish;
+                        $.log("已完成" + dailyFinish + "次，还有" + lotteryed + "次未完成")
+                        if (taskCode == "lottery") {
+                            if (lotterystimes > lotteryed) {
+                                $.log("已参与" + lotterystimes + "次抽奖，等待开奖")
+                            } else {
+                                await lottery()
+                            }
+                        } else if (taskCode == "watch_video") {
+                            await video()
+                        }
+                        if (lotteryed == 0) {
+                            await Daily()
+                        }
+                    } else if (taskstatus == 'received') {
+                        $.desc += '【' + taskname + '】: ✅ ' + dailyTasks.taskReward + '银豆\n'
+                        $.log(taskname + "任务已完成")
+                    }
+                }
+                $.log("\n去每周任务");
+                for (weeklyTasks of taskStatus.data.weeklyTasks) {
+                    //$.log(JSON.stringify(weeklyTasks,null,2))
+                    taskstatus = weeklyTasks.status,
+                        taskname = weeklyTasks.taskName,
+                        taskCode = weeklyTasks.taskCode;
+                    $.log("  " + taskname)
+                    if (taskstatus != 'received') {
+                        $.log("已完成" + weeklyTasks.finishedCount + "次，还有" + (weeklyTasks.inviteAmount - weeklyTasks.finishedCount) + "次未完成")
+                        if (weeklyTasks.inviteAmount - weeklyTasks.finishedCount == 0) {
+                            await weektask()
+                        }
+                    } else if (taskstatus == 'received') {
+                        $.desc += '【' + taskname + '】: ✅ ' + weeklyTasks.taskReward + '银豆\n'
+                        $.log(taskname + "任务已完成")
+                    }
+                }
+            } catch (e) {
+                $.log("获取任务失败" + e)
+            }
+            resolve()
+        })
     })
-  })
 }
 
- function video() {
-  return new Promise(async(resolve, reject) =>{
-    if (taskstatus.data.dailyTasks[1].status != 'received') {
-      bodyVal = '{"openId": ' + '"' + openid + '","taskCode": "watch_video"}'
-      for (j = 0; j < 4; j++) {
-        $.post(Host('bean/square/silverBean/task/join?', bodyVal),function(error, resp, data){$.log(`视频: ${data}`)});
-        await $.wait(1000);
-        $.get(Host('bean/square/silverBean/taskReward/get?taskCode=watch_video&'),function(error, resp, data) {
-          $.log(`视频银豆: ${data}`)
-        })
-      }
-    }
-    if (taskstatus.data.dailyTasks[1].status == 'received') {
-      $.desc += `【视频任务】: ✅ + ${taskstatus.data.dailyTasks[1].taskReward}银豆\n`
-    }
-    resolve()
-  })
+function video() {
+    return new Promise(async(resolve, reject) => {
+        if (taskstatus.data.dailyTasks[1].status != 'received') {
+            bodyVal = '{"openId": ' + '"' + openid + '","taskCode": "watch_video"}'
+            for (j = 0; j < 4; j++) {
+                $.post(Host('bean/square/silverBean/task/join?', bodyVal), function(error, resp, data) {
+                    $.log(`视频: ${data}`)
+                });
+                await $.wait(1000);
+                $.get(Host('bean/square/silverBean/taskReward/get?taskCode=watch_video&'), function(error, resp, data) {
+                    $.log(`视频银豆: ${data}`)
+                })
+            }
+        }
+        if (taskstatus.data.dailyTasks[1].status == 'received') {
+            $.desc += `【视频任务】: ✅ + ${taskstatus.data.dailyTasks[1].taskReward}银豆\n`
+        }
+        resolve()
+    })
 }
 
 function lottery() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('bean/square/getTaskInfo?taskCode=lottery&'), async(error, resp, data) =>{
-      //$.log(`0元抽奖${data}`);
-      let lotteryres = JSON.parse(data);
-      doneSteps = lotteryres.data.doneSteps,
-      totalSteps = lotteryres.data.totalSteps,
-      uncomplete = totalSteps - doneSteps,
-      rewardAmount = lotteryres.data.rewardAmount;
-      if (uncomplete > 0 && lotterystimes<uncomplete) {
-        for (tasks of task.data.homeActivities) {
-          if (tasks.participated == false) {
-            for (j = 0; j < uncomplete-lotterystimes; j++) {
-              lotteryId = tasks.activityId;
-              await cycleLucky()
+    return new Promise((resolve, reject) => {
+        $.get(Host('bean/square/getTaskInfo?taskCode=lottery&'), async(error, resp, data) => {
+            //$.log(`0元抽奖${data}`);
+            let lotteryres = JSON.parse(data);
+                doneSteps = lotteryres.data.doneSteps,
+                totalSteps = lotteryres.data.totalSteps,
+                uncomplete = totalSteps - doneSteps,
+                rewardAmount = lotteryres.data.rewardAmount;
+            if (uncomplete > 0 && lotterystimes < uncomplete) {
+                for (tasks of task.data.homeActivities) {
+                    if (tasks.participated == false) {
+                        for (j = 0; j < uncomplete - lotterystimes; j++) {
+                            lotteryId = tasks.activityId;
+                            await cycleLucky()
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-      resolve()
+            resolve()
+        })
     })
-  })
 }
 
 function challenge() {
- return new Promise((resolve, reject) =>{
-     body = '{"appId":'+' "'+appid+'"'+', "openId":'+' "'+openid+'"'+',"challengeStage":"'+$.time("yyyyMMdd")+'","deductAmount":'+challengebean+',"signLevelAmount":'+challengebean+'}'
-    $.post(Host('sign/challenge/apply?',body), (error, response, data) => {
-    $.log(`${cookieName}, 打卡挑战赛: ${data}`)
-   let challres = JSON.parse(data)  
-   if(challres.data==true){
-     $.desc += `【打卡挑战】: 报名成功，押金: `+challengebean+'\n'
-    }
-   if(challres.errorCode=="exist"){
-     $.desc += `【打卡挑战】: 已报名，押金: `+challengebean+'银豆\n'
-    }
-if(challres.errorCode=="deduct_fail"){
-     $.desc += `【打卡挑战】: ❎ 报名失败 押金: 不足\n`
-    }
-    resolve()
-  })
- })
+    return new Promise((resolve, reject) => {
+        body = '{"appId":' + ' "' + appid + '"' + ', "openId":' + ' "' + openid + '"' + ',"challengeStage":"' + $.time("yyyyMMdd") + '","deductAmount":' + challengebean + ',"signLevelAmount":' + challengebean + '}'
+        $.post(Host('sign/challenge/apply?', body), (error, response, data) => {
+            $.log(`${cookieName}, 打卡挑战赛: ${data}`)
+            let challres = JSON.parse(data)
+            if (challres.data == true) {
+                $.desc += `【打卡挑战】: 报名成功，押金: ` + challengebean + '\n'
+            }
+            if (challres.errorCode == "exist") {
+                $.desc += `【打卡挑战】: 已报名，押金: ` + challengebean + '银豆\n'
+            }
+            if (challres.errorCode == "deduct_fail") {
+                $.desc += `【打卡挑战】: ❎ 报名失败 押金: 不足\n`
+            }
+            resolve()
+        })
+    })
 }
 
 function cycleLucky() {
-   return new Promise((resolve, reject) =>{
- $.post(Host('lottery/participate?lotteryId='+lotteryId+'&formId=123&source=HOME&'), (error, resp, data) => {
-    $.log(`抽奖任务: ${data}`)
-         })
-     resolve()
+    return new Promise((resolve, reject) => {
+        $.post(Host('lottery/participate?lotteryId=' + lotteryId + '&formId=123&source=HOME&'), (error, resp, data) => {
+            $.log(`抽奖任务: ${data}`)
+        })
+        resolve()
     })
-  }
+}
 
 //日常抽奖银豆
 function Daily() {
-  return new Promise((resolve, reject) =>{
-    $.get(Host('bean/square/silverBean/taskReward/get?taskCode=lottery&taskType=lottery&inviterOpenId=&'), (error, resp, data) =>{
-      $.log(` 日常抽奖银豆: ${data}`)
-    })
-    resolve();
-  })
-}
-// 每周银豆
+        return new Promise((resolve, reject) => {
+            $.get(Host('bean/square/silverBean/taskReward/get?taskCode=lottery&taskType=lottery&inviterOpenId=&'), (error, resp, data) => {
+                $.log(` 日常抽奖银豆: ${data}`)
+            })
+            resolve();
+        })
+    }
+    // 每周银豆
+
 function weektask() {
-return new Promise((resolve, reject) => {
-    $.get(Host('square/silverBean/taskReward/get?taskCode=lottery_multi&taskType=lottery_multi&inviterOpenId=&'), (error, response, data) =>
-  {
-    $.log(`本周任务: ${data}`)
+    return new Promise((resolve, reject) => {
+        $.get(Host('square/silverBean/taskReward/get?taskCode=lottery_multi&taskType=lottery_multi&inviterOpenId=&'), (error, response, data) => {
+            $.log(`本周任务: ${data}`)
+        })
+        resolve()
     })
-   resolve()
-  })
 }
 
 
