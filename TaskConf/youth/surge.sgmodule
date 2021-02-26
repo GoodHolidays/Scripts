@@ -3,9 +3,11 @@
 #!system=ios
 
 [Script]
-中青看点 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js,script-update-interval=0
+中青看点 = type=cron,cronexp=35 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js,wake-system=1,timeout=360,script-update-interval=0
 
-中青看点浏览赚 = type=cron,cronexp=35 5 8 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js,script-update-interval=0
+中青看点浏览赚 = type=cron,cronexp=35 5 8 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth_gain.js,wake-system=1,timeout=1800,,script-update-interval=0
+
+#中青看点阅读 = type=cron,cronexp=35 */30 */2 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/Youth_Read.js,wake-system=1,timeout=3600,,script-update-interval=0
 
 中青看点 = type=http-request,pattern=https:\/\/kd\.youth\.cn\/WebApi\/NewTaskIos\/getTaskList,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js
 
