@@ -12,7 +12,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let tokenArr = [],  cookieArr = [];
 let wbtoken = $.getdata('sy_token_wb');
 let cookies = $.getdata('wb_cookie');
-let signcash = "",
+let signcash = "";
   
 
 if (isGetCookie = typeof $request !== `undefined`) {
