@@ -110,8 +110,8 @@ function getsign() {
         $.desc = "签到结果:"+ result.errorMessage+"\n"
       }else {
         $.sub = `签到失败，Cookie 失效❌`
-        $.desc = `说明: ${result.errorMessage}`
-        $.msg($.name, $.sub, $.desc); return
+        $.desc = `说明: ${result.errorMessage}\n`
+        $.msg($.name, $.sub, $.desc)
       }
       resolve()
     })
