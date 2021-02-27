@@ -12,7 +12,8 @@ const $ = new Env("中青看点阅读")
 //const notify = $.isNode() ? require('./sendNotify') : '';
 let ReadArr = [], timebodyVal ="";
 let YouthBody = $.getdata('youth_autoread')||$.getdata("zqgetbody_body");
-let smallzq = $.getdata('youth_cut')
+let smallzq = $.getdata('youth_cut');
+let indexLast = $.getdata('zqbody_index');
 let artsnum = 0, videosnum = 0;
 let videoscore = 0,readscore = 0;
 let artArr = [], delbody = 0;
@@ -64,13 +65,13 @@ $.log("******** 您共获取" + ReadArr.length + "次阅读请求，任务开始
         return;
     }
 if (!$.isNode()) {
-  let indexLast = $.getdata('zqbody_index');
   $.begin = indexLast ? parseInt(indexLast) : 1;
   $.index = 0;
   if ($.begin + 1 <= ReadArr.length) {
     $.log("\n上次运行到第" + $.begin + "次终止，本次从" + (parseInt($.begin) + 1) + "次开始");
   } else {
-    $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始") indexLast = 0,
+    $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始");
+    indexLast = 0,
     $.begin = 0
   }
 } else {
