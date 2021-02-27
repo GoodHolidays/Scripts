@@ -95,6 +95,7 @@ function bodyInfo() {
     return new Promise((resolve, reject) => {
         $.get(batHost('article/info/get.json?' + articlebody), async(error, resp, data) => {
             let bodyobj = JSON.parse(data);
+            $.log(JSON.stringify(readres,null,2))
             try {
                 if (bodyobj.error_code == 0) {
                     acticid = bodyobj.url.match(/\d+/)[0];
