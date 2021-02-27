@@ -566,7 +566,7 @@ function showmsg() {
 function GetCookie() {
     if ($request && $request.method != 'OPTIONS' && $request.url.match(/\/activity\/h5\/vault/)) {
         const CookieVal = $request.headers.Cookie
-        const UA = $request.headers.User-Agent
+        const UA = $request.headers['User-Agent']
         $.log(`CookieVal:${CookieVal}`)
         if (CookieVal) $.setdata(CookieVal, 'bdspeed');
         if (UA) $.setdata(UA, 'bd_Agent')
