@@ -315,6 +315,7 @@ function withDraw() {
             withDrawres = JSON.parse(data)
             if (withDrawres.error_code == 0) {
                 $.desc += `【自动提现】提现${withdrawcash}元成功\n`
+                $.msg($.name,$.sub,$.desc)
             } else if (withDrawres.error_code == "10002") {
                 $.log(`自动提现失败，${withDrawres.homeTime.text}`)
             } else {
