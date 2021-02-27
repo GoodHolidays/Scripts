@@ -45,8 +45,8 @@ if (isGetCookie = typeof $request !== 'undefined') {
 } else {
     !(async() => {
         if (!$.isNode() && cookieYouth.indexOf("#") == -1) {
-            cookieArr.push(cookieYouth);
-            readArr.push(artBody);
+            cookieArr.push(cookieYouth),
+            readArr.push(artBody),
             timeArr.push(readTimes)
         } else {
             if (!$.isNode() && cookieYouth.indexOf("#") > -1) {
@@ -55,23 +55,23 @@ if (isGetCookie = typeof $request !== 'undefined') {
                     readTimes = readTimes.split("&")
             } else if ($.isNode()) {
                 if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.indexOf('#') > -1) {
-                    cookieYouth = process.env.YOUTH_HEADER.split('#');
+                    cookieYouth = process.env.YOUTH_HEADER.split('#')
                 } else if (process.env.YOUTH_HEADER && process.env.YOUTH_HEADER.indexOf('\n') > -1) {
-                    cookieYouth = process.env.YOUTH_HEADER.split('\n');
+                    cookieYouth = process.env.YOUTH_HEADER.split('\n')
                 } else {
                     cookieYouth = [process.env.YOUTH_HEADER]
                 };
                 if (process.env.YOUTH_ARTBODY && process.env.YOUTH_ARTBODY.indexOf('&') > -1) {
-                    artBody = process.env.YOUTH_ARTBODY.split('&');
+                    artBody = process.env.YOUTH_ARTBODY.split('&')
                 } else if (process.env.YOUTH_ARTBODY && process.env.YOUTH_ARTBODY.indexOf('\n') > -1) {
-                    artBody = process.env.YOUTH_ARTBODY.split('\n');
+                    artBody = process.env.YOUTH_ARTBODY.split('\n')
                 } else {
                     artBody = [process.env.YOUTH_ARTBODY]
                 };
                 if (process.env.YOUTH_TIME && process.env.YOUTH_TIME.indexOf('&') > -1) {
-                    readTimes = process.env.YOUTH_TIME.split('&');
+                    readTimes = process.env.YOUTH_TIME.split('&')
                 } else if (process.env.YOUTH_TIME && process.env.YOUTH_TIME.indexOf('\n') > -1) {
-                    readTimes = process.env.YOUTH_TIME.split('\n');
+                    readTimes = process.env.YOUTH_TIME.split('\n')
                 } else {
                     readTimes = [process.env.YOUTH_TIME]
                 }
@@ -94,24 +94,19 @@ if (isGetCookie = typeof $request !== 'undefined') {
         };
         timeZone = new Date().getTimezoneOffset() / 60;
         timestamp = Date.now() + (8 + timeZone) * 60 * 60 * 1000;
-        bjTime = new Date(timestamp).toLocaleString('zh', {
-            hour12: false,
-            timeZoneName: 'long'
-        });
+        bjTime = new Date(timestamp).toLocaleString('zh', {hour12: false, timeZoneName: 'long'});
         $.log(`\n === 脚本执行${bjTime} === \n`);
         $.log(` =========== 您共提供${cookieArr.length}个中青账号 ==========`);
         if (!cookieArr[0]) {
-            $.msg($.name, '【提示】请先获取中青看点一cookie', "", {
-                'open-url': "https://kandian.youth.cn/u/mhkjN"
-            });
+            $.msg($.name, '【提示】请先获取中青看点一cookie', "", {'open-url': "https://kandian.youth.cn/u/mhkjN"});
             return;
         }
         for (let i = 0; i < cookieArr.length; i++) {
             if (cookieArr[i]) {
-                cookie = cookieArr[i];
-                articbody = readArr[i];
-                timebody = timeArr[i];
-                $.index = i + 1;
+                cookie = cookieArr[i],
+                articbody = readArr[i],
+                timebody = timeArr[i],
+                $.index = i + 1
             };
             myuid = cookie.match(/uid=\d+/);
             await userInfo();
@@ -169,8 +164,8 @@ function userInfo() {
         $.post(kdHost('WebApi/NewTaskIos/getSign'), async(error, resp, data) => {
             signinfo = JSON.parse(data);
             if (signinfo.status == 1) {
-                cash = signinfo.data.user.money;
-                signday = signinfo.data.sign_day;
+                cash = signinfo.data.user.money,
+                signday = signinfo.data.sign_day,
                 totalscore = signinfo.data.user.score;
                 $.sub = `【收益总计】${totalscore}青豆 现金约${cash}元`;
                 nick = '账号:' + signinfo.data.user.nickname;
@@ -178,7 +173,7 @@ function userInfo() {
                     $.setdata(nick, "zq_nick")
                 } else {
                     $.setdata("账号" + cookieArr.length + "合一", "zq_nick")
-                }
+                };
                 if (parseInt(cash) >= withdrawcash && !withdrawBody == false) {
                     await withDraw()
                 };
@@ -209,13 +204,13 @@ function TaskCenter() {
                     await friendsign();
                     for (dailys of taskres.list.daily) {
                         button = dailys.but,
-                            title = dailys.title,
-                            dayid = dailys.id,
-                            reward_act = dailys.reward_action;
+                        title = dailys.title,
+                        dayid = dailys.id,
+                        reward_act = dailys.reward_action;
                         await $.wait(500);
-                        $.log("去" + title)
+                        $.log("去" + title);
                         if (dailys.status == "2") {
-                            $.log(title + "，" + button + "，已领取青豆" + dailys.score)
+                            $.log(title + "，" + button + "，已领取青豆" + dailys.score);
                             $.desc += `【${title}】✅  ${dailys.score}青豆\n`
                         } else if (dailys.status == "1" && dailys.action != "") {
                             $.log(dailys.title + "已完成 ，去领取奖励青豆");
@@ -270,7 +265,7 @@ function getsign() {
                 return;
             } else if (signres.status == 1) {
                 $.desc = `【签到结果】成功 🎉 青豆: +${signres.score}，明日青豆: +${signres.nextScore}\n`;
-                await comApp();
+                await comApp()
             }
             resolve()
         })
@@ -348,7 +343,7 @@ function CardStatus() {
                     $.log("打卡时间已到，去打卡");
                     await endCard()
                 } else if (punchcard.data.user.status == 0) {
-                    $.log("今日您未报名早起打卡，报名时间统一设置成晚上23点");
+                    $.log("今日您未报名早起打卡，报名时间统一设置成晚上23点")
                 }
             } else if (punchcard.code == 0) {
                 $.log("打卡申请失败" + data)
@@ -383,7 +378,7 @@ function endCard() {
                     $.desc += `【早起打卡】${punchcardend.data.card_time}${punchcardend.msg}✅ `;
                     $.log("早起打卡成功，打卡时间:" + `${punchcardend.data.card_time}`);
                     await $.wait(1000);
-                    await Cardshare();
+                    await Cardshare()
                 } else if (punchcardend.code == 0) {
                     // TODO .不在打卡时间范围内
                     $.desc += `【早起打卡】${punchcardend.msg}\n`;
@@ -400,7 +395,7 @@ function Cardshare() {
         $.post(kdHost('WebApi/PunchCard/shareStart?'), async(error, resp, data) => {
             sharestart = JSON.parse(data);
             if (sharestart.code == 1) {
-                $.log("等待2s，去打卡分享")
+                $.log("等待2s，去打卡分享");
                 await $.wait(2000);
                 $.post(kdHost('WebApi/PunchCard/shareEnd?'), (error, response, data) => {
                     shareres = JSON.parse(data);
@@ -566,7 +561,7 @@ function gameVideo() {
 function comApp() {
     return new Promise((resolve, reject) => {
         $.post(batHost('mission/msgRed.json', articbody), (error, resp, data) => {
-            comres = JSON.parse(data)
+            comres = JSON.parse(data);
             if (comres.success == true) {
                 $.desc += `【回访奖励】+${comres.items.score}个青豆\n`
             }
@@ -620,12 +615,12 @@ function bonusTask() {
         $.post(kdHost('WebApi/ShareNew/bereadExtraList'), async(error, resp, data) => {
             extrares = JSON.parse(data);
             if (extrares.status == 2) {
-                $.log("参数错误" + JSON.stringify(extrares));
+                $.log("参数错误" + JSON.stringify(extrares))
             } else if (extrares.status == 1 && extrares.data.taskList[0].status == 1) {
                 timestatus = extrares.data.taskList[0].status;
                 timetitle = extrares.data.taskList[0].name;
                 $.log(timetitle + "可领取，去领青豆");
-                await TimePacket();
+                await TimePacket()
             }
             resolve()
         })
@@ -660,17 +655,17 @@ function rotary() {
                     $.log("等待" + s + "秒进行开始转盘任务");
                     rotaryscore += rotaryres.data.score;
                     rotarytimes = rotaryres.data.remainTurn;
-                    doubleTimes = rotaryres.data.doubleNum
+                    doubleTimes = rotaryres.data.doubleNum;
                     $.log("进行" + parseInt(100 - rotarytimes) + "次转盘，获得" + rotaryres.data.score + "青豆");
                     if (rotaryres.data.score != 0 && doubleTimes != 0) {
                         $.log("等待10s，获得双倍青豆")
                         await $.wait(10000);
-                        await TurnDouble();
+                        await TurnDouble()
                     }
-                    await rotaryCheck();
+                    await rotaryCheck()
                 }
             } catch (e) {
-                $.logErr(e, resp);
+                $.logErr(e, resp)
             } finally {
                 resolve()
             }
@@ -699,10 +694,10 @@ function runRotary(index) {
         $.post(kdHost(`WebApi/RotaryTable/chestReward?_=${Date.now()}&`, rotarbody), (error, resp, data) => {
             let rotaryresp = JSON.parse(data);
             if (rotaryresp.status == 1) {
-                $.desc += `【转盘宝箱${index}】+${rotaryresp.data.score}个青豆\n`;
+                $.desc += `【转盘宝箱${index}】+${rotaryresp.data.score}个青豆\n`
             } else {
                 if (rotaryresp.code == "10010") {
-                    $.desc += `【转盘宝箱${index}】+今日抽奖完成\n`;
+                    $.desc += `【转盘宝箱${index}】+今日抽奖完成\n`
                 }
             }
             resolve();
@@ -721,7 +716,7 @@ function TurnDouble() {
                     doublerotary += Doubleres.data.score
                 }
             } catch (e) {
-                $.logErr(e, resp);
+                $.logErr(e, resp)
             } finally {
                 resolve()
             }
