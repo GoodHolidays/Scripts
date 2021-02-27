@@ -7,16 +7,16 @@
 
 */
 
-const $ = new Env("中青看点")
+const $ = new Env("中青看点");
 
 const notify = $.isNode() ? require('./sendNotify') : '';
 //const youthNode = $.isNode() ? require('./youth_env') : '';
 
 // 可设置部分
-let notifyInterval = $.getdata("notifytimes") || 50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
-let ONCard = $.getdata('zqcard') || "false" //早起打卡开关
-let s = $.getdata('delay_rotary_zq') || "10" //转盘延迟时间
-let withdrawcash = $.getdata('zqcash') || 30 //提现金额
+let notifyInterval = $.getdata("notifytimes") || 50; //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
+let ONCard = $.getdata('zqcard') || "false"; //早起打卡开关
+let s = $.getdata('delay_rotary_zq') || "10"; //转盘延迟时间
+let withdrawcash = $.getdata('zqcash') || 30; //提现金额
 let cardTime = $.getdata('zqtime') || "05"; //打卡时间
 
 // 需获取部分
@@ -27,14 +27,10 @@ let artBody = $.getdata('read_zq');
 let readTimes = $.getdata('readtime_zq');
 
 //声明部分
-let rotaryscore = 0,
-    doublerotary = 0;
-let cookieArr = [],
-    cookie = '',
-    readArr = [],
-    articbody = '',
-    timeArr = [],
-    timebody = '';
+let rotaryscore = 0,doublerotary = 0;
+let cookieArr = [],cookie = '';
+let readArr = [],articbody = '';
+let timeArr = [],timebody = '';
 
 // 脚本部分
 if (isGetCookie = typeof $request !== 'undefined') {
@@ -314,7 +310,7 @@ function withDraw() {
                 'User-Agent': 'KDApp/2.0.0 (iPhone; iOS 14.5; Scale/3.00)'
             },
             body: withdrawBody,
-        }
+        };
         $.post(url, (error, resp, data) => {
             withDrawres = JSON.parse(data)
             if (withDrawres.error_code == 0) {
