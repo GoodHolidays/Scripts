@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-27 17:20
+更新时间: 2021-02-27 18:12
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -63,15 +63,20 @@ $.log("******** 您共获取" + ReadArr.length + "次阅读请求，任务开始
         console.log($.name, '【提示】请把抓包的请求体填入Github 的 Secrets 中，请以&隔开')
         return;
     }
-    let indexLast = $.getdata('zqbody_index');
-    $.begin = indexLast ? parseInt(indexLast, 10) : 1;
-    $.index = 0;
-    if ($.begin + 1 <= ReadArr.length&&!$.isNode()) {
-        $.log("\n上次运行到第" + $.begin + "次终止，本次从" + (parseInt($.begin) + 1) + "次开始");
-    } else {
-        $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始")
-        indexLast = 0, $.begin = 0
-    }
+if (!$.isNode()) {
+  let indexLast = $.getdata('zqbody_index');
+  $.begin = indexLast ? parseInt(indexLast) : 1;
+  $.index = 0;
+  if ($.begin + 1 <= ReadArr.length) {
+    $.log("\n上次运行到第" + $.begin + "次终止，本次从" + (parseInt($.begin) + 1) + "次开始");
+  } else {
+    $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始") indexLast = 0,
+    $.begin = 0
+  }
+} else {
+  indexLast = 0,
+  $.begin = 0
+}
     if (smallzq == "true") {
         $.log("     请注意缩减请求开关已打开‼️\n     如不需要    请强制停止\n     关闭Boxjs缩减请求开关")
     };
