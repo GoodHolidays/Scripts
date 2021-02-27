@@ -1,8 +1,8 @@
 /*
-更新时间: 2021-02-27 18:22
+更新时间: 2021-02-27 21:00
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
-请自行抓包，阅读文章和看视频，倒计时转一圈显示青豆到账即可，多看几篇文章和视频，获得更多包数据，抓包地址为"https://ios.baertt.com/v5/article/complete.json"，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
+点击几篇文章和视频，自动获取阅读请求，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
 
 多个请求体时用'&'号或者换行隔开" ‼️
 
@@ -33,20 +33,20 @@ if (!$.isNode() && !YouthBody == true) {
 } else {
     if ($.isNode()) {
         if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('&') > -1) {
-            YouthBody = process.env.YOUTH_READ.split('&');
+            YouthBodys = process.env.YOUTH_READ.split('&');
             console.log(`您选择的是用"&"隔开\n`)
         } else if (process.env.YOUTH_READ && process.env.YOUTH_READ.indexOf('\n') > -1) {
-            YouthBody = process.env.YOUTH_READ.split('\n');
+            YouthBodys = process.env.YOUTH_READ.split('\n');
             console.log(`您选择的是用换行隔开\n`)
         } else {
-            YouthBody = [process.env.YOUTH_READ]
+            YouthBodys = [process.env.YOUTH_READ]
         }
     } else if (!$.isNode() && YouthBody.indexOf("&") > -1) {
-        YouthBody = YouthBody.split("&")
+        YouthBodys = YouthBody.split("&")
     };
-    Object.keys(YouthBody).forEach((item) => {
-        if (YouthBody[item]) {
-            ReadArr.push(YouthBody[item])
+    Object.keys(YouthBodys).forEach((item) => {
+        if (YouthBodys[item]) {
+            ReadArr.push(YouthBodys[item])
         }
     })
 }
@@ -102,10 +102,13 @@ function bodyInfo() {
         $.get(batHost('article/info/get.json?' + articlebody), async(error, resp, data) => {
             let bodyobj = JSON.parse(data);
             //$.log(JSON.stringify(bodyobj,null,2))
+                $.begin = $.begin + 1;
+                let res = $.begin % ReadArr.length;
+                $.setdata(res + "", 'zqbody_index');
             try {
-                if (bodyobj.error_code == "200007") {
+                if (bodyobj.error_code == "200007"&&!$.isNode()) {
+                await removebody();
                 $.log(bodyobj.message+"已自动删除");
-                repeatbody = $.getdata('youth_autoread').replace("&" + articlebody, "")
                 } else if (bodyobj.error_code == 0) {
                     acticid = bodyobj.url.match(/\d+/)[0];
                     artdesc = bodyobj.description
@@ -116,9 +119,8 @@ function bodyInfo() {
                         $.log(ctype + ": " + artdesc + "  ----- " + author + "\n")
                         await $.wait(10000);
                         await AutoRead();
-                    } else if (artArr.indexOf(acticid) > -1) {
-                        repeatbody = $.getdata('youth_autoread').replace("&" + articlebody, "");
-                    $.setdata(repeatbody, 'youth_autoread')
+                    } else if (artArr.indexOf(acticid) > -1&&!$.isNode()) {
+                        await removebody();
                         $.log("文章ID:" + acticid + " 请求重复，已自动删除")
                         delbody += 1;
                         await $.wait(1000)
@@ -140,11 +142,8 @@ function AutoRead() {
             let readres = JSON.parse(data);
             //$.log(JSON.stringify(readres,null,2))
             if (readres.items.complete == 1) {
-                //$.log(readres.items.max_notice)
+                $.log(readres.items.max_notice)
             } else {
-                $.begin = $.begin + 1;
-                let res = $.begin % ReadArr.length;
-                $.setdata(res + "", 'zqbody_index');
                 if (readres.error_code == '0' && data.indexOf("read_score") > -1 && readres.items.read_score > 0) {
                     console.log(`本次阅读获得${readres.items.read_score}个青豆，请等待30s后执行下一次阅读\n`);
                     if (data.indexOf("ctype") > -1) {
@@ -171,17 +170,15 @@ function AutoRead() {
                     }
                 } else if (readres.error_code == '0' && data.indexOf('"score":0') > -1 && readres.items.score == 0) {
                     $.log(`\n本次阅读获得0个青豆，等待10s即将开始下次阅读\n`);
-                    if (smallzq == "true" && articlebody !== ReadArr[0]) {
-                        smreadbody = $.getdata('youth_autoread').replace("&" + articlebody, "")
-                        $.setdata(smreadbody, 'youth_autoread')
+                    if (smallzq == "true") {
+                        await removebody();
                         $.log("已删除第" + ($.begin) + "个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭")
                         delbody += 1
                     }
                 } else if (readres.success == false) {
                     console.log(`第${$.index}次阅读请求有误，请删除此请求`);
-                    if (smallzq == "true" && articlebody !== ReadArr[0]) {
-                        smreadbody = $.getdata('youth_autoread').replace("&" + articlebody, "");
-                        $.setdata(smreadbody, 'youth_autoread');
+                    if (smallzq == "true") {
+                        await removebody();
                         $.log("已删除第" + ($.begin) + "个请求，如无需删除请及时提前关掉boxjs内的开关，使用后即关闭");
                         delbody += 1
                     }
@@ -190,6 +187,15 @@ function AutoRead() {
             resolve()
         })
     })
+}
+
+function removebody() {
+  if (articlebody !== ReadArr[0]) {
+      smallbody = YouthBody.replace("&" + articlebody, "");
+  } else {
+      smallbody = YouthBody.replace(articlebody + "&", "")
+  }
+  $.setdata(smallbody, 'youth_autoread')
 }
 
 function batHost(api, body) {
