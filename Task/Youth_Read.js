@@ -66,7 +66,7 @@ $.log("******** 您共获取" + ReadArr.length + "次阅读请求，任务开始
     let indexLast = $.getdata('zqbody_index');
     $.begin = indexLast ? parseInt(indexLast, 10) : 1;
     $.index = 0;
-    if ($.begin + 1 <= ReadArr.length) {
+    if ($.begin + 1 <= ReadArr.length&&!$.isNode()) {
         $.log("\n上次运行到第" + $.begin + "次终止，本次从" + (parseInt($.begin) + 1) + "次开始");
     } else {
         $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始")
