@@ -25,7 +25,7 @@ let lastIndex = $.getdata('zqbody_index')
 if (!$.isNode() && !YouthBody == true) {
     $.log("您未获取阅读请求，请求阅读后获取")
     $.msg($.name, "您未获取阅读请求，请求阅读后获取", "", {
-        'open-url': "https://kandian.youth.cn/u/8S9DO"
+        'open-url': "https://kandian.youth.cn/u/UnEWm"
     })
     return
 } else if (!$.isNode() && YouthBody.indexOf("&") == -1) {
@@ -92,7 +92,8 @@ if (!$.isNode()) {
     $.log("\n……………………………………………………………………\n\n本次共删除" + delbody + "个请求，剩余" + (ReadArr.length - delbody) + "个请求");
     $.log("本次共阅读" + artsnum + "次资讯，共获得" + readscore + "青豆\n观看" + videosnum + "次视频，获得" + videoscore + "青豆(不含0青豆次数)\n");
     console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`);
-    $.msg($.name, `本次运行共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆`)
+$.log(readtimes?"阅读时长"+parseInt(readtimes)+"分钟":"")
+    $.msg($.name, `本次运行共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆`,"删除"+delbody+"个请求"+(readtimes?"，阅读时长"+parseInt(readtimes)+"分钟":""))
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
