@@ -191,9 +191,9 @@ function AutoRead() {
 
 function removebody() {
   if (articlebody !== ReadArr[0]) {
-      smallbody = YouthBody.replace("&" + articlebody, "");
+      smallbody = $.getdata('youth_autoread').replace("&" + articlebody, "");
   } else {
-      smallbody = YouthBody.replace(articlebody + "&", "")
+      smallbody = $.getdata('youth_autoread').replace(articlebody + "&", "")
   }
   $.setdata(smallbody, 'youth_autoread')
 }
@@ -202,7 +202,7 @@ function batHost(api, body) {
     return {
         url: 'https://ios.baertt.com/v5/' + api,
         headers: {
-            'User-Agent': 'KDApp/2.0.0 (iPhone; iOS 14.5; Scale/3.00)',
+            'User-Agent': 'KDApp/2.0.2 (iPhone; iOS 14.5; Scale/3.00)',
             'Host': 'ios.baertt.com',
             'Content-Type': 'application/x-www-form-urlencoded'
         },
