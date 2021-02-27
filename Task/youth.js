@@ -217,6 +217,8 @@ function TaskCenter() {
                                 await CardStatus()
                             } else if (dayid == "7") {
                                 await readTime()
+                            } else if (title == "元宵额外赚") {
+                                await Census()
                             } else if (dayid == "10") {
                                 $.log(title + "未完成，去做任务");
                                 for (x = 0; x < 5; x++) {
@@ -425,7 +427,13 @@ function SevCont() {
         })
     })
 }
-
+function Census() {
+    return new Promise((resolve, reject) =>{
+    $.post(kdHost('u/Uuz73'),async(error, resp, data) =>{
+            resolve()
+        })
+    })
+}
 function int() {
         return new Promise((resolve, reject) => {
             let url = {
