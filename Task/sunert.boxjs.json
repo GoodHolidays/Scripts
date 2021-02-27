@@ -351,12 +351,13 @@
       "author": "@sunert", 
       "keys": [
         "baidu_nick", 
+        "bdspeed", 
         "chavy_cookie_tieba", 
         "CookieTB", 
         "cash_baidu"
       ], 
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/baiduspeed.js", 
-      "id": "baidu", 
+      "id": "baidu_speed", 
       "script": "https://raw.githubusercontent.com/Sunert/Scripts/master/Task/baiduspeed.js", 
       "settings": [
         {
@@ -390,6 +391,13 @@
           "name": "任务开关", 
           "type": "boolean", 
           "desc": "除提现和兑换金币外开关，默认开启所有任务"
+        },
+        {
+          "id": "bd_Agent", 
+          "val": true, 
+          "name": "User-Agent", 
+          "type": "textarea", 
+          "desc": "自定义百度极速版UA或者可自动获取"
         }
       ], 
       "name": "百度极速任务", 
