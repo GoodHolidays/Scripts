@@ -1,5 +1,5 @@
 /*
-更新时间: 2021-02-27 21:30
+更新时间: 2021-02-28 09:03
 Github Actions使用方法见[@lxk0301](https://raw.githubusercontent.com/lxk0301/scripts/master/githubAction.md) 使用方法大同小异
 
 点击几篇文章和视频，自动获取阅读请求，在Github Actions中的Secrets新建name为'YOUTH_READ'的一个值，拷贝抓包的请求体到下面Value的文本框中，添加的请求体越多，获得青豆次数越多，本脚本不包含任何推送通知
@@ -66,7 +66,7 @@ $.log("******** 您共获取" + ReadArr.length + "次阅读请求，任务开始
     }
 if (!$.isNode()) {
   $.begin = indexLast ? parseInt(indexLast) : 1;
-  if ($.begin + 1 <= ReadArr.length) {
+  if ($.begin + 1 < ReadArr.length) {
     $.log("\n上次运行到第" + $.begin + "次终止，本次从" + (parseInt($.begin) + 1) + "次开始");
   } else {
     $.log("由于上次缩减剩余请求数已小于总请求数，本次从头开始");
@@ -92,7 +92,6 @@ if (!$.isNode()) {
     $.log("\n……………………………………………………………………\n\n本次共删除" + delbody + "个请求，剩余" + (ReadArr.length - delbody) + "个请求");
     $.log("本次共阅读" + artsnum + "次资讯，共获得" + readscore + "青豆\n观看" + videosnum + "次视频，获得" + videoscore + "青豆(不含0青豆次数)\n");
     console.log(`-------------------------\n\n中青看点共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆，阅读请求全部结束`);
-$.log(readtimes?"阅读时长"+parseInt(readtimes)+"分钟":"")
     $.msg($.name, `本次运行共完成${$.index}次阅读，共计获得${readscore+videoscore}个青豆`,"删除"+delbody+"个请求"+(readtimes?"，阅读时长"+parseInt(readtimes)+"分钟":""))
 })()
     .catch((e) => $.logErr(e))
@@ -109,6 +108,7 @@ function bodyInfo() {
             try {
                 if (bodyobj.error_code == "200007"&&!$.isNode()) {
                 await removebody();
+                delbody += 1;
                 $.log(bodyobj.message+"已自动删除");
                 } else if (bodyobj.error_code == 0) {
                     acticid = bodyobj.url.match(/\d+/)[0];
