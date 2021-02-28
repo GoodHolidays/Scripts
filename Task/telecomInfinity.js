@@ -42,6 +42,7 @@ let config = {
     delay: 0, //自定义延迟签到,单位毫秒,(如填200则每个接口延迟0.2秒执行),默认无延迟
     info: 1, //是否显示手机归属地，1为显示，0为不显示
 }
+const notify = $.isNode() ? require('./sendNotify') : '';
 let $ = new Env(config.name),
      Y = $.time('yyyy'),
      M = $.getdata('Mon').slice(-2)||$.time('MM') ; //查询前几个月，可以')'号后减几
@@ -264,6 +265,9 @@ function notify(data, balance, exdata, bldata) {
                     message = message + "\n" + bills
             }; //账单明细
             $.msg(config.name, subtitle, message)
+            if($.isNode()){
+              await notify.sendNotify(config.name, subtitle+"\n"+message)
+            }
         } catch (err) {
             console.log("查询错误，错误原因:" + err + '\n账单响应数据:' + JSON.stringify(bldata) + '\n请将以上数据机主姓名删除后反馈给作者')
         }
