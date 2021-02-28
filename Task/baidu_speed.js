@@ -20,7 +20,7 @@ https:\/\/haokan\.baidu\.com\/activity\/h5\/vault\?productid=\d url script-reque
 const $ = new Env('百度极速版')
 let CookieArr = [],cashArr=[];
 const notify = $.isNode() ? require('./sendNotify') : '';
-const baiducks = $.getdata('bdspeed')||$.getdata(`chavy_cookie_tieba`) || $.getdata(`CookieTB`);
+const baiducks = $.getdata('bdspeed')
 let baiducash = $.getdata(`cash_baidu`);
 
 let taskON = $.getdata(`task_baidu`)||"true"//除提现和兑换外其他任务开关;
