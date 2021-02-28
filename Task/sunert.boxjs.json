@@ -350,10 +350,8 @@
     {
       "author": "@sunert", 
       "keys": [
-        "baidu_nick", 
-        "bdspeed", 
-        "chavy_cookie_tieba", 
-        "CookieTB", 
+        "baidu_nick",
+        "bdspeed",
         "cash_baidu"
       ], 
       "repo": "https://github.com/Sunert/Scripts/blob/master/Task/baiduspeed.js", 
