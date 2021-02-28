@@ -105,7 +105,8 @@ function getsign() {
             let result = JSON.parse(data);
             $.log(JSON.stringify(result, null, 2))
             if (result.errorCode === null) {
-                $.desc = "签到收益:" + result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n'
+                $.desc = "签到收益:" + result.data.rewardName + ' 获得' + result.data.jdBeanQuantity + '个京豆\n';
+                $.log($.desc)
             } else if (!result.errorCode) {
                 $.desc = "签到结果:" + result.errorMessage + "\n"
             } else {
