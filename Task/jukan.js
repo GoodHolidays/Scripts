@@ -19,7 +19,7 @@ let signtimes = $.getdata('jukan_times')
 let cashout = $.getdata('jukan_out')|| false
 let UA = 'JuKanDian/5.6.5 (iPhone; iOS 14.2; Scale/3.00)'
 let taskresult = "",sumnotify ="";
-
+let calendarpic = "";
 if ($.isNode()) {
   if (process.env.JUKAN_BODY && process.env.JUKAN_BODY.indexOf('&') > -1) {
   JKbody = process.env.JUKAN_BODY.split('&');

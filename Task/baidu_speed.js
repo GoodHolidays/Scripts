@@ -109,7 +109,7 @@ function confApi(api, body, RefererUrl) {
        headers:{
            'Cookie': cookieval,
            'User-Agent': UA,
-           'Referer': RefererUrl
+           'Referer': RefererUrl?RefererUrl:''
        },
        body:body
     }
