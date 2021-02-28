@@ -259,7 +259,6 @@ function status() {
 
 function video() {
     return new Promise(async(resolve, reject) => {
-        if (taskstatus.data.dailyTasks[1].status != 'received') {
             bodyVal = '{"openId": ' + '"' + openid + '","taskCode": "watch_video"}'
             for (j = 0; j < 4; j++) {
                 $.post(Host('bean/square/silverBean/task/join?', bodyVal), function(error, resp, data) {
@@ -270,10 +269,6 @@ function video() {
                     $.log(`视频银豆: ${data}`)
                 })
             }
-        }
-        if (taskstatus.data.dailyTasks[1].status == 'received') {
-            $.desc += `【视频任务】: ✅ + ${taskstatus.data.dailyTasks[1].taskReward}银豆\n`
-        }
         resolve()
     })
 }
