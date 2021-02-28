@@ -287,10 +287,10 @@ function lottery() {
                 totalSteps = lotteryres.data.totalSteps,
                 uncomplete = totalSteps - doneSteps,
                 rewardAmount = lotteryres.data.rewardAmount;
-            if (uncomplete > 0 && lotterystimes < uncomplete) {
+            if (uncomplete > 0 && lotterystimes < totalSteps) {
                 for (tasks of task.data.homeActivities) {
                     if (tasks.participated == false) {
-                        for (j = 0; j < uncomplete - lotterystimes; j++) {
+                        for (j = 0; j < uncomplete; j++) {
                             lotteryId = tasks.activityId;
                             await cycleLucky()
                         }
@@ -324,7 +324,7 @@ function challenge() {
 
 function cycleLucky() {
     return new Promise((resolve, reject) => {
-        $.post(Host('lottery/participate?lotteryId=' + lotteryId + '&formId=123&source=HOME&'), (error, resp, data) => {
+        $.post(Host('lottery/participate?lotteryId=' + lotteryId + '&formId=123&source=HOME&','{"fp":"","eid":"86CFE351F55E0808B83745BEFC3FF26F5FF95FE8"}'), (error, resp, data) => {
             $.log(`抽奖任务: ${data}`)
         })
         resolve()
